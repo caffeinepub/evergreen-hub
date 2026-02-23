@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 11,
+  "projectStateVersion": 33,
   "summary": "Evergreen Hub - A modern affiliate marketing website with green and black theme, featuring course pricing packages, YouTube channel integration, video editing services, WhatsApp lead generation system, and complete authentication system with user/admin dashboards",
   "architectural_notes": [
     "Green and black color theme throughout the site",
@@ -384,6 +384,502 @@
         "REQ-54"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-add-a-home-or-return-to-homepage-navigation-link-in-the-user-dashboard-sidebar-that-redirects-authenticated-users-to-the-main-landing-page-route-this-link-should-be-visible-alongside-existing-dashboard-navigation-items-dashboard-overview-my-purchased-packages-profile-settings-etc",
+      "title": "Add a 'Home' or 'Return to Homepage' navigation link in the user dashboard sidebar that redirects authenticated users to the main landing page route (/). This link should be visible alongside existing dashboard navigation items (Dashboard Overview, My Purchased Packages, Profile Settings, etc.).",
+      "reqIds": [
+        "REQ-56"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-paymentgateway-component-to-display-the-uploaded-phonepe-qr-code-image-accountqrcodeindia-post-payment-bank-5673-dark-theme-png-prominently-instead-of-showing-full-bank-account-details-the-qr-code-should-be-centered-and-clearly-visible-for-users-to-scan",
+      "title": "Update PaymentGateway component to display the uploaded PhonePe QR code image (AccountQRCodeIndia Post Payment Bank - 5673_DARK_THEME.png) prominently instead of showing full bank account details. The QR code should be centered and clearly visible for users to scan.",
+      "reqIds": [
+        "REQ-57"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-modify-paymentgateway-component-to-mask-the-bank-account-number-showing-only-the-last-4-digits-display-as-5673-instead-of-full-account-number-009910265673-keep-the-bank-name-india-post-payment-bank-ifsc-code-ipos0000001-and-account-holder-name-rudra-pratap-singh-visible",
+      "title": "Modify PaymentGateway component to mask the bank account number, showing only the last 4 digits (display as '****5673' instead of full account number 009910265673). Keep the bank name 'India Post Payment Bank', IFSC code 'IPOS0000001', and account holder name 'Rudra Pratap Singh' visible.",
+      "reqIds": [
+        "REQ-58"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-send-screenshot-to-whatsapp-button-in-the-paymentproofform-component-that-opens-a-whatsapp-chat-with-phone-number-9263989760-allowing-users-to-directly-send-their-payment-screenshot-via-whatsapp-as-an-alternative-to-uploading-through-the-form",
+      "title": "Add a 'Send Screenshot to WhatsApp' button in the PaymentProofForm component that opens a WhatsApp chat with phone number 9263989760, allowing users to directly send their payment screenshot via WhatsApp as an alternative to uploading through the form.",
+      "reqIds": [
+        "REQ-59"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-paymentmodal-component-layout-to-prioritize-qr-code-display-at-the-top-followed-by-masked-bank-details-then-the-payment-proof-submission-form-with-both-upload-and-whatsapp-options-clearly-presented",
+      "title": "Update PaymentModal component layout to prioritize QR code display at the top, followed by masked bank details, then the payment proof submission form with both upload and WhatsApp options clearly presented.",
+      "reqIds": [
+        "REQ-60"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-all-instances-of-skills-bazar-branding-with-evergreen-hub-throughout-the-application-including-header-logo-image-reference-component-text-and-any-brand-name-displays",
+      "title": "Replace all instances of 'Skills Bazar' branding with 'Evergreen Hub' throughout the application, including header logo image reference, component text, and any brand name displays",
+      "reqIds": [
+        "REQ-61"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-when-user-clicks-buy-course-button-on-the-hero-section-display-a-popup-modal-showing-the-list-of-all-available-course-packages-instead-of-opening-payment-gateway",
+      "title": "When user clicks 'Buy Course' button on the hero section, display a popup modal showing the list of all available course packages instead of opening payment gateway",
+      "reqIds": [
+        "REQ-62"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-payment-button-to-the-videoeditingsection-component-that-opens-the-paymentmodal-for-the-video-editing-service-500-per-video-the-button-should-be-labeled-pay-now-or-order-pay-and-styled-consistently-with-the-existing-order-editing-now-whatsapp-button",
+      "title": "Add a payment button to the VideoEditingSection component that opens the PaymentModal for the video editing service (₹500 per video). The button should be labeled 'Pay Now' or 'Order & Pay' and styled consistently with the existing 'Order Editing Now' WhatsApp button.",
+      "reqIds": [
+        "REQ-63"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-an-evergreen-ai-chatbot-component-that-appears-as-a-floating-button-in-the-bottom-right-corner-of-the-site-the-chatbot-should-have-a-chat-interface-that-opens-when-clicked-displaying-a-simple-conversational-ui-with-the-branding-evergreen-ai",
+      "title": "Create an Evergreen.AI chatbot component that appears as a floating button in the bottom-right corner of the site. The chatbot should have a chat interface that opens when clicked, displaying a simple conversational UI with the branding 'Evergreen.AI'.",
+      "reqIds": [
+        "REQ-65"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-position-the-evergreen-ai-chatbot-floating-button-so-it-does-not-overlap-with-the-existing-floatingwhatsappbutton-the-chatbot-should-be-visible-but-not-interfere-with-whatsapp-contact-functionality-consider-positioning-it-slightly-above-or-to-the-left-of-the-whatsapp-button",
+      "title": "Position the Evergreen.AI chatbot floating button so it does not overlap with the existing FloatingWhatsAppButton. The chatbot should be visible but not interfere with WhatsApp contact functionality. Consider positioning it slightly above or to the left of the WhatsApp button.",
+      "reqIds": [
+        "REQ-66"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-an-appearance-settings-modal-component-with-title-choose-theme-displaying-three-radio-button-options-system-default-light-and-dark-include-cancel-and-ok-buttons-at-the-bottom-of-the-modal-style-the-modal-consistently-with-the-existing-green-and-black-theme",
+      "title": "Create an Appearance Settings modal component with title 'Choose Theme' displaying three radio button options: 'System Default', 'Light', and 'Dark'. Include Cancel and OK buttons at the bottom of the modal. Style the modal consistently with the existing green and black theme.",
+      "reqIds": [
+        "REQ-67"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-css-variables-based-theme-system-using-class-based-switching-on-the-body-element-body-light-body-dark-for-all-color-tokens-update-existing-css-variable-definitions-in-frontend-index-css-to-support-theme-switching-while-preserving-the-current-oklch-color-system-structure",
+      "title": "Implement CSS variables-based theme system using class-based switching on the body element (body.light, body.dark) for all color tokens. Update existing CSS variable definitions in frontend/index.css to support theme switching while preserving the current OKLCH color system structure.",
+      "reqIds": [
+        "REQ-69"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-smooth-fade-transition-animation-when-switching-between-themes-using-css-transitions-apply-transition-to-background-color-color-and-border-color-properties-for-a-polished-user-experience",
+      "title": "Add smooth fade transition animation when switching between themes using CSS transitions. Apply transition to background-color, color, and border-color properties for a polished user experience.",
+      "reqIds": [
+        "REQ-71"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-theme-selection-access-point-in-the-header-component-as-either-a-dropdown-menu-item-or-settings-icon-button-clicking-this-element-should-open-the-appearance-settings-modal-ensure-it-works-on-both-mobile-and-desktop-viewports",
+      "title": "Add theme selection access point in the Header component as either a dropdown menu item or settings icon button. Clicking this element should open the Appearance Settings modal. Ensure it works on both mobile and desktop viewports.",
+      "reqIds": [
+        "REQ-72"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-theme-selection-option-to-the-user-dashboard-settings-section-as-a-navigation-item-or-settings-card-allow-authenticated-users-to-access-theme-preferences-from-their-dashboard-alongside-existing-profile-settings",
+      "title": "Add theme selection option to the User Dashboard Settings section as a navigation item or settings card. Allow authenticated users to access theme preferences from their dashboard alongside existing profile settings.",
+      "reqIds": [
+        "REQ-73"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-optional-animated-toggle-switch-in-the-header-for-quick-theme-switching-between-light-and-dark-modes-this-toggle-should-provide-instant-visual-feedback-and-sync-with-the-appearance-settings-modal-selection-position-it-appropriately-without-disrupting-existing-header-layout",
+      "title": "Add an optional animated toggle switch in the header for quick theme switching between Light and Dark modes. This toggle should provide instant visual feedback and sync with the Appearance Settings modal selection. Position it appropriately without disrupting existing header layout.",
+      "reqIds": [
+        "REQ-74"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-javascript-typescript-logic-for-theme-detection-application-and-persistence-using-a-custom-react-hook-or-context-provider-include-functions-to-detect-system-theme-preference-apply-theme-classes-to-body-element-handle-localstorage-operations-and-provide-theme-state-to-components-throughout-the-application",
+      "title": "Implement JavaScript/TypeScript logic for theme detection, application, and persistence using a custom React hook or context provider. Include functions to detect system theme preference, apply theme classes to body element, handle localStorage operations, and provide theme state to components throughout the application.",
+      "reqIds": [
+        "REQ-75"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-herosection-component-to-make-the-chat-on-whatsapp-button-functional-with-a-direct-whatsapp-link-to-phone-number-9263989760-ensure-it-opens-whatsapp-with-a-pre-filled-message-when-clicked",
+      "title": "Update HeroSection component to make the 'Chat on WhatsApp' button functional with a direct WhatsApp link to phone number 9263989760. Ensure it opens WhatsApp with a pre-filled message when clicked.",
+      "reqIds": [
+        "REQ-76"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-enhance-evergreenaichatbot-component-with-comprehensive-knowledge-about-payment-process-order-placement-course-package-details-pricing-information-special-offers-and-solutions-to-common-user-queries-including-payment-methods-refund-policy-course-access-and-support-channels",
+      "title": "Enhance EvergreenAIChatbot component with comprehensive knowledge about payment process, order placement, course package details, pricing information, special offers, and solutions to common user queries including payment methods, refund policy, course access, and support channels.",
+      "reqIds": [
+        "REQ-77"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-evergreenaichatbot-component-responses-to-include-video-editing-service-information-500-per-video-and-provide-guidance-on-ordering-and-payment-for-this-service",
+      "title": "Update EvergreenAIChatbot component responses to include video editing service information (₹500 per video) and provide guidance on ordering and payment for this service.",
+      "reqIds": [
+        "REQ-78"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-chatbot-responses-for-authentication-and-dashboard-related-queries-including-account-registration-login-process-password-recovery-profile-management-and-how-to-access-purchased-packages",
+      "title": "Add chatbot responses for authentication and dashboard-related queries including account registration, login process, password recovery, profile management, and how to access purchased packages.",
+      "reqIds": [
+        "REQ-79"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-new-mobilesidebar-component-that-implements-a-slide-in-drawer-navigation-menu-from-the-right-side-of-the-screen-the-drawer-should-open-close-with-smooth-animations-and-include-a-backdrop-overlay-when-open",
+      "title": "Create a new MobileSidebar component that implements a slide-in drawer navigation menu from the right side of the screen. The drawer should open/close with smooth animations and include a backdrop overlay when open.",
+      "reqIds": [
+        "REQ-80"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-dark-blue-gradient-background-with-glassmorphism-effect-to-the-mobilesidebar-component-use-backdrop-blur-semi-transparent-background-with-rgba-hsla-colors-and-subtle-border-styling-to-achieve-the-glass-morphism-appearance",
+      "title": "Apply dark blue gradient background with glassmorphism effect to the MobileSidebar component. Use backdrop-blur, semi-transparent background with rgba/hsla colors, and subtle border styling to achieve the glass morphism appearance.",
+      "reqIds": [
+        "REQ-81"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-navigation-menu-items-to-mobilesidebar-home-links-to-about-us-links-to-appropriate-section-or-page-courses-with-dropdown-arrow-icon-indicating-expandable-submenu-and-contact-us-links-to-contact-style-with-clean-typography-using-the-inter-font-family",
+      "title": "Add navigation menu items to MobileSidebar: Home (links to /), About Us (links to appropriate section or page), Courses (with dropdown arrow icon indicating expandable submenu), and Contact Us (links to /contact). Style with clean typography using the Inter font family.",
+      "reqIds": [
+        "REQ-82"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-expandable-dropdown-functionality-for-the-courses-menu-item-in-mobilesidebar-when-clicked-expand-to-show-available-course-packages-or-course-categories-as-sub-items-with-smooth-expand-collapse-animation",
+      "title": "Implement expandable dropdown functionality for the Courses menu item in MobileSidebar. When clicked, expand to show available course packages or course categories as sub-items with smooth expand/collapse animation.",
+      "reqIds": [
+        "REQ-83"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-large-prominent-login-register-button-at-the-bottom-of-the-mobilesidebar-with-red-background-dc2626-or-ef4444-high-contrast-white-text-and-rounded-corners-the-button-should-navigate-to-login-when-the-user-is-not-authenticated-or-display-appropriate-authenticated-user-options",
+      "title": "Add a large, prominent Login/Register button at the bottom of the MobileSidebar with red background (#dc2626 or #ef4444), high contrast white text, and rounded corners. The button should navigate to /login when the user is not authenticated, or display appropriate authenticated user options.",
+      "reqIds": [
+        "REQ-84"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-subtle-floating-decorative-elements-red-and-blue-dots-to-the-mobilesidebar-background-position-these-dots-semi-randomly-in-the-background-with-low-opacity-and-optional-subtle-floating-animation-to-enhance-the-premium-design-aesthetic",
+      "title": "Add subtle floating decorative elements (red and blue dots) to the MobileSidebar background. Position these dots semi-randomly in the background with low opacity and optional subtle floating animation to enhance the premium design aesthetic.",
+      "reqIds": [
+        "REQ-85"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-integrate-mobilesidebar-with-existing-themecontext-so-the-glassmorphism-colors-text-colors-and-gradient-adapt-to-the-user-s-selected-theme-light-dark-system-ensure-the-sidebar-remains-visually-consistent-with-the-rest-of-the-application-s-theme",
+      "title": "Integrate MobileSidebar with existing ThemeContext so the glassmorphism colors, text colors, and gradient adapt to the user's selected theme (light/dark/system). Ensure the sidebar remains visually consistent with the rest of the application's theme.",
+      "reqIds": [
+        "REQ-86"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-header-component-to-include-a-mobile-menu-toggle-button-hamburger-icon-that-opens-the-mobilesidebar-when-clicked-the-button-should-only-be-visible-on-mobile-tablet-viewports-below-768px-width-and-positioned-in-the-header-s-right-side",
+      "title": "Update the Header component to include a mobile menu toggle button (hamburger icon) that opens the MobileSidebar when clicked. The button should only be visible on mobile/tablet viewports (below 768px width) and positioned in the header's right side.",
+      "reqIds": [
+        "REQ-87"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-footer-component-frontend-src-components-footer-tsx-to-implement-a-modern-mobile-first-layout-with-dark-navy-blue-gradient-background-from-0a1929-to-1a237e-using-glassmorphism-effect-with-backdrop-blur-and-semi-transparent-overlay",
+      "title": "Update Footer component (frontend/src/components/Footer.tsx) to implement a modern mobile-first layout with dark navy blue gradient background (from #0a1929 to #1a237e), using glassmorphism effect with backdrop-blur and semi-transparent overlay",
+      "reqIds": [
+        "REQ-88"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-evergreen-hub-brand-logo-text-at-the-top-of-the-footer-component-with-tagline-learn-today-grow-forever-displayed-below-it-styled-with-clean-professional-edtech-typography-using-inter-font-family",
+      "title": "Add Evergreen Hub brand logo text at the top of the Footer component with tagline 'Learn Today, Grow Forever' displayed below it, styled with clean professional edtech typography using Inter font family",
+      "reqIds": [
+        "REQ-89"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-quick-links-section-in-footer-with-heading-quick-links-and-vertical-list-of-navigation-links-home-about-us-about-or-appropriate-section-courses-courses-or-courses-contact-us-contact-login-login-register-register",
+      "title": "Create Quick Links section in Footer with heading 'Quick Links' and vertical list of navigation links: Home (/), About Us (/#about or appropriate section), Courses (/#courses or /courses), Contact Us (/contact), Login (/login), Register (/register)",
+      "reqIds": [
+        "REQ-90"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-legal-links-section-in-footer-with-heading-legal-links-and-vertical-list-of-links-disclaimer-privacy-policy-refund-policy-terms-conditions-all-linking-to-appropriate-routes-or-placeholder-pages",
+      "title": "Create Legal Links section in Footer with heading 'Legal Links' and vertical list of links: Disclaimer, Privacy Policy, Refund Policy, Terms & Conditions (all linking to appropriate routes or placeholder pages)",
+      "reqIds": [
+        "REQ-91"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-social-media-icons-section-in-footer-displaying-instagram-and-youtube-icons-as-soft-square-buttons-with-rounded-corners-gradient-or-solid-backgrounds-and-appropriate-spacing-instagram-links-to-https-www-instagram-com-rajput-rudra-s-igsh-mxvtzdvxyjnub2nnba-youtube-links-to-https-youtube-com-evergreengamerz-si-cqtrvva1xpyuhmyq",
+      "title": "Add social media icons section in Footer displaying Instagram and YouTube icons as soft square buttons with rounded corners, gradient or solid backgrounds, and appropriate spacing. Instagram links to https://www.instagram.com/rajput.rudra_s?igsh=MXVtZDVxYjNub2NnbA==, YouTube links to https://youtube.com/@evergreengamerz?si=cQtRVvA1XpyUHMyQ",
+      "reqIds": [
+        "REQ-92"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-subtle-floating-decorative-elements-to-footer-background-red-and-blue-glowing-dots-positioned-semi-randomly-with-low-opacity-0-1-0-3-and-optional-subtle-floating-animation-using-css-keyframes",
+      "title": "Add subtle floating decorative elements to Footer background: red and blue glowing dots positioned semi-randomly with low opacity (0.1-0.3) and optional subtle floating animation using CSS keyframes",
+      "reqIds": [
+        "REQ-93"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-rounded-red-scroll-to-top-floating-button-component-positioned-at-bottom-right-of-viewport-visible-throughout-the-site-button-should-scroll-page-to-top-smoothly-when-clicked-with-fade-in-visibility-when-user-scrolls-down-past-threshold",
+      "title": "Create a rounded red scroll-to-top floating button component positioned at bottom-right of viewport, visible throughout the site. Button should scroll page to top smoothly when clicked, with fade-in visibility when user scrolls down past threshold",
+      "reqIds": [
+        "REQ-94"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-integrate-footer-component-layout-with-existing-themecontext-so-background-gradients-text-colors-button-styles-and-glassmorphism-effects-adapt-to-user-s-selected-theme-light-dark-system-maintaining-visual-consistency",
+      "title": "Integrate Footer component layout with existing ThemeContext so background gradients, text colors, button styles, and glassmorphism effects adapt to user's selected theme (light/dark/system), maintaining visual consistency",
+      "reqIds": [
+        "REQ-95"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-current-header-logo-with-the-uploaded-image-fb-img-1766033480161-jpg-showing-evergreen-gamerz-branding-update-the-header-component-frontend-src-components-header-tsx-to-display-this-new-logo-image-instead-of-the-existing-logo-store-the-image-in-frontend-public-assets-directory-with-an-appropriate-filename",
+      "title": "Replace the current header logo with the uploaded image FB_IMG_1766033480161.jpg showing 'EVERGREEN GAMERZ' branding. Update the Header component (frontend/src/components/Header.tsx) to display this new logo image instead of the existing logo. Store the image in frontend/public/assets/ directory with an appropriate filename.",
+      "reqIds": [
+        "REQ-96"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-theme-selection-toggle-button-to-the-mobilesidebar-component-frontend-src-components-mobilesidebar-tsx-that-allows-users-to-switch-between-light-and-dark-modes-the-toggle-should-integrate-with-the-existing-themecontext-and-provide-instant-visual-feedback-when-clicked-position-it-appropriately-within-the-sidebar-navigation-menu-ensuring-it-s-easily-accessible-and-visually-distinct",
+      "title": "Add a theme selection toggle/button to the MobileSidebar component (frontend/src/components/MobileSidebar.tsx) that allows users to switch between Light and Dark modes. The toggle should integrate with the existing ThemeContext and provide instant visual feedback when clicked. Position it appropriately within the sidebar navigation menu, ensuring it's easily accessible and visually distinct.",
+      "reqIds": [
+        "REQ-97"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-smooth-fade-in-and-upward-slide-animation-0-8s-ease-out-to-the-herosection-headline-and-subheadline-use-css-keyframes-with-transform-translatey-and-opacity-transitions",
+      "title": "Add smooth fade-in and upward slide animation (0.8s ease-out) to the HeroSection headline and subheadline. Use CSS keyframes with transform: translateY() and opacity transitions.",
+      "reqIds": [
+        "REQ-98"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-subtle-background-zoom-in-parallax-effect-to-the-herosection-background-image-implement-css-animation-that-scales-from-1-0-to-1-05-over-20-seconds-with-infinite-loop",
+      "title": "Add subtle background zoom-in parallax effect to the HeroSection background image. Implement CSS animation that scales from 1.0 to 1.05 over 20 seconds with infinite loop.",
+      "reqIds": [
+        "REQ-99"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-hover-animations-to-the-primary-buy-course-now-cta-button-in-herosection-scale-to-1-05x-add-soft-neon-green-glow-shadow-0-0-20px-emerald-color-and-elevate-shadow-on-hover",
+      "title": "Add hover animations to the primary 'Buy Course Now' CTA button in HeroSection: scale to 1.05x, add soft neon green glow shadow (0 0 20px emerald color), and elevate shadow on hover.",
+      "reqIds": [
+        "REQ-100"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-click-ripple-effect-to-buy-course-now-button-that-emanates-from-the-click-position-followed-by-a-quick-glow-pulse-0-4s-and-smooth-bounce-back-animation-implement-using-css-pseudo-elements-or-javascript-for-ripple-origin",
+      "title": "Add click ripple effect to 'Buy Course Now' button that emanates from the click position, followed by a quick glow pulse (0.4s) and smooth bounce-back animation. Implement using CSS pseudo-elements or JavaScript for ripple origin.",
+      "reqIds": [
+        "REQ-101"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-continuous-breathing-glow-animation-to-buy-course-now-button-that-pulses-every-3-seconds-to-attract-attention-use-css-keyframes-with-box-shadow-and-opacity-changes",
+      "title": "Add continuous breathing glow animation to 'Buy Course Now' button that pulses every 3 seconds to attract attention. Use CSS keyframes with box-shadow and opacity changes.",
+      "reqIds": [
+        "REQ-102"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-gentle-floating-animation-to-the-chat-on-whatsapp-button-in-herosection-with-smooth-up-down-movement-implement-css-keyframes-that-translate-vertically-by-8-10px-with-2-3-second-duration",
+      "title": "Add gentle floating animation to the 'Chat on WhatsApp' button in HeroSection with smooth up-down movement. Implement CSS keyframes that translate vertically by 8-10px with 2-3 second duration.",
+      "reqIds": [
+        "REQ-103"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-hover-effects-to-chat-on-whatsapp-button-slight-tilt-rotation-3-5-degrees-and-green-glow-outline-use-transform-rotate-and-box-shadow-properties",
+      "title": "Add hover effects to 'Chat on WhatsApp' button: slight tilt rotation (3-5 degrees) and green glow outline. Use transform: rotate() and box-shadow properties.",
+      "reqIds": [
+        "REQ-104"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-rotating-neon-border-line-animation-to-evergreenaichatbot-floating-button-that-plays-once-on-page-load-implement-using-css-conic-gradient-or-border-animation-that-completes-one-full-rotation",
+      "title": "Add rotating neon border line animation to EvergreenAIChatbot floating button that plays once on page load. Implement using CSS conic-gradient or border animation that completes one full rotation.",
+      "reqIds": [
+        "REQ-105"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-scroll-triggered-fade-in-animations-for-all-landing-page-sections-pricingsection-whychooseussection-testimonialssection-faqsection-youtubesection-videoeditingsection-instagramsection-each-section-should-fade-in-with-slight-upward-motion-when-entering-viewport-using-intersection-observer-api",
+      "title": "Implement scroll-triggered fade-in animations for all landing page sections (PricingSection, WhyChooseUsSection, TestimonialsSection, FAQSection, YouTubeSection, VideoEditingSection, InstagramSection). Each section should fade-in with slight upward motion when entering viewport using Intersection Observer API.",
+      "reqIds": [
+        "REQ-106"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-cubic-bezier-easing-function-cubic-bezier-0-4-0-0-0-2-1-to-all-scroll-animations-for-smooth-premium-transitions-ensure-consistent-easing-across-all-animated-sections",
+      "title": "Apply cubic-bezier easing function (cubic-bezier(0.4, 0.0, 0.2, 1)) to all scroll animations for smooth, premium transitions. Ensure consistent easing across all animated sections.",
+      "reqIds": [
+        "REQ-107"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-optimize-all-animations-for-mobile-performance-targeting-60fps-use-css-transforms-and-opacity-instead-of-layout-triggering-properties-add-will-change-hints-where-appropriate-and-use-gpu-acceleration",
+      "title": "Optimize all animations for mobile performance targeting 60fps. Use CSS transforms and opacity instead of layout-triggering properties. Add will-change hints where appropriate and use GPU acceleration.",
+      "reqIds": [
+        "REQ-108"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-make-the-evergreenaichatbot-floating-button-draggable-movable-by-users-implement-touch-and-mouse-drag-functionality-that-allows-users-to-reposition-the-chatbot-button-anywhere-on-the-screen-while-maintaining-boundaries-within-the-viewport",
+      "title": "Make the EvergreenAIChatbot floating button draggable/movable by users. Implement touch and mouse drag functionality that allows users to reposition the chatbot button anywhere on the screen while maintaining boundaries within the viewport.",
+      "reqIds": [
+        "REQ-109"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-enhance-evergreenaichatbot-component-to-be-fully-responsive-and-interactive-providing-automated-responses-to-user-messages-based-on-pattern-matching-ensure-chatbot-responds-contextually-to-queries-about-courses-payments-packages-and-support",
+      "title": "Enhance EvergreenAIChatbot component to be fully responsive and interactive, providing automated responses to user messages based on pattern matching. Ensure chatbot responds contextually to queries about courses, payments, packages, and support.",
+      "reqIds": [
+        "REQ-110"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-all-chat-on-whatsapp-buttons-throughout-the-site-herosection-videoeditingsection-paymentproofform-floatingwhatsappbutton-to-be-fully-functional-and-clickable-opening-whatsapp-with-phone-number-9263989760-and-appropriate-pre-filled-messages",
+      "title": "Update all 'Chat on WhatsApp' buttons throughout the site (HeroSection, VideoEditingSection, PaymentProofForm, FloatingWhatsAppButton) to be fully functional and clickable, opening WhatsApp with phone number 9263989760 and appropriate pre-filled messages.",
+      "reqIds": [
+        "REQ-111"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-new-aboutus-page-component-at-frontend-src-pages-aboutus-tsx-with-professional-trust-building-content-describing-evergreen-hub-as-a-digital-learning-and-earning-platform-the-page-must-include-six-distinct-sections-introduction-who-we-are-our-mission-what-we-offer-as-bullet-points-why-choose-evergreen-hub-our-vision-for-the-future-and-commitment-to-transparency-support-content-should-be-500-700-words-total-written-in-professional-yet-motivational-tone-with-clear-and-simple-language-avoid-fake-income-promises-or-exaggerated-claims-like-guaranteed-income-emphasize-honesty-and-transparency-throughout",
+      "title": "Create a new AboutUs page component at frontend/src/pages/AboutUs.tsx with professional, trust-building content describing Evergreen Hub as a digital learning and earning platform. The page must include six distinct sections: Introduction (Who we are), Our Mission, What We Offer (as bullet points), Why Choose Evergreen Hub, Our Vision for the Future, and Commitment to Transparency & Support. Content should be 500-700 words total, written in professional yet motivational tone with clear and simple language. Avoid fake income promises or exaggerated claims like 'guaranteed income'. Emphasize honesty and transparency throughout.",
+      "reqIds": [
+        "REQ-112"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-style-the-aboutus-page-component-with-responsive-mobile-first-layout-using-the-existing-green-and-black-theme-with-emerald-accents-apply-tailwind-css-classes-consistent-with-the-site-s-existing-design-system-use-clean-typography-with-the-inter-font-family-each-section-should-have-appropriate-spacing-headings-styled-with-emerald-green-accents-and-content-formatted-for-readability-ensure-the-page-is-fully-responsive-across-mobile-tablet-and-desktop-viewports",
+      "title": "Style the AboutUs page component with responsive mobile-first layout using the existing green and black theme with emerald accents. Apply Tailwind CSS classes consistent with the site's existing design system. Use clean typography with the Inter font family. Each section should have appropriate spacing, headings styled with emerald green accents, and content formatted for readability. Ensure the page is fully responsive across mobile, tablet, and desktop viewports.",
+      "reqIds": [
+        "REQ-113"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-integrate-the-aboutus-page-component-with-the-existing-themecontext-so-all-colors-backgrounds-and-text-adapt-correctly-to-the-user-s-selected-theme-light-dark-system-ensure-visual-consistency-with-the-rest-of-the-application-when-theme-changes",
+      "title": "Integrate the AboutUs page component with the existing ThemeContext so all colors, backgrounds, and text adapt correctly to the user's selected theme (light/dark/system). Ensure visual consistency with the rest of the application when theme changes.",
+      "reqIds": [
+        "REQ-114"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-new-route-at-about-us-in-the-main-app-tsx-routing-configuration-that-renders-the-aboutus-page-component-ensure-the-route-is-accessible-to-all-users-no-authentication-required-update-the-route-definition-to-match-the-existing-routing-patterns-in-the-application",
+      "title": "Add a new route at /about-us in the main App.tsx routing configuration that renders the AboutUs page component. Ensure the route is accessible to all users (no authentication required). Update the route definition to match the existing routing patterns in the application.",
+      "reqIds": [
+        "REQ-115"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-mobilesidebar-component-navigation-menu-to-change-the-about-us-link-target-from-about-to-about-us-route-ensuring-it-navigates-to-the-new-dedicated-about-us-page-instead-of-a-section-anchor",
+      "title": "Update the MobileSidebar component navigation menu to change the 'About Us' link target from '/#about' to '/about-us' route, ensuring it navigates to the new dedicated About Us page instead of a section anchor.",
+      "reqIds": [
+        "REQ-116"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-footer-component-quick-links-section-to-change-the-about-us-link-from-about-to-about-us-route-ensuring-it-navigates-to-the-new-dedicated-about-us-page",
+      "title": "Update the Footer component Quick Links section to change the 'About Us' link from '/#about' to '/about-us' route, ensuring it navigates to the new dedicated About Us page.",
+      "reqIds": [
+        "REQ-117"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-scroll-triggered-fade-in-animation-with-slight-upward-motion-to-the-aboutus-page-sections-using-the-existing-usescrollanimation-hook-and-intersection-observer-pattern-apply-the-same-cubic-bezier-easing-function-cubic-bezier-0-4-0-0-0-2-1-used-in-other-landing-page-sections-for-consistent-premium-transitions",
+      "title": "Add scroll-triggered fade-in animation with slight upward motion to the AboutUs page sections using the existing useScrollAnimation hook and Intersection Observer pattern. Apply the same cubic-bezier easing function (cubic-bezier(0.4, 0.0, 0.2, 1)) used in other landing page sections for consistent premium transitions.",
+      "reqIds": [
+        "REQ-118"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-seo-meta-tags-to-the-aboutus-page-including-a-descriptive-page-title-about-us-evergreen-hub-digital-learning-earning-platform-and-meta-description-highlighting-the-platform-s-mission-to-empower-students-beginners-job-seekers-and-housewives-with-skill-based-courses-and-affiliate-marketing-opportunities-include-relevant-keywords-for-search-engine-optimization",
+      "title": "Add SEO meta tags to the AboutUs page including a descriptive page title 'About Us - Evergreen Hub | Digital Learning & Earning Platform' and meta description highlighting the platform's mission to empower students, beginners, job seekers, and housewives with skill-based courses and affiliate marketing opportunities. Include relevant keywords for search engine optimization.",
+      "reqIds": [
+        "REQ-119"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-emphasize-in-the-about-us-page-content-that-the-platform-targets-students-beginners-job-seekers-housewives-and-anyone-wanting-to-start-online-earning-clearly-present-the-seven-service-offerings-skill-based-online-courses-affiliate-marketing-opportunities-ready-made-landing-pages-training-sessions-and-webinars-performance-tracking-dashboard-and-community-and-team-support-system-ensure-the-tone-remains-motivational-yet-realistic-avoiding-any-fake-income-promises-or-exaggerated-claims-like-guaranteed-income",
+      "title": "Emphasize in the About Us page content that the platform targets students, beginners, job seekers, housewives, and anyone wanting to start online earning. Clearly present the seven service offerings: skill-based online courses, affiliate marketing opportunities, ready-made landing pages, training sessions and webinars, performance tracking dashboard, and community and team support system. Ensure the tone remains motivational yet realistic, avoiding any fake income promises or exaggerated claims like 'guaranteed income'.",
+      "reqIds": [
+        "REQ-120"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -577,6 +1073,168 @@
       "reqIds": [
         "REQ-55"
       ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-48",
+      "summary": "Add a Home/Return to Homepage link or button in the user dashboard navigation that redirects to the main landing page (/). Allow users to return to the homepage after logging in.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-49",
+      "summary": "When user clicks Buy Now on any course package, display a QR code for payment instead of full bank details. Mask bank account number showing only last 4 digits (****3673). Add option to send payment screenshot directly to phone number 9263989760.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-50",
+      "summary": "Replace 'Skills Bazar' branding with 'Evergreen Hub' throughout the site",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-51",
+      "summary": "When Buy Course button is clicked, show popup with course list instead of payment gateway",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-52",
+      "summary": "Update Buy Course popup to show course details and prices with ability to select and proceed to payment",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-53",
+      "summary": "Add payment option button to Professional Long Video Editing section (₹500 per video)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-54",
+      "summary": "Add floating chatbot named 'Evergreen.AI' to the site",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-56",
+      "summary": "Ensure the WhatsApp message functionality remains intact throughout the site, including the floating WhatsApp button, WhatsApp links in the hero section, video editing section, and footer. Do not remove or disable any existing WhatsApp contact features.",
+      "reqIds": [
+        "REQ-64"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-57",
+      "summary": "Add theme selection feature with Appearance Settings modal allowing System Default/Light/Dark modes, using CSS variables, class-based switching (body.light/body.dark), local storage persistence, smooth transitions, and prefers-color-scheme detection",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-59",
+      "summary": "Implement theme switching functionality that applies Light theme instantly when selected (white background, dark text, green accent buttons), Dark theme instantly when selected (dark background #121212, white text, green accent buttons), and System Default that automatically follows device theme using prefers-color-scheme media query detection.",
+      "reqIds": [
+        "REQ-68"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-61",
+      "summary": "Save user theme preference to localStorage and persist selection across page refreshes and browser sessions. Initialize theme on application load by reading from localStorage or falling back to system preference.",
+      "reqIds": [
+        "REQ-70"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-62",
+      "summary": "Make 'Chat on WhatsApp' clickable with phone number 9263989760 integrated throughout site",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-63",
+      "summary": "Train Evergreen.AI chatbot with app knowledge: payment process, course packages, order handling, offers, pricing, and common user doubts/FAQs",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-64",
+      "summary": "Create mobile sidebar navigation menu with glassmorphism effect, slide-in drawer from right, menu items (Home, About Us, Courses with dropdown, Contact Us), large rounded Login/Register button, integrate with existing theme system",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-65",
+      "summary": "Redesign footer with modern mobile-first layout featuring Evergreen Hub logo and tagline 'Learn Today, Grow Forever', social media icons for Instagram and YouTube in soft square buttons, Quick Links section (Home, About Us, Courses, Contact Us, Login, Register), Legal Links section (Disclaimer, Privacy Policy, Refund Policy, Terms & Conditions), subtle floating red and blue glowing dots, dark navy blue gradient background, smooth shadows, premium SaaS design, and rounded red scroll-to-top floating button at bottom right",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-66",
+      "summary": "Replace current header logo with new uploaded logo image",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-67",
+      "summary": "Add theme toggle option to mobile sidebar for light/dark mode selection",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-68",
+      "summary": "Add smooth animations to hero section: fade-in + upward slide (0.8s ease-out) on headline/subheadline, subtle background zoom-in parallax effect",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-69",
+      "summary": "Add premium button animations to primary CTA (Buy Course Now): hover scale 1.05x + neon green glow + shadow elevation, click ripple effect + glow pulse (0.4s) + bounce back, continuous breathing glow every 3s",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-70",
+      "summary": "Add WhatsApp button animations: gentle floating up-down movement, hover slight tilt + glow outline",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-71",
+      "summary": "Add Evergreen.AI button animation: rotating neon border line on page load, make floating button movable/draggable",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-72",
+      "summary": "Add scroll animations: fade-in with upward motion when sections enter viewport, smooth cubic-bezier easing transitions, optimized for 60fps mobile performance",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-73",
+      "summary": "Make Evergreen.AI chatbot responsive and interactive to user messages",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-74",
+      "summary": "Activate Chat on WhatsApp functionality - make all Chat on WhatsApp buttons/links clickable and redirect to WhatsApp number 9263989760",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-75",
+      "summary": "Create About Us page with professional content describing Evergreen Hub platform, mission, offerings, vision, and commitment to transparency",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-76",
+      "summary": "Create fully responsive mobile-first dashboard with sliding left sidebar (off-canvas menu), hamburger toggle, smooth animations, dark blue design, navigation menu with icons, expandable Reports dropdown, authentication check, and logout button",
+      "reqIds": [],
       "status": "pending"
     }
   ],

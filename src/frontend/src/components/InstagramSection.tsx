@@ -1,10 +1,12 @@
 import { Button } from '@/components/ui/button';
 import { SiInstagram } from 'react-icons/si';
 import { ExternalLink } from 'lucide-react';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 export default function InstagramSection() {
   const instagramUrl = 'https://www.instagram.com/rajput.rudra_s?igsh=MXVtZDVxYjNub2NnbA==';
   const username = '@rajput.rudra_s';
+  const { ref, isVisible } = useScrollAnimation();
 
   return (
     <section className="py-20 bg-gradient-to-b from-background to-emerald-950/10">
@@ -25,7 +27,7 @@ export default function InstagramSection() {
             Stay updated with tips, updates and behind-the-scenes
           </p>
 
-          <div className="bg-card border border-border rounded-2xl p-8 shadow-2xl space-y-6">
+          <div ref={ref} className={`bg-card border border-border rounded-2xl p-8 shadow-2xl space-y-6 scroll-fade-in ${isVisible ? 'visible' : ''}`}>
             <div className="flex justify-center">
               <img 
                 src="/assets/generated/instagram-logo.dim_128x128.png" 

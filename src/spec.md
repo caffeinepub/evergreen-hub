@@ -1,13 +1,19 @@
 # Specification
 
 ## Summary
-**Goal:** Replace the header logo with Skills Bazzar branding and implement a manual bank transfer payment system with proof submission.
+**Goal:** Create a professional, SEO-friendly About Us page for Evergreen Hub that builds trust and clearly communicates the platform's mission, services, and target audience.
 
 **Planned changes:**
-- Replace header text logo with Skills Bazzar logo image (4_20240410_121533_0002.png)
-- Create payment gateway component displaying India Post Payment Bank transfer details (Account: 009910265673, IFSC: IPOS0000001, Name: Rudra Pratap Singh)
-- Add payment proof submission form for users to enter transaction ID and upload payment screenshot
-- Update "Buy Now" buttons to open payment modal instead of WhatsApp link
-- Store payment proof submissions in backend with pending status
+- Create new AboutUs page component with six sections: Introduction, Our Mission, What We Offer, Why Choose Evergreen Hub, Our Vision for the Future, and Commitment to Transparency & Support
+- Style the page with responsive mobile-first layout using existing green and black theme with emerald accents
+- Integrate with ThemeContext for light/dark mode support
+- Add /about-us route to App.tsx routing configuration
+- Update MobileSidebar navigation link from '/#about' to '/about-us'
+- Update Footer Quick Links section link from '/#about' to '/about-us'
+- Add scroll-triggered fade-in animations with upward motion using existing useScrollAnimation hook
+- Add SEO meta tags with descriptive title and meta description
+- Write 500-700 words of professional, motivational content targeting students, beginners, job seekers, housewives, and aspiring online earners
+- Clearly list all seven service offerings: skill-based courses, affiliate marketing, landing pages, training/webinars, performance tracking, and community support
+- Emphasize honesty and transparency without fake income promises or exaggerated claims
 
-**User-visible outcome:** Users will see the Skills Bazzar logo in the header and can purchase packages by making a manual bank transfer, then submitting their transaction proof through a form.
+**User-visible outcome:** Users can navigate to a dedicated About Us page at /about-us that professionally explains Evergreen Hub's mission, services, and values with smooth animations and responsive design that adapts to their selected theme.

@@ -1,4 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const benefits = [
   {
@@ -24,6 +25,8 @@ const benefits = [
 ];
 
 export default function WhyChooseUsSection() {
+  const { ref, isVisible } = useScrollAnimation();
+
   return (
     <section className="py-20 bg-background">
       <div className="container mx-auto px-4">
@@ -36,7 +39,7 @@ export default function WhyChooseUsSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        <div ref={ref} className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto scroll-fade-in ${isVisible ? 'visible' : ''}`}>
           {benefits.map((benefit, index) => (
             <Card
               key={index}

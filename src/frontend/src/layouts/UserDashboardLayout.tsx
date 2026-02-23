@@ -4,17 +4,21 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
+  Home,
   LayoutDashboard,
   Package,
   User,
   Lock,
   LogOut,
   Menu,
+  Palette,
 } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import AppearanceSettingsModal from '../components/AppearanceSettingsModal';
 
 const navigation = [
+  { name: 'Home', href: '/', icon: Home },
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'My Packages', href: '/dashboard/packages', icon: Package },
   { name: 'Profile Settings', href: '/dashboard/profile', icon: User },
@@ -25,6 +29,7 @@ function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { logout, userProfile } = useAuth();
+  const [appearanceModalOpen, setAppearanceModalOpen] = useState(false);
 
   const handleLogout = async () => {
     await logout();
@@ -32,48 +37,60 @@ function Sidebar() {
   };
 
   return (
-    <div className="flex h-full flex-col bg-card border-r">
-      <div className="p-6 border-b">
-        <h2 className="text-2xl font-bold text-primary">Evergreen Hub</h2>
-        <p className="text-sm text-muted-foreground mt-1">User Dashboard</p>
-      </div>
-
-      <nav className="flex-1 space-y-1 p-4">
-        {navigation.map((item) => {
-          const isActive = location.pathname === item.href;
-          return (
-            <Link
-              key={item.name}
-              to={item.href}
-              className={cn(
-                'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
-                isActive
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-              )}
-            >
-              <item.icon className="h-5 w-5" />
-              {item.name}
-            </Link>
-          );
-        })}
-      </nav>
-
-      <div className="p-4 border-t">
-        <div className="mb-3 px-3">
-          <p className="text-sm font-medium">{userProfile?.name}</p>
-          <p className="text-xs text-muted-foreground">{userProfile?.email}</p>
+    <>
+      <div className="flex h-full flex-col bg-card border-r">
+        <div className="p-6 border-b">
+          <h2 className="text-2xl font-bold text-primary">Evergreen Hub</h2>
+          <p className="text-sm text-muted-foreground mt-1">User Dashboard</p>
         </div>
-        <Button
-          variant="outline"
-          className="w-full justify-start gap-2"
-          onClick={handleLogout}
-        >
-          <LogOut className="h-4 w-4" />
-          Logout
-        </Button>
+
+        <nav className="flex-1 space-y-1 p-4">
+          {navigation.map((item) => {
+            const isActive = location.pathname === item.href;
+            return (
+              <Link
+                key={item.name}
+                to={item.href}
+                className={cn(
+                  'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                  isActive
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                )}
+              >
+                <item.icon className="h-5 w-5" />
+                {item.name}
+              </Link>
+            );
+          })}
+          
+          <button
+            onClick={() => setAppearanceModalOpen(true)}
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+          >
+            <Palette className="h-5 w-5" />
+            Appearance
+          </button>
+        </nav>
+
+        <div className="p-4 border-t">
+          <div className="mb-3 px-3">
+            <p className="text-sm font-medium">{userProfile?.name}</p>
+            <p className="text-xs text-muted-foreground">{userProfile?.email}</p>
+          </div>
+          <Button
+            variant="outline"
+            className="w-full justify-start gap-2"
+            onClick={handleLogout}
+          >
+            <LogOut className="h-4 w-4" />
+            Logout
+          </Button>
+        </div>
       </div>
-    </div>
+
+      <AppearanceSettingsModal open={appearanceModalOpen} onOpenChange={setAppearanceModalOpen} />
+    </>
   );
 }
 

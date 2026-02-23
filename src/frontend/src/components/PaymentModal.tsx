@@ -16,6 +16,7 @@ interface PaymentModalProps {
   packageId: bigint;
   packageName: string;
   packagePrice: string;
+  isVideoEditing?: boolean;
 }
 
 export default function PaymentModal({
@@ -24,6 +25,7 @@ export default function PaymentModal({
   packageId,
   packageName,
   packagePrice,
+  isVideoEditing = false,
 }: PaymentModalProps) {
   const { actor } = useActor();
   const queryClient = useQueryClient();
@@ -69,7 +71,15 @@ export default function PaymentModal({
           <Alert className="border-emerald-500/30 bg-emerald-950/10">
             <AlertCircle className="h-4 w-4 text-emerald-500" />
             <AlertDescription>
-              Please complete the bank transfer and submit your payment proof below. Your access will be granted within 24 hours after verification.
+              {isVideoEditing ? (
+                <>
+                  Scan the QR code to make payment of ₹500 via PhonePe, or use bank transfer. Submit your payment proof below for verification within 24 hours.
+                </>
+              ) : (
+                <>
+                  Scan the QR code to make payment via PhonePe, or use bank transfer. Submit your payment proof below for verification within 24 hours.
+                </>
+              )}
             </AlertDescription>
           </Alert>
 

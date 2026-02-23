@@ -5,8 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Upload, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Upload, CheckCircle2, AlertCircle, MessageCircle } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
+import { Separator } from '@/components/ui/separator';
 import { ExternalBlob } from '../backend';
 
 interface PaymentProofFormProps {
@@ -77,6 +78,14 @@ export default function PaymentProofForm({ packageId, onSuccess, onSubmit }: Pay
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleWhatsAppSubmit = () => {
+    window.open(
+      'https://wa.me/919263989760?text=Hi%2C%20I%20need%20help%20with%20payment%20proof%20submission',
+      '_blank',
+      'noopener,noreferrer'
+    );
   };
 
   if (success) {
@@ -180,6 +189,31 @@ export default function PaymentProofForm({ packageId, onSuccess, onSubmit }: Pay
             {isSubmitting ? 'Submitting...' : 'Submit Payment Proof'}
           </Button>
         </form>
+
+        <div className="mt-6">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <Separator />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">Or</span>
+            </div>
+          </div>
+
+          <div className="mt-6 space-y-3">
+            <p className="text-sm text-muted-foreground text-center">
+              Prefer to send your screenshot directly?
+            </p>
+            <Button
+              type="button"
+              onClick={handleWhatsAppSubmit}
+              className="w-full bg-emerald-600 hover:bg-emerald-700 flex items-center gap-2"
+            >
+              <MessageCircle className="h-5 w-5" />
+              Send Screenshot via WhatsApp
+            </Button>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

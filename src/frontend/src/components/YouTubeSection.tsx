@@ -1,8 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Youtube, ExternalLink } from 'lucide-react';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 export default function YouTubeSection() {
   const channelUrl = 'https://youtube.com/@evergreengamerz?si=cQtRVvA1XpyUHMyQ';
+  const { ref, isVisible } = useScrollAnimation();
 
   return (
     <section className="py-20 bg-gradient-to-b from-emerald-950/10 to-background">
@@ -21,7 +23,7 @@ export default function YouTubeSection() {
             </p>
           </div>
 
-          <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-2xl">
+          <div ref={ref} className={`bg-card border border-border rounded-2xl overflow-hidden shadow-2xl scroll-fade-in ${isVisible ? 'visible' : ''}`}>
             <div className="aspect-video bg-black">
               <iframe
                 className="w-full h-full"

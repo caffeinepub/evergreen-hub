@@ -1,6 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Star } from 'lucide-react';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const testimonials = [
   {
@@ -27,6 +28,8 @@ const testimonials = [
 ];
 
 export default function TestimonialsSection() {
+  const { ref, isVisible } = useScrollAnimation();
+
   return (
     <section className="py-20 bg-gradient-to-b from-background to-emerald-950/10">
       <div className="container mx-auto px-4">
@@ -39,7 +42,7 @@ export default function TestimonialsSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div ref={ref} className={`grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto scroll-fade-in ${isVisible ? 'visible' : ''}`}>
           {testimonials.map((testimonial, index) => (
             <Card
               key={index}

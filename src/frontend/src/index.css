@@ -3,71 +3,273 @@
 @tailwind utilities;
 
 @layer base {
-    :root {
-        --radius: 0.625rem;
-        --background: 0.98 0 0;
-        --foreground: 0.15 0 0;
-        --card: 1 0 0;
-        --card-foreground: 0.15 0 0;
-        --popover: 1 0 0;
-        --popover-foreground: 0.15 0 0;
-        --primary: 0.65 0.18 160;
-        --primary-foreground: 0.98 0 0;
-        --secondary: 0.92 0 0;
-        --secondary-foreground: 0.15 0 0;
-        --muted: 0.94 0 0;
-        --muted-foreground: 0.50 0 0;
-        --accent: 0.92 0 0;
-        --accent-foreground: 0.15 0 0;
-        --destructive: 0.577 0.245 27.325;
-        --destructive-foreground: 0.985 0 0;
-        --border: 0.88 0 0;
-        --input: 0.88 0 0;
-        --ring: 0.65 0.18 160;
-        --chart-1: 0.65 0.18 160;
-        --chart-2: 0.55 0.15 140;
-        --chart-3: 0.45 0.12 120;
-        --chart-4: 0.70 0.20 180;
-        --chart-5: 0.60 0.16 150;
-    }
+  :root {
+    --background: oklch(100% 0 0);
+    --foreground: oklch(15% 0 0);
+    --card: oklch(100% 0 0);
+    --card-foreground: oklch(15% 0 0);
+    --popover: oklch(100% 0 0);
+    --popover-foreground: oklch(15% 0 0);
+    --primary: oklch(60% 0.18 160);
+    --primary-foreground: oklch(15% 0 0);
+    --secondary: oklch(96% 0 0);
+    --secondary-foreground: oklch(15% 0 0);
+    --muted: oklch(96% 0 0);
+    --muted-foreground: oklch(45% 0 0);
+    --accent: oklch(96% 0 0);
+    --accent-foreground: oklch(15% 0 0);
+    --destructive: oklch(55% 0.22 25);
+    --destructive-foreground: oklch(98% 0 0);
+    --border: oklch(90% 0 0);
+    --input: oklch(90% 0 0);
+    --ring: oklch(60% 0.18 160);
+    --radius: 0.5rem;
+    --chart-1: oklch(60% 0.18 160);
+    --chart-2: oklch(70% 0.15 180);
+    --chart-3: oklch(65% 0.12 200);
+    --chart-4: oklch(75% 0.10 220);
+    --chart-5: oklch(55% 0.20 140);
+  }
 
-    .dark {
-        --background: 0.12 0 0;
-        --foreground: 0.98 0 0;
-        --card: 0.15 0 0;
-        --card-foreground: 0.98 0 0;
-        --popover: 0.15 0 0;
-        --popover-foreground: 0.98 0 0;
-        --primary: 0.65 0.18 160;
-        --primary-foreground: 0.12 0 0;
-        --secondary: 0.20 0 0;
-        --secondary-foreground: 0.98 0 0;
-        --muted: 0.20 0 0;
-        --muted-foreground: 0.65 0 0;
-        --accent: 0.25 0 0;
-        --accent-foreground: 0.98 0 0;
-        --destructive: 0.60 0.20 27;
-        --destructive-foreground: 0.98 0 0;
-        --border: 0.25 0 0;
-        --input: 0.25 0 0;
-        --ring: 0.65 0.18 160;
-        --chart-1: 0.65 0.18 160;
-        --chart-2: 0.55 0.15 140;
-        --chart-3: 0.45 0.12 120;
-        --chart-4: 0.70 0.20 180;
-        --chart-5: 0.60 0.16 150;
-    }
+  .dark {
+    --background: oklch(15% 0 0);
+    --foreground: oklch(98% 0 0);
+    --card: oklch(15% 0 0);
+    --card-foreground: oklch(98% 0 0);
+    --popover: oklch(15% 0 0);
+    --popover-foreground: oklch(98% 0 0);
+    --primary: oklch(65% 0.20 160);
+    --primary-foreground: oklch(15% 0 0);
+    --secondary: oklch(25% 0 0);
+    --secondary-foreground: oklch(98% 0 0);
+    --muted: oklch(25% 0 0);
+    --muted-foreground: oklch(65% 0 0);
+    --accent: oklch(25% 0 0);
+    --accent-foreground: oklch(98% 0 0);
+    --destructive: oklch(50% 0.20 25);
+    --destructive-foreground: oklch(98% 0 0);
+    --border: oklch(25% 0 0);
+    --input: oklch(25% 0 0);
+    --ring: oklch(65% 0.20 160);
+    --chart-1: oklch(65% 0.20 160);
+    --chart-2: oklch(70% 0.15 180);
+    --chart-3: oklch(60% 0.12 200);
+    --chart-4: oklch(75% 0.10 220);
+    --chart-5: oklch(55% 0.22 140);
+  }
+}
 
-    * {
-        @apply border-border;
-    }
-    body {
-        @apply bg-background text-foreground;
-    }
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 
 @layer utilities {
-    .text-balance {
-        text-wrap: balance;
-    }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Premium Animations */
+
+/* Hero Section Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes breathingGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(16, 185, 129, 0.6), 0 0 60px rgba(16, 185, 129, 0.4);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(16, 185, 129, 0.8), 0 0 60px rgba(16, 185, 129, 0.6);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes rotateBorder {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hero Background Zoom */
+.hero-bg-zoom {
+  animation: zoomIn 20s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Hero Headline Animation */
+.hero-headline {
+  animation: fadeInUp 0.8s ease-out;
+  will-change: transform, opacity;
+}
+
+/* Hero Subheadline Animation */
+.hero-subheadline {
+  animation: fadeInUp 0.8s ease-out 0.2s backwards;
+  will-change: transform, opacity;
+}
+
+/* Primary CTA Button */
+.cta-button-primary {
+  animation: breathingGlow 3s ease-in-out infinite;
+  will-change: box-shadow;
+}
+
+.cta-button-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.6), 0 10px 40px rgba(16, 185, 129, 0.3);
+}
+
+.cta-button-primary:active {
+  animation: glowPulse 0.4s ease-out;
+}
+
+/* Ripple Effect */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  width: 20px;
+  height: 20px;
+  margin-left: -10px;
+  margin-top: -10px;
+  pointer-events: none;
+  animation: ripple 0.6s ease-out;
+}
+
+/* WhatsApp Button Float */
+.whatsapp-button {
+  animation: float 2.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.whatsapp-button:hover {
+  transform: rotate(4deg) translateY(-10px);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+}
+
+/* WhatsApp Floating Button */
+.whatsapp-floating {
+  animation: float 2.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.whatsapp-floating:hover {
+  transform: rotate(-4deg) scale(1.1) translateY(-10px);
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
+}
+
+/* Chatbot Button */
+.chatbot-button {
+  animation: float 3s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Chatbot Border Animation */
+.chatbot-border-animation {
+  position: relative;
+  overflow: visible;
+}
+
+.chatbot-border-animation::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(from 0deg, transparent, oklch(65% 0.20 160), transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: rotateBorder 2s linear;
+  pointer-events: none;
+}
+
+/* Scroll Fade In Animation */
+@keyframes scrollFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll-fade-in {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.4, 0.0, 0.2, 1),
+              transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+.scroll-fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Performance Optimizations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

@@ -2,10 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-replace-the-header-logo-with-the-uploaded-image-4-20240410-121533-0002-png-showing-skills-bazzar-branding-update-the-header-component-to-display-this-logo-image-instead-of-the-current-evergreen-hub-text-logo",
-      "featureTitle": "Replace the header logo with the uploaded image 4_20240410_121533_0002.png showing 'Skills Bazzar' branding. Update the Header component to display this logo image instead of the current 'Evergreen Hub' text logo.",
+      "featureId": "feature-create-a-new-aboutus-page-component-at-frontend-src-pages-aboutus-tsx-with-professional-trust-building-content-describing-evergreen-hub-as-a-digital-learning-and-earning-platform-the-page-must-include-six-distinct-sections-introduction-who-we-are-our-mission-what-we-offer-as-bullet-points-why-choose-evergreen-hub-our-vision-for-the-future-and-commitment-to-transparency-support-content-should-be-500-700-words-total-written-in-professional-yet-motivational-tone-with-clear-and-simple-language-avoid-fake-income-promises-or-exaggerated-claims-like-guaranteed-income-emphasize-honesty-and-transparency-throughout",
+      "featureTitle": "Create a new AboutUs page component at frontend/src/pages/AboutUs.tsx with professional, trust-building content describing Evergreen Hub as a digital learning and earning platform. The page must include six distinct sections: Introduction (Who we are), Our Mission, What We Offer (as bullet points), Why Choose Evergreen Hub, Our Vision for the Future, and Commitment to Transparency & Support. Content should be 500-700 words total, written in professional yet motivational tone with clear and simple language. Avoid fake income promises or exaggerated claims like 'guaranteed income'. Emphasize honesty and transparency throughout.",
       "files": [
-        "frontend/src/components/Header.tsx"
+        "frontend/src/pages/AboutUs.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -14,18 +14,20 @@
         "initial-app@1.0.0",
         "github-export-icp-cli@1.0.0",
         "authorization@4.0.0",
-        "blob-storage@4.0.0"
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-51"
+        "REQ-112"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-create-a-paymentgateway-component-displaying-india-post-payment-bank-transfer-details-account-number-009910265673-bank-name-india-post-payment-bank-ifsc-code-ipos0000001-account-holder-name-rudra-pratap-singh-include-a-prominent-section-explaining-the-manual-bank-transfer-payment-process",
-      "featureTitle": "Create a PaymentGateway component displaying India Post Payment Bank transfer details: Account Number 009910265673, Bank Name 'India Post Payment Bank', IFSC Code IPOS0000001, Account Holder Name 'Rudra Pratap Singh'. Include a prominent section explaining the manual bank transfer payment process.",
+      "featureId": "feature-style-the-aboutus-page-component-with-responsive-mobile-first-layout-using-the-existing-green-and-black-theme-with-emerald-accents-apply-tailwind-css-classes-consistent-with-the-site-s-existing-design-system-use-clean-typography-with-the-inter-font-family-each-section-should-have-appropriate-spacing-headings-styled-with-emerald-green-accents-and-content-formatted-for-readability-ensure-the-page-is-fully-responsive-across-mobile-tablet-and-desktop-viewports",
+      "featureTitle": "Style the AboutUs page component with responsive mobile-first layout using the existing green and black theme with emerald accents. Apply Tailwind CSS classes consistent with the site's existing design system. Use clean typography with the Inter font family. Each section should have appropriate spacing, headings styled with emerald green accents, and content formatted for readability. Ensure the page is fully responsive across mobile, tablet, and desktop viewports.",
       "files": [
-        "frontend/src/components/PaymentGateway.tsx"
+        "frontend/src/pages/AboutUs.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -34,18 +36,20 @@
         "initial-app@1.0.0",
         "github-export-icp-cli@1.0.0",
         "authorization@4.0.0",
-        "blob-storage@4.0.0"
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-52"
+        "REQ-113"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-create-a-payment-proof-submission-form-allowing-users-to-enter-transaction-id-and-upload-payment-screenshot-after-making-a-bank-transfer-this-form-should-appear-after-a-user-clicks-buy-now-on-any-package-card",
-      "featureTitle": "Create a payment proof submission form allowing users to enter transaction ID and upload payment screenshot after making a bank transfer. This form should appear after a user clicks 'Buy Now' on any package card.",
+      "featureId": "feature-integrate-the-aboutus-page-component-with-the-existing-themecontext-so-all-colors-backgrounds-and-text-adapt-correctly-to-the-user-s-selected-theme-light-dark-system-ensure-visual-consistency-with-the-rest-of-the-application-when-theme-changes",
+      "featureTitle": "Integrate the AboutUs page component with the existing ThemeContext so all colors, backgrounds, and text adapt correctly to the user's selected theme (light/dark/system). Ensure visual consistency with the rest of the application when theme changes.",
       "files": [
-        "frontend/src/components/PaymentProofForm.tsx"
+        "frontend/src/pages/AboutUs.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -54,19 +58,20 @@
         "initial-app@1.0.0",
         "github-export-icp-cli@1.0.0",
         "authorization@4.0.0",
-        "blob-storage@4.0.0"
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-53"
+        "REQ-114"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-update-the-pricingsection-buy-now-buttons-to-open-a-payment-modal-showing-the-paymentgateway-bank-details-and-payment-proof-submission-form-instead-of-directly-linking-to-whatsapp",
-      "featureTitle": "Update the PricingSection 'Buy Now' buttons to open a payment modal showing the PaymentGateway bank details and payment proof submission form instead of directly linking to WhatsApp.",
+      "featureId": "feature-add-a-new-route-at-about-us-in-the-main-app-tsx-routing-configuration-that-renders-the-aboutus-page-component-ensure-the-route-is-accessible-to-all-users-no-authentication-required-update-the-route-definition-to-match-the-existing-routing-patterns-in-the-application",
+      "featureTitle": "Add a new route at /about-us in the main App.tsx routing configuration that renders the AboutUs page component. Ensure the route is accessible to all users (no authentication required). Update the route definition to match the existing routing patterns in the application.",
       "files": [
-        "frontend/src/components/PaymentModal.tsx",
-        "frontend/src/components/PricingSection.tsx"
+        "frontend/src/App.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -75,10 +80,122 @@
         "initial-app@1.0.0",
         "github-export-icp-cli@1.0.0",
         "authorization@4.0.0",
-        "blob-storage@4.0.0"
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-54"
+        "REQ-115"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-the-mobilesidebar-component-navigation-menu-to-change-the-about-us-link-target-from-about-to-about-us-route-ensuring-it-navigates-to-the-new-dedicated-about-us-page-instead-of-a-section-anchor",
+      "featureTitle": "Update the MobileSidebar component navigation menu to change the 'About Us' link target from '/#about' to '/about-us' route, ensuring it navigates to the new dedicated About Us page instead of a section anchor.",
+      "files": [
+        "frontend/src/components/MobileSidebar.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-116"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-the-footer-component-quick-links-section-to-change-the-about-us-link-from-about-to-about-us-route-ensuring-it-navigates-to-the-new-dedicated-about-us-page",
+      "featureTitle": "Update the Footer component Quick Links section to change the 'About Us' link from '/#about' to '/about-us' route, ensuring it navigates to the new dedicated About Us page.",
+      "files": [
+        "frontend/src/components/Footer.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-117"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-scroll-triggered-fade-in-animation-with-slight-upward-motion-to-the-aboutus-page-sections-using-the-existing-usescrollanimation-hook-and-intersection-observer-pattern-apply-the-same-cubic-bezier-easing-function-cubic-bezier-0-4-0-0-0-2-1-used-in-other-landing-page-sections-for-consistent-premium-transitions",
+      "featureTitle": "Add scroll-triggered fade-in animation with slight upward motion to the AboutUs page sections using the existing useScrollAnimation hook and Intersection Observer pattern. Apply the same cubic-bezier easing function (cubic-bezier(0.4, 0.0, 0.2, 1)) used in other landing page sections for consistent premium transitions.",
+      "files": [
+        "frontend/src/pages/AboutUs.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-118"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-seo-meta-tags-to-the-aboutus-page-including-a-descriptive-page-title-about-us-evergreen-hub-digital-learning-earning-platform-and-meta-description-highlighting-the-platform-s-mission-to-empower-students-beginners-job-seekers-and-housewives-with-skill-based-courses-and-affiliate-marketing-opportunities-include-relevant-keywords-for-search-engine-optimization",
+      "featureTitle": "Add SEO meta tags to the AboutUs page including a descriptive page title 'About Us - Evergreen Hub | Digital Learning & Earning Platform' and meta description highlighting the platform's mission to empower students, beginners, job seekers, and housewives with skill-based courses and affiliate marketing opportunities. Include relevant keywords for search engine optimization.",
+      "files": [
+        "frontend/src/pages/AboutUs.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-119"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-emphasize-in-the-about-us-page-content-that-the-platform-targets-students-beginners-job-seekers-housewives-and-anyone-wanting-to-start-online-earning-clearly-present-the-seven-service-offerings-skill-based-online-courses-affiliate-marketing-opportunities-ready-made-landing-pages-training-sessions-and-webinars-performance-tracking-dashboard-and-community-and-team-support-system-ensure-the-tone-remains-motivational-yet-realistic-avoiding-any-fake-income-promises-or-exaggerated-claims-like-guaranteed-income",
+      "featureTitle": "Emphasize in the About Us page content that the platform targets students, beginners, job seekers, housewives, and anyone wanting to start online earning. Clearly present the seven service offerings: skill-based online courses, affiliate marketing opportunities, ready-made landing pages, training sessions and webinars, performance tracking dashboard, and community and team support system. Ensure the tone remains motivational yet realistic, avoiding any fake income promises or exaggerated claims like 'guaranteed income'.",
+      "files": [
+        "frontend/src/pages/AboutUs.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-120"
       ],
       "confidence": "high"
     }

@@ -1,70 +1,62 @@
 {
   "kind": "build_request",
-  "title": "Add logo and implement payment gateway with bank transfer details",
+  "title": "Create professional About Us page for Evergreen Hub",
   "projectName": "Evergreen Hub",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-51",
-      "text": "Replace the header logo with the uploaded image 4_20240410_121533_0002.png showing 'Skills Bazzar' branding. Update the Header component to display this logo image instead of the current 'Evergreen Hub' text logo.",
+      "id": "REQ-112",
+      "text": "Create a new AboutUs page component at frontend/src/pages/AboutUs.tsx with professional, trust-building content describing Evergreen Hub as a digital learning and earning platform. The page must include six distinct sections: Introduction (Who we are), Our Mission, What We Offer (as bullet points), Why Choose Evergreen Hub, Our Vision for the Future, and Commitment to Transparency & Support. Content should be 500-700 words total, written in professional yet motivational tone with clear and simple language. Avoid fake income promises or exaggerated claims like 'guaranteed income'. Emphasize honesty and transparency throughout.",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-latest"
         ],
         "quotes": [
-          "Add this photo as logo"
+          "Write a professional, trust-building and SEO-friendly \"About Us\" page for a digital platform named \"Evergreen Hub\"",
+          "Structure Required: 1. Introduction (Who we are) 2. Our Mission 3. What We Offer (Bullet points) 4. Why Choose Evergreen Hub 5. Our Vision for the Future 6. Commitment to Transparency & Support",
+          "Word Limit: 500–700 words"
         ]
       },
       "acceptanceCriteria": [
-        "The uploaded Skills Bazzar logo image is displayed in the header navigation",
-        "Logo is properly sized and maintains aspect ratio",
-        "Logo is clickable and navigates to homepage",
-        "Logo is responsive on mobile devices"
+        "Page contains exactly six sections in the specified order",
+        "Introduction section clearly describes Evergreen Hub as a digital learning and earning platform",
+        "Our Mission section articulates the platform's purpose and goals",
+        "What We Offer section lists services as bullet points: skill-based online courses, affiliate marketing opportunities, ready-made landing pages, training sessions and webinars, performance tracking dashboard, community and team support system",
+        "Why Choose Evergreen Hub section highlights unique value propositions",
+        "Our Vision for the Future section describes long-term aspirations",
+        "Commitment to Transparency & Support section emphasizes honest practices and user support",
+        "Total word count is between 500-700 words",
+        "Language is professional yet motivational without exaggerated income claims",
+        "Content emphasizes honesty and transparency"
       ]
     },
     {
-      "id": "REQ-52",
-      "text": "Create a PaymentGateway component displaying India Post Payment Bank transfer details: Account Number 009910265673, Bank Name 'India Post Payment Bank', IFSC Code IPOS0000001, Account Holder Name 'Rudra Pratap Singh'. Include a prominent section explaining the manual bank transfer payment process.",
+      "id": "REQ-113",
+      "text": "Style the AboutUs page component with responsive mobile-first layout using the existing green and black theme with emerald accents. Apply Tailwind CSS classes consistent with the site's existing design system. Use clean typography with the Inter font family. Each section should have appropriate spacing, headings styled with emerald green accents, and content formatted for readability. Ensure the page is fully responsive across mobile, tablet, and desktop viewports.",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-latest"
         ],
         "quotes": [
-          "make a payment gateway this is my account number:-009910265673 Bank :- India post payment bank IFSC code:-IPOS0000001 Name :- Rudra Pratap Singh"
+          "Make it modern, inspiring and suitable for a startup digital brand website",
+          "Tone & Style: Professional yet motivational, Clear and simple language"
         ]
       },
       "acceptanceCriteria": [
-        "Payment gateway component displays all bank details clearly",
-        "Account number, IFSC code, and account holder name are prominently shown",
-        "Bank details are formatted in a clean, easy-to-copy layout",
-        "Instructions for manual bank transfer are included"
+        "Page uses existing green and black theme with emerald accents",
+        "Typography uses Inter font family consistently",
+        "Headings are styled with emerald green color (#10b981 or similar)",
+        "Sections have appropriate padding and margin spacing",
+        "Bullet points in 'What We Offer' section are properly formatted",
+        "Layout is responsive and adapts to mobile (< 768px), tablet (768px-1024px), and desktop (> 1024px) viewports",
+        "Design feels modern and inspiring, suitable for a startup brand"
       ]
     },
     {
-      "id": "REQ-53",
-      "text": "Create a payment proof submission form allowing users to enter transaction ID and upload payment screenshot after making a bank transfer. This form should appear after a user clicks 'Buy Now' on any package card.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-latest"
-        ],
-        "quotes": [
-          "make a payment gateway"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Form includes fields for transaction ID and screenshot upload",
-        "Form validates that transaction ID is provided",
-        "Form validates that a screenshot file is uploaded",
-        "Form is shown in a modal or dedicated page after package selection",
-        "Successful submission creates a payment record with 'pending' status"
-      ]
-    },
-    {
-      "id": "REQ-54",
-      "text": "Update the PricingSection 'Buy Now' buttons to open a payment modal showing the PaymentGateway bank details and payment proof submission form instead of directly linking to WhatsApp.",
+      "id": "REQ-114",
+      "text": "Integrate the AboutUs page component with the existing ThemeContext so all colors, backgrounds, and text adapt correctly to the user's selected theme (light/dark/system). Ensure visual consistency with the rest of the application when theme changes.",
       "target": "frontend",
       "source": {
         "messageIds": [
@@ -72,40 +64,135 @@
         ]
       },
       "acceptanceCriteria": [
-        "All package 'Buy Now' buttons open the payment modal",
-        "Payment modal displays bank transfer details",
-        "Payment modal includes the proof submission form",
-        "Selected package information is passed to the payment modal"
+        "About Us page respects current theme setting from ThemeContext",
+        "Colors adapt correctly in light mode (white background, dark text)",
+        "Colors adapt correctly in dark mode (dark background, white text)",
+        "Emerald green accents remain visible and appropriately styled in both themes",
+        "Theme transitions are smooth when user switches themes"
       ]
     },
     {
-      "id": "REQ-55",
-      "text": "Implement backend functionality to store payment proof submissions including userId, packageId, transactionId, screenshot blob data, and status (initially 'pending'). This leverages the existing Payment model and blob storage capabilities.",
-      "target": "backend",
+      "id": "REQ-115",
+      "text": "Add a new route at /about-us in the main App.tsx routing configuration that renders the AboutUs page component. Ensure the route is accessible to all users (no authentication required). Update the route definition to match the existing routing patterns in the application.",
+      "target": "frontend",
       "source": {
         "messageIds": [
           "msg-latest"
         ]
       },
       "acceptanceCriteria": [
-        "Backend accepts payment proof submissions from authenticated users",
-        "Screenshot images are stored as blobs in the backend",
-        "Payment records are created with status 'pending'",
-        "Transaction ID is stored with the payment record"
+        "Route /about-us is defined in App.tsx routing configuration",
+        "Route renders the AboutUs page component",
+        "Route is publicly accessible without authentication",
+        "Route follows existing routing patterns and conventions"
+      ]
+    },
+    {
+      "id": "REQ-116",
+      "text": "Update the MobileSidebar component navigation menu to change the 'About Us' link target from '/#about' to '/about-us' route, ensuring it navigates to the new dedicated About Us page instead of a section anchor.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ]
+      },
+      "acceptanceCriteria": [
+        "About Us link in MobileSidebar navigates to /about-us route",
+        "Link is functional and properly closes the mobile sidebar on click",
+        "Navigation works correctly on mobile and tablet viewports"
+      ]
+    },
+    {
+      "id": "REQ-117",
+      "text": "Update the Footer component Quick Links section to change the 'About Us' link from '/#about' to '/about-us' route, ensuring it navigates to the new dedicated About Us page.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ]
+      },
+      "acceptanceCriteria": [
+        "About Us link in Footer Quick Links section navigates to /about-us route",
+        "Link styling is consistent with other footer links",
+        "Link is functional across all viewports"
+      ]
+    },
+    {
+      "id": "REQ-118",
+      "text": "Add scroll-triggered fade-in animation with slight upward motion to the AboutUs page sections using the existing useScrollAnimation hook and Intersection Observer pattern. Apply the same cubic-bezier easing function (cubic-bezier(0.4, 0.0, 0.2, 1)) used in other landing page sections for consistent premium transitions.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Each major section fades in when entering viewport",
+        "Fade-in includes slight upward motion animation",
+        "Animation uses cubic-bezier(0.4, 0.0, 0.2, 1) easing",
+        "Animation is optimized for 60fps mobile performance",
+        "Sections animate sequentially as user scrolls down the page"
+      ]
+    },
+    {
+      "id": "REQ-119",
+      "text": "Add SEO meta tags to the AboutUs page including a descriptive page title 'About Us - Evergreen Hub | Digital Learning & Earning Platform' and meta description highlighting the platform's mission to empower students, beginners, job seekers, and housewives with skill-based courses and affiliate marketing opportunities. Include relevant keywords for search engine optimization.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "SEO-friendly \"About Us\" page",
+          "Target Audience: Students, Beginners, Job seekers, Housewives, Anyone who wants to start online earning"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Page title is set to 'About Us - Evergreen Hub | Digital Learning & Earning Platform' or similar",
+        "Meta description is present and describes the platform's mission and target audience",
+        "Meta description mentions key terms: digital learning, earning platform, affiliate marketing, online courses",
+        "Meta description is between 150-160 characters for optimal SEO",
+        "Open Graph and Twitter card meta tags are included for social sharing"
+      ]
+    },
+    {
+      "id": "REQ-120",
+      "text": "Emphasize in the About Us page content that the platform targets students, beginners, job seekers, housewives, and anyone wanting to start online earning. Clearly present the seven service offerings: skill-based online courses, affiliate marketing opportunities, ready-made landing pages, training sessions and webinars, performance tracking dashboard, and community and team support system. Ensure the tone remains motivational yet realistic, avoiding any fake income promises or exaggerated claims like 'guaranteed income'.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "Target Audience: Students, Beginners, Job seekers, Housewives, Anyone who wants to start online earning",
+          "About the Platform: Evergreen Hub is a digital learning and earning platform that provides: Skill-based online courses, Affiliate marketing opportunities, Ready-made landing pages, Training sessions and webinars, Performance tracking dashboard, Community and team support system",
+          "No fake income promises, No exaggerated claims like \"guaranteed income\", Honest and transparent"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Content explicitly mentions all target audiences: students, beginners, job seekers, housewives, and aspiring online earners",
+        "All seven service offerings are clearly listed in the What We Offer section",
+        "Language is motivational but avoids unrealistic promises",
+        "No phrases like 'guaranteed income', 'get rich quick', or similar exaggerated claims",
+        "Emphasis on transparency, honest expectations, and genuine support"
       ]
     }
   ],
   "constraints": [
-    "Do not modify the existing Payment model structure in backend",
-    "Preserve the existing admin payment management functionality",
-    "Do not change the WhatsApp contact system for general inquiries",
-    "Maintain the green and black theme throughout new components"
+    "Do not modify backend/main.mo for this request as it is frontend-only",
+    "Do not edit immutable frontend paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui",
+    "Must use existing ThemeContext for theme integration",
+    "Must follow existing routing patterns in App.tsx",
+    "Must use existing useScrollAnimation hook for animations",
+    "Content must be between 500-700 words total"
   ],
   "nonGoals": [
-    "Automated payment verification or integration with payment APIs",
-    "Real-time payment status updates",
-    "Email notifications for payment submissions",
-    "Multiple payment methods beyond bank transfer"
+    "Backend data models or API endpoints for About Us content",
+    "CMS or content management system for editing About Us content",
+    "Multi-language support for the About Us page",
+    "Video or multimedia embeds in the About Us page",
+    "User comments or feedback section on the About Us page",
+    "Dashboard or admin panel modifications"
   ],
   "imageRequirements": {
     "required": [],

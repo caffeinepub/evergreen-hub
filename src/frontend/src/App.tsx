@@ -1,6 +1,7 @@
 import { RouterProvider, createRouter, createRoute, createRootRoute, Outlet } from '@tanstack/react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { Toaster } from '@/components/ui/sonner';
 
 // Landing page components
@@ -14,6 +15,8 @@ import TestimonialsSection from './components/TestimonialsSection';
 import FAQSection from './components/FAQSection';
 import Footer from './components/Footer';
 import FloatingWhatsAppButton from './components/FloatingWhatsAppButton';
+import EvergreenAIChatbot from './components/EvergreenAIChatbot';
+import ScrollToTopButton from './components/ScrollToTopButton';
 import Header from './components/Header';
 
 // Auth pages
@@ -23,6 +26,7 @@ import AdminLogin from './pages/AdminLogin';
 
 // Other pages
 import Contact from './pages/Contact';
+import AboutUs from './pages/AboutUs';
 
 // User dashboard
 import UserDashboardLayout from './layouts/UserDashboardLayout';
@@ -61,6 +65,8 @@ function LandingPage() {
       <FAQSection />
       <Footer />
       <FloatingWhatsAppButton />
+      <EvergreenAIChatbot />
+      <ScrollToTopButton />
     </div>
   );
 }
@@ -70,6 +76,7 @@ const rootRoute = createRootRoute({
     <>
       <Outlet />
       <Toaster />
+      <ScrollToTopButton />
     </>
   ),
 });
@@ -84,6 +91,12 @@ const contactRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/contact',
   component: Contact,
+});
+
+const aboutUsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/about-us',
+  component: AboutUs,
 });
 
 const registerRoute = createRoute({
@@ -167,6 +180,7 @@ const adminPaymentsRoute = createRoute({
 const routeTree = rootRoute.addChildren([
   indexRoute,
   contactRoute,
+  aboutUsRoute,
   registerRoute,
   loginRoute,
   adminLoginRoute,
@@ -195,9 +209,11 @@ declare module '@tanstack/react-router' {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

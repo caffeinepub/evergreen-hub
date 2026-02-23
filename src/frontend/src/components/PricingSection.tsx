@@ -6,6 +6,7 @@ import { Check, Sparkles } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from '@tanstack/react-router';
 import PaymentModal from './PaymentModal';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const packages = [
   {
@@ -107,6 +108,7 @@ export default function PricingSection() {
     name: string;
     price: string;
   } | null>(null);
+  const { ref, isVisible } = useScrollAnimation();
 
   const handleBuyNow = (pkg: typeof packages[0]) => {
     if (!isAuthenticated) {
@@ -133,7 +135,7 @@ export default function PricingSection() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          <div ref={ref} className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto scroll-fade-in ${isVisible ? 'visible' : ''}`}>
             {packages.map((pkg) => (
               <Card
                 key={pkg.name}
