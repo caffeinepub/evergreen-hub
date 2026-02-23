@@ -1,0 +1,86 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-replace-the-header-logo-with-the-uploaded-image-4-20240410-121533-0002-png-showing-skills-bazzar-branding-update-the-header-component-to-display-this-logo-image-instead-of-the-current-evergreen-hub-text-logo",
+      "featureTitle": "Replace the header logo with the uploaded image 4_20240410_121533_0002.png showing 'Skills Bazzar' branding. Update the Header component to display this logo image instead of the current 'Evergreen Hub' text logo.",
+      "files": [
+        "frontend/src/components/Header.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-51"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-paymentgateway-component-displaying-india-post-payment-bank-transfer-details-account-number-009910265673-bank-name-india-post-payment-bank-ifsc-code-ipos0000001-account-holder-name-rudra-pratap-singh-include-a-prominent-section-explaining-the-manual-bank-transfer-payment-process",
+      "featureTitle": "Create a PaymentGateway component displaying India Post Payment Bank transfer details: Account Number 009910265673, Bank Name 'India Post Payment Bank', IFSC Code IPOS0000001, Account Holder Name 'Rudra Pratap Singh'. Include a prominent section explaining the manual bank transfer payment process.",
+      "files": [
+        "frontend/src/components/PaymentGateway.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-52"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-payment-proof-submission-form-allowing-users-to-enter-transaction-id-and-upload-payment-screenshot-after-making-a-bank-transfer-this-form-should-appear-after-a-user-clicks-buy-now-on-any-package-card",
+      "featureTitle": "Create a payment proof submission form allowing users to enter transaction ID and upload payment screenshot after making a bank transfer. This form should appear after a user clicks 'Buy Now' on any package card.",
+      "files": [
+        "frontend/src/components/PaymentProofForm.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-53"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-the-pricingsection-buy-now-buttons-to-open-a-payment-modal-showing-the-paymentgateway-bank-details-and-payment-proof-submission-form-instead-of-directly-linking-to-whatsapp",
+      "featureTitle": "Update the PricingSection 'Buy Now' buttons to open a payment modal showing the PaymentGateway bank details and payment proof submission form instead of directly linking to WhatsApp.",
+      "files": [
+        "frontend/src/components/PaymentModal.tsx",
+        "frontend/src/components/PricingSection.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-54"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

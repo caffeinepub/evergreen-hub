@@ -1,0 +1,86 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Add logo and implement payment gateway with bank transfer details",
+  "requirements": [
+    {
+      "id": "REQ-51",
+      "summary": "Replace header text logo with Skills Bazzar image logo",
+      "acceptanceCriteria": [
+        "The uploaded Skills Bazzar logo image is displayed in the header navigation",
+        "Logo is properly sized and maintains aspect ratio",
+        "Logo is clickable and navigates to homepage",
+        "Logo is responsive on mobile devices"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/Header.tsx",
+          "operation": "modify",
+          "description": "Replace the text-based 'Evergreen Hub' logo with an <img> element displaying the Skills Bazzar logo from frontend/public/assets/4_20240410_121533_0002.png. Ensure the logo is wrapped in a Link to '/', properly sized (height ~40-48px on desktop, ~32px on mobile), maintains aspect ratio with object-fit, and is responsive across screen sizes."
+        }
+      ]
+    },
+    {
+      "id": "REQ-52",
+      "summary": "Create PaymentGateway component displaying India Post Payment Bank transfer details",
+      "acceptanceCriteria": [
+        "Payment gateway component displays all bank details clearly",
+        "Account number, IFSC code, and account holder name are prominently shown",
+        "Bank details are formatted in a clean, easy-to-copy layout",
+        "Instructions for manual bank transfer are included"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/PaymentGateway.tsx",
+          "operation": "create",
+          "description": "Create a PaymentGateway component that displays India Post Payment Bank transfer details in a card layout. Include: Account Number (009910265673), Bank Name (India Post Payment Bank), IFSC Code (IPOS0000001), Account Holder Name (Rudra Pratap Singh). Format bank details with labels and values in a clean, copy-friendly layout. Add a section with clear instructions for completing manual bank transfer. Use emerald green accent colors consistent with the site theme. Include visual separation between bank details and instructions sections."
+        }
+      ]
+    },
+    {
+      "id": "REQ-53",
+      "summary": "Create payment proof submission form for transaction ID and screenshot upload",
+      "acceptanceCriteria": [
+        "Form includes fields for transaction ID and screenshot upload",
+        "Form validates that transaction ID is provided",
+        "Form validates that a screenshot file is uploaded",
+        "Form is shown in a modal or dedicated page after package selection",
+        "Successful submission creates a payment record with 'pending' status"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/PaymentProofForm.tsx",
+          "operation": "create",
+          "description": "Create a PaymentProofForm component with fields for transaction ID (text input with validation) and payment screenshot (file input accepting images only). Use React Hook Form for form state management and validation. Implement file upload handling that converts the selected image to bytes using the blob-storage component's ExternalBlob.fromBytes() method. Include upload progress indication using withUploadProgress(). On form submission, call the backend actor's submitPaymentProof(packageId, transactionId, screenshotBlob) method. Display success message on successful submission and error handling for failures. Style with emerald green theme and ensure mobile responsiveness."
+        },
+        {
+          "path": "frontend/src/hooks/usePaymentProofSubmission.ts",
+          "operation": "create",
+          "description": "Create a custom React hook usePaymentProofSubmission that uses React Query's useMutation to handle payment proof submissions. Accept packageId, transactionId, and screenshot file as parameters. Convert the file to ExternalBlob using the blob-storage component. Call actor.submitPaymentProof() and handle success/error states. Return mutation state (isLoading, isSuccess, isError, error) and submit function. Invalidate relevant queries on success (myPaymentProofs, myPayments)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-54",
+      "summary": "Update PricingSection Buy Now buttons to open payment modal instead of WhatsApp",
+      "acceptanceCriteria": [
+        "All package 'Buy Now' buttons open the payment modal",
+        "Payment modal displays bank transfer details",
+        "Payment modal includes the proof submission form",
+        "Selected package information is passed to the payment modal"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/PaymentModal.tsx",
+          "operation": "create",
+          "description": "Create a PaymentModal component using shadcn/ui Dialog component. Accept props: isOpen (boolean), onClose (function), packageId (bigint), packageName (string), packagePrice (bigint). Structure the modal with two sections: (1) PaymentGateway component displaying bank transfer details, (2) PaymentProofForm component for submitting proof. Include package details at the top (name, price). Handle authentication check - require user to be logged in before opening modal. On successful proof submission, show success message and close modal after delay. Style with emerald green theme and ensure mobile responsiveness."
+        },
+        {
+          "path": "frontend/src/components/PricingSection.tsx",
+          "operation": "modify",
+          "description": "Update all 'Buy Now' buttons to open the PaymentModal instead of linking to WhatsApp. Import and use the PaymentModal component with state management (isOpen, selectedPackage). Replace WhatsApp link buttons with onClick handlers that set the selected package and open the modal. Pass packageId, packageName, and packagePrice to the PaymentModal. Add authentication check - if user is not logged in, redirect to login page before opening modal. Preserve all existing package card styling and layout."
+        }
+      ]
+    }
+  ]
+}

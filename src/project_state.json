@@ -1,0 +1,587 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 11,
+  "summary": "Evergreen Hub - A modern affiliate marketing website with green and black theme, featuring course pricing packages, YouTube channel integration, video editing services, WhatsApp lead generation system, and complete authentication system with user/admin dashboards",
+  "architectural_notes": [
+    "Green and black color theme throughout the site",
+    "Mobile-first responsive design approach",
+    "SEO optimized with meta tags (title and description)",
+    "WhatsApp integration: phone 9263989760, direct link wa.me/919263989760",
+    "YouTube channel: @evergreengamerz integration with embedded preview",
+    "Floating WhatsApp button positioned bottom-right corner",
+    "Modern font pairing for clean typography",
+    "Fast loading performance optimization",
+    "High-contrast CTA buttons for conversion optimization",
+    "Clean section spacing and hover effects on pricing cards"
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-create-hero-section-with-headline-start-your-online-earning-journey-today-subheadline-learn-affiliate-marketing-and-build-passive-income-from-home-primary-cta-button-buy-course-now-and-secondary-cta-button-chat-on-whatsapp-buttons-must-be-bold-with-high-contrast-using-green-and-black-theme",
+      "title": "Create hero section with headline 'Start Your Online Earning Journey Today', subheadline 'Learn Affiliate Marketing and Build Passive Income from Home', primary CTA button 'Buy Course Now', and secondary CTA button 'Chat on WhatsApp'. Buttons must be bold with high contrast using green and black theme.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-course-packages-pricing-table-with-6-professional-pricing-cards-e-lite-package-699-silver-package-1499-gold-package-2999-highlighted-as-most-popular-diamond-package-4999-platinum-package-9999-ultra-pro-package-14999-each-card-must-include-package-name-price-in-inr-3-5-benefit-bullet-points-strong-buy-now-button-and-clean-hover-effect",
+      "title": "Build course packages pricing table with 6 professional pricing cards: E Lite Package ₹699, Silver Package ₹1499, Gold Package ₹2999 (highlighted as Most Popular), Diamond Package ₹4999, Platinum Package ₹9999, Ultra Pro Package ₹14999. Each card must include package name, price in INR, 3-5 benefit bullet points, strong Buy Now button, and clean hover effect.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-why-choose-us-section-with-4-benefit-blocks-beginner-friendly-training-step-by-step-guidance-lifetime-access-and-whatsapp-support",
+      "title": "Create Why Choose Us section with 4 benefit blocks: Beginner Friendly Training, Step-by-Step Guidance, Lifetime Access, and WhatsApp Support.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-youtube-channel-promotion-section-displaying-channel-name-evergreen-hub-clickable-channel-url-https-youtube-com-evergreengamerz-si-cqtrvva1xpyuhmyq-opening-in-new-tab-embedded-youtube-preview-and-subscribe-now-button-opening-in-new-tab",
+      "title": "Build YouTube channel promotion section displaying channel name 'Evergreen Hub', clickable channel URL https://youtube.com/@evergreengamerz?si=cQtRVvA1XpyUHMyQ opening in new tab, embedded YouTube preview, and Subscribe Now button opening in new tab.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-video-editing-service-section-with-title-professional-long-video-editing-description-i-provide-high-quality-long-video-editing-at-just-500-per-video-and-order-editing-now-button-redirecting-to-whatsapp-contact",
+      "title": "Create video editing service section with title 'Professional Long Video Editing', description 'I provide high-quality long video editing at just ₹500 per video', and Order Editing Now button redirecting to WhatsApp contact.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-whatsapp-contact-system-with-phone-number-9263989760-clickable-whatsapp-direct-link-https-wa-me-919263989760-floating-whatsapp-button-in-bottom-right-corner-and-pre-filled-message-hello-i-am-interested-in-your-course-packages",
+      "title": "Implement WhatsApp contact system with phone number 9263989760, clickable WhatsApp direct link https://wa.me/919263989760, floating WhatsApp button in bottom-right corner, and pre-filled message 'Hello, I am interested in your course packages.'",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-testimonials-section-with-3-sample-testimonials-from-satisfied-customers-about-affiliate-marketing-courses",
+      "title": "Add testimonials section with 3 sample testimonials from satisfied customers about affiliate marketing courses.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-faq-section-with-5-common-questions-about-affiliate-marketing-with-answers",
+      "title": "Create FAQ section with 5 common questions about affiliate marketing with answers.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-countdown-urgency-banner-to-increase-conversions",
+      "title": "Add countdown urgency banner to increase conversions.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-footer-with-youtube-link-to-https-youtube-com-evergreengamerz-si-cqtrvva1xpyuhmyq-whatsapp-contact-link-to-https-wa-me-919263989760-and-copyright-notice",
+      "title": "Create footer with YouTube link to https://youtube.com/@evergreengamerz?si=cQtRVvA1XpyUHMyQ, WhatsApp contact link to https://wa.me/919263989760, and copyright notice.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-modern-green-and-black-color-theme-throughout-the-entire-website-with-clean-ui-and-mobile-first-responsive-design",
+      "title": "Implement modern green and black color theme throughout the entire website with clean UI and mobile-first responsive design.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-seo-optimization-including-meta-title-evergreen-hub-learn-earn-grow-and-meta-description-highlighting-affiliate-marketing-courses-for-students-and-beginners-to-earn-money-online",
+      "title": "Add SEO optimization including meta title 'Evergreen Hub - Learn. Earn. Grow.' and meta description highlighting affiliate marketing courses for students and beginners to earn money online.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-e-lite-package-pricing-card-to-display-total-2-courses-and-list-ms-excel-time-management",
+      "title": "Update E-LITE PACKAGE pricing card to display 'Total 2 courses' and list: Ms Excel, Time Management",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-silver-package-pricing-card-to-display-6-courses-e-lite-free-and-list-canva-mastery-kinemaster-editing-photoshop-editing-premiere-pro",
+      "title": "Update SILVER PACKAGE pricing card to display '6 courses + E-lite free' and list: Canva mastery, Kinemaster editing, Photoshop editing, Premiere Pro",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-gold-package-pricing-card-to-display-11-courses-e-lite-silver-free-and-list-youtube-growth-instagram-growth-video-marketing-attractions-marketing-goal-setting",
+      "title": "Update GOLD PACKAGE pricing card to display '11 courses + E-lite & silver free' and list: YouTube growth, Instagram growth, Video Marketing, Attractions Marketing, Goal setting",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-diamond-package-pricing-card-to-display-17-courses-e-lite-silver-and-gold-free-and-list-finance-mastery-reselling-mastery-communication-mastery-public-speaking-facebook-mastery-english-spoken-change-the-most-popular-highlight-from-gold-package-to-diamond-package",
+      "title": "Update DIAMOND PACKAGE pricing card to display '17 courses + E-lite, silver and gold free' and list: Finance Mastery, Reselling Mastery, Communication Mastery, Public Speaking, Facebook Mastery, English Spoken. Change the 'Most Popular' highlight from GOLD PACKAGE to DIAMOND PACKAGE",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-platinum-package-pricing-card-to-display-24-courses-e-lite-silver-gold-diamond-free-and-list-stock-market-cryptocurrency-ai-game-changer-interview-skills-mastery-0-to-hero-ai-content-creation-viral-reels-with-ai-chatgpt-mastery",
+      "title": "Update PLATINUM PACKAGE pricing card to display '24 courses + E-lite, silver, gold, diamond free' and list: Stock Market, Cryptocurrency, AI game changer, Interview Skills Mastery, 0 to hero AI content creation, Viral Reels With AI, ChatGPT Mastery",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-ultra-pro-package-pricing-card-to-display-34-courses-all-packages-free-and-list-website-development-javascript-blockchain-python-seo-html-css-mastery-google-ads-e-commerce-business-mastery-blogging",
+      "title": "Update ULTRA PRO PACKAGE pricing card to display '34 courses + All packages free' and list: Website development, JavaScript, Blockchain, Python, SEO, HTML, CSS Mastery, Google Ads, E-commerce business mastery, Blogging",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-display-uploaded-package-images-e-lite-silver-gold-diamond-platinum-ultra-pro-in-the-pricing-section-each-pricing-card-must-render-its-corresponding-package-box-image-from-the-uploaded-files",
+      "title": "Display uploaded package images (E-LITE, SILVER, GOLD, DIAMOND, PLATINUM, ULTRA PRO) in the pricing section. Each pricing card must render its corresponding package box image from the uploaded files",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-user-registration-page-at-register-with-fields-full-name-email-phone-number-password-confirm-password-and-accept-terms-checkbox-validate-that-passwords-match-email-format-is-valid-and-terms-are-accepted-show-validation-errors-inline-on-successful-registration-redirect-to-login",
+      "title": "Create user registration page at /register with fields: Full Name, Email, Phone Number, Password, Confirm Password, and Accept Terms checkbox. Validate that passwords match, email format is valid, and terms are accepted. Show validation errors inline. On successful registration, redirect to /login.",
+      "reqIds": [
+        "REQ-27"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-user-login-page-at-login-with-fields-email-and-password-include-forgot-password-link-remember-me-checkbox-and-submit-button-on-successful-login-store-session-token-and-redirect-to-dashboard-include-link-to-registration-page",
+      "title": "Create user login page at /login with fields: Email and Password. Include 'Forgot Password' link, 'Remember Me' checkbox, and submit button. On successful login, store session token and redirect to /dashboard. Include link to registration page.",
+      "reqIds": [
+        "REQ-28"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-user-dashboard-layout-at-dashboard-with-sidebar-navigation-including-dashboard-overview-my-purchased-packages-payment-status-profile-settings-change-password-and-logout-implement-route-protection-to-redirect-unauthenticated-users-to-login-apply-green-and-black-theme-consistent-with-existing-design",
+      "title": "Create user dashboard layout at /dashboard with sidebar navigation including: Dashboard Overview, My Purchased Packages, Payment Status, Profile Settings, Change Password, and Logout. Implement route protection to redirect unauthenticated users to /login. Apply green and black theme consistent with existing design.",
+      "reqIds": [
+        "REQ-29"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-dashboard-overview-page-showing-user-s-name-email-total-packages-purchased-total-amount-spent-and-recent-payment-status-display-summary-cards-with-stats-using-emerald-green-accents",
+      "title": "Create Dashboard Overview page showing user's name, email, total packages purchased, total amount spent, and recent payment status. Display summary cards with stats using emerald green accents.",
+      "reqIds": [
+        "REQ-30"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-my-purchased-packages-page-listing-all-packages-the-user-has-purchased-with-package-name-price-purchase-date-and-payment-status-badge-pending-approved-rejected-with-appropriate-colors",
+      "title": "Create My Purchased Packages page listing all packages the user has purchased with package name, price, purchase date, and payment status badge (pending/approved/rejected with appropriate colors).",
+      "reqIds": [
+        "REQ-31"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-profile-settings-page-allowing-users-to-edit-their-name-and-phone-number-include-form-validation-and-success-error-messages-display-current-values-as-defaults",
+      "title": "Create Profile Settings page allowing users to edit their name and phone number. Include form validation and success/error messages. Display current values as defaults.",
+      "reqIds": [
+        "REQ-32"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-change-password-page-with-fields-current-password-new-password-confirm-new-password-validate-that-new-passwords-match-and-meet-minimum-requirements-show-success-message-on-successful-change",
+      "title": "Create Change Password page with fields: Current Password, New Password, Confirm New Password. Validate that new passwords match and meet minimum requirements. Show success message on successful change.",
+      "reqIds": [
+        "REQ-33"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-admin-login-page-at-admin-login-with-fields-username-and-password-style-differently-from-user-login-to-indicate-admin-access-on-successful-admin-login-redirect-to-admin-dashboard-implement-role-check-to-redirect-regular-users-attempting-admin-access",
+      "title": "Create admin login page at /admin-login with fields: Username and Password. Style differently from user login to indicate admin access. On successful admin login, redirect to /admin-dashboard. Implement role check to redirect regular users attempting admin access.",
+      "reqIds": [
+        "REQ-34"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-admin-dashboard-layout-at-admin-dashboard-with-sidebar-navigation-including-dashboard-stats-user-management-package-management-and-payment-management-implement-route-protection-to-only-allow-admin-role-access-apply-green-and-black-theme",
+      "title": "Create admin dashboard layout at /admin-dashboard with sidebar navigation including: Dashboard Stats, User Management, Package Management, and Payment Management. Implement route protection to only allow admin role access. Apply green and black theme.",
+      "reqIds": [
+        "REQ-35"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-admin-dashboard-stats-page-displaying-summary-cards-total-users-total-sales-count-total-revenue-and-pending-payments-count-use-emerald-green-highlights-and-update-stats-in-real-time",
+      "title": "Create Admin Dashboard Stats page displaying summary cards: Total Users, Total Sales (count), Total Revenue (₹), and Pending Payments Count. Use emerald green highlights and update stats in real-time.",
+      "reqIds": [
+        "REQ-36"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-user-management-page-for-admin-showing-table-of-all-users-with-columns-name-email-phone-role-status-created-date-and-actions-include-search-functionality-block-unblock-toggle-button-and-delete-button-with-confirmation-modal-display-blocked-users-with-distinct-styling",
+      "title": "Create User Management page for admin showing table of all users with columns: Name, Email, Phone, Role, Status, Created Date, and Actions. Include search functionality, block/unblock toggle button, and delete button with confirmation modal. Display blocked users with distinct styling.",
+      "reqIds": [
+        "REQ-37"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-package-management-page-for-admin-showing-all-course-packages-with-ability-to-add-new-package-name-price-courses-status-edit-existing-package-details-delete-package-with-confirmation-and-toggle-active-inactive-status-use-form-modal-for-add-edit-operations",
+      "title": "Create Package Management page for admin showing all course packages with ability to add new package (name, price, courses, status), edit existing package details, delete package with confirmation, and toggle active/inactive status. Use form modal for add/edit operations.",
+      "reqIds": [
+        "REQ-38"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-payment-management-page-for-admin-showing-all-payment-submissions-in-a-table-with-columns-user-name-package-name-transaction-id-screenshot-clickable-thumbnail-status-date-and-actions-implement-approve-reject-buttons-and-ability-to-view-full-screenshot-in-modal-filter-by-status-all-pending-approved-rejected",
+      "title": "Create Payment Management page for admin showing all payment submissions in a table with columns: User Name, Package Name, Transaction ID, Screenshot (clickable thumbnail), Status, Date, and Actions. Implement approve/reject buttons and ability to view full screenshot in modal. Filter by status (All/Pending/Approved/Rejected).",
+      "reqIds": [
+        "REQ-39"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-protected-route-wrapper-component-that-checks-authentication-status-and-role-before-allowing-access-to-user-dashboard-and-admin-dashboard-routes-redirect-unauthenticated-users-to-login-and-unauthorized-users-away-from-admin-areas",
+      "title": "Create protected route wrapper component that checks authentication status and role before allowing access to user dashboard and admin dashboard routes. Redirect unauthenticated users to login and unauthorized users away from admin areas.",
+      "reqIds": [
+        "REQ-41"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-main-app-tsx-routing-to-include-new-authentication-routes-register-login-admin-login-dashboard-with-nested-routes-for-overview-packages-payments-profile-change-password-and-admin-dashboard-with-nested-routes-for-stats-users-packages-payments-preserve-existing-home-page-routes",
+      "title": "Update main App.tsx routing to include new authentication routes: /register, /login, /admin-login, /dashboard (with nested routes for overview, packages, payments, profile, change-password), and /admin-dashboard (with nested routes for stats, users, packages, payments). Preserve existing home page routes.",
+      "reqIds": [
+        "REQ-42"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-authentication-context-and-hooks-useauth-to-manage-login-state-current-user-data-role-information-login-logout-functions-and-session-persistence-use-react-context-api-and-integrate-with-existing-useactor-hook-for-backend-communication",
+      "title": "Create authentication context and hooks (useAuth) to manage login state, current user data, role information, login/logout functions, and session persistence. Use React Context API and integrate with existing useActor hook for backend communication.",
+      "reqIds": [
+        "REQ-43"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-login-and-register-navigation-links-to-the-main-landing-page-header-visible-when-not-authenticated-and-dashboard-link-visible-when-authenticated-as-user-or-admin-panel-link-visible-when-authenticated-as-admin-update-existing-header-component",
+      "title": "Add 'Login' and 'Register' navigation links to the main landing page header (visible when not authenticated) and 'Dashboard' link (visible when authenticated as user) or 'Admin Panel' link (visible when authenticated as admin). Update existing header component.",
+      "reqIds": [
+        "REQ-44"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-new-instagramsection-component-with-title-follow-me-on-instagram-displaying-instagram-username-rajput-rudra-s-clickable-instagram-icon-button-with-gradient-color-styling-and-caption-stay-updated-with-tips-updates-and-behind-the-scenes-when-clicked-open-https-www-instagram-com-rajput-rudra-s-igsh-mxvtzdvxyjnub2nnba-in-a-new-tab-center-align-the-entire-section",
+      "title": "Create a new InstagramSection component with title 'Follow Me on Instagram', displaying Instagram username @rajput.rudra_s, clickable Instagram icon/button with gradient color styling, and caption 'Stay updated with tips, updates and behind-the-scenes'. When clicked, open https://www.instagram.com/rajput.rudra_s?igsh=MXVtZDVxYjNub2NnbA== in a new tab. Center align the entire section.",
+      "reqIds": [
+        "REQ-45"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-the-instagramsection-component-to-the-homepage-frontend-src-app-tsx-or-main-landing-page-placing-it-in-a-logical-position-within-the-existing-sections-flow",
+      "title": "Add the InstagramSection component to the homepage (frontend/src/App.tsx or main landing page), placing it in a logical position within the existing sections flow.",
+      "reqIds": [
+        "REQ-46"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-the-instagramsection-component-to-the-footer-component-frontend-src-components-footer-tsx-integrating-it-with-existing-footer-content-including-the-youtube-and-whatsapp-links",
+      "title": "Add the InstagramSection component to the Footer component (frontend/src/components/Footer.tsx), integrating it with existing footer content including the YouTube and WhatsApp links.",
+      "reqIds": [
+        "REQ-47"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-contact-page-route-at-contact-and-add-the-instagramsection-component-to-it-if-a-contact-page-already-exists-add-the-instagramsection-to-that-page",
+      "title": "Create a Contact page route at /contact and add the InstagramSection component to it. If a Contact page already exists, add the InstagramSection to that page.",
+      "reqIds": [
+        "REQ-48"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-optional-connect-on-instagram-cta-button-to-the-instagramsection-component-that-also-opens-https-www-instagram-com-rajput-rudra-s-igsh-mxvtzdvxyjnub2nnba-in-a-new-tab-styled-with-emerald-green-accents",
+      "title": "Add an optional 'Connect on Instagram' CTA button to the InstagramSection component that also opens https://www.instagram.com/rajput.rudra_s?igsh=MXVtZDVxYjNub2NnbA== in a new tab, styled with emerald green accents.",
+      "reqIds": [
+        "REQ-49"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-the-countdownbanner-component-from-the-application-delete-or-comment-out-all-references-to-countdownbanner-in-app-tsx-or-wherever-it-is-currently-rendered-on-the-homepage",
+      "title": "Remove the CountdownBanner component from the application. Delete or comment out all references to CountdownBanner in App.tsx or wherever it is currently rendered on the homepage.",
+      "reqIds": [
+        "REQ-50"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-header-logo-with-the-uploaded-image-4-20240410-121533-0002-png-showing-skills-bazzar-branding-update-the-header-component-to-display-this-logo-image-instead-of-the-current-evergreen-hub-text-logo",
+      "title": "Replace the header logo with the uploaded image 4_20240410_121533_0002.png showing 'Skills Bazzar' branding. Update the Header component to display this logo image instead of the current 'Evergreen Hub' text logo.",
+      "reqIds": [
+        "REQ-51"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-paymentgateway-component-displaying-india-post-payment-bank-transfer-details-account-number-009910265673-bank-name-india-post-payment-bank-ifsc-code-ipos0000001-account-holder-name-rudra-pratap-singh-include-a-prominent-section-explaining-the-manual-bank-transfer-payment-process",
+      "title": "Create a PaymentGateway component displaying India Post Payment Bank transfer details: Account Number 009910265673, Bank Name 'India Post Payment Bank', IFSC Code IPOS0000001, Account Holder Name 'Rudra Pratap Singh'. Include a prominent section explaining the manual bank transfer payment process.",
+      "reqIds": [
+        "REQ-52"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-payment-proof-submission-form-allowing-users-to-enter-transaction-id-and-upload-payment-screenshot-after-making-a-bank-transfer-this-form-should-appear-after-a-user-clicks-buy-now-on-any-package-card",
+      "title": "Create a payment proof submission form allowing users to enter transaction ID and upload payment screenshot after making a bank transfer. This form should appear after a user clicks 'Buy Now' on any package card.",
+      "reqIds": [
+        "REQ-53"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-pricingsection-buy-now-buttons-to-open-a-payment-modal-showing-the-paymentgateway-bank-details-and-payment-proof-submission-form-instead-of-directly-linking-to-whatsapp",
+      "title": "Update the PricingSection 'Buy Now' buttons to open a payment modal showing the PaymentGateway bank details and payment proof submission form instead of directly linking to WhatsApp.",
+      "reqIds": [
+        "REQ-54"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Hero section with headline, subheadline, and primary/secondary CTA buttons",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Course packages pricing table with 6 packages (₹699-₹14999), Gold highlighted as most popular",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Why Choose Us section with 4 benefit blocks",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "YouTube channel promotion section with embedded preview and subscribe button",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Video editing service section with ₹500 pricing and WhatsApp CTA",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "WhatsApp contact system with floating button and pre-filled message",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Testimonials section with 3 sample testimonials",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "FAQ section with 5 common affiliate marketing questions",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Footer with YouTube link, WhatsApp contact, and copyright notice",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "Update pricing cards with detailed course specifications for all 6 packages (E-LITE: 2 courses, SILVER: 6 courses, GOLD: 11 courses, DIAMOND: 17 courses, PLATINUM: 24 courses, ULTRA PRO: 34 courses)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Change most popular highlight from Gold to Diamond package",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Add course benefit images to pricing cards section",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-14",
+      "summary": "User authentication system with registration (name, email, phone, password, confirm password, terms checkbox) and login (email, password, forgot password, remember me, logout)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-15",
+      "summary": "User dashboard with sidebar showing overview, purchased packages, payment status, profile settings, change password, and logout",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-16",
+      "summary": "Admin login page at /admin-login with username and password fields, role-based access control",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-17",
+      "summary": "Admin dashboard with user management (view/search/delete/block users), package management (add/edit/delete/toggle packages), payment management (view/approve/reject proofs), and dashboard stats (users, sales, revenue, pending payments)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-18",
+      "summary": "Implement backend with role-based auth, JWT/session, bcrypt password hashing, protected routes, and database models (User, Package, Payment)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-19",
+      "summary": "Create User model in backend with fields: id (Principal), name (Text), email (Text), phone (Text), passwordHash (Text), role (variant {#user; #admin}), createdAt (Int). Email must be unique. Implement helper functions to create, find by email, find by id, update, and list all users.",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-20",
+      "summary": "Create Package model in backend with fields: id (Nat), name (Text), price (Nat), courses (Text), status (variant {#active; #inactive}). Implement functions to create, update, delete, toggle status, and list all packages.",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-21",
+      "summary": "Create Payment model in backend with fields: id (Nat), userId (Principal), packageId (Nat), transactionId (Text), screenshotUrl (Text), status (variant {#pending; #approved; #rejected}), createdAt (Int). Implement functions to create payment, update status, list by user, and list all payments with filtering.",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-22",
+      "summary": "Implement user registration backend function that accepts name, email, phone, password, and validates email uniqueness. Hash password using SHA256 (Motoko equivalent of bcrypt). Return success with user id or error message. Create initial admin user with email 'admin@evergreenhub.com' during canister initialization.",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-23",
+      "summary": "Implement user login backend function that accepts email and password, validates credentials, and returns user data (excluding password hash) with role. Include session token generation for authenticated state management.",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-24",
+      "summary": "Implement backend functions for user profile management: update user name and phone, change password (with old password verification), get user purchases with payment details, and get user stats.",
+      "reqIds": [
+        "REQ-25"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-25",
+      "summary": "Implement admin backend functions: list all users with search/filter, block/unblock users, delete users, get dashboard stats (total users, total sales, total revenue, pending payments count), manage packages (create/update/delete/toggle status), and manage payments (approve/reject/update status).",
+      "reqIds": [
+        "REQ-26"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-39",
+      "summary": "Implement logout functionality for both user and admin dashboards that clears session data and redirects to appropriate login page (/login for users, /admin-login for admins).",
+      "reqIds": [
+        "REQ-40"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-40",
+      "summary": "Create Instagram section with title 'Follow Me on Instagram', clickable Instagram button with username @rajput.rudra_s, gradient color, opening https://www.instagram.com/rajput.rudra_s?igsh=MXVtZDVxYjNub2NnbA== in new tab. Include caption 'Stay updated with tips, updates and behind-the-scenes'. Center aligned with Instagram logo. Place on homepage, footer, and contact page.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-41",
+      "summary": "Add uploaded photo as website logo in header/navigation",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-42",
+      "summary": "Create payment gateway integration displaying bank details: Account Number 009910265673, Bank: India Post Payment Bank, IFSC: IPOS0000001, Name: Rudra Pratap Singh. Allow users to submit payment proof (transaction ID and screenshot upload) after purchase.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-47",
+      "summary": "Implement backend functionality to store payment proof submissions including userId, packageId, transactionId, screenshot blob data, and status (initially 'pending'). This leverages the existing Payment model and blob storage capabilities.",
+      "reqIds": [
+        "REQ-55"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Evergreen Hub",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

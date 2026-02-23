@@ -1,0 +1,114 @@
+{
+  "kind": "build_request",
+  "title": "Add logo and implement payment gateway with bank transfer details",
+  "projectName": "Evergreen Hub",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-51",
+      "text": "Replace the header logo with the uploaded image 4_20240410_121533_0002.png showing 'Skills Bazzar' branding. Update the Header component to display this logo image instead of the current 'Evergreen Hub' text logo.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "Add this photo as logo"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The uploaded Skills Bazzar logo image is displayed in the header navigation",
+        "Logo is properly sized and maintains aspect ratio",
+        "Logo is clickable and navigates to homepage",
+        "Logo is responsive on mobile devices"
+      ]
+    },
+    {
+      "id": "REQ-52",
+      "text": "Create a PaymentGateway component displaying India Post Payment Bank transfer details: Account Number 009910265673, Bank Name 'India Post Payment Bank', IFSC Code IPOS0000001, Account Holder Name 'Rudra Pratap Singh'. Include a prominent section explaining the manual bank transfer payment process.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "make a payment gateway this is my account number:-009910265673 Bank :- India post payment bank IFSC code:-IPOS0000001 Name :- Rudra Pratap Singh"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Payment gateway component displays all bank details clearly",
+        "Account number, IFSC code, and account holder name are prominently shown",
+        "Bank details are formatted in a clean, easy-to-copy layout",
+        "Instructions for manual bank transfer are included"
+      ]
+    },
+    {
+      "id": "REQ-53",
+      "text": "Create a payment proof submission form allowing users to enter transaction ID and upload payment screenshot after making a bank transfer. This form should appear after a user clicks 'Buy Now' on any package card.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "make a payment gateway"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Form includes fields for transaction ID and screenshot upload",
+        "Form validates that transaction ID is provided",
+        "Form validates that a screenshot file is uploaded",
+        "Form is shown in a modal or dedicated page after package selection",
+        "Successful submission creates a payment record with 'pending' status"
+      ]
+    },
+    {
+      "id": "REQ-54",
+      "text": "Update the PricingSection 'Buy Now' buttons to open a payment modal showing the PaymentGateway bank details and payment proof submission form instead of directly linking to WhatsApp.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All package 'Buy Now' buttons open the payment modal",
+        "Payment modal displays bank transfer details",
+        "Payment modal includes the proof submission form",
+        "Selected package information is passed to the payment modal"
+      ]
+    },
+    {
+      "id": "REQ-55",
+      "text": "Implement backend functionality to store payment proof submissions including userId, packageId, transactionId, screenshot blob data, and status (initially 'pending'). This leverages the existing Payment model and blob storage capabilities.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend accepts payment proof submissions from authenticated users",
+        "Screenshot images are stored as blobs in the backend",
+        "Payment records are created with status 'pending'",
+        "Transaction ID is stored with the payment record"
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not modify the existing Payment model structure in backend",
+    "Preserve the existing admin payment management functionality",
+    "Do not change the WhatsApp contact system for general inquiries",
+    "Maintain the green and black theme throughout new components"
+  ],
+  "nonGoals": [
+    "Automated payment verification or integration with payment APIs",
+    "Real-time payment status updates",
+    "Email notifications for payment submissions",
+    "Multiple payment methods beyond bank transfer"
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}
