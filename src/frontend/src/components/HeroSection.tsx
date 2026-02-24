@@ -9,7 +9,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-blue-50 to-white dark:from-[#0F172A] dark:via-[#1E293B] dark:to-[#0F172A]">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-blue-50 to-white dark:from-background dark:via-card dark:to-background">
       {/* Dark Mode Gradient Glow */}
       <div className="absolute inset-0 pointer-events-none dark:block hidden">
         <div 

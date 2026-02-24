@@ -75,10 +75,21 @@ export interface TransformationInput {
     context: Uint8Array;
     response: http_request_result;
 }
+export interface Referral {
+    id: bigint;
+    status: ReferralStatus;
+    referredUserId: Principal;
+    createdAt: bigint;
+    referrerId: Principal;
+    commissionAmount: bigint;
+    commissionType: CommissionType;
+    packageId: bigint;
+}
 export interface LandingPage {
     id: bigint;
     title: string;
     content: string;
+    visitCount: bigint;
     userId: Principal;
     createdAt: bigint;
     updatedAt: bigint;
@@ -115,11 +126,21 @@ export interface UserProfile {
     createdAt: bigint;
     role: Role;
     email: string;
+    profilePhotoUrl?: string;
     phone: string;
+}
+export enum CommissionType {
+    active = "active",
+    passive = "passive"
 }
 export enum PackageStatus {
     active = "active",
     inactive = "inactive"
+}
+export enum ReferralStatus {
+    pending = "pending",
+    paid = "paid",
+    approved = "approved"
 }
 export enum Role {
     admin = "admin",
@@ -139,6 +160,7 @@ export interface backendInterface {
     approvePayment(paymentId: bigint): Promise<void>;
     approvePaymentProof(proofId: bigint): Promise<void>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
+    assignPlatinumPackageByEmail(targetEmail: string): Promise<void>;
     createCheckoutSession(items: Array<ShoppingItem>, successUrl: string, cancelUrl: string): Promise<string>;
     createLandingPage(title: string, content: string, template: string): Promise<bigint>;
     createPackage(name: string, price: bigint, courses: string): Promise<bigint>;
@@ -158,6 +180,7 @@ export interface backendInterface {
     getCallerUserRole(): Promise<UserRole>;
     getEarnings(userId: Principal): Promise<Earnings>;
     getLandingPage(pageId: bigint): Promise<LandingPage | null>;
+    getLandingPageById(pageId: bigint): Promise<LandingPage | null>;
     getLandingPages(userId: Principal): Promise<Array<LandingPage>>;
     getMyPaymentProofs(): Promise<Array<PaymentProof>>;
     getMyPayments(): Promise<Array<Payment>>;
@@ -165,13 +188,20 @@ export interface backendInterface {
     getPaymentProofsByStatus(status: PaymentStatus): Promise<Array<PaymentProof>>;
     getPaymentsByStatus(status: PaymentStatus): Promise<Array<Payment>>;
     getPaymentsByUser(userId: Principal): Promise<Array<Payment>>;
+    getReferralsByUser(userId: Principal): Promise<Array<Referral>>;
     getStripeSessionStatus(sessionId: string): Promise<StripeSessionStatus>;
+    getTotalCommissions(userId: Principal): Promise<{
+        totalPassive: bigint;
+        pending: bigint;
+        totalActive: bigint;
+    }>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     getWithdrawalRequests(userId: Principal): Promise<Array<WithdrawalRequest>>;
+    incrementLandingPageVisit(pageId: bigint): Promise<void>;
     isCallerAdmin(): Promise<boolean>;
     isStripeConfigured(): Promise<boolean>;
     recordPurchase(userId: Principal, amount: bigint): Promise<void>;
-    registerUser(name: string, email: string, phone: string): Promise<void>;
+    registerUser(name: string, email: string, phone: string, referrerId: Principal | null): Promise<void>;
     rejectPayment(paymentId: bigint): Promise<void>;
     rejectPaymentProof(proofId: bigint): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
@@ -186,4 +216,5 @@ export interface backendInterface {
     updatePaymentStatus(paymentId: bigint, status: PaymentStatus): Promise<void>;
     updateProfile(name: string, phone: string): Promise<void>;
     updateRequestStatus(requestId: bigint, status: WithdrawalRequestStatus): Promise<void>;
+    uploadProfilePhoto(blob: ExternalBlob): Promise<string>;
 }

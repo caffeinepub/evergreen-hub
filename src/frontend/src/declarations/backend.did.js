@@ -79,6 +79,7 @@ export const UserProfile = IDL.Record({
   'createdAt' : IDL.Int,
   'role' : Role,
   'email' : IDL.Text,
+  'profilePhotoUrl' : IDL.Opt(IDL.Text),
   'phone' : IDL.Text,
 });
 export const WithdrawalRequestStatus = IDL.Variant({
@@ -104,10 +105,30 @@ export const LandingPage = IDL.Record({
   'id' : IDL.Nat,
   'title' : IDL.Text,
   'content' : IDL.Text,
+  'visitCount' : IDL.Nat,
   'userId' : IDL.Principal,
   'createdAt' : IDL.Int,
   'updatedAt' : IDL.Int,
   'template' : IDL.Text,
+});
+export const ReferralStatus = IDL.Variant({
+  'pending' : IDL.Null,
+  'paid' : IDL.Null,
+  'approved' : IDL.Null,
+});
+export const CommissionType = IDL.Variant({
+  'active' : IDL.Null,
+  'passive' : IDL.Null,
+});
+export const Referral = IDL.Record({
+  'id' : IDL.Nat,
+  'status' : ReferralStatus,
+  'referredUserId' : IDL.Principal,
+  'createdAt' : IDL.Int,
+  'referrerId' : IDL.Principal,
+  'commissionAmount' : IDL.Nat,
+  'commissionType' : CommissionType,
+  'packageId' : IDL.Nat,
 });
 export const StripeSessionStatus = IDL.Variant({
   'completed' : IDL.Record({
@@ -170,6 +191,7 @@ export const idlService = IDL.Service({
   'approvePayment' : IDL.Func([IDL.Nat], [], []),
   'approvePaymentProof' : IDL.Func([IDL.Nat], [], []),
   'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
+  'assignPlatinumPackageByEmail' : IDL.Func([IDL.Text], [], []),
   'createCheckoutSession' : IDL.Func(
       [IDL.Vec(ShoppingItem), IDL.Text, IDL.Text],
       [IDL.Text],
@@ -197,6 +219,7 @@ export const idlService = IDL.Service({
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
   'getEarnings' : IDL.Func([IDL.Principal], [Earnings], ['query']),
   'getLandingPage' : IDL.Func([IDL.Nat], [IDL.Opt(LandingPage)], ['query']),
+  'getLandingPageById' : IDL.Func([IDL.Nat], [IDL.Opt(LandingPage)], ['query']),
   'getLandingPages' : IDL.Func(
       [IDL.Principal],
       [IDL.Vec(LandingPage)],
@@ -220,7 +243,23 @@ export const idlService = IDL.Service({
       [IDL.Vec(Payment)],
       ['query'],
     ),
+  'getReferralsByUser' : IDL.Func(
+      [IDL.Principal],
+      [IDL.Vec(Referral)],
+      ['query'],
+    ),
   'getStripeSessionStatus' : IDL.Func([IDL.Text], [StripeSessionStatus], []),
+  'getTotalCommissions' : IDL.Func(
+      [IDL.Principal],
+      [
+        IDL.Record({
+          'totalPassive' : IDL.Nat,
+          'pending' : IDL.Nat,
+          'totalActive' : IDL.Nat,
+        }),
+      ],
+      ['query'],
+    ),
   'getUserProfile' : IDL.Func(
       [IDL.Principal],
       [IDL.Opt(UserProfile)],
@@ -231,10 +270,15 @@ export const idlService = IDL.Service({
       [IDL.Vec(WithdrawalRequest)],
       ['query'],
     ),
+  'incrementLandingPageVisit' : IDL.Func([IDL.Nat], [], []),
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
   'isStripeConfigured' : IDL.Func([], [IDL.Bool], ['query']),
   'recordPurchase' : IDL.Func([IDL.Principal, IDL.Nat], [], []),
-  'registerUser' : IDL.Func([IDL.Text, IDL.Text, IDL.Text], [], []),
+  'registerUser' : IDL.Func(
+      [IDL.Text, IDL.Text, IDL.Text, IDL.Opt(IDL.Principal)],
+      [],
+      [],
+    ),
   'rejectPayment' : IDL.Func([IDL.Nat], [], []),
   'rejectPaymentProof' : IDL.Func([IDL.Nat], [], []),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
@@ -257,6 +301,7 @@ export const idlService = IDL.Service({
   'updatePaymentStatus' : IDL.Func([IDL.Nat, PaymentStatus], [], []),
   'updateProfile' : IDL.Func([IDL.Text, IDL.Text], [], []),
   'updateRequestStatus' : IDL.Func([IDL.Nat, WithdrawalRequestStatus], [], []),
+  'uploadProfilePhoto' : IDL.Func([ExternalBlob], [IDL.Text], []),
 });
 
 export const idlInitArgs = [];
@@ -333,6 +378,7 @@ export const idlFactory = ({ IDL }) => {
     'createdAt' : IDL.Int,
     'role' : Role,
     'email' : IDL.Text,
+    'profilePhotoUrl' : IDL.Opt(IDL.Text),
     'phone' : IDL.Text,
   });
   const WithdrawalRequestStatus = IDL.Variant({
@@ -358,10 +404,30 @@ export const idlFactory = ({ IDL }) => {
     'id' : IDL.Nat,
     'title' : IDL.Text,
     'content' : IDL.Text,
+    'visitCount' : IDL.Nat,
     'userId' : IDL.Principal,
     'createdAt' : IDL.Int,
     'updatedAt' : IDL.Int,
     'template' : IDL.Text,
+  });
+  const ReferralStatus = IDL.Variant({
+    'pending' : IDL.Null,
+    'paid' : IDL.Null,
+    'approved' : IDL.Null,
+  });
+  const CommissionType = IDL.Variant({
+    'active' : IDL.Null,
+    'passive' : IDL.Null,
+  });
+  const Referral = IDL.Record({
+    'id' : IDL.Nat,
+    'status' : ReferralStatus,
+    'referredUserId' : IDL.Principal,
+    'createdAt' : IDL.Int,
+    'referrerId' : IDL.Principal,
+    'commissionAmount' : IDL.Nat,
+    'commissionType' : CommissionType,
+    'packageId' : IDL.Nat,
   });
   const StripeSessionStatus = IDL.Variant({
     'completed' : IDL.Record({
@@ -421,6 +487,7 @@ export const idlFactory = ({ IDL }) => {
     'approvePayment' : IDL.Func([IDL.Nat], [], []),
     'approvePaymentProof' : IDL.Func([IDL.Nat], [], []),
     'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
+    'assignPlatinumPackageByEmail' : IDL.Func([IDL.Text], [], []),
     'createCheckoutSession' : IDL.Func(
         [IDL.Vec(ShoppingItem), IDL.Text, IDL.Text],
         [IDL.Text],
@@ -452,6 +519,11 @@ export const idlFactory = ({ IDL }) => {
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
     'getEarnings' : IDL.Func([IDL.Principal], [Earnings], ['query']),
     'getLandingPage' : IDL.Func([IDL.Nat], [IDL.Opt(LandingPage)], ['query']),
+    'getLandingPageById' : IDL.Func(
+        [IDL.Nat],
+        [IDL.Opt(LandingPage)],
+        ['query'],
+      ),
     'getLandingPages' : IDL.Func(
         [IDL.Principal],
         [IDL.Vec(LandingPage)],
@@ -475,7 +547,23 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Vec(Payment)],
         ['query'],
       ),
+    'getReferralsByUser' : IDL.Func(
+        [IDL.Principal],
+        [IDL.Vec(Referral)],
+        ['query'],
+      ),
     'getStripeSessionStatus' : IDL.Func([IDL.Text], [StripeSessionStatus], []),
+    'getTotalCommissions' : IDL.Func(
+        [IDL.Principal],
+        [
+          IDL.Record({
+            'totalPassive' : IDL.Nat,
+            'pending' : IDL.Nat,
+            'totalActive' : IDL.Nat,
+          }),
+        ],
+        ['query'],
+      ),
     'getUserProfile' : IDL.Func(
         [IDL.Principal],
         [IDL.Opt(UserProfile)],
@@ -486,10 +574,15 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Vec(WithdrawalRequest)],
         ['query'],
       ),
+    'incrementLandingPageVisit' : IDL.Func([IDL.Nat], [], []),
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
     'isStripeConfigured' : IDL.Func([], [IDL.Bool], ['query']),
     'recordPurchase' : IDL.Func([IDL.Principal, IDL.Nat], [], []),
-    'registerUser' : IDL.Func([IDL.Text, IDL.Text, IDL.Text], [], []),
+    'registerUser' : IDL.Func(
+        [IDL.Text, IDL.Text, IDL.Text, IDL.Opt(IDL.Principal)],
+        [],
+        [],
+      ),
     'rejectPayment' : IDL.Func([IDL.Nat], [], []),
     'rejectPaymentProof' : IDL.Func([IDL.Nat], [], []),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
@@ -516,6 +609,7 @@ export const idlFactory = ({ IDL }) => {
         [],
         [],
       ),
+    'uploadProfilePhoto' : IDL.Func([ExternalBlob], [IDL.Text], []),
   });
 };
 

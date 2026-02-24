@@ -1,42 +1,241 @@
 {
   "kind": "build_request",
-  "title": "Remove Buy Course button from hero section, keep only Explore Courses button and background image",
+  "title": "Add profile photo upload, assign Platinum package to specific user, and landing page preview",
   "projectName": "Evergreen Hub",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-170",
-      "text": "Remove the 'Buy Course' button from the HeroSection component (frontend/src/components/HeroSection.tsx), keeping only the 'Explore Courses' button visible. The button removal should not affect the existing hero section background image, layout, headline, or subheadline. Maintain the current styling and positioning of the remaining 'Explore Courses' button.",
+      "id": "REQ-245",
+      "text": "Add profile photo upload and change functionality to the user dashboard Profile Settings page (frontend/src/pages/user/ProfileSettings.tsx). Include a file input for selecting an image, image preview before upload, upload button, and display the current profile photo if one exists. Apply proper styling consistent with the dashboard design using yellow and green accents.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-last"
+          "msg-latest"
         ],
         "quotes": [
-          "Buy course wala option hata do first page se bss explore course wala rahne do or wo hero wala image rahne do first page pe"
+          "User apna profile photo laga sake or change kar sake wo bhi option add kar do"
         ]
       },
       "acceptanceCriteria": [
-        "'Buy Course' button is completely removed from the hero section",
-        "'Explore Courses' button remains visible and functional",
-        "Hero section background image is preserved without changes",
-        "Hero section headline and subheadline remain unchanged",
-        "Smooth scroll functionality to courses section still works when 'Explore Courses' button is clicked",
-        "Component renders correctly on mobile, tablet, and desktop viewports"
+        "Profile Settings page includes a file input for image upload",
+        "Selected image shows a preview before upload",
+        "Upload button submits the image to backend",
+        "Current profile photo displays if one exists",
+        "Styling uses yellow and green color accents matching dashboard theme"
+      ]
+    },
+    {
+      "id": "REQ-246",
+      "text": "Implement backend support for profile photo storage in backend/main.mo. Extend the UserProfile data structure to include a profilePhotoUrl field of type ?Text. Create a backend function uploadProfilePhoto that accepts image blob data and the authenticated user's Principal, stores the image, and updates the user's profilePhotoUrl. Leverage existing blob storage capabilities.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "User apna profile photo laga sake or change kar sake"
+        ]
+      },
+      "acceptanceCriteria": [
+        "UserProfile type includes profilePhotoUrl: ?Text field",
+        "uploadProfilePhoto function accepts blob data and user Principal",
+        "Profile photo is stored in backend blob storage",
+        "User's profilePhotoUrl is updated after successful upload",
+        "Function returns success or error response"
+      ]
+    },
+    {
+      "id": "REQ-247",
+      "text": "Create a React Query mutation hook in frontend/src/hooks/useQueries.ts for uploading profile photos. The mutation should call the backend uploadProfilePhoto function with the selected image file and invalidate the user profile query after successful upload to refresh the displayed photo.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "User apna profile photo laga sake or change kar sake"
+        ]
+      },
+      "acceptanceCriteria": [
+        "useUploadProfilePhoto mutation hook is created",
+        "Mutation calls backend uploadProfilePhoto function with image blob",
+        "User profile query is invalidated after successful upload",
+        "Loading and error states are properly handled"
+      ]
+    },
+    {
+      "id": "REQ-248",
+      "text": "Display the user's profile photo in the MobileSidebar component (frontend/src/components/MobileSidebar.tsx) next to the user's name in the profile section. If no photo exists, show a default avatar icon or placeholder image. Ensure the photo is circular with appropriate sizing.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "User apna profile photo laga sake"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Profile photo displays in MobileSidebar profile section",
+        "Photo is circular with appropriate size",
+        "Default avatar/placeholder shows when no photo exists",
+        "Photo updates automatically after upload"
+      ]
+    },
+    {
+      "id": "REQ-249",
+      "text": "Display the user's profile photo in the UserDashboardLayout sidebar (frontend/src/layouts/UserDashboardLayout.tsx) in the user profile section. Show the circular profile photo next to the user's name with consistent styling matching the MobileSidebar implementation.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "User apna profile photo laga sake"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Profile photo displays in UserDashboardLayout sidebar",
+        "Photo styling matches MobileSidebar (circular, appropriate size)",
+        "Default avatar shows when no photo exists",
+        "Photo updates automatically after upload"
+      ]
+    },
+    {
+      "id": "REQ-250",
+      "text": "Assign Platinum package details to the user with email rudrapratapsingh789.063@gmail.com in the backend. Create an admin function or initialization script that finds the user by email and grants them access to the Platinum package (₹9999, 24 courses + E-lite, silver, gold, diamond free) without requiring payment. Update the user's purchased packages list and set payment status to approved.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "is email I'd se rudrapratapsingh789.063@gmail.com jo user h usko platinum package details do"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend function to assign package to user by email is created",
+        "User with email rudrapratapsingh789.063@gmail.com is found",
+        "Platinum package is assigned to the user",
+        "Payment status is set to approved automatically",
+        "User can access Platinum package content in their dashboard"
+      ]
+    },
+    {
+      "id": "REQ-251",
+      "text": "Add a dedicated Landing Pages tab or section in the user dashboard navigation (frontend/src/layouts/UserDashboardLayout.tsx) separate from the Landing Page Builder. This section should list all landing pages created by the user in a clean table or card layout showing title, creation date, visit count, and action buttons (View/Preview, Edit, Delete).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "landing page jo user bana ya h wo bhi alg tab me dekh sake"
+        ]
+      },
+      "acceptanceCriteria": [
+        "New 'My Landing Pages' or 'Landing Pages' navigation item exists",
+        "Separate page/section lists all user-created landing pages",
+        "Table/card layout shows title, date, visit count, and actions",
+        "Layout is distinct from the Landing Page Builder form"
+      ]
+    },
+    {
+      "id": "REQ-252",
+      "text": "Create a landing page preview functionality that opens the user's created landing page in a new browser tab or modal overlay. Add a 'Preview' button next to each landing page in the My Landing Pages section. When clicked, render the landing page with its saved content, template, and styling in a full-page view.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "preview bhi dekh sake"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Preview button exists for each landing page",
+        "Clicking Preview opens landing page in new tab or modal",
+        "Landing page renders with saved content and template",
+        "Preview shows full-page view with proper styling",
+        "Preview is read-only (no editing in preview mode)"
+      ]
+    },
+    {
+      "id": "REQ-253",
+      "text": "Create a backend function getLandingPageById(pageId: Nat) in backend/main.mo that retrieves a specific landing page by its ID without requiring authentication. This enables public access to landing pages for preview and sharing purposes. Return the landing page data including title, content, template, and visitCount.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "preview bhi dekh sake"
+        ]
+      },
+      "acceptanceCriteria": [
+        "getLandingPageById function is created in backend",
+        "Function accepts pageId as parameter",
+        "Returns landing page data without authentication check",
+        "Includes title, content, template, and visitCount in response",
+        "Function is publicly accessible for preview/sharing"
+      ]
+    },
+    {
+      "id": "REQ-254",
+      "text": "Create a React Query hook useGetLandingPageById in frontend/src/hooks/useQueries.ts that fetches a specific landing page by ID using the backend getLandingPageById function. This hook should be used in the preview component to display the landing page content.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "preview bhi dekh sake"
+        ]
+      },
+      "acceptanceCriteria": [
+        "useGetLandingPageById hook is created",
+        "Hook accepts pageId parameter",
+        "Calls backend getLandingPageById function",
+        "Returns landing page data with loading and error states",
+        "Can be used without authentication for public access"
+      ]
+    },
+    {
+      "id": "REQ-255",
+      "text": "Implement a shareable landing page route at /landing/:pageId in the main App.tsx routing configuration. This route should be publicly accessible (no authentication required) and render the landing page content using the pageId parameter. Include proper SEO meta tags and responsive layout.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "landing page jo user bana ya h wo bhi alg tab me dekh sake or preview bhi dekh sake"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Route /landing/:pageId is added to App.tsx",
+        "Route is publicly accessible without authentication",
+        "Landing page content renders using pageId from URL",
+        "SEO meta tags are included",
+        "Layout is responsive and mobile-friendly"
       ]
     }
   ],
   "constraints": [
-    "Do not modify the hero section background image",
-    "Do not change the HeroSection headline or subheadline text",
-    "Maintain existing scroll animation and fade-in effects",
-    "Preserve the CoursePackagesModal component functionality for use in other sections"
+    "Maintain single-actor architecture in backend/main.mo",
+    "Do not modify immutable frontend paths (useInternetIdentity, useActor, main.tsx, components/ui)",
+    "Use existing blob storage system for profile photos",
+    "Integrate with existing AuthContext for user authentication",
+    "Use React Query for all backend data fetching",
+    "Maintain blue (#2563EB) and orange (#F59E0B) color system",
+    "Ensure mobile-first responsive design for all new components"
   ],
   "nonGoals": [
-    "Removing the CoursePackagesModal component entirely",
-    "Changing the 'Explore Courses' button styling or behavior",
-    "Modifying other sections of the landing page",
-    "Removing Buy Now buttons from the PricingSection cards"
+    "Advanced image editing or cropping features",
+    "Multiple profile photo galleries",
+    "Landing page template marketplace",
+    "Automated package assignment system",
+    "Real-time collaborative landing page editing"
   ],
   "imageRequirements": {
     "required": [],

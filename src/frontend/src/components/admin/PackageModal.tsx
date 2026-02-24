@@ -105,51 +105,54 @@ export default function PackageModal({ open, onOpenChange, package: pkg }: Packa
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] bg-white dark:bg-slate-900 border-gray-300 dark:border-slate-700">
         <DialogHeader>
-          <DialogTitle>{pkg ? 'Edit Package' : 'Add New Package'}</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-gray-900 dark:text-gray-100">{pkg ? 'Edit Package' : 'Add New Package'}</DialogTitle>
+          <DialogDescription className="text-gray-700 dark:text-gray-300">
             {pkg ? 'Update package details' : 'Create a new course package'}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Package Name</Label>
+            <Label htmlFor="name" className="text-gray-900 dark:text-gray-100">Package Name</Label>
             <Input
               id="name"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               placeholder="E-LITE Package"
+              className="bg-white dark:bg-slate-800 border-gray-300 dark:border-slate-700 text-gray-900 dark:text-gray-100"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="price">Price (₹)</Label>
+            <Label htmlFor="price" className="text-gray-900 dark:text-gray-100">Price (₹)</Label>
             <Input
               id="price"
               type="number"
               value={formData.price}
               onChange={(e) => setFormData({ ...formData, price: e.target.value })}
               placeholder="699"
+              className="bg-white dark:bg-slate-800 border-gray-300 dark:border-slate-700 text-gray-900 dark:text-gray-100"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="courses">Courses (comma-separated)</Label>
+            <Label htmlFor="courses" className="text-gray-900 dark:text-gray-100">Courses (comma-separated)</Label>
             <Textarea
               id="courses"
               value={formData.courses}
               onChange={(e) => setFormData({ ...formData, courses: e.target.value })}
               placeholder="Course 1, Course 2, Course 3"
               rows={4}
+              className="bg-white dark:bg-slate-800 border-gray-300 dark:border-slate-700 text-gray-900 dark:text-gray-100"
             />
           </div>
 
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="border-gray-300 dark:border-slate-700 text-gray-900 dark:text-gray-100">
               Cancel
             </Button>
-            <Button type="submit" disabled={loading}>
+            <Button type="submit" disabled={loading} className="bg-primary hover:bg-primary/90 text-white">
               {loading ? 'Saving...' : pkg ? 'Update' : 'Create'}
             </Button>
           </DialogFooter>

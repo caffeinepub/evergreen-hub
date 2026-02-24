@@ -11,7 +11,7 @@ export default function FloatingWhatsAppButton() {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed right-6 bottom-6 z-40 flex items-center gap-3 px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full shadow-2xl hover:shadow-emerald-500/50 transition-all duration-300 whatsapp-floating group"
+      className="fixed right-6 bottom-6 z-40 flex items-center gap-3 px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full shadow-2xl hover:shadow-emerald-500/50 transition-all duration-300 whatsapp-floating group border-2 border-emerald-500"
       aria-label="Contact us on WhatsApp"
     >
       <MessageCircle className="h-6 w-6" />

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useActor } from '../../hooks/useActor';
 import { useAuth } from '../../contexts/AuthContext';
+import { useGetEarnings } from '../../hooks/useQueries';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -29,14 +30,30 @@ export default function WithdrawalRequests() {
     enabled: !!actor && !!userProfile,
   });
 
+  // Fetch user's earnings
+  const { data: earnings } = useGetEarnings(userProfile?.principal.toString() || '');
+
   const createRequestMutation = useMutation({
     mutationFn: async ({ amount, message }: { amount: number; message: string }) => {
       if (!actor) throw new Error('Actor not available');
       return actor.createWithdrawalRequest(BigInt(amount), message);
     },
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['withdrawalRequests'] });
-      toast.success('Withdrawal request submitted successfully!');
+      
+      // Construct WhatsApp message
+      const userName = userProfile?.name || 'User';
+      const lifetimeEarnings = earnings?.lifetime ? Number(earnings.lifetime) : 0;
+      const withdrawalAmount = variables.amount;
+      const userMessage = variables.message;
+      
+      const whatsappMessage = `Withdrawal Request from ${userName}: Earned ₹${lifetimeEarnings}, Requesting ₹${withdrawalAmount}. Message: ${userMessage}`;
+      const whatsappUrl = `https://wa.me/919263989760?text=${encodeURIComponent(whatsappMessage)}`;
+      
+      // Open WhatsApp in new tab
+      window.open(whatsappUrl, '_blank');
+      
+      toast.success('Withdrawal request submitted! Admin will be notified via WhatsApp.');
       setAmount('');
       setMessage('');
     },
@@ -56,6 +73,16 @@ export default function WithdrawalRequests() {
 
     if (!message.trim()) {
       toast.error('Please enter a message');
+      return;
+    }
+
+    if (!userProfile) {
+      toast.error('User profile not loaded. Please try again.');
+      return;
+    }
+
+    if (!earnings) {
+      toast.error('Earnings data not loaded. Please wait and try again.');
       return;
     }
 
@@ -136,7 +163,7 @@ export default function WithdrawalRequests() {
 
             <Button
               type="submit"
-              disabled={createRequestMutation.isPending}
+              disabled={createRequestMutation.isPending || !earnings}
               className="w-full"
             >
               {createRequestMutation.isPending ? (

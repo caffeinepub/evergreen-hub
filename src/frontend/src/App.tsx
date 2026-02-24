@@ -10,6 +10,7 @@ import PricingSection from './components/PricingSection';
 import WhyChooseUsSection from './components/WhyChooseUsSection';
 import YouTubeSection from './components/YouTubeSection';
 import InstagramSection from './components/InstagramSection';
+import FacebookSection from './components/FacebookSection';
 import VideoEditingSection from './components/VideoEditingSection';
 import TestimonialsSection from './components/TestimonialsSection';
 import FAQSection from './components/FAQSection';
@@ -30,6 +31,10 @@ import AdminLogin from './pages/AdminLogin';
 // Other pages
 import Contact from './pages/Contact';
 import AboutUs from './pages/AboutUs';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
+import RefundPolicy from './pages/RefundPolicy';
+import LandingPagePreview from './pages/LandingPagePreview';
 
 // User dashboard
 import UserDashboardLayout from './layouts/UserDashboardLayout';
@@ -39,6 +44,7 @@ import ProfileSettings from './pages/user/ProfileSettings';
 import ChangePassword from './pages/user/ChangePassword';
 import WithdrawalRequests from './pages/user/WithdrawalRequests';
 import LandingPageBuilder from './pages/user/LandingPageBuilder';
+import MyLandingPages from './pages/user/MyLandingPages';
 
 // Admin dashboard
 import AdminDashboardLayout from './layouts/AdminDashboardLayout';
@@ -68,6 +74,7 @@ function LandingPage() {
       <WhyChooseUsSection />
       <YouTubeSection />
       <InstagramSection />
+      <FacebookSection />
       <VideoEditingSection />
       <TestimonialsSection />
       <FAQSection />
@@ -129,6 +136,30 @@ const aboutUsRoute = createRoute({
   component: AboutUs,
 });
 
+const privacyPolicyRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/privacy-policy',
+  component: PrivacyPolicy,
+});
+
+const termsOfServiceRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/terms-of-service',
+  component: TermsOfService,
+});
+
+const refundPolicyRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/refund-policy',
+  component: RefundPolicy,
+});
+
+const landingPagePreviewRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/landing/$pageId',
+  component: LandingPagePreview,
+});
+
 const dashboardRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/dashboard',
@@ -169,6 +200,12 @@ const dashboardLandingPageRoute = createRoute({
   getParentRoute: () => dashboardRoute,
   path: '/landing-page-builder',
   component: LandingPageBuilder,
+});
+
+const dashboardMyLandingPagesRoute = createRoute({
+  getParentRoute: () => dashboardRoute,
+  path: '/my-landing-pages',
+  component: MyLandingPages,
 });
 
 const adminDashboardRoute = createRoute({
@@ -214,6 +251,10 @@ const routeTree = rootRoute.addChildren([
   adminLoginRoute,
   contactRoute,
   aboutUsRoute,
+  privacyPolicyRoute,
+  termsOfServiceRoute,
+  refundPolicyRoute,
+  landingPagePreviewRoute,
   dashboardRoute.addChildren([
     dashboardIndexRoute,
     dashboardPackagesRoute,
@@ -221,6 +262,7 @@ const routeTree = rootRoute.addChildren([
     dashboardPasswordRoute,
     dashboardWithdrawalRoute,
     dashboardLandingPageRoute,
+    dashboardMyLandingPagesRoute,
   ]),
   adminDashboardRoute.addChildren([
     adminDashboardIndexRoute,

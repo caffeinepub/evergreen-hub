@@ -20,119 +20,97 @@ export default function CoursePackagesModal({ isOpen, onClose }: CoursePackagesM
     price: string;
   } | null>(null);
 
-  const handleSelectPackage = (pkg: { id: bigint; name: string; price: bigint }) => {
+  const handleSelectPackage = (pkg: any) => {
     setSelectedPackage({
       id: pkg.id,
       name: pkg.name,
-      price: `₹${pkg.price}`,
+      price: `₹${Number(pkg.price).toLocaleString('en-IN')}`,
     });
   };
 
-  const handleClosePaymentModal = () => {
+  const handleClosePayment = () => {
     setSelectedPackage(null);
-  };
-
-  // Package images mapping
-  const packageImages: Record<string, string> = {
-    'E-LITE PACKAGE': '/assets/1736790168_99817e5b501599cb1a32.webp',
-    'SILVER PACKAGE': '/assets/1736790180_92ef8bcb1e432a9a949a.webp',
-    'GOLD PACKAGE': '/assets/1736790230_c5566f358eb6ca101c0d.webp',
-    'DIAMOND PACKAGE': '/assets/1736790264_f670ec31ba7738d0be77.webp',
-    'PLATINUM PACKAGE': '/assets/1736790287_1899f7fdfeac4fa91418.webp',
-    'ULTRA PRO PACKAGE': '/assets/1736790311_3efed5100955914f22fb.webp',
   };
 
   return (
     <>
-      <Dialog open={isOpen && !selectedPackage} onOpenChange={onClose}>
-        <DialogContent className="max-w-7xl max-h-[90vh] overflow-y-auto bg-card border-border">
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-900 border-gray-300 dark:border-slate-700">
           <DialogHeader>
-            <DialogTitle className="text-3xl font-bold text-center">Choose Your Course Package</DialogTitle>
-            <DialogDescription className="text-center text-lg">
-              Select the perfect package to kickstart your affiliate marketing journey
+            <DialogTitle className="text-3xl font-bold text-center text-gray-900 dark:text-gray-100">
+              Choose Your Package
+            </DialogTitle>
+            <DialogDescription className="text-center text-gray-700 dark:text-gray-300">
+              Select the perfect package for your learning journey
             </DialogDescription>
           </DialogHeader>
 
-          <div className="mt-6">
-            {isLoading ? (
-              <div className="flex items-center justify-center py-20">
-                <Loader2 className="h-12 w-12 animate-spin text-emerald-500" />
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {packages?.map((pkg) => {
-                  const isPopular = pkg.name === 'DIAMOND PACKAGE';
-                  const courseList = pkg.courses.split('\n').filter(c => c.trim());
+          {isLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+              {packages?.map((pkg) => {
+                const courseList = pkg.courses.split(',').map((c) => c.trim());
+                const isDiamond = pkg.name.toLowerCase().includes('diamond');
 
-                  return (
-                    <Card
-                      key={pkg.id.toString()}
-                      className={`relative transition-all duration-300 hover:shadow-xl bg-card border-border ${
-                        isPopular
-                          ? 'border-emerald-500 border-2 shadow-emerald-500/20 shadow-lg'
-                          : 'hover:border-emerald-500/50'
-                      }`}
-                    >
-                      {isPopular && (
-                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                          <Badge className="bg-emerald-500 text-black font-bold px-3 py-1 text-xs">
-                            <Sparkles className="h-3 w-3 mr-1 inline" />
-                            MOST POPULAR
-                          </Badge>
-                        </div>
-                      )}
+                return (
+                  <Card
+                    key={Number(pkg.id)}
+                    className={`relative overflow-hidden transition-all duration-300 hover:shadow-xl bg-white dark:bg-slate-800 border-gray-300 dark:border-slate-700 ${
+                      isDiamond ? 'ring-2 ring-primary' : ''
+                    }`}
+                  >
+                    {isDiamond && (
+                      <div className="absolute top-4 right-4">
+                        <Badge className="bg-primary text-white">
+                          <Sparkles className="h-3 w-3 mr-1" />
+                          Best Value
+                        </Badge>
+                      </div>
+                    )}
 
-                      <CardHeader className="text-center pb-3 pt-6">
-                        <div className="mb-3 flex justify-center">
-                          <img
-                            src={packageImages[pkg.name] || '/assets/1736790168_99817e5b501599cb1a32.webp'}
-                            alt={pkg.name}
-                            className="w-32 h-32 object-contain"
-                          />
-                        </div>
-                        <CardTitle className="text-xl font-bold mb-1">{pkg.name}</CardTitle>
-                        <CardDescription className="text-3xl font-black text-emerald-500 mb-1">
-                          ₹{pkg.price.toString()}
-                        </CardDescription>
-                        <p className="text-xs text-muted-foreground font-semibold">
-                          {courseList.length} courses included
-                        </p>
-                      </CardHeader>
+                    <CardHeader>
+                      <CardTitle className="text-2xl text-gray-900 dark:text-gray-100">{pkg.name}</CardTitle>
+                      <CardDescription className="text-gray-700 dark:text-gray-300">
+                        <span className="text-3xl font-bold text-primary">
+                          ₹{Number(pkg.price).toLocaleString('en-IN')}
+                        </span>
+                      </CardDescription>
+                    </CardHeader>
 
-                      <CardContent className="space-y-2 max-h-48 overflow-y-auto">
+                    <CardContent>
+                      <ul className="space-y-2">
                         {courseList.map((course, index) => (
-                          <div key={index} className="flex items-start gap-2">
-                            <Check className="h-4 w-4 text-emerald-500 flex-shrink-0 mt-0.5" />
-                            <span className="text-xs text-muted-foreground">{course}</span>
-                          </div>
+                          <li key={index} className="flex items-start gap-2 text-gray-900 dark:text-gray-100">
+                            <Check className="h-5 w-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                            <span className="text-sm">{course}</span>
+                          </li>
                         ))}
-                      </CardContent>
+                      </ul>
+                    </CardContent>
 
-                      <CardFooter className="pt-4">
-                        <Button
-                          onClick={() => handleSelectPackage(pkg)}
-                          className={`w-full font-bold text-base py-5 transition-all duration-300 ${
-                            isPopular
-                              ? 'bg-emerald-500 hover:bg-emerald-600 text-black shadow-lg hover:shadow-emerald-500/50'
-                              : 'bg-emerald-600 hover:bg-emerald-700 text-white'
-                          }`}
-                        >
-                          Select Package
-                        </Button>
-                      </CardFooter>
-                    </Card>
-                  );
-                })}
-              </div>
-            )}
-          </div>
+                    <CardFooter>
+                      <Button
+                        onClick={() => handleSelectPackage(pkg)}
+                        className="w-full btn-cta"
+                      >
+                        Select Package
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
         </DialogContent>
       </Dialog>
 
       {selectedPackage && (
         <PaymentModal
           isOpen={!!selectedPackage}
-          onClose={handleClosePaymentModal}
+          onClose={handleClosePayment}
           packageId={selectedPackage.id}
           packageName={selectedPackage.name}
           packagePrice={selectedPackage.price}

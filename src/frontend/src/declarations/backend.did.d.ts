@@ -16,6 +16,8 @@ export interface AdminStats {
   'totalUsers' : bigint,
   'totalRevenue' : bigint,
 }
+export type CommissionType = { 'active' : null } |
+  { 'passive' : null };
 export interface Earnings {
   'today' : bigint,
   'lifetime' : bigint,
@@ -27,6 +29,7 @@ export interface LandingPage {
   'id' : bigint,
   'title' : string,
   'content' : string,
+  'visitCount' : bigint,
   'userId' : Principal,
   'createdAt' : bigint,
   'updatedAt' : bigint,
@@ -61,6 +64,19 @@ export interface PaymentProof {
 export type PaymentStatus = { 'pending' : null } |
   { 'approved' : null } |
   { 'rejected' : null };
+export interface Referral {
+  'id' : bigint,
+  'status' : ReferralStatus,
+  'referredUserId' : Principal,
+  'createdAt' : bigint,
+  'referrerId' : Principal,
+  'commissionAmount' : bigint,
+  'commissionType' : CommissionType,
+  'packageId' : bigint,
+}
+export type ReferralStatus = { 'pending' : null } |
+  { 'paid' : null } |
+  { 'approved' : null };
 export type Role = { 'admin' : null } |
   { 'user' : null };
 export interface ShoppingItem {
@@ -94,6 +110,7 @@ export interface UserProfile {
   'createdAt' : bigint,
   'role' : Role,
   'email' : string,
+  'profilePhotoUrl' : [] | [string],
   'phone' : string,
 }
 export type UserRole = { 'admin' : null } |
@@ -147,6 +164,7 @@ export interface _SERVICE {
   'approvePayment' : ActorMethod<[bigint], undefined>,
   'approvePaymentProof' : ActorMethod<[bigint], undefined>,
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
+  'assignPlatinumPackageByEmail' : ActorMethod<[string], undefined>,
   'createCheckoutSession' : ActorMethod<
     [Array<ShoppingItem>, string, string],
     string
@@ -169,6 +187,7 @@ export interface _SERVICE {
   'getCallerUserRole' : ActorMethod<[], UserRole>,
   'getEarnings' : ActorMethod<[Principal], Earnings>,
   'getLandingPage' : ActorMethod<[bigint], [] | [LandingPage]>,
+  'getLandingPageById' : ActorMethod<[bigint], [] | [LandingPage]>,
   'getLandingPages' : ActorMethod<[Principal], Array<LandingPage>>,
   'getMyPaymentProofs' : ActorMethod<[], Array<PaymentProof>>,
   'getMyPayments' : ActorMethod<[], Array<Payment>>,
@@ -179,13 +198,22 @@ export interface _SERVICE {
   >,
   'getPaymentsByStatus' : ActorMethod<[PaymentStatus], Array<Payment>>,
   'getPaymentsByUser' : ActorMethod<[Principal], Array<Payment>>,
+  'getReferralsByUser' : ActorMethod<[Principal], Array<Referral>>,
   'getStripeSessionStatus' : ActorMethod<[string], StripeSessionStatus>,
+  'getTotalCommissions' : ActorMethod<
+    [Principal],
+    { 'totalPassive' : bigint, 'pending' : bigint, 'totalActive' : bigint }
+  >,
   'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
   'getWithdrawalRequests' : ActorMethod<[Principal], Array<WithdrawalRequest>>,
+  'incrementLandingPageVisit' : ActorMethod<[bigint], undefined>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
   'isStripeConfigured' : ActorMethod<[], boolean>,
   'recordPurchase' : ActorMethod<[Principal, bigint], undefined>,
-  'registerUser' : ActorMethod<[string, string, string], undefined>,
+  'registerUser' : ActorMethod<
+    [string, string, string, [] | [Principal]],
+    undefined
+  >,
   'rejectPayment' : ActorMethod<[bigint], undefined>,
   'rejectPaymentProof' : ActorMethod<[bigint], undefined>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
@@ -203,6 +231,7 @@ export interface _SERVICE {
     [bigint, WithdrawalRequestStatus],
     undefined
   >,
+  'uploadProfilePhoto' : ActorMethod<[ExternalBlob], string>,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];

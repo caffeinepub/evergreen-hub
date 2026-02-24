@@ -2,10 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-remove-the-buy-course-button-from-the-herosection-component-frontend-src-components-herosection-tsx-keeping-only-the-explore-courses-button-visible-the-button-removal-should-not-affect-the-existing-hero-section-background-image-layout-headline-or-subheadline-maintain-the-current-styling-and-positioning-of-the-remaining-explore-courses-button",
-      "featureTitle": "Remove the 'Buy Course' button from the HeroSection component (frontend/src/components/HeroSection.tsx), keeping only the 'Explore Courses' button visible. The button removal should not affect the existing hero section background image, layout, headline, or subheadline. Maintain the current styling and positioning of the remaining 'Explore Courses' button.",
+      "featureId": "feature-add-profile-photo-upload-and-change-functionality-to-the-user-dashboard-profile-settings-page-frontend-src-pages-user-profilesettings-tsx-include-a-file-input-for-selecting-an-image-image-preview-before-upload-upload-button-and-display-the-current-profile-photo-if-one-exists-apply-proper-styling-consistent-with-the-dashboard-design-using-yellow-and-green-accents",
+      "featureTitle": "Add profile photo upload and change functionality to the user dashboard Profile Settings page (frontend/src/pages/user/ProfileSettings.tsx). Include a file input for selecting an image, image preview before upload, upload button, and display the current profile photo if one exists. Apply proper styling consistent with the dashboard design using yellow and green accents.",
       "files": [
-        "frontend/src/components/HeroSection.tsx"
+        "frontend/src/pages/user/ProfileSettings.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -19,7 +19,165 @@
         "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-170"
+        "REQ-245"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-react-query-mutation-hook-in-frontend-src-hooks-usequeries-ts-for-uploading-profile-photos-the-mutation-should-call-the-backend-uploadprofilephoto-function-with-the-selected-image-file-and-invalidate-the-user-profile-query-after-successful-upload-to-refresh-the-displayed-photo",
+      "featureTitle": "Create a React Query mutation hook in frontend/src/hooks/useQueries.ts for uploading profile photos. The mutation should call the backend uploadProfilePhoto function with the selected image file and invalidate the user profile query after successful upload to refresh the displayed photo.",
+      "files": [
+        "frontend/src/hooks/useQueries.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-247"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-display-the-user-s-profile-photo-in-the-mobilesidebar-component-frontend-src-components-mobilesidebar-tsx-next-to-the-user-s-name-in-the-profile-section-if-no-photo-exists-show-a-default-avatar-icon-or-placeholder-image-ensure-the-photo-is-circular-with-appropriate-sizing",
+      "featureTitle": "Display the user's profile photo in the MobileSidebar component (frontend/src/components/MobileSidebar.tsx) next to the user's name in the profile section. If no photo exists, show a default avatar icon or placeholder image. Ensure the photo is circular with appropriate sizing.",
+      "files": [
+        "frontend/src/components/MobileSidebar.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-248"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-display-the-user-s-profile-photo-in-the-userdashboardlayout-sidebar-frontend-src-layouts-userdashboardlayout-tsx-in-the-user-profile-section-show-the-circular-profile-photo-next-to-the-user-s-name-with-consistent-styling-matching-the-mobilesidebar-implementation",
+      "featureTitle": "Display the user's profile photo in the UserDashboardLayout sidebar (frontend/src/layouts/UserDashboardLayout.tsx) in the user profile section. Show the circular profile photo next to the user's name with consistent styling matching the MobileSidebar implementation.",
+      "files": [
+        "frontend/src/layouts/UserDashboardLayout.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-249"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-dedicated-landing-pages-tab-or-section-in-the-user-dashboard-navigation-frontend-src-layouts-userdashboardlayout-tsx-separate-from-the-landing-page-builder-this-section-should-list-all-landing-pages-created-by-the-user-in-a-clean-table-or-card-layout-showing-title-creation-date-visit-count-and-action-buttons-view-preview-edit-delete",
+      "featureTitle": "Add a dedicated Landing Pages tab or section in the user dashboard navigation (frontend/src/layouts/UserDashboardLayout.tsx) separate from the Landing Page Builder. This section should list all landing pages created by the user in a clean table or card layout showing title, creation date, visit count, and action buttons (View/Preview, Edit, Delete).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/layouts/UserDashboardLayout.tsx",
+        "frontend/src/pages/user/MyLandingPages.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-251"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-landing-page-preview-functionality-that-opens-the-user-s-created-landing-page-in-a-new-browser-tab-or-modal-overlay-add-a-preview-button-next-to-each-landing-page-in-the-my-landing-pages-section-when-clicked-render-the-landing-page-with-its-saved-content-template-and-styling-in-a-full-page-view",
+      "featureTitle": "Create a landing page preview functionality that opens the user's created landing page in a new browser tab or modal overlay. Add a 'Preview' button next to each landing page in the My Landing Pages section. When clicked, render the landing page with its saved content, template, and styling in a full-page view.",
+      "files": [
+        "frontend/src/pages/LandingPagePreview.tsx",
+        "frontend/src/pages/user/MyLandingPages.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-252"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-react-query-hook-usegetlandingpagebyid-in-frontend-src-hooks-usequeries-ts-that-fetches-a-specific-landing-page-by-id-using-the-backend-getlandingpagebyid-function-this-hook-should-be-used-in-the-preview-component-to-display-the-landing-page-content",
+      "featureTitle": "Create a React Query hook useGetLandingPageById in frontend/src/hooks/useQueries.ts that fetches a specific landing page by ID using the backend getLandingPageById function. This hook should be used in the preview component to display the landing page content.",
+      "files": [
+        "frontend/src/hooks/useQueries.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-254"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-a-shareable-landing-page-route-at-landing-pageid-in-the-main-app-tsx-routing-configuration-this-route-should-be-publicly-accessible-no-authentication-required-and-render-the-landing-page-content-using-the-pageid-parameter-include-proper-seo-meta-tags-and-responsive-layout",
+      "featureTitle": "Implement a shareable landing page route at /landing/:pageId in the main App.tsx routing configuration. This route should be publicly accessible (no authentication required) and render the landing page content using the pageId parameter. Include proper SEO meta tags and responsive layout.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/pages/LandingPagePreview.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-255"
       ],
       "confidence": "high"
     }

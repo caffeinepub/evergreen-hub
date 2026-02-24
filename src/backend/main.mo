@@ -1,20 +1,21 @@
-import Map "mo:core/Map";
-import Time "mo:core/Time";
-import Text "mo:core/Text";
-import Array "mo:core/Array";
-import Runtime "mo:core/Runtime";
 import AccessControl "authorization/access-control";
+import Map "mo:core/Map";
+import Runtime "mo:core/Runtime";
+import Time "mo:core/Time";
+import Array "mo:core/Array";
+import Principal "mo:core/Principal";
+import Text "mo:core/Text";
 import Iter "mo:core/Iter";
+import Nat "mo:core/Nat";
+import Storage "blob-storage/Storage";
+import Stripe "stripe/stripe";
+import OutCall "http-outcalls/outcall";
 import MixinAuthorization "authorization/MixinAuthorization";
 import MixinStorage "blob-storage/Mixin";
-import Storage "blob-storage/Storage";
+import Migration "migration";
 
-import OutCall "http-outcalls/outcall";
-import Nat "mo:core/Nat";
-import Stripe "stripe/stripe";
-import Principal "mo:core/Principal";
-
-
+// Use migration module
+(with migration = Migration.run)
 actor {
   type Role = {
     #user;
@@ -29,6 +30,7 @@ actor {
     role : Role;
     createdAt : Int;
     blocked : Bool;
+    profilePhotoUrl : ?Text;
   };
 
   type PackageStatus = {
@@ -106,6 +108,7 @@ actor {
     template : Text;
     createdAt : Int;
     updatedAt : Int;
+    visitCount : Nat;
   };
 
   type Product = {
@@ -116,7 +119,30 @@ actor {
     priceInCents : Nat;
   };
 
+  type CommissionType = {
+    #active;
+    #passive;
+  };
+
+  type ReferralStatus = {
+    #pending;
+    #approved;
+    #paid;
+  };
+
+  type Referral = {
+    id : Nat;
+    referrerId : Principal;
+    referredUserId : Principal;
+    packageId : Nat;
+    commissionAmount : Nat;
+    commissionType : CommissionType;
+    createdAt : Int;
+    status : ReferralStatus;
+  };
+
   let users = Map.empty<Principal, UserProfile>();
+  let referrals = Map.empty<Nat, Referral>();
   let packages = Map.empty<Nat, Package>();
   let payments = Map.empty<Nat, Payment>();
   let paymentProofs = Map.empty<Nat, PaymentProof>();
@@ -129,17 +155,14 @@ actor {
   var nextPaymentId : Nat = 1;
   var nextPaymentProofId : Nat = 1;
   var nextWithdrawalRequestId : Nat = 1;
+  var nextReferralId : Nat = 1;
   var nextLandingPageId : Nat = 1;
 
   let accessControlState = AccessControl.initState();
   include MixinAuthorization(accessControlState);
-
   include MixinStorage();
 
   var stripeConfig : ?Stripe.StripeConfiguration = null;
-
-  system func preupgrade() {};
-  system func postupgrade() {};
 
   public query func isStripeConfigured() : async Bool {
     stripeConfig != null;
@@ -178,11 +201,13 @@ actor {
     };
   };
 
-  public shared ({ caller }) func registerUser(name : Text, email : Text, phone : Text) : async () {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can register");
-    };
-
+  public shared ({ caller }) func registerUser(
+    name : Text,
+    email : Text,
+    phone : Text,
+    referrerId : ?Principal,
+  ) : async () {
+    // Allow guests to register (no permission check needed)
     switch (users.get(caller)) {
       case (null) {
         let newUser : UserProfile = {
@@ -193,11 +218,82 @@ actor {
           role = #user;
           createdAt = Time.now();
           blocked = false;
+          profilePhotoUrl = null;
         };
         users.add(caller, newUser);
+
+        switch (referrerId) {
+          case (?referrer) {
+            let newReferral : Referral = {
+              id = nextReferralId;
+              referrerId = referrer;
+              referredUserId = caller;
+              packageId = 0;
+              commissionAmount = 0;
+              commissionType = #active;
+              createdAt = Time.now();
+              status = #pending;
+            };
+            referrals.add(nextReferralId, newReferral);
+            nextReferralId += 1;
+          };
+          case (null) {};
+        };
       };
       case (?_) { Runtime.trap("User already registered") };
     };
+  };
+
+  public shared ({ caller }) func uploadProfilePhoto(blob : Storage.ExternalBlob) : async Text {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only users can upload profile photos");
+    };
+    if (isUserBlocked(caller)) {
+      Runtime.trap("Unauthorized: User is blocked");
+    };
+
+    switch (users.get(caller)) {
+      case (null) { Runtime.trap("User not found") };
+      case (?user) {
+        let photoUrl = "profile_photos/" # caller.toText();
+        let updatedUser = { user with profilePhotoUrl = ?photoUrl };
+        users.add(caller, updatedUser);
+        photoUrl;
+      };
+    };
+  };
+
+  public shared ({ caller }) func assignPlatinumPackageByEmail(targetEmail : Text) : async () {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can assign packages");
+    };
+
+    switch (users.entries().find(func((_, user)) { user.email == targetEmail })) {
+      case (null) { Runtime.trap("User with email " # targetEmail # " not found") };
+      case (?entry) {
+        let (userId, _user) = entry;
+        let platinumPackage = packages.values().toArray().find(func(pkg) { pkg.name == "Platinum" });
+        switch (platinumPackage) {
+          case (null) { Runtime.trap("Platinum package not found") };
+          case (?pkg) {
+            recordPlatinumPurchase(userId, pkg.id);
+          };
+        };
+      };
+    };
+  };
+
+  func recordPlatinumPurchase(userId : Principal, packageId : Nat) {
+    let newPayment : Payment = {
+      id = nextPaymentId;
+      userId;
+      packageId;
+      transactionId = "PLATINUM_GRANT";
+      status = #approved;
+      createdAt = Time.now();
+    };
+    payments.add(nextPaymentId, newPayment);
+    nextPaymentId += 1;
   };
 
   public query ({ caller }) func getCallerUserProfile() : async ?UserProfile {
@@ -672,10 +768,34 @@ actor {
       template;
       createdAt = Time.now();
       updatedAt = Time.now();
+      visitCount = 0;
     };
 
     landingPages.add(pageId, newPage);
     pageId;
+  };
+
+  public shared ({ caller }) func updateLandingPage(pageId : Nat, title : Text, content : Text) : async () {
+    switch (landingPages.get(pageId)) {
+      case (null) { Runtime.trap("Landing page not found") };
+      case (?page) {
+        if (page.userId != caller and not (AccessControl.isAdmin(accessControlState, caller))) {
+          Runtime.trap("Unauthorized: Cannot edit this landing page");
+        };
+        if (page.userId == caller and isUserBlocked(caller)) {
+          Runtime.trap("Unauthorized: User is blocked");
+        };
+
+        let updatedPage = {
+          page with
+          title;
+          content;
+          updatedAt = Time.now();
+        };
+
+        landingPages.add(pageId, updatedPage);
+      };
+    };
   };
 
   public query ({ caller }) func getLandingPages(userId : Principal) : async [LandingPage] {
@@ -699,21 +819,8 @@ actor {
     };
   };
 
-  public shared ({ caller }) func updateLandingPage(pageId : Nat, title : Text, content : Text) : async () {
-    switch (landingPages.get(pageId)) {
-      case (null) { Runtime.trap("Landing page not found") };
-      case (?page) {
-        if (page.userId != caller and not (AccessControl.isAdmin(accessControlState, caller))) {
-          Runtime.trap("Unauthorized: Cannot edit this landing page");
-        };
-        if (isUserBlocked(caller) and not (AccessControl.isAdmin(accessControlState, caller))) {
-          Runtime.trap("Unauthorized: User is blocked");
-        };
-
-        let updatedPage = { page with title; content; updatedAt = Time.now() };
-        landingPages.add(pageId, updatedPage);
-      };
-    };
+  public query func getLandingPageById(pageId : Nat) : async ?LandingPage {
+    landingPages.get(pageId);
   };
 
   public shared ({ caller }) func deleteLandingPage(pageId : Nat) : async () {
@@ -723,11 +830,74 @@ actor {
         if (page.userId != caller and not (AccessControl.isAdmin(accessControlState, caller))) {
           Runtime.trap("Unauthorized: Cannot delete this landing page");
         };
-        if (isUserBlocked(caller) and not (AccessControl.isAdmin(accessControlState, caller))) {
+        if (page.userId == caller and isUserBlocked(caller)) {
           Runtime.trap("Unauthorized: User is blocked");
         };
         landingPages.remove(pageId);
       };
+    };
+  };
+
+  public shared ({ caller }) func incrementLandingPageVisit(pageId : Nat) : async () {
+    switch (landingPages.get(pageId)) {
+      case (null) { Runtime.trap("Landing page not found") };
+      case (?page) {
+        let updatedPage = { page with visitCount = page.visitCount + 1 };
+        landingPages.add(pageId, updatedPage);
+      };
+    };
+  };
+
+  public query ({ caller }) func getReferralsByUser(userId : Principal) : async [Referral] {
+    // Users can only view their own referrals, admins can view any user's referrals
+    if (caller != userId and not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Can only view your own referrals");
+    };
+    referrals.values().toArray().filter(
+      func(referral : Referral) : Bool { referral.referrerId == userId }
+    );
+  };
+
+  public query ({ caller }) func getTotalCommissions(userId : Principal) : async {
+    totalActive : Nat;
+    totalPassive : Nat;
+    pending : Nat;
+  } {
+    // Users can only view their own commissions, admins can view any user's commissions
+    if (caller != userId and not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Can only view your own commissions");
+    };
+
+    let userReferrals = referrals.values().toArray().filter(
+      func(referral : Referral) : Bool { referral.referrerId == userId }
+    );
+
+    var totalActive = 0;
+    var totalPassive = 0;
+    var pending = 0;
+
+    for (referral in userReferrals.values()) {
+      switch (referral.status) {
+        case (#approved) {
+          switch (referral.commissionType) {
+            case (#active) { totalActive += referral.commissionAmount };
+            case (#passive) { totalPassive += referral.commissionAmount };
+          };
+        };
+        case (#pending) { pending += referral.commissionAmount };
+        case (#paid) {
+          switch (referral.commissionType) {
+            case (#active) { totalActive += referral.commissionAmount };
+            case (#passive) { totalPassive += referral.commissionAmount };
+          };
+        };
+      };
+    };
+
+    {
+      totalActive;
+      totalPassive;
+      pending;
     };
   };
 };

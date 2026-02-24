@@ -1,24 +1,165 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Remove Buy Course button from hero section, keep only Explore Courses button and background image",
+  "title": "Add profile photo upload, assign Platinum package to specific user, and landing page preview",
   "requirements": [
     {
-      "id": "REQ-170",
-      "summary": "Remove the 'Buy Course' button from HeroSection component while preserving the 'Explore Courses' button, background image, and all other hero section elements",
+      "id": "REQ-245",
+      "summary": "Add profile photo upload and change functionality to the user dashboard Profile Settings page with file input, preview, upload button, and display of current profile photo using yellow and green accents",
       "acceptanceCriteria": [
-        "'Buy Course' button is completely removed from the hero section",
-        "'Explore Courses' button remains visible and functional",
-        "Hero section background image is preserved without changes",
-        "Hero section headline and subheadline remain unchanged",
-        "Smooth scroll functionality to courses section still works when 'Explore Courses' button is clicked",
-        "Component renders correctly on mobile, tablet, and desktop viewports"
+        "Profile Settings page includes a file input for image upload",
+        "Selected image shows a preview before upload",
+        "Upload button submits the image to backend",
+        "Current profile photo displays if one exists",
+        "Styling uses yellow and green color accents matching dashboard theme"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/HeroSection.tsx",
+          "path": "frontend/src/pages/user/ProfileSettings.tsx",
           "operation": "modify",
-          "description": "Remove the 'Buy Course' button and its associated modal trigger logic from the HeroSection component. Locate the button that opens the CoursePackagesModal (likely labeled 'Buy Course' or similar) and remove it from the JSX, keeping only the 'Explore Courses' button that handles smooth scrolling to the courses section. Ensure the remaining button retains its current styling, positioning, and onClick handler for scroll functionality. Do not modify the hero section background image reference (frontend/public/assets/generated/hero-bg.dim_1920x1080.png), headline, subheadline, or container layout. Remove any state management or handlers related to the removed button (e.g., modal open state) if they are no longer used elsewhere in the component."
+          "description": "Add profile photo upload section with file input, image preview component, and upload button. Display current profile photo from userProfile.profilePhotoUrl using ExternalBlob.fromURL() if it exists. Use the blob-storage component to handle file uploads with progress tracking. Apply yellow (#F59E0B) and green accents consistent with the dashboard theme. Wire the upload functionality to call the useUploadProfilePhoto mutation hook."
+        }
+      ]
+    },
+    {
+      "id": "REQ-247",
+      "summary": "Create a React Query mutation hook for uploading profile photos that calls backend uploadProfilePhoto and invalidates user profile query",
+      "acceptanceCriteria": [
+        "useUploadProfilePhoto mutation hook is created",
+        "Mutation calls backend uploadProfilePhoto function with image blob",
+        "User profile query is invalidated after successful upload",
+        "Loading and error states are properly handled"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add useUploadProfilePhoto mutation hook that accepts an image file, converts it to ExternalBlob using ExternalBlob.fromBytes(), calls actor.uploadProfilePhoto(blob), and invalidates the 'currentUserProfile' query key on success. Include loading states and error handling. Verify the blob-storage component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-248",
+      "summary": "Display the user's profile photo in the MobileSidebar component next to the user's name with circular styling and default avatar placeholder",
+      "acceptanceCriteria": [
+        "Profile photo displays in MobileSidebar profile section",
+        "Photo is circular with appropriate size",
+        "Default avatar/placeholder shows when no photo exists",
+        "Photo updates automatically after upload"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/MobileSidebar.tsx",
+          "operation": "modify",
+          "description": "Add profile photo display in the user profile section using userProfile.profilePhotoUrl. If profilePhotoUrl exists, render image using ExternalBlob.fromURL(userProfile.profilePhotoUrl).getDirectURL() as the src. Apply circular styling (rounded-full) with appropriate size (w-10 h-10 or similar). Show a default User icon from lucide-react when no photo exists. Ensure photo updates automatically by leveraging the existing user profile query."
+        }
+      ]
+    },
+    {
+      "id": "REQ-249",
+      "summary": "Display the user's profile photo in the UserDashboardLayout sidebar with circular styling matching MobileSidebar implementation",
+      "acceptanceCriteria": [
+        "Profile photo displays in UserDashboardLayout sidebar",
+        "Photo styling matches MobileSidebar (circular, appropriate size)",
+        "Default avatar shows when no photo exists",
+        "Photo updates automatically after upload"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/layouts/UserDashboardLayout.tsx",
+          "operation": "modify",
+          "description": "Add profile photo display in the sidebar user profile section using userProfile.profilePhotoUrl. If profilePhotoUrl exists, render image using ExternalBlob.fromURL(userProfile.profilePhotoUrl).getDirectURL() as the src. Apply identical circular styling as MobileSidebar (rounded-full with w-10 h-10 or similar). Show default User icon from lucide-react when no photo exists. Photo updates automatically via existing user profile query."
+        }
+      ]
+    },
+    {
+      "id": "REQ-251",
+      "summary": "Add a dedicated Landing Pages tab in the user dashboard navigation that lists all user-created landing pages in a table/card layout with title, date, visit count, and action buttons",
+      "acceptanceCriteria": [
+        "New 'My Landing Pages' or 'Landing Pages' navigation item exists",
+        "Separate page/section lists all user-created landing pages",
+        "Table/card layout shows title, date, visit count, and actions",
+        "Layout is distinct from the Landing Page Builder form"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/layouts/UserDashboardLayout.tsx",
+          "operation": "modify",
+          "description": "Add a new navigation item 'My Landing Pages' to the sidebar navigation array, positioned after 'Landing Page Builder'. Use LayoutGrid icon from lucide-react. Set the link path to '/user/my-landing-pages'. Ensure the navigation item is styled consistently with existing items."
+        },
+        {
+          "path": "frontend/src/pages/user/MyLandingPages.tsx",
+          "operation": "create",
+          "description": "Create a new page component that displays all landing pages created by the current user. Use useGetLandingPages hook (from useQueries.ts) with the user's principal to fetch landing pages. Display results in a table or card grid layout showing title, creation date (formatted), visit count, and action buttons (View/Preview, Edit, Delete). Include loading and error states. Style with Tailwind CSS consistent with the dashboard theme."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add a new route for '/user/my-landing-pages' that renders the MyLandingPages page component. Place it within the user dashboard route group alongside other user routes like ProfileSettings and WithdrawalRequests."
+        }
+      ]
+    },
+    {
+      "id": "REQ-252",
+      "summary": "Create a landing page preview functionality that opens the user's created landing page in a new browser tab or modal with full-page view",
+      "acceptanceCriteria": [
+        "Preview button exists for each landing page",
+        "Clicking Preview opens landing page in new tab or modal",
+        "Landing page renders with saved content and template",
+        "Preview shows full-page view with proper styling",
+        "Preview is read-only (no editing in preview mode)"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/user/MyLandingPages.tsx",
+          "operation": "modify",
+          "description": "Add Preview button for each landing page in the action buttons column. On click, open the landing page in a new browser tab using window.open(`/landing/${pageId}`, '_blank'). The button should use Eye icon from lucide-react and be styled consistently with other action buttons."
+        },
+        {
+          "path": "frontend/src/pages/LandingPagePreview.tsx",
+          "operation": "create",
+          "description": "Create a public landing page preview component that fetches and displays a landing page by ID. Use useGetLandingPageById hook to fetch the landing page data. Render the landing page content, title, and template in a full-page layout. Include proper error handling for invalid page IDs. Apply responsive styling. This is a read-only view with no editing capabilities. Call incrementLandingPageVisit(pageId) on mount to track visits."
+        }
+      ]
+    },
+    {
+      "id": "REQ-254",
+      "summary": "Create a React Query hook useGetLandingPageById that fetches a specific landing page by ID for preview functionality",
+      "acceptanceCriteria": [
+        "useGetLandingPageById hook is created",
+        "Hook accepts pageId parameter",
+        "Calls backend getLandingPageById function",
+        "Returns landing page data with loading and error states",
+        "Can be used without authentication for public access"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add useGetLandingPageById hook that accepts pageId as a parameter and calls actor.getLandingPageById(pageId). Use React Query's useQuery with queryKey ['landingPage', pageId]. Enable the query only when pageId is provided. Return loading, error, and data states. This hook should work without authentication since getLandingPageById is publicly accessible."
+        }
+      ]
+    },
+    {
+      "id": "REQ-255",
+      "summary": "Implement a shareable landing page route at /landing/:pageId that is publicly accessible and renders landing page content with SEO meta tags",
+      "acceptanceCriteria": [
+        "Route /landing/:pageId is added to App.tsx",
+        "Route is publicly accessible without authentication",
+        "Landing page content renders using pageId from URL",
+        "SEO meta tags are included",
+        "Layout is responsive and mobile-friendly"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add a new public route for '/landing/:pageId' that renders the LandingPagePreview component. Place this route outside any protected route groups to ensure public accessibility without authentication. Use TanStack Router's route definition with path parameter for pageId."
+        },
+        {
+          "path": "frontend/src/pages/LandingPagePreview.tsx",
+          "operation": "modify",
+          "description": "Add SEO meta tags using useEffect to set document.title and meta description based on the landing page title and content. Ensure the layout is responsive with mobile-first design using Tailwind CSS. Extract pageId from the route params using TanStack Router's useParams hook."
         }
       ]
     }

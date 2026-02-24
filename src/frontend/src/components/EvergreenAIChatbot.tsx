@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
 
 interface Message {
@@ -36,11 +36,11 @@ export default function EvergreenAIChatbot() {
     const lowerMessage = userMessage.toLowerCase();
 
     if (lowerMessage.includes('course') || lowerMessage.includes('package')) {
-      return 'We offer three amazing course packages: SILVER (₹999), GOLD (₹1,499), and DIAMOND (₹1,999 - Best Value!). Each package includes lifetime access to premium courses. Would you like to know more about a specific package?';
+      return 'We offer six amazing course packages ranging from E-LITE (₹699) to ULTRA PRO (₹14,999). Each package includes lifetime access to premium courses. Would you like to know more about a specific package?';
     }
 
     if (lowerMessage.includes('price') || lowerMessage.includes('cost')) {
-      return 'Our packages are priced at: SILVER - ₹999, GOLD - ₹1,499, and DIAMOND - ₹1,999 (Best Value). All packages include lifetime access and expert guidance!';
+      return 'Our packages are priced at: E-LITE - ₹699, SILVER - ₹1,499, GOLD - ₹2,999, DIAMOND - ₹4,999 (Best Value), PLATINUM - ₹9,999, and ULTRA PRO - ₹14,999. All packages include lifetime access and expert guidance!';
     }
 
     if (lowerMessage.includes('payment') || lowerMessage.includes('pay')) {
@@ -93,36 +93,35 @@ export default function EvergreenAIChatbot() {
   return (
     <>
       {/* Floating Chat Button */}
-      {!isOpen && (
-        <Button
-          onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-soft-lg bg-primary hover:bg-primary/90 text-white z-50 chatbot-button"
-          size="icon"
-        >
-          <MessageCircle className="h-6 w-6" />
-        </Button>
-      )}
+      <Button
+        onClick={() => setIsOpen(true)}
+        className="fixed bottom-6 left-6 h-14 w-14 rounded-full shadow-soft-lg bg-primary hover:bg-primary/90 text-white z-40 chatbot-button"
+        size="icon"
+      >
+        <MessageCircle className="h-6 w-6" />
+      </Button>
 
-      {/* Chat Window */}
-      {isOpen && (
-        <Card className="fixed bottom-6 right-6 w-96 h-[500px] shadow-soft-lg z-50 flex flex-col bg-card dark:bg-card border-border dark:border-border">
-          <CardHeader className="flex flex-row items-center justify-between p-4 border-b border-border dark:border-border bg-primary dark:bg-primary text-white rounded-t-lg">
+      {/* Chat Modal */}
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="max-w-md h-[600px] p-0 flex flex-col bg-white dark:bg-slate-900 border-gray-300 dark:border-slate-700">
+          <DialogHeader className="flex flex-row items-center justify-between p-4 border-b border-gray-300 dark:border-slate-700 bg-primary text-white rounded-t-lg">
             <div className="flex items-center gap-2">
               <Bot className="h-5 w-5" />
-              <CardTitle className="text-lg">Evergreen.AI</CardTitle>
+              <DialogTitle className="text-lg text-white">Evergreen.AI</DialogTitle>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsOpen(false)}
-              className="h-8 w-8 text-white hover:bg-white/20"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </CardHeader>
+            <DialogClose asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-white hover:bg-white/20"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </DialogClose>
+          </DialogHeader>
 
-          <CardContent className="flex-1 p-0 flex flex-col">
-            <ScrollArea className="flex-1 p-4 bg-secondary dark:bg-[#1E293B]" ref={scrollAreaRef}>
+          <div className="flex-1 flex flex-col overflow-hidden">
+            <ScrollArea className="flex-1 p-4 bg-gray-50 dark:bg-slate-800" ref={scrollAreaRef}>
               <div className="space-y-4">
                 {messages.map((message) => (
                   <div
@@ -132,36 +131,36 @@ export default function EvergreenAIChatbot() {
                     }`}
                   >
                     {message.sender === 'bot' && (
-                      <div className="flex-shrink-0 h-8 w-8 rounded-full bg-primary dark:bg-primary/80 flex items-center justify-center">
+                      <div className="flex-shrink-0 h-8 w-8 rounded-full bg-primary flex items-center justify-center">
                         <Bot className="h-4 w-4 text-white" />
                       </div>
                     )}
                     <div
                       className={`max-w-[75%] rounded-2xl px-4 py-2 ${
                         message.sender === 'user'
-                          ? 'bg-background dark:bg-[#334155] text-foreground dark:text-foreground'
-                          : 'bg-primary/10 dark:bg-primary/20 text-foreground dark:text-foreground'
+                          ? 'bg-primary text-white'
+                          : 'bg-white dark:bg-slate-700 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-slate-600'
                       }`}
                     >
                       <p className="text-sm">{message.text}</p>
                     </div>
                     {message.sender === 'user' && (
-                      <div className="flex-shrink-0 h-8 w-8 rounded-full bg-accent dark:bg-accent flex items-center justify-center">
-                        <User className="h-4 w-4 text-white dark:text-[#0F172A]" />
+                      <div className="flex-shrink-0 h-8 w-8 rounded-full bg-accent flex items-center justify-center">
+                        <User className="h-4 w-4 text-white dark:text-slate-900" />
                       </div>
                     )}
                   </div>
                 ))}
                 {isTyping && (
                   <div className="flex gap-2 justify-start">
-                    <div className="flex-shrink-0 h-8 w-8 rounded-full bg-primary dark:bg-primary/80 flex items-center justify-center">
+                    <div className="flex-shrink-0 h-8 w-8 rounded-full bg-primary flex items-center justify-center">
                       <Bot className="h-4 w-4 text-white" />
                     </div>
-                    <div className="bg-primary/10 dark:bg-primary/20 rounded-2xl px-4 py-2">
+                    <div className="bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-2xl px-4 py-2">
                       <div className="flex gap-1">
-                        <div className="w-2 h-2 bg-primary dark:bg-primary rounded-full animate-bounce" />
-                        <div className="w-2 h-2 bg-primary dark:bg-primary rounded-full animate-bounce delay-100" />
-                        <div className="w-2 h-2 bg-primary dark:bg-primary rounded-full animate-bounce delay-200" />
+                        <div className="w-2 h-2 bg-primary rounded-full animate-bounce" />
+                        <div className="w-2 h-2 bg-primary rounded-full animate-bounce delay-100" />
+                        <div className="w-2 h-2 bg-primary rounded-full animate-bounce delay-200" />
                       </div>
                     </div>
                   </div>
@@ -169,27 +168,27 @@ export default function EvergreenAIChatbot() {
               </div>
             </ScrollArea>
 
-            <div className="p-4 border-t border-border dark:border-border bg-background dark:bg-card">
+            <div className="p-4 border-t border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900">
               <div className="flex gap-2">
                 <Input
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Type your message..."
-                  className="flex-1 input-glow bg-background dark:bg-[#1E293B] border-border dark:border-border text-foreground dark:text-foreground placeholder:text-muted-foreground dark:placeholder:text-muted-foreground"
+                  className="flex-1 input-glow bg-white dark:bg-slate-800 border-gray-300 dark:border-slate-600 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 />
                 <Button
                   onClick={handleSendMessage}
                   size="icon"
-                  className="bg-primary hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/80 text-white"
+                  className="bg-primary hover:bg-primary/90 text-white"
                 >
                   <Send className="h-4 w-4" />
                 </Button>
               </div>
             </div>
-          </CardContent>
-        </Card>
-      )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

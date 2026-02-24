@@ -5,6 +5,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Package, DollarSign, Clock, CheckCircle, TrendingUp, Calendar, Wallet, Award } from 'lucide-react';
 import type { PaymentProof, Earnings } from '../../backend';
+import CommissionChart from '../../components/CommissionChart';
+import MyReferralLink from '../../components/MyReferralLink';
+import ReferralsSection from '../../components/ReferralsSection';
 
 export default function DashboardOverview() {
   const { actor } = useActor();
@@ -81,6 +84,9 @@ export default function DashboardOverview() {
         <p className="text-muted-foreground mt-1">Welcome back! Here's your account summary</p>
       </div>
 
+      {/* Referral Link Section */}
+      <MyReferralLink />
+
       {/* Earnings Section */}
       <div>
         <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
@@ -88,103 +94,109 @@ export default function DashboardOverview() {
           Your Earnings
         </h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <Card className="border-emerald-500/20 bg-gradient-to-br from-emerald-950/20 to-background">
+          <Card className="bg-white dark:bg-slate-800 border-2 border-yellow-400">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Today</CardTitle>
-              <Calendar className="h-4 w-4 text-emerald-500" />
+              <Calendar className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-emerald-500">₹{Number(earnings?.today || 0)}</div>
+              <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">₹{Number(earnings?.today || 0)}</div>
               <p className="text-xs text-muted-foreground">Today's earnings</p>
             </CardContent>
           </Card>
 
-          <Card className="border-emerald-500/20 bg-gradient-to-br from-emerald-950/20 to-background">
+          <Card className="bg-white dark:bg-slate-800 border-2 border-green-500">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Weekly</CardTitle>
-              <TrendingUp className="h-4 w-4 text-emerald-500" />
+              <TrendingUp className="h-4 w-4 text-green-600 dark:text-green-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-emerald-500">₹{Number(earnings?.weekly || 0)}</div>
+              <div className="text-2xl font-bold text-green-600 dark:text-green-400">₹{Number(earnings?.weekly || 0)}</div>
               <p className="text-xs text-muted-foreground">Last 7 days</p>
             </CardContent>
           </Card>
 
-          <Card className="border-emerald-500/20 bg-gradient-to-br from-emerald-950/20 to-background">
+          <Card className="bg-white dark:bg-slate-800 border-2 border-yellow-400">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Monthly</CardTitle>
-              <Wallet className="h-4 w-4 text-emerald-500" />
+              <Wallet className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-emerald-500">₹{Number(earnings?.monthly || 0)}</div>
+              <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">₹{Number(earnings?.monthly || 0)}</div>
               <p className="text-xs text-muted-foreground">Last 30 days</p>
             </CardContent>
           </Card>
 
-          <Card className="border-emerald-500/20 bg-gradient-to-br from-emerald-950/20 to-background">
+          <Card className="bg-white dark:bg-slate-800 border-2 border-green-500">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Lifetime</CardTitle>
-              <Award className="h-4 w-4 text-emerald-500" />
+              <Award className="h-4 w-4 text-green-600 dark:text-green-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-emerald-500">₹{Number(earnings?.lifetime || 0)}</div>
+              <div className="text-2xl font-bold text-green-600 dark:text-green-400">₹{Number(earnings?.lifetime || 0)}</div>
               <p className="text-xs text-muted-foreground">Total earnings</p>
             </CardContent>
           </Card>
         </div>
       </div>
 
+      {/* Commission Chart */}
+      <CommissionChart />
+
+      {/* Referrals Section */}
+      <ReferralsSection />
+
       {/* Account Summary Section */}
       <div>
         <h2 className="text-xl font-semibold mb-4">Account Summary</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <Card>
+          <Card className="bg-white dark:bg-slate-800 border-2 border-yellow-400">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Packages</CardTitle>
-              <Package className="h-4 w-4 text-muted-foreground" />
+              <Package className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{approvedProofs.length}</div>
+              <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{approvedProofs.length}</div>
               <p className="text-xs text-muted-foreground">Active packages</p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-white dark:bg-slate-800 border-2 border-green-500">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Spent</CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
+              <DollarSign className="h-4 w-4 text-green-600 dark:text-green-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">₹{totalSpent}</div>
+              <div className="text-2xl font-bold text-green-600 dark:text-green-400">₹{totalSpent}</div>
               <p className="text-xs text-muted-foreground">On approved packages</p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-white dark:bg-slate-800 border-2 border-yellow-400">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Pending Payments</CardTitle>
-              <Clock className="h-4 w-4 text-muted-foreground" />
+              <Clock className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{pendingProofs.length}</div>
+              <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{pendingProofs.length}</div>
               <p className="text-xs text-muted-foreground">Awaiting verification</p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-white dark:bg-slate-800 border-2 border-green-500">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Approved</CardTitle>
-              <CheckCircle className="h-4 w-4 text-muted-foreground" />
+              <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{approvedProofs.length}</div>
+              <div className="text-2xl font-bold text-green-600 dark:text-green-400">{approvedProofs.length}</div>
               <p className="text-xs text-muted-foreground">Verified payments</p>
             </CardContent>
           </Card>
         </div>
       </div>
 
-      <Card>
+      <Card className="bg-white dark:bg-slate-800">
         <CardHeader>
           <CardTitle>Recent Payment History</CardTitle>
           <CardDescription>Your latest payment submissions</CardDescription>
@@ -199,7 +211,7 @@ export default function DashboardOverview() {
               {paymentProofs.slice(0, 5).map((proof) => (
                 <div
                   key={proof.id.toString()}
-                  className="flex items-center justify-between p-4 border rounded-lg"
+                  className="flex items-center justify-between p-4 border rounded-lg bg-white dark:bg-slate-800"
                 >
                   <div className="flex-1">
                     <p className="font-semibold">{getPackageName(proof.packageId)}</p>

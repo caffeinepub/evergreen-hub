@@ -1,34 +1,152 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-24T02:45:17.318Z",
+  "generatedAt": "2026-02-24T06:20:14.437Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 1,
-    "implemented": 1,
+    "total": 11,
+    "implemented": 8,
     "items": [
       {
-        "id": "REQ-170",
-        "summary": "Remove the 'Buy Course' button from the HeroSection component (frontend/src/components/HeroSection.tsx), keeping only the 'Explore Courses' button visible. The button removal should not affect the existing hero section background image, layout, headline, or subheadline. Maintain the current styling and positioning of the remaining 'Explore Courses' button.",
+        "id": "REQ-245",
+        "summary": "Add profile photo upload and change functionality to the user dashboard Profile Settings page (frontend/src/pages/user/ProfileSettings.tsx). Include a file input for selecting an image, image preview before upload, upload button, and display the current profile photo if one exists. Apply proper styling consistent with the dashboard design using yellow and green accents.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/HeroSection.tsx"
+          "frontend/src/pages/user/ProfileSettings.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/HeroSection.tsx"
+          "frontend/src/pages/user/ProfileSettings.tsx"
+        ]
+      },
+      {
+        "id": "REQ-246",
+        "summary": "Implement backend support for profile photo storage in backend/main.mo. Extend the UserProfile data structure to include a profilePhotoUrl field of type ?Text. Create a backend function uploadProfilePhoto that accepts image blob data and the authenticated user's Principal, stores the image, and updates the user's profilePhotoUrl. Leverage existing blob storage capabilities.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-247",
+        "summary": "Create a React Query mutation hook in frontend/src/hooks/useQueries.ts for uploading profile photos. The mutation should call the backend uploadProfilePhoto function with the selected image file and invalidate the user profile query after successful upload to refresh the displayed photo.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useQueries.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useQueries.ts"
+        ]
+      },
+      {
+        "id": "REQ-248",
+        "summary": "Display the user's profile photo in the MobileSidebar component (frontend/src/components/MobileSidebar.tsx) next to the user's name in the profile section. If no photo exists, show a default avatar icon or placeholder image. Ensure the photo is circular with appropriate sizing.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/MobileSidebar.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/MobileSidebar.tsx"
+        ]
+      },
+      {
+        "id": "REQ-249",
+        "summary": "Display the user's profile photo in the UserDashboardLayout sidebar (frontend/src/layouts/UserDashboardLayout.tsx) in the user profile section. Show the circular profile photo next to the user's name with consistent styling matching the MobileSidebar implementation.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/layouts/UserDashboardLayout.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/layouts/UserDashboardLayout.tsx"
+        ]
+      },
+      {
+        "id": "REQ-250",
+        "summary": "Assign Platinum package details to the user with email rudrapratapsingh789.063@gmail.com in the backend. Create an admin function or initialization script that finds the user by email and grants them access to the Platinum package (₹9999, 24 courses + E-lite, silver, gold, diamond free) without requiring payment. Update the user's purchased packages list and set payment status to approved.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-251",
+        "summary": "Add a dedicated Landing Pages tab or section in the user dashboard navigation (frontend/src/layouts/UserDashboardLayout.tsx) separate from the Landing Page Builder. This section should list all landing pages created by the user in a clean table or card layout showing title, creation date, visit count, and action buttons (View/Preview, Edit, Delete).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/layouts/UserDashboardLayout.tsx",
+          "frontend/src/pages/user/MyLandingPages.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/layouts/UserDashboardLayout.tsx",
+          "frontend/src/pages/user/MyLandingPages.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-252",
+        "summary": "Create a landing page preview functionality that opens the user's created landing page in a new browser tab or modal overlay. Add a 'Preview' button next to each landing page in the My Landing Pages section. When clicked, render the landing page with its saved content, template, and styling in a full-page view.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/user/MyLandingPages.tsx",
+          "frontend/src/pages/LandingPagePreview.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/user/MyLandingPages.tsx",
+          "frontend/src/pages/LandingPagePreview.tsx"
+        ]
+      },
+      {
+        "id": "REQ-253",
+        "summary": "Create a backend function getLandingPageById(pageId: Nat) in backend/main.mo that retrieves a specific landing page by its ID without requiring authentication. This enables public access to landing pages for preview and sharing purposes. Return the landing page data including title, content, template, and visitCount.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-254",
+        "summary": "Create a React Query hook useGetLandingPageById in frontend/src/hooks/useQueries.ts that fetches a specific landing page by ID using the backend getLandingPageById function. This hook should be used in the preview component to display the landing page content.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useQueries.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useQueries.ts"
+        ]
+      },
+      {
+        "id": "REQ-255",
+        "summary": "Implement a shareable landing page route at /landing/:pageId in the main App.tsx routing configuration. This route should be publicly accessible (no authentication required) and render the landing page content using the pageId parameter. Include proper SEO meta tags and responsive layout.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/App.tsx",
+          "frontend/src/pages/LandingPagePreview.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/App.tsx",
+          "frontend/src/pages/LandingPagePreview.tsx"
         ]
       }
     ]
   },
   "changedFiles": [
+    "backend/main.mo",
+    "backend/migration.mo",
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/components/HeroSection.tsx",
+    "frontend/src/App.tsx",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
+    "frontend/src/components/MobileSidebar.tsx",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/layouts/UserDashboardLayout.tsx",
+    "frontend/src/pages/LandingPagePreview.tsx",
+    "frontend/src/pages/user/MyLandingPages.tsx",
+    "frontend/src/pages/user/ProfileSettings.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

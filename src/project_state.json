@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 43,
+  "projectStateVersion": 69,
   "summary": "Evergreen Hub - A modern, premium, high-conversion affiliate marketing educational platform with blue (#2563EB) primary color, orange (#F59E0B) CTA color, redesigned with clean UI, smooth scroll animations, scroll reveal effects, card-based course section, improved hero section with gradient background, sticky navbar, chat-style AI chatbot, testimonials, trust badges, floating gradient background blobs, conversion-optimized design, and professional dark mode system with CSS variables and localStorage persistence",
   "architectural_notes": [
     "Mobile-first responsive design approach",
@@ -1232,6 +1232,574 @@
         "REQ-170"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-create-a-privacypolicy-page-component-at-frontend-src-pages-privacypolicy-tsx-with-original-legally-structured-content-including-sections-introduction-information-we-collect-personal-information-name-email-phone-if-provided-payment-information-processed-by-secure-third-party-payment-providers-usage-data-analytics-how-we-use-information-cookies-policy-third-party-services-data-security-data-retention-user-rights-children-s-privacy-policy-updates-and-contact-via-website-form-include-the-statement-we-do-not-sell-rent-or-trade-personal-information-to-third-parties-use-general-gdpr-style-privacy-wording-non-region-specific-do-not-include-any-email-address-use-contact-us-via-the-official-website-contact-form-wherever-contact-is-needed-add-automatic-last-updated-date-display-format-with-clean-h1-h2-h3-headings-and-mobile-responsive-layout-using-tailwind-css-consistent-with-existing-site-design",
+      "title": "Create a PrivacyPolicy page component at frontend/src/pages/PrivacyPolicy.tsx with original legally structured content including sections: Introduction, Information We Collect (Personal Information: Name/Email/Phone if provided, Payment Information processed by secure third-party payment providers, Usage Data & Analytics), How We Use Information, Cookies Policy, Third-Party Services, Data Security, Data Retention, User Rights, Children's Privacy, Policy Updates, and Contact via website form. Include the statement 'We do not sell, rent, or trade personal information to third parties.' Use general GDPR-style privacy wording (non region-specific). Do NOT include any email address; use 'Contact us via the official website contact form' wherever contact is needed. Add automatic 'Last Updated' date display. Format with clean H1, H2, H3 headings and mobile responsive layout using Tailwind CSS consistent with existing site design.",
+      "reqIds": [
+        "REQ-171"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-termsofservice-page-component-at-frontend-src-pages-termsofservice-tsx-with-original-legally-structured-content-including-sections-acceptance-of-terms-eligibility-to-use-website-user-account-responsibility-course-access-lifetime-access-unless-stated-otherwise-intellectual-property-rights-payment-terms-no-income-guarantee-disclaimer-important-for-affiliate-marketing-course-prohibited-activities-limitation-of-liability-termination-account-suspension-governing-law-general-wording-and-contact-via-website-support-form-include-the-clause-results-vary-based-on-individual-effort-experience-and-market-conditions-do-not-include-any-email-address-use-contact-us-via-the-official-website-contact-form-for-all-contact-references-add-automatic-last-updated-date-display-format-with-clean-h1-h2-h3-headings-and-mobile-responsive-layout-using-tailwind-css-consistent-with-existing-site-design",
+      "title": "Create a TermsOfService page component at frontend/src/pages/TermsOfService.tsx with original legally structured content including sections: Acceptance of Terms, Eligibility to Use Website, User Account Responsibility, Course Access (lifetime access unless stated otherwise), Intellectual Property Rights, Payment Terms, No Income Guarantee Disclaimer (Important for affiliate marketing course), Prohibited Activities, Limitation of Liability, Termination/Account Suspension, Governing Law (general wording), and Contact via website support form. Include the clause: 'Results vary based on individual effort, experience, and market conditions.' Do NOT include any email address; use 'Contact us via the official website contact form' for all contact references. Add automatic 'Last Updated' date display. Format with clean H1, H2, H3 headings and mobile responsive layout using Tailwind CSS consistent with existing site design.",
+      "reqIds": [
+        "REQ-172"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-refundpolicy-page-component-at-frontend-src-pages-refundpolicy-tsx-with-firm-and-protective-legally-structured-content-including-sections-nature-of-digital-products-all-sales-are-final-no-refund-after-purchase-specific-no-refund-scenarios-change-of-mind-lack-of-time-financial-issues-failure-to-understand-content-personal-reasons-responsibility-to-review-course-details-before-purchase-chargeback-policy-unauthorized-disputes-may-lead-to-account-suspension-revocation-of-course-access-further-action-if-necessary-and-limited-exception-stating-refunds-may-only-be-considered-in-verified-duplicate-payment-or-technical-access-failure-cases-use-contact-only-via-official-website-contact-form-for-all-contact-references-do-not-include-any-email-address-add-automatic-last-updated-date-display-format-with-clean-h1-h2-h3-headings-and-mobile-responsive-layout-using-tailwind-css-make-the-tone-professional-legally-structured-and-protective-for-a-digital-education-business-selling-non-refundable-online-courses",
+      "title": "Create a RefundPolicy page component at frontend/src/pages/RefundPolicy.tsx with firm and protective legally structured content including sections: Nature of Digital Products, All Sales Are Final, No Refund After Purchase, specific No Refund scenarios (Change of mind, Lack of time, Financial issues, Failure to understand content, Personal reasons), Responsibility to review course details before purchase, Chargeback Policy (Unauthorized disputes may lead to account suspension, Revocation of course access, Further action if necessary), and limited exception stating 'Refunds may only be considered in verified duplicate payment or technical access failure cases.' Use 'Contact only via official website contact form' for all contact references. Do NOT include any email address. Add automatic 'Last Updated' date display. Format with clean H1, H2, H3 headings and mobile responsive layout using Tailwind CSS. Make the tone professional, legally structured, and protective for a digital education business selling non-refundable online courses.",
+      "reqIds": [
+        "REQ-173"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-three-new-routes-to-the-main-app-tsx-routing-configuration-privacy-policy-rendering-the-privacypolicy-page-component-terms-of-service-rendering-the-termsofservice-page-component-and-refund-policy-rendering-the-refundpolicy-page-component-ensure-all-three-routes-are-accessible-to-all-users-no-authentication-required-and-follow-the-existing-routing-patterns-in-the-application",
+      "title": "Add three new routes to the main App.tsx routing configuration: /privacy-policy rendering the PrivacyPolicy page component, /terms-of-service rendering the TermsOfService page component, and /refund-policy rendering the RefundPolicy page component. Ensure all three routes are accessible to all users (no authentication required) and follow the existing routing patterns in the application.",
+      "reqIds": [
+        "REQ-174"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-footer-component-frontend-src-components-footer-tsx-legal-links-section-to-add-clickable-links-to-all-three-new-legal-pages-privacy-policy-linking-to-privacy-policy-terms-of-service-linking-to-terms-of-service-and-refund-policy-linking-to-refund-policy-update-the-existing-disclaimer-and-terms-conditions-links-if-they-are-placeholders-to-point-to-the-appropriate-routes-or-maintain-them-as-placeholders-if-they-represent-different-pages",
+      "title": "Update the Footer component (frontend/src/components/Footer.tsx) Legal Links section to add clickable links to all three new legal pages: Privacy Policy linking to /privacy-policy, Terms of Service linking to /terms-of-service, and Refund Policy linking to /refund-policy. Update the existing Disclaimer and Terms & Conditions links if they are placeholders to point to the appropriate routes or maintain them as placeholders if they represent different pages.",
+      "reqIds": [
+        "REQ-175"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-integrate-all-three-legal-pages-privacypolicy-termsofservice-refundpolicy-with-the-existing-themecontext-so-all-colors-backgrounds-text-and-styling-adapt-correctly-to-the-user-s-selected-theme-light-dark-system-ensure-visual-consistency-with-the-rest-of-the-application-s-blue-and-orange-color-system-apply-scroll-triggered-fade-in-animations-to-page-sections-using-the-existing-usescrollanimation-hook-with-the-same-cubic-bezier-easing-function-used-in-other-landing-pages-for-consistent-premium-transitions",
+      "title": "Integrate all three legal pages (PrivacyPolicy, TermsOfService, RefundPolicy) with the existing ThemeContext so all colors, backgrounds, text, and styling adapt correctly to the user's selected theme (light/dark/system). Ensure visual consistency with the rest of the application's blue and orange color system. Apply scroll-triggered fade-in animations to page sections using the existing useScrollAnimation hook with the same cubic-bezier easing function used in other landing pages for consistent premium transitions.",
+      "reqIds": [
+        "REQ-176"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-seo-meta-tags-to-all-three-legal-pages-including-descriptive-page-titles-and-meta-descriptions-privacy-policy-page-title-privacy-policy-evergreen-hub-data-protection-user-rights-terms-of-service-page-title-terms-of-service-evergreen-hub-user-agreement-refund-policy-page-title-refund-policy-evergreen-hub-no-refund-terms-include-appropriate-meta-descriptions-for-each-page-highlighting-the-digital-education-platform-nature-and-key-policy-points-include-relevant-keywords-for-search-engine-optimization",
+      "title": "Add SEO meta tags to all three legal pages including descriptive page titles and meta descriptions. Privacy Policy page title: 'Privacy Policy - Evergreen Hub | Data Protection & User Rights', Terms of Service page title: 'Terms of Service - Evergreen Hub | User Agreement', Refund Policy page title: 'Refund Policy - Evergreen Hub | No Refund Terms'. Include appropriate meta descriptions for each page highlighting the digital education platform nature and key policy points. Include relevant keywords for search engine optimization.",
+      "reqIds": [
+        "REQ-177"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-evergreenaichatbot-component-to-open-in-a-full-page-modal-or-dedicated-overlay-with-solid-opaque-background-instead-of-transparent-interface-when-the-floating-ai-button-is-clicked-the-chat-interface-should-display-on-a-new-layer-with-proper-background-color-that-adapts-to-the-current-theme-white-ffffff-in-light-mode-dark-navy-1e293b-in-dark-mode-ensuring-all-content-is-clearly-visible",
+      "title": "Update EvergreenAIChatbot component to open in a full-page modal or dedicated overlay with solid, opaque background instead of transparent interface. When the floating AI button is clicked, the chat interface should display on a new layer with proper background color that adapts to the current theme (white #FFFFFF in light mode, dark navy #1E293B in dark mode) ensuring all content is clearly visible.",
+      "reqIds": [
+        "REQ-178"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-perform-comprehensive-dark-mode-optimization-across-all-website-components-sections-and-pages-verify-that-every-component-properly-adapts-to-dark-mode-with-appropriate-background-colors-text-colors-borders-shadows-and-contrast-ratios-ensure-visual-consistency-throughout-the-application-when-dark-mode-is-active",
+      "title": "Perform comprehensive dark mode optimization across all website components, sections, and pages. Verify that every component properly adapts to dark mode with appropriate background colors, text colors, borders, shadows, and contrast ratios. Ensure visual consistency throughout the application when dark mode is active.",
+      "reqIds": [
+        "REQ-179"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-evergreenaichatbot-modal-overlay-styling-to-include-proper-z-index-layering-backdrop-overlay-semi-transparent-dark-overlay-behind-the-modal-close-button-or-click-outside-to-close-functionality-and-smooth-open-close-animations-ensure-the-modal-doesn-t-interfere-with-other-floating-elements-like-whatsapp-button-or-scroll-to-top-button",
+      "title": "Update EvergreenAIChatbot modal/overlay styling to include proper z-index layering, backdrop overlay (semi-transparent dark overlay behind the modal), close button or click-outside-to-close functionality, and smooth open/close animations. Ensure the modal doesn't interfere with other floating elements like WhatsApp button or scroll-to-top button.",
+      "reqIds": [
+        "REQ-180"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-review-and-fix-any-remaining-components-using-hardcoded-colors-or-transparent-backgrounds-that-don-t-properly-adapt-to-theme-changes-replace-all-instances-with-appropriate-css-variables-from-the-existing-theme-system-background-foreground-card-primary-secondary-muted-accent-border",
+      "title": "Review and fix any remaining components using hardcoded colors or transparent backgrounds that don't properly adapt to theme changes. Replace all instances with appropriate CSS variables from the existing theme system (--background, --foreground, --card, --primary, --secondary, --muted, --accent, --border).",
+      "reqIds": [
+        "REQ-181"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-new-facebooksection-component-at-frontend-src-components-facebooksection-tsx-with-title-follow-us-on-facebook-displaying-facebook-page-name-username-clickable-facebook-icon-button-with-gradient-color-styling-similar-to-instagram-section-and-caption-stay-connected-for-updates-tips-and-community-support-when-clicked-open-the-facebook-page-url-in-a-new-tab-center-align-the-entire-section-with-consistent-styling-matching-the-instagramsection-component",
+      "title": "Create a new FacebookSection component at frontend/src/components/FacebookSection.tsx with title 'Follow Us on Facebook', displaying Facebook page name/username, clickable Facebook icon/button with gradient color styling similar to Instagram section, and caption 'Stay connected for updates, tips, and community support'. When clicked, open the Facebook page URL in a new tab. Center align the entire section with consistent styling matching the InstagramSection component.",
+      "reqIds": [
+        "REQ-182"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-the-facebooksection-component-to-the-main-landing-page-frontend-src-app-tsx-immediately-after-the-instagramsection-component-in-the-page-flow-ensure-proper-spacing-and-integration-with-existing-sections",
+      "title": "Add the FacebookSection component to the main landing page (frontend/src/App.tsx) immediately after the InstagramSection component in the page flow. Ensure proper spacing and integration with existing sections.",
+      "reqIds": [
+        "REQ-183"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-scroll-triggered-fade-in-animation-with-upward-motion-to-the-facebooksection-component-using-the-existing-usescrollanimation-hook-and-intersection-observer-pattern-use-the-same-cubic-bezier-0-4-0-0-0-2-1-easing-function-for-consistent-premium-transitions-matching-other-landing-page-sections",
+      "title": "Apply scroll-triggered fade-in animation with upward motion to the FacebookSection component using the existing useScrollAnimation hook and Intersection Observer pattern. Use the same cubic-bezier(0.4, 0.0, 0.2, 1) easing function for consistent premium transitions matching other landing page sections.",
+      "reqIds": [
+        "REQ-184"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-integrate-the-facebooksection-component-with-the-existing-themecontext-so-all-colors-backgrounds-text-icons-and-button-styling-adapt-correctly-to-the-user-s-selected-theme-light-dark-system-ensure-visual-consistency-with-the-blue-and-orange-color-system-in-both-light-and-dark-modes",
+      "title": "Integrate the FacebookSection component with the existing ThemeContext so all colors, backgrounds, text, icons, and button styling adapt correctly to the user's selected theme (light/dark/system). Ensure visual consistency with the blue and orange color system in both light and dark modes.",
+      "reqIds": [
+        "REQ-185"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-debug-and-fix-the-landing-page-builder-functionality-in-the-user-dashboard-frontend-src-pages-user-landingpagebuilder-tsx-identify-why-the-feature-is-not-working-properly-check-for-errors-in-template-selection-form-submission-data-persistence-or-rendering-issues-ensure-users-can-successfully-create-view-edit-and-delete-landing-pages-using-the-interface",
+      "title": "Debug and fix the landing page builder functionality in the user dashboard (frontend/src/pages/user/LandingPageBuilder.tsx). Identify why the feature is not working properly - check for errors in template selection, form submission, data persistence, or rendering issues. Ensure users can successfully create, view, edit, and delete landing pages using the interface.",
+      "reqIds": [
+        "REQ-186"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-any-react-query-hooks-or-mutations-related-to-landing-page-operations-in-frontend-src-hooks-usequeries-ts-ensure-proper-query-invalidation-after-mutations-correct-error-handling-and-appropriate-loading-states-for-the-landing-page-builder-interface",
+      "title": "Fix any React Query hooks or mutations related to landing page operations in frontend/src/hooks/useQueries.ts. Ensure proper query invalidation after mutations, correct error handling, and appropriate loading states for the landing page builder interface.",
+      "reqIds": [
+        "REQ-188"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-review-and-identify-all-components-throughout-the-application-that-are-using-transparent-backgrounds-transparent-rgba-0-0-0-0-or-similar-create-a-comprehensive-list-of-affected-components-including-paymentmodal-evergreenaichatbot-floatingwhatsappbutton-mobilesidebar-and-any-other-components-with-visibility-issues",
+      "title": "Review and identify all components throughout the application that are using transparent backgrounds (transparent, rgba(0,0,0,0), or similar). Create a comprehensive list of affected components including PaymentModal, EvergreenAIChatbot, FloatingWhatsAppButton, MobileSidebar, and any other components with visibility issues.",
+      "reqIds": [
+        "REQ-189"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-all-identified-components-with-transparent-backgrounds-to-use-solid-white-background-ffffff-in-light-mode-ensure-the-white-background-is-applied-to-modal-overlays-chat-interfaces-sidebar-menus-and-floating-buttons",
+      "title": "Update all identified components with transparent backgrounds to use solid white background (#FFFFFF) in light mode. Ensure the white background is applied to modal overlays, chat interfaces, sidebar menus, and floating buttons.",
+      "reqIds": [
+        "REQ-190"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-all-text-content-in-components-with-newly-white-backgrounds-to-use-black-color-000000-or-1f2937-to-ensure-proper-contrast-and-readability-apply-black-text-to-headings-body-text-labels-and-interactive-elements",
+      "title": "Update all text content in components with newly white backgrounds to use black color (#000000 or #1F2937) to ensure proper contrast and readability. Apply black text to headings, body text, labels, and interactive elements.",
+      "reqIds": [
+        "REQ-191"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-css-variables-and-theme-system-to-ensure-components-with-white-backgrounds-in-light-mode-use-appropriate-dark-backgrounds-in-dark-mode-such-as-1e293b-or-0f172a-with-proper-text-color-contrast-light-text-on-dark-background",
+      "title": "Update CSS variables and theme system to ensure components with white backgrounds in light mode use appropriate dark backgrounds in dark mode (such as #1E293B or #0F172A) with proper text color contrast (light text on dark background).",
+      "reqIds": [
+        "REQ-192"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-evergreenaichatbot-component-to-use-solid-white-background-for-the-entire-chat-interface-chat-container-message-area-input-field-in-light-mode-with-black-text-1f2937-for-all-chat-messages-and-labels-ensure-the-modal-overlay-also-has-proper-background",
+      "title": "Update EvergreenAIChatbot component to use solid white background for the entire chat interface (chat container, message area, input field) in light mode, with black text (#1F2937) for all chat messages and labels. Ensure the modal/overlay also has proper background.",
+      "reqIds": [
+        "REQ-193"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-paymentmodal-component-to-use-solid-white-background-ffffff-for-the-modal-content-area-in-light-mode-with-black-text-1f2937-for-all-form-labels-payment-instructions-and-bank-details-add-a-semi-transparent-dark-backdrop-overlay-behind-the-modal-for-visual-separation",
+      "title": "Update PaymentModal component to use solid white background (#FFFFFF) for the modal content area in light mode, with black text (#1F2937) for all form labels, payment instructions, and bank details. Add a semi-transparent dark backdrop overlay behind the modal for visual separation.",
+      "reqIds": [
+        "REQ-194"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-mobilesidebar-component-to-use-solid-white-background-ffffff-in-light-mode-with-black-text-1f2937-for-all-navigation-items-removing-any-glassmorphism-effects-or-transparent-backgrounds-that-cause-visibility-issues",
+      "title": "Update MobileSidebar component to use solid white background (#FFFFFF) in light mode with black text (#1F2937) for all navigation items, removing any glassmorphism effects or transparent backgrounds that cause visibility issues.",
+      "reqIds": [
+        "REQ-195"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-floatingwhatsappbutton-component-to-use-solid-white-background-ffffff-in-light-mode-with-visible-icon-and-label-ensure-the-button-has-proper-border-or-shadow-for-visibility-against-page-backgrounds",
+      "title": "Update FloatingWhatsAppButton component to use solid white background (#FFFFFF) in light mode with visible icon and label. Ensure the button has proper border or shadow for visibility against page backgrounds.",
+      "reqIds": [
+        "REQ-196"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-review-and-fix-any-coursepackagesmodal-appearancesettingsmodal-or-other-modal-components-that-may-have-transparent-backgrounds-replace-with-solid-white-backgrounds-and-ensure-all-content-is-visible-with-proper-text-contrast",
+      "title": "Review and fix any CoursePackagesModal, AppearanceSettingsModal, or other modal components that may have transparent backgrounds. Replace with solid white backgrounds and ensure all content is visible with proper text contrast.",
+      "reqIds": [
+        "REQ-197"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-all-unnecessary-descriptive-content-from-the-pricingsection-component-frontend-src-components-pricingsection-tsx-keep-only-essential-package-information-package-name-price-and-buy-now-button",
+      "title": "Remove all unnecessary descriptive content from the PricingSection component (frontend/src/components/PricingSection.tsx). Keep only essential package information: package name, price, and Buy Now button.",
+      "reqIds": [
+        "REQ-199"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-restructure-the-pricingsection-component-with-hierarchical-organization-create-a-main-section-titled-all-packages-as-the-parent-category-then-display-the-six-sub-packages-underneath-as-individual-cards-e-lite-package-silver-package-gold-package-diamond-package-platinum-package-and-ultra-pro-package",
+      "title": "Restructure the PricingSection component with hierarchical organization: create a main section titled 'All Packages' as the parent category, then display the six sub-packages underneath as individual cards: E-LITE Package, SILVER Package, GOLD Package, DIAMOND Package, PLATINUM Package, and ULTRA PRO Package.",
+      "reqIds": [
+        "REQ-200"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-second-main-course-section-within-the-courses-area-titled-video-editing-charge-when-users-click-on-this-section-redirect-them-to-the-videoeditingsection-component-or-scroll-to-the-video-editing-service-area-on-the-page",
+      "title": "Add a second main course section within the courses area titled 'Video Editing Charge'. When users click on this section, redirect them to the VideoEditingSection component or scroll to the video editing service area on the page.",
+      "reqIds": [
+        "REQ-201"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-dashboardoverview-component-frontend-src-pages-user-dashboardoverview-tsx-to-replace-any-transparent-backgrounds-with-solid-white-background-ffffff-ensure-all-earnings-cards-package-statistics-and-payment-proof-history-sections-have-proper-white-backgrounds-in-light-mode",
+      "title": "Update the DashboardOverview component (frontend/src/pages/user/DashboardOverview.tsx) to replace any transparent backgrounds with solid white background (#FFFFFF). Ensure all earnings cards, package statistics, and payment proof history sections have proper white backgrounds in light mode.",
+      "reqIds": [
+        "REQ-202"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-style-all-text-elements-in-the-dashboardoverview-component-as-box-type-cards-with-yellow-and-green-color-accents-apply-yellow-f59e0b-or-fbbf24-and-green-10b981-or-22c55e-colors-to-card-borders-headings-or-accent-elements-to-create-visual-distinction",
+      "title": "Style all text elements in the DashboardOverview component as box-type cards with yellow and green color accents. Apply yellow (#F59E0B or #FBBF24) and green (#10B981 or #22C55E) colors to card borders, headings, or accent elements to create visual distinction.",
+      "reqIds": [
+        "REQ-203"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-all-unnecessary-descriptive-content-from-the-selected-dom-elements-in-the-mobilesidebar-s-our-courses-dropdown-section-xpath-elements-1-5-keep-the-structure-minimal-and-clean",
+      "title": "Remove all unnecessary descriptive content from the selected DOM elements in the MobileSidebar's 'Our Courses' dropdown section (XPath elements 1-5). Keep the structure minimal and clean.",
+      "reqIds": [
+        "REQ-204"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-restructure-the-mobilesidebar-component-s-courses-section-to-display-a-hierarchical-organization-create-1-all-packages-as-the-main-parent-item-then-list-the-six-sub-packages-underneath-e-lite-package-silver-package-gold-package-diamond-package-platinum-package-ultra-pro-package",
+      "title": "Restructure the MobileSidebar component's courses section to display a hierarchical organization: create '1. All Packages' as the main parent item, then list the six sub-packages underneath: E-LITE Package, SILVER Package, GOLD Package, DIAMOND Package, PLATINUM Package, ULTRA PRO Package",
+      "reqIds": [
+        "REQ-205"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-second-main-course-item-in-the-mobilesidebar-courses-section-titled-2-video-editing-charge-that-redirects-users-to-the-videoeditingsection-component-when-clicked",
+      "title": "Add a second main course item in the MobileSidebar courses section titled '2. Video Editing Charge' that redirects users to the VideoEditingSection component when clicked",
+      "reqIds": [
+        "REQ-206"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-mobilesidebar-courses-dropdown-section-to-make-the-all-packages-main-item-clickable-when-clicked-it-should-smoothly-scroll-to-the-courses-section-element-on-the-homepage-using-scrollintoview-with-behavior-smooth-if-the-user-is-not-on-the-homepage-navigate-to-first-and-then-scroll-to-the-courses-section",
+      "title": "Update the MobileSidebar courses dropdown section to make the 'All Packages' main item clickable. When clicked, it should smoothly scroll to the #courses-section element on the homepage using scrollIntoView with behavior: 'smooth'. If the user is not on the homepage, navigate to '/' first and then scroll to the courses section.",
+      "reqIds": [
+        "REQ-207"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-userdashboardlayout-sidebar-frontend-src-layouts-userdashboardlayout-tsx-to-replace-transparent-backgrounds-with-solid-black-background-000000-apply-this-to-the-entire-sidebar-navigation-container",
+      "title": "Update the UserDashboardLayout sidebar (frontend/src/layouts/UserDashboardLayout.tsx) to replace transparent backgrounds with solid black background (#000000). Apply this to the entire sidebar navigation container.",
+      "reqIds": [
+        "REQ-209"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-all-navigation-links-and-buttons-in-the-userdashboardlayout-sidebar-to-use-green-10b981-or-22c55e-and-yellow-f59e0b-or-fbbf24-text-colors-apply-green-for-primary-navigation-items-and-yellow-for-accent-elements-or-active-states",
+      "title": "Update all navigation links and buttons in the UserDashboardLayout sidebar to use green (#10B981 or #22C55E) and yellow (#F59E0B or #FBBF24) text colors. Apply green for primary navigation items and yellow for accent elements or active states.",
+      "reqIds": [
+        "REQ-210"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-userdashboardlayout-sidebar-maintains-responsive-behavior-and-mobile-sheet-menu-functionality-with-the-new-black-background-and-green-yellow-text-styling-test-that-the-mobile-drawer-opens-closes-smoothly-and-text-remains-visible",
+      "title": "Ensure the UserDashboardLayout sidebar maintains responsive behavior and mobile sheet menu functionality with the new black background and green/yellow text styling. Test that the mobile drawer opens/closes smoothly and text remains visible.",
+      "reqIds": [
+        "REQ-211"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-user-profile-section-to-the-mobilesidebar-component-frontend-src-components-mobilesidebar-tsx-that-displays-the-authenticated-user-s-name-when-logged-in-the-profile-section-should-appear-at-the-top-of-the-sidebar-before-the-navigation-menu-items",
+      "title": "Add a user profile section to the MobileSidebar component (frontend/src/components/MobileSidebar.tsx) that displays the authenticated user's name when logged in. The profile section should appear at the top of the sidebar, before the navigation menu items.",
+      "reqIds": [
+        "REQ-212"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-online-offline-status-indicator-next-to-the-user-s-name-in-the-mobilesidebar-profile-section-display-online-with-a-green-indicator-dot-when-the-user-is-authenticated-and-active-the-status-should-be-visible-inline-with-the-user-s-name",
+      "title": "Add an online/offline status indicator next to the user's name in the MobileSidebar profile section. Display 'Online' with a green indicator dot when the user is authenticated and active. The status should be visible inline with the user's name.",
+      "reqIds": [
+        "REQ-213"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-mobilesidebar-to-conditionally-show-login-button-when-user-is-not-authenticated-or-logout-button-when-user-is-authenticated-integrate-with-existing-authcontext-to-check-authentication-state-the-logout-button-should-call-the-logout-function-and-redirect-to-the-homepage",
+      "title": "Update the MobileSidebar to conditionally show 'Login' button when user is not authenticated, or 'Logout' button when user is authenticated. Integrate with existing AuthContext to check authentication state. The Logout button should call the logout function and redirect to the homepage.",
+      "reqIds": [
+        "REQ-214"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-change-password-page-frontend-src-pages-user-changepassword-tsx-to-implement-a-working-password-change-form-with-three-input-fields-current-password-new-password-and-confirm-new-password-add-form-validation-to-ensure-new-password-and-confirm-password-match-and-display-inline-validation-errors",
+      "title": "Update the Change Password page (frontend/src/pages/user/ChangePassword.tsx) to implement a working password change form with three input fields: Current Password, New Password, and Confirm New Password. Add form validation to ensure new password and confirm password match, and display inline validation errors.",
+      "reqIds": [
+        "REQ-215"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-connect-the-change-password-form-to-the-backend-using-react-query-mutation-on-form-submission-call-the-backend-password-change-function-with-current-password-new-password-and-authenticated-user-s-principal-display-success-toast-notification-on-successful-change-or-error-toast-with-specific-message-on-failure",
+      "title": "Connect the Change Password form to the backend using React Query mutation. On form submission, call the backend password change function with current password, new password, and authenticated user's Principal. Display success toast notification on successful change, or error toast with specific message on failure.",
+      "reqIds": [
+        "REQ-217"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-restore-complete-package-details-in-pricingsection-component-for-e-lite-package-ms-excel-time-management-total-2-courses",
+      "title": "Restore complete package details in PricingSection component for E-LITE PACKAGE: Ms Excel, Time Management, Total 2 courses",
+      "reqIds": [
+        "REQ-218"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-restore-complete-package-details-in-pricingsection-component-for-silver-package-canva-mastery-kinemaster-editing-photoshop-editing-premium-pro-6-courses-e-lite-free",
+      "title": "Restore complete package details in PricingSection component for SILVER PACKAGE: Canva mastery, Kinemaster editing, Photoshop editing, Premium Pro, 6 courses + E-lite free",
+      "reqIds": [
+        "REQ-219"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-restore-complete-package-details-in-pricingsection-component-for-gold-package-youtube-growth-instagram-growth-video-marketing-attractions-marketing-goal-setting-11-courses-e-lite-silver-free",
+      "title": "Restore complete package details in PricingSection component for GOLD PACKAGE: YouTube growth, Instagram growth, Video Marketing, Attractions Marketing, Goal setting, 11 courses + E-lite & silver free",
+      "reqIds": [
+        "REQ-220"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-restore-complete-package-details-in-pricingsection-component-for-diamond-package-finance-mastery-reselling-mastery-communication-mastery-public-speaking-facebook-mastery-english-spoken-17-courses-e-lite-silver-and-gold-free",
+      "title": "Restore complete package details in PricingSection component for DIAMOND PACKAGE: Finance Mastery, Reselling Mastery, Communication Mastery, Public Speaking, Facebook Mastery, English Spoken, 17 courses + E-lite, silver and gold free",
+      "reqIds": [
+        "REQ-221"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-restore-complete-package-details-in-pricingsection-component-for-platinum-package-stock-market-cryptocurrency-ai-game-changer-interview-skills-mastery-0-to-hero-ai-content-creation-viral-reels-with-ai-chatgpt-mastery-24-courses-e-lite-silver-gold-diamond-free",
+      "title": "Restore complete package details in PricingSection component for PLATINUM PACKAGE: Stock Market, Cryptocurrency, AI game changer, Interview Skills Mastery, 0 to hero AI content creation, Viral Reels With AI, ChatGPT Mastery, 24 courses + E-lite, silver, gold, diamond free",
+      "reqIds": [
+        "REQ-222"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-restore-complete-package-details-in-pricingsection-component-for-ultra-pro-package-website-development-javascript-blockchain-python-seo-html-css-mastery-google-ads-e-commerce-business-mastery-blogging-34-courses-all-packages-free",
+      "title": "Restore complete package details in PricingSection component for ULTRA PRO PACKAGE: Website development, JavaScript, Blockchain, Python, SEO, HTML, CSS Mastery, Google Ads, E-commerce business mastery, Blogging, 34 courses + All packages free",
+      "reqIds": [
+        "REQ-223"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-clickable-package-cards-in-pricingsection-that-expand-to-show-full-course-details-when-clicked-with-the-expanded-view-displaying-all-course-items-and-package-information",
+      "title": "Implement clickable package cards in PricingSection that expand to show full course details when clicked, with the expanded view displaying all course items and package information",
+      "reqIds": [
+        "REQ-224"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-display-paymentmodal-component-directly-below-the-expanded-package-details-when-a-user-clicks-and-expands-a-package-card-pre-filled-with-the-selected-package-information-and-correct-price",
+      "title": "Display PaymentModal component directly below the expanded package details when a user clicks and expands a package card, pre-filled with the selected package information and correct price",
+      "reqIds": [
+        "REQ-225"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-pricingsection-layout-to-display-package-cards-in-initial-collapsed-state-showing-only-package-name-price-and-a-visual-indicator-arrow-plus-icon-or-view-details-text-that-the-card-is-expandable",
+      "title": "Update PricingSection layout to display package cards in initial collapsed state showing only package name, price, and a visual indicator (arrow, plus icon, or 'View Details' text) that the card is expandable",
+      "reqIds": [
+        "REQ-226"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-expanded-package-view-includes-a-clear-buy-now-or-proceed-to-payment-button-that-triggers-the-payment-interface-if-not-automatically-displayed-maintaining-authentication-checks-for-purchase-flow",
+      "title": "Ensure the expanded package view includes a clear 'Buy Now' or 'Proceed to Payment' button that triggers the payment interface if not automatically displayed, maintaining authentication checks for purchase flow",
+      "reqIds": [
+        "REQ-227"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-commission-chart-section-component-displaying-commission-breakdown-for-all-six-course-packages-with-two-columns-active-income-and-passive-income-display-e-lite-package-699-active-income-470-passive-income-50-silver-package-1499-active-income-1000-passive-income-100-gold-package-2999-active-income-2000-passive-income-250-diamond-package-4999-active-income-3400-passive-income-400-platinum-package-9999-active-income-6700-passive-income-800-ultra-pro-package-14999-active-income-10000-passive-income-1100-format-as-a-table-or-card-grid-with-clear-visual-hierarchy",
+      "title": "Create a Commission Chart section component displaying commission breakdown for all six course packages with two columns: Active Income and Passive Income. Display: E-LITE Package (₹699) - Active Income ₹470, Passive Income ₹50; SILVER Package (₹1499) - Active Income ₹1000, Passive Income ₹100; GOLD Package (₹2999) - Active Income ₹2000, Passive Income ₹250; DIAMOND Package (₹4999) - Active Income ₹3400, Passive Income ₹400; PLATINUM Package (₹9999) - Active Income ₹6700, Passive Income ₹800; ULTRA PRO Package (₹14999) - Active Income ₹10000, Passive Income ₹1100. Format as a table or card grid with clear visual hierarchy.",
+      "reqIds": [
+        "REQ-228"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-the-commission-chart-component-to-the-user-dashboard-overview-page-sidebar-column-as-specified-position-it-prominently-in-the-sidebar-navigation-or-as-a-separate-section-within-the-dashboard-overview",
+      "title": "Add the Commission Chart component to the User Dashboard Overview page sidebar column as specified. Position it prominently in the sidebar navigation or as a separate section within the dashboard overview.",
+      "reqIds": [
+        "REQ-229"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-referrals-section-to-the-user-dashboard-overview-page-that-displays-total-number-of-users-referred-list-of-referred-users-with-their-names-and-packages-purchased-commission-earned-from-each-referral-active-and-passive-total-active-income-from-all-referrals-total-passive-income-from-all-referrals-and-pending-commission-amounts-use-card-based-layout-with-yellow-and-green-color-accents-consistent-with-the-dashboard-design",
+      "title": "Add a Referrals section to the User Dashboard Overview page that displays: total number of users referred, list of referred users with their names and packages purchased, commission earned from each referral (active and passive), total active income from all referrals, total passive income from all referrals, and pending commission amounts. Use card-based layout with yellow and green color accents consistent with the dashboard design.",
+      "reqIds": [
+        "REQ-232"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-referral-link-generation-system-that-creates-unique-referral-urls-or-codes-for-each-registered-user-add-a-my-referral-link-section-in-the-user-dashboard-with-copy-to-clipboard-functionality",
+      "title": "Implement referral link generation system that creates unique referral URLs or codes for each registered user. Add a 'My Referral Link' section in the user dashboard with copy-to-clipboard functionality.",
+      "reqIds": [
+        "REQ-233"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-user-registration-flow-to-capture-referral-information-from-url-parameters-when-a-user-registers-through-a-referral-link-store-the-referrerid-in-the-backend-and-associate-it-with-the-new-user-account",
+      "title": "Update the user registration flow to capture referral information from URL parameters. When a user registers through a referral link, store the referrerId in the backend and associate it with the new user account.",
+      "reqIds": [
+        "REQ-234"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-earnings-dashboard-section-in-the-dashboard-overview-to-include-commission-earnings-from-referrals-display-referral-income-separately-or-combined-with-other-earnings-in-the-today-s-earning-weekly-earning-monthly-earning-and-lifetime-earning-cards",
+      "title": "Update the Earnings Dashboard section in the Dashboard Overview to include commission earnings from referrals. Display referral income separately or combined with other earnings in the Today's Earning, Weekly Earning, Monthly Earning, and Lifetime Earning cards.",
+      "reqIds": [
+        "REQ-236"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-withdrawal-request-submission-flow-in-the-user-dashboard-frontend-src-pages-user-withdrawalrequests-tsx-to-trigger-a-whatsapp-notification-after-successful-submission-when-a-user-submits-a-withdrawal-request-with-an-amount-and-message-send-a-whatsapp-message-to-phone-number-9263989760-containing-the-user-s-name-total-earnings-amount-and-requested-withdrawal-amount",
+      "title": "Update the withdrawal request submission flow in the user dashboard (frontend/src/pages/user/WithdrawalRequests.tsx) to trigger a WhatsApp notification after successful submission. When a user submits a withdrawal request with an amount and message, send a WhatsApp message to phone number 9263989760 containing the user's name, total earnings amount, and requested withdrawal amount.",
+      "reqIds": [
+        "REQ-237"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fetch-the-user-s-total-lifetime-earnings-from-the-backend-before-sending-the-whatsapp-notification-use-the-existing-earnings-data-available-in-the-dashboardoverview-component-or-create-a-query-to-retrieve-the-user-s-current-total-earnings-amount-to-include-in-the-withdrawal-notification-message",
+      "title": "Fetch the user's total lifetime earnings from the backend before sending the WhatsApp notification. Use the existing earnings data available in the DashboardOverview component or create a query to retrieve the user's current total earnings amount to include in the withdrawal notification message.",
+      "reqIds": [
+        "REQ-238"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-edit-functionality-to-the-landingpagebuilder-component-frontend-src-pages-user-landingpagebuilder-tsx-allowing-users-to-modify-their-existing-landing-pages-when-a-user-clicks-an-edit-action-on-a-landing-page-row-open-the-form-pre-filled-with-the-current-landing-page-data-title-content-template-for-editing",
+      "title": "Add edit functionality to the LandingPageBuilder component (frontend/src/pages/user/LandingPageBuilder.tsx) allowing users to modify their existing landing pages. When a user clicks an edit action on a landing page row, open the form pre-filled with the current landing page data (title, content, template) for editing.",
+      "reqIds": [
+        "REQ-239"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-traffic-visit-statistics-column-to-the-landing-pages-table-in-landingpagebuilder-showing-the-total-number-of-visits-or-views-for-each-landing-page-created-by-the-user",
+      "title": "Add a traffic/visit statistics column to the landing pages table in LandingPageBuilder showing the total number of visits or views for each landing page created by the user.",
+      "reqIds": [
+        "REQ-240"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-profile-photo-upload-and-change-functionality-to-the-user-dashboard-profile-settings-page-frontend-src-pages-user-profilesettings-tsx-include-a-file-input-for-selecting-an-image-image-preview-before-upload-upload-button-and-display-the-current-profile-photo-if-one-exists-apply-proper-styling-consistent-with-the-dashboard-design-using-yellow-and-green-accents",
+      "title": "Add profile photo upload and change functionality to the user dashboard Profile Settings page (frontend/src/pages/user/ProfileSettings.tsx). Include a file input for selecting an image, image preview before upload, upload button, and display the current profile photo if one exists. Apply proper styling consistent with the dashboard design using yellow and green accents.",
+      "reqIds": [
+        "REQ-245"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-react-query-mutation-hook-in-frontend-src-hooks-usequeries-ts-for-uploading-profile-photos-the-mutation-should-call-the-backend-uploadprofilephoto-function-with-the-selected-image-file-and-invalidate-the-user-profile-query-after-successful-upload-to-refresh-the-displayed-photo",
+      "title": "Create a React Query mutation hook in frontend/src/hooks/useQueries.ts for uploading profile photos. The mutation should call the backend uploadProfilePhoto function with the selected image file and invalidate the user profile query after successful upload to refresh the displayed photo.",
+      "reqIds": [
+        "REQ-247"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-display-the-user-s-profile-photo-in-the-mobilesidebar-component-frontend-src-components-mobilesidebar-tsx-next-to-the-user-s-name-in-the-profile-section-if-no-photo-exists-show-a-default-avatar-icon-or-placeholder-image-ensure-the-photo-is-circular-with-appropriate-sizing",
+      "title": "Display the user's profile photo in the MobileSidebar component (frontend/src/components/MobileSidebar.tsx) next to the user's name in the profile section. If no photo exists, show a default avatar icon or placeholder image. Ensure the photo is circular with appropriate sizing.",
+      "reqIds": [
+        "REQ-248"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-display-the-user-s-profile-photo-in-the-userdashboardlayout-sidebar-frontend-src-layouts-userdashboardlayout-tsx-in-the-user-profile-section-show-the-circular-profile-photo-next-to-the-user-s-name-with-consistent-styling-matching-the-mobilesidebar-implementation",
+      "title": "Display the user's profile photo in the UserDashboardLayout sidebar (frontend/src/layouts/UserDashboardLayout.tsx) in the user profile section. Show the circular profile photo next to the user's name with consistent styling matching the MobileSidebar implementation.",
+      "reqIds": [
+        "REQ-249"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-dedicated-landing-pages-tab-or-section-in-the-user-dashboard-navigation-frontend-src-layouts-userdashboardlayout-tsx-separate-from-the-landing-page-builder-this-section-should-list-all-landing-pages-created-by-the-user-in-a-clean-table-or-card-layout-showing-title-creation-date-visit-count-and-action-buttons-view-preview-edit-delete",
+      "title": "Add a dedicated Landing Pages tab or section in the user dashboard navigation (frontend/src/layouts/UserDashboardLayout.tsx) separate from the Landing Page Builder. This section should list all landing pages created by the user in a clean table or card layout showing title, creation date, visit count, and action buttons (View/Preview, Edit, Delete).",
+      "reqIds": [
+        "REQ-251"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-landing-page-preview-functionality-that-opens-the-user-s-created-landing-page-in-a-new-browser-tab-or-modal-overlay-add-a-preview-button-next-to-each-landing-page-in-the-my-landing-pages-section-when-clicked-render-the-landing-page-with-its-saved-content-template-and-styling-in-a-full-page-view",
+      "title": "Create a landing page preview functionality that opens the user's created landing page in a new browser tab or modal overlay. Add a 'Preview' button next to each landing page in the My Landing Pages section. When clicked, render the landing page with its saved content, template, and styling in a full-page view.",
+      "reqIds": [
+        "REQ-252"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-react-query-hook-usegetlandingpagebyid-in-frontend-src-hooks-usequeries-ts-that-fetches-a-specific-landing-page-by-id-using-the-backend-getlandingpagebyid-function-this-hook-should-be-used-in-the-preview-component-to-display-the-landing-page-content",
+      "title": "Create a React Query hook useGetLandingPageById in frontend/src/hooks/useQueries.ts that fetches a specific landing page by ID using the backend getLandingPageById function. This hook should be used in the preview component to display the landing page content.",
+      "reqIds": [
+        "REQ-254"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-shareable-landing-page-route-at-landing-pageid-in-the-main-app-tsx-routing-configuration-this-route-should-be-publicly-accessible-no-authentication-required-and-render-the-landing-page-content-using-the-pageid-parameter-include-proper-seo-meta-tags-and-responsive-layout",
+      "title": "Implement a shareable landing page route at /landing/:pageId in the main App.tsx routing configuration. This route should be publicly accessible (no authentication required) and render the landing page content using the pageId parameter. Include proper SEO meta tags and responsive layout.",
+      "reqIds": [
+        "REQ-255"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -1821,6 +2389,274 @@
       "id": "AR-140",
       "summary": "Remove 'Buy Course' button from hero section on homepage, keep only 'Explore Courses' button visible. Maintain existing hero section background image.",
       "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-141",
+      "summary": "Create three professional legal pages: Privacy Policy at /privacy-policy, Terms of Service at /terms-of-service, and Strict No Refund Policy at /refund-policy with original legally structured content, mobile responsive layout, clean H1/H2/H3 formatting, automatic 'Last Updated' date, and no email addresses",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-142",
+      "summary": "Privacy Policy page includes: Introduction, Information We Collect (Personal/Payment/Usage Data), How We Use Information, Cookies Policy, Third-Party Services, Data Security, Data Retention, User Rights, Children's Privacy, Policy Updates, contact via website form, statement about not selling personal data, GDPR-style wording",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-143",
+      "summary": "Terms of Service page includes: Acceptance of Terms, Eligibility, User Account Responsibility, Course Access (lifetime access unless stated), Intellectual Property Rights, Payment Terms, No Income Guarantee Disclaimer, Prohibited Activities, Limitation of Liability, Termination/Account Suspension, Governing Law, contact via support form, clause about results varying based on individual effort",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-144",
+      "summary": "Strict No Refund Policy page with firm protective tone includes: Nature of Digital Products, All Sales Are Final, No Refund After Purchase, specific no-refund scenarios (change of mind/lack of time/financial issues/failure to understand/personal reasons), responsibility to review before purchase, Chargeback Policy (account suspension/course access revocation/further action), limited exception for duplicate payment or technical access failure, contact via official form",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-145",
+      "summary": "Add links to all three legal pages (Privacy Policy, Terms of Service, Refund Policy) in the website footer",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-146",
+      "summary": "Fix EvergreenAIChatbot transparency issue: chatbot should open on a new page or modal with solid non-transparent background when clicked",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-147",
+      "summary": "Fully optimize entire website for dark mode: all components, sections, and pages should properly adapt to dark mode with appropriate colors, backgrounds, and contrast",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-148",
+      "summary": "Create a Facebook section similar to Instagram section, positioned after Instagram section on the landing page",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-149",
+      "summary": "Fix landing page builder feature in user dashboard - currently not working properly",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-155",
+      "summary": "Verify and fix backend integration for landing page builder functionality. Ensure the backend functions for creating, retrieving, updating, and deleting landing pages (createLandingPage, getLandingPages, updateLandingPage, deleteLandingPage) are properly implemented in backend/main.mo and correctly handle user authentication and data persistence.",
+      "reqIds": [
+        "REQ-187"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-156",
+      "summary": "Fix all transparent backgrounds throughout the site by replacing them with solid white backgrounds and black font color for proper visibility",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-166",
+      "summary": "Test all components with updated backgrounds across different pages (homepage, dashboard, admin panel, legal pages) to ensure consistent visibility and proper text contrast throughout the entire application in both light and dark modes.",
+      "reqIds": [
+        "REQ-198"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-167",
+      "summary": "Clean up Our Courses section by removing unnecessary content. Restructure with main course 'All Packages' as parent, then sub-packages: E-LITE Package, SILVER Package, GOLD Package, DIAMOND Package, PLATINUM Package, ULTRA PRO Package",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-168",
+      "summary": "Add second main course section for 'Video Editing Charge' that redirects users to the course page when clicked",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-169",
+      "summary": "Fix Dashboard Overview transparency issues by setting background to white and styling all elements as box-type cards with yellow and green colors",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-170",
+      "summary": "Make course cards in the courses section clickable - when clicked, redirect/navigate to the appropriate course page or section",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-171",
+      "summary": "Update dashboard overview sidebar: change transparent background to solid black background, and style text/buttons with green and yellow colors",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-173",
+      "summary": "Update the PricingSection component to make the 'All Packages' heading or container clickable. When clicked, it should act as an anchor point for smooth scrolling from navigation links.",
+      "reqIds": [
+        "REQ-208"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-174",
+      "summary": "Add user profile section to landing page MobileSidebar: display logged-in user name with online/offline status indicator, show Login button when logged out or Logout button when logged in, integrate with existing authentication context",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-175",
+      "summary": "Make Change Password page functional in user dashboard: implement working form with current password, new password, and confirm new password fields, add validation for password requirements, verify current password before allowing change, show success/error messages, integrate with backend password update functionality",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-180",
+      "summary": "Implement backend password change functionality that accepts current password, new password, and user Principal. Verify the current password matches the stored hash before updating. Hash the new password using SHA256 and update the user's passwordHash in the users HashMap. Return success or error response.",
+      "reqIds": [
+        "REQ-216"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-181",
+      "summary": "Restore full package details in PricingSection: E-LITE (Ms Excel, Time Management, Total 2 courses), SILVER (Canva mastery, Kinemaster editing, Photoshop editing, Premiere Pro, 6 courses + E-lite free), GOLD (YouTube growth, Instagram growth, Video Marketing, Attractions Marketing, Goal setting, 11 courses + E-lite & silver free), DIAMOND (Finance Mastery, Reselling Mastery, Communication Mastery, Public Speaking, Facebook Mastery, English Spoken, 17 courses + E-lite, silver and gold free), PLATINUM (Stock Market, Cryptocurrency, AI game changer, Interview Skills Mastery, 0 to hero AI content creation, Viral Reels With AI, ChatGPT Mastery, 24 courses + E-lite, silver, gold, diamond free), ULTRA PRO (Website development, JavaScript, Blockchain, Python, SEO, HTML, CSS Mastery, Google Ads, E-commerce business mastery, Blogging, 34 courses + All packages free)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-182",
+      "summary": "Make package cards clickable to expand and show full course details with payment section below. When user clicks a package card, display complete course list and payment interface for that specific package with its correct price",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-183",
+      "summary": "Add commission chart section in dashboard overview sidebar showing active and passive income breakdown for each package: E-LITE (₹470 active, ₹50 passive), SILVER (₹1000 active, ₹100 passive), GOLD (₹2000 active, ₹250 passive), DIAMOND (₹3400 active, ₹400 passive), PLATINUM (₹6700 active, ₹800 passive), ULTRA PRO (₹10000 active, ₹1100 passive)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-184",
+      "summary": "Implement referral tracking system where when a user joins through another user's referral, it shows in the referring user's dashboard overview section with referral count and commission details",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-187",
+      "summary": "Implement referral tracking system in the backend that records when a user joins through another user's referral link or code. Create a Referral data structure with fields: id (Nat), referrerId (Principal), referredUserId (Principal), packageId (Nat), commissionAmount (Nat), commissionType (variant {#active; #passive}), createdAt (Int), status (variant {#pending; #approved; #paid}).",
+      "reqIds": [
+        "REQ-230"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-188",
+      "summary": "Create backend functions to retrieve referral data for a specific user: getReferralsByUser(userId: Principal) returning list of users referred by this user with their purchase details and commission status, and getTotalCommissions(userId: Principal) returning total active income earned, total passive income earned, and pending commission amounts.",
+      "reqIds": [
+        "REQ-231"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-192",
+      "summary": "Implement commission calculation and crediting system that automatically calculates and credits active and passive income to the referrer when their referred user makes a package purchase. Commission amounts should match the commission chart: E-LITE ₹470/₹50, SILVER ₹1000/₹100, GOLD ₹2000/₹250, DIAMOND ₹3400/₹400, PLATINUM ₹6700/₹800, ULTRA PRO ₹10000/₹1100.",
+      "reqIds": [
+        "REQ-235"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-193",
+      "summary": "Send WhatsApp notification to phone 9263989760 when user submits withdrawal request with message containing user details, earnings amount, and withdrawal request amount",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-194",
+      "summary": "Give users access to edit their created landing pages and show traffic/visit statistics for each landing page",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-197",
+      "summary": "Update the LandingPage data structure in the backend (backend/main.mo) to include a visitCount field of type Nat that tracks the number of visits/views for each landing page. Initialize visitCount to 0 when creating new landing pages.",
+      "reqIds": [
+        "REQ-241"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-198",
+      "summary": "Create a backend function incrementLandingPageVisit(pageId: Nat) in backend/main.mo that increments the visitCount for a specific landing page by 1 each time it is accessed or viewed. This function should be callable without authentication to track public visits.",
+      "reqIds": [
+        "REQ-242"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-199",
+      "summary": "Update the updateLandingPage backend function to preserve the visitCount value when a user edits their landing page. The visitCount should not be reset or modified during updates to title, content, or template.",
+      "reqIds": [
+        "REQ-243"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-200",
+      "summary": "Update the React Query hook in frontend/src/hooks/useQueries.ts to include visitCount in the landing page data type and ensure it is properly typed and accessible in the LandingPageBuilder component.",
+      "reqIds": [
+        "REQ-244"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-201",
+      "summary": "Add user profile photo upload and change functionality in user dashboard profile settings",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-202",
+      "summary": "Assign Platinum package details to user with email rudrapratapsingh789.063@gmail.com",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-203",
+      "summary": "Add preview functionality for user-created landing pages - show landing pages in separate tab with preview option",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-205",
+      "summary": "Implement backend support for profile photo storage in backend/main.mo. Extend the UserProfile data structure to include a profilePhotoUrl field of type ?Text. Create a backend function uploadProfilePhoto that accepts image blob data and the authenticated user's Principal, stores the image, and updates the user's profilePhotoUrl. Leverage existing blob storage capabilities.",
+      "reqIds": [
+        "REQ-246"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-209",
+      "summary": "Assign Platinum package details to the user with email rudrapratapsingh789.063@gmail.com in the backend. Create an admin function or initialization script that finds the user by email and grants them access to the Platinum package (₹9999, 24 courses + E-lite, silver, gold, diamond free) without requiring payment. Update the user's purchased packages list and set payment status to approved.",
+      "reqIds": [
+        "REQ-250"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-212",
+      "summary": "Create a backend function getLandingPageById(pageId: Nat) in backend/main.mo that retrieves a specific landing page by its ID without requiring authentication. This enables public access to landing pages for preview and sharing purposes. Return the landing page data including title, content, template, and visitCount.",
+      "reqIds": [
+        "REQ-253"
+      ],
       "status": "pending"
     }
   ],

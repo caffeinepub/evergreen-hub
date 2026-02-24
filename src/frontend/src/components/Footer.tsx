@@ -92,19 +92,28 @@ export default function Footer() {
             <h4 className="text-lg font-semibold text-foreground">Legal</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors duration-200 text-sm">
+                <Link
+                  to="/privacy-policy"
+                  className="text-muted-foreground hover:text-primary transition-colors duration-200 text-sm"
+                >
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors duration-200 text-sm">
+                <Link
+                  to="/terms-of-service"
+                  className="text-muted-foreground hover:text-primary transition-colors duration-200 text-sm"
+                >
                   Terms of Service
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors duration-200 text-sm">
+                <Link
+                  to="/refund-policy"
+                  className="text-muted-foreground hover:text-primary transition-colors duration-200 text-sm"
+                >
                   Refund Policy
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

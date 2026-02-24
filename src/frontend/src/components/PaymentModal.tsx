@@ -58,19 +58,19 @@ export default function PaymentModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-card border-border">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-900 border-gray-300 dark:border-slate-700">
         <DialogHeader>
-          <DialogTitle className="text-2xl">Complete Your Purchase</DialogTitle>
-          <DialogDescription>
-            You're purchasing: <span className="font-semibold text-foreground">{packageName}</span> for{' '}
-            <span className="font-semibold text-emerald-500">{packagePrice}</span>
+          <DialogTitle className="text-2xl text-gray-900 dark:text-gray-100">Complete Your Purchase</DialogTitle>
+          <DialogDescription className="text-gray-700 dark:text-gray-300">
+            You're purchasing: <span className="font-semibold text-gray-900 dark:text-gray-100">{packageName}</span> for{' '}
+            <span className="font-semibold text-emerald-600 dark:text-emerald-400">{packagePrice}</span>
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6 mt-4">
-          <Alert className="border-emerald-500/30 bg-emerald-950/10 dark:bg-emerald-950/20">
-            <AlertCircle className="h-4 w-4 text-emerald-500" />
-            <AlertDescription className="text-foreground">
+          <Alert className="border-emerald-500/30 bg-emerald-50 dark:bg-emerald-950/20">
+            <AlertCircle className="h-4 w-4 text-emerald-600 dark:text-emerald-500" />
+            <AlertDescription className="text-gray-900 dark:text-gray-100">
               {isVideoEditing ? (
                 <>
                   Scan the QR code to make payment of ₹500 via PhonePe, or use bank transfer. Submit your payment proof below for verification within 24 hours.
@@ -85,7 +85,7 @@ export default function PaymentModal({
 
           <PaymentGateway />
 
-          <Separator className="bg-border" />
+          <Separator className="bg-gray-300 dark:bg-slate-700" />
 
           <PaymentProofForm
             packageId={packageId}

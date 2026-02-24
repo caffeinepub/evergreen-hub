@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from '@tanstack/react-router';
 import { useAuth } from '../contexts/AuthContext';
 import { useActor } from '../hooks/useActor';
@@ -8,12 +8,14 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
+import { Principal } from '@dfinity/principal';
 
 export default function Register() {
   const navigate = useNavigate();
   const { login } = useAuth();
   const { actor } = useActor();
   const [loading, setLoading] = useState(false);
+  const [referrerId, setReferrerId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -23,6 +25,16 @@ export default function Register() {
     acceptTerms: false,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Extract referral parameter from URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const refParam = urlParams.get('ref');
+    if (refParam) {
+      setReferrerId(refParam);
+      toast.info('You are registering via a referral link!');
+    }
+  }, []);
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -78,32 +90,65 @@ export default function Register() {
       await new Promise(resolve => setTimeout(resolve, 1000));
 
       if (!actor) {
-        throw new Error('Authentication failed. Please try again.');
+        throw new Error('Failed to initialize actor');
+      }
+
+      // Convert referrerId to Principal if it exists
+      let referrerPrincipal: Principal | null = null;
+      if (referrerId) {
+        try {
+          referrerPrincipal = Principal.fromText(referrerId);
+        } catch (error) {
+          console.error('Invalid referrer ID:', error);
+          toast.error('Invalid referral link');
+        }
       }
 
       // Register user with backend
-      await actor.registerUser(formData.name, formData.email, formData.phone);
+      await actor.registerUser(
+        formData.name,
+        formData.email,
+        formData.phone,
+        referrerPrincipal
+      );
 
-      toast.success('Registration successful! Redirecting to login...');
-      setTimeout(() => {
-        navigate({ to: '/login' });
-      }, 1500);
+      toast.success('Registration successful!');
+      navigate({ to: '/dashboard' });
     } catch (error: any) {
       console.error('Registration error:', error);
-      toast.error(error.message || 'Registration failed. Please try again.');
+      if (error.message?.includes('already registered')) {
+        toast.error('This account is already registered');
+      } else {
+        toast.error('Registration failed. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: '' }));
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-white to-emerald-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 p-4">
+      <Card className="w-full max-w-md bg-white dark:bg-slate-800">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Create an Account</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">Create Account</CardTitle>
           <CardDescription className="text-center">
-            Join Evergreen Hub and start your affiliate marketing journey
+            Enter your details to register
           </CardDescription>
+          {referrerId && (
+            <div className="mt-2 p-2 bg-emerald-50 dark:bg-emerald-950/20 rounded-lg border border-emerald-200 dark:border-emerald-800">
+              <p className="text-xs text-emerald-800 dark:text-emerald-200 text-center">
+                🎉 Registering via referral link
+              </p>
+            </div>
+          )}
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -111,97 +156,114 @@ export default function Register() {
               <Label htmlFor="name">Full Name</Label>
               <Input
                 id="name"
+                name="name"
                 type="text"
                 placeholder="John Doe"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className={errors.name ? 'border-destructive' : ''}
+                onChange={handleChange}
+                className={errors.name ? 'border-red-500' : ''}
               />
-              {errors.name && <p className="text-sm text-destructive">{errors.name}</p>}
+              {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
+                name="email"
                 type="email"
                 placeholder="john@example.com"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className={errors.email ? 'border-destructive' : ''}
+                onChange={handleChange}
+                className={errors.email ? 'border-red-500' : ''}
               />
-              {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
+              {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="phone">Phone Number</Label>
               <Input
                 id="phone"
+                name="phone"
                 type="tel"
                 placeholder="9876543210"
                 value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className={errors.phone ? 'border-destructive' : ''}
+                onChange={handleChange}
+                className={errors.phone ? 'border-red-500' : ''}
               />
-              {errors.phone && <p className="text-sm text-destructive">{errors.phone}</p>}
+              {errors.phone && <p className="text-sm text-red-500">{errors.phone}</p>}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
+                name="password"
                 type="password"
                 placeholder="••••••••"
                 value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className={errors.password ? 'border-destructive' : ''}
+                onChange={handleChange}
+                className={errors.password ? 'border-red-500' : ''}
               />
-              {errors.password && <p className="text-sm text-destructive">{errors.password}</p>}
+              {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">Confirm Password</Label>
               <Input
                 id="confirmPassword"
+                name="confirmPassword"
                 type="password"
                 placeholder="••••••••"
                 value={formData.confirmPassword}
-                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                className={errors.confirmPassword ? 'border-destructive' : ''}
+                onChange={handleChange}
+                className={errors.confirmPassword ? 'border-red-500' : ''}
               />
               {errors.confirmPassword && (
-                <p className="text-sm text-destructive">{errors.confirmPassword}</p>
+                <p className="text-sm text-red-500">{errors.confirmPassword}</p>
               )}
             </div>
 
-            <div className="flex items-start space-x-2">
+            <div className="flex items-center space-x-2">
               <Checkbox
                 id="terms"
                 checked={formData.acceptTerms}
-                onCheckedChange={(checked) =>
-                  setFormData({ ...formData, acceptTerms: checked as boolean })
-                }
+                onCheckedChange={(checked) => {
+                  setFormData((prev) => ({ ...prev, acceptTerms: checked as boolean }));
+                  if (errors.acceptTerms) {
+                    setErrors((prev) => ({ ...prev, acceptTerms: '' }));
+                  }
+                }}
               />
-              <label
+              <Label
                 htmlFor="terms"
-                className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="text-sm font-normal cursor-pointer"
               >
-                I accept the terms and conditions
-              </label>
+                I accept the{' '}
+                <Link to="/terms-of-service" className="text-emerald-600 hover:underline">
+                  terms and conditions
+                </Link>
+              </Label>
             </div>
-            {errors.acceptTerms && <p className="text-sm text-destructive">{errors.acceptTerms}</p>}
+            {errors.acceptTerms && (
+              <p className="text-sm text-red-500">{errors.acceptTerms}</p>
+            )}
 
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-full bg-emerald-600 hover:bg-emerald-700"
+              disabled={loading}
+            >
               {loading ? 'Creating Account...' : 'Register'}
             </Button>
-          </form>
 
-          <div className="mt-4 text-center text-sm">
-            Already have an account?{' '}
-            <Link to="/login" className="text-primary hover:underline font-medium">
-              Login here
-            </Link>
-          </div>
+            <p className="text-center text-sm text-muted-foreground">
+              Already have an account?{' '}
+              <Link to="/login" className="text-emerald-600 hover:underline font-medium">
+                Login
+              </Link>
+            </p>
+          </form>
         </CardContent>
       </Card>
     </div>

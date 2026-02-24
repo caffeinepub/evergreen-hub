@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useActor } from '../../hooks/useActor';
 import { useAuth } from '../../contexts/AuthContext';
+import { useGetLandingPages, useCreateLandingPage, useUpdateLandingPage, useDeleteLandingPage } from '../../hooks/useQueries';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,9 +14,7 @@ import { FileText, Plus, Edit, Trash2, Eye } from 'lucide-react';
 import type { LandingPage } from '../../backend';
 
 export default function LandingPageBuilder() {
-  const { actor } = useActor();
   const { userProfile } = useAuth();
-  const queryClient = useQueryClient();
   const [isCreating, setIsCreating] = useState(false);
   const [editingPage, setEditingPage] = useState<LandingPage | null>(null);
   const [deletePageId, setDeletePageId] = useState<bigint | null>(null);
@@ -25,59 +22,10 @@ export default function LandingPageBuilder() {
   const [content, setContent] = useState('');
   const [template, setTemplate] = useState('basic');
 
-  const { data: pages = [], isLoading } = useQuery<LandingPage[]>({
-    queryKey: ['landingPages', userProfile?.principal.toString()],
-    queryFn: async () => {
-      if (!actor || !userProfile) throw new Error('Actor or user profile not available');
-      return actor.getLandingPages(userProfile.principal);
-    },
-    enabled: !!actor && !!userProfile,
-  });
-
-  const createPageMutation = useMutation({
-    mutationFn: async ({ title, content, template }: { title: string; content: string; template: string }) => {
-      if (!actor) throw new Error('Actor not available');
-      return actor.createLandingPage(title, content, template);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['landingPages'] });
-      toast.success('Landing page created successfully!');
-      resetForm();
-    },
-    onError: (error: any) => {
-      toast.error(error.message || 'Failed to create landing page');
-    },
-  });
-
-  const updatePageMutation = useMutation({
-    mutationFn: async ({ pageId, title, content }: { pageId: bigint; title: string; content: string }) => {
-      if (!actor) throw new Error('Actor not available');
-      return actor.updateLandingPage(pageId, title, content);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['landingPages'] });
-      toast.success('Landing page updated successfully!');
-      resetForm();
-    },
-    onError: (error: any) => {
-      toast.error(error.message || 'Failed to update landing page');
-    },
-  });
-
-  const deletePageMutation = useMutation({
-    mutationFn: async (pageId: bigint) => {
-      if (!actor) throw new Error('Actor not available');
-      return actor.deleteLandingPage(pageId);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['landingPages'] });
-      toast.success('Landing page deleted successfully!');
-      setDeletePageId(null);
-    },
-    onError: (error: any) => {
-      toast.error(error.message || 'Failed to delete landing page');
-    },
-  });
+  const { data: pages = [], isLoading } = useGetLandingPages(userProfile?.principal.toString() || '');
+  const createPageMutation = useCreateLandingPage();
+  const updatePageMutation = useUpdateLandingPage();
+  const deletePageMutation = useDeleteLandingPage();
 
   const resetForm = () => {
     setTitle('');
@@ -96,9 +44,31 @@ export default function LandingPageBuilder() {
     }
 
     if (editingPage) {
-      updatePageMutation.mutate({ pageId: editingPage.id, title: title.trim(), content: content.trim() });
+      updatePageMutation.mutate(
+        { pageId: editingPage.id, title: title.trim(), content: content.trim() },
+        {
+          onSuccess: () => {
+            toast.success('Landing page updated successfully!');
+            resetForm();
+          },
+          onError: (error: any) => {
+            toast.error(error.message || 'Failed to update landing page');
+          },
+        }
+      );
     } else {
-      createPageMutation.mutate({ title: title.trim(), content: content.trim(), template });
+      createPageMutation.mutate(
+        { title: title.trim(), content: content.trim(), template },
+        {
+          onSuccess: () => {
+            toast.success('Landing page created successfully!');
+            resetForm();
+          },
+          onError: (error: any) => {
+            toast.error(error.message || 'Failed to create landing page');
+          },
+        }
+      );
     }
   };
 
@@ -116,7 +86,15 @@ export default function LandingPageBuilder() {
 
   const confirmDelete = () => {
     if (deletePageId) {
-      deletePageMutation.mutate(deletePageId);
+      deletePageMutation.mutate(deletePageId, {
+        onSuccess: () => {
+          toast.success('Landing page deleted successfully!');
+          setDeletePageId(null);
+        },
+        onError: (error: any) => {
+          toast.error(error.message || 'Failed to delete landing page');
+        },
+      });
     }
   };
 
@@ -174,7 +152,7 @@ export default function LandingPageBuilder() {
               {!editingPage && (
                 <div className="space-y-2">
                   <Label htmlFor="template">Template</Label>
-                  <Select value={template} onValueChange={setTemplate}>
+                  <Select value={template} onValueChange={setTemplate} disabled={createPageMutation.isPending}>
                     <SelectTrigger id="template">
                       <SelectValue placeholder="Select a template" />
                     </SelectTrigger>
@@ -194,30 +172,34 @@ export default function LandingPageBuilder() {
                   id="content"
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder="Enter your page content (HTML supported)..."
-                  rows={10}
+                  placeholder="Enter your page content here..."
+                  rows={8}
                   required
                   disabled={createPageMutation.isPending || updatePageMutation.isPending}
                 />
-                <p className="text-xs text-muted-foreground">
-                  You can use HTML tags to format your content
-                </p>
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex gap-3">
                 <Button
                   type="submit"
                   disabled={createPageMutation.isPending || updatePageMutation.isPending}
+                  className="bg-emerald-500 hover:bg-emerald-600"
                 >
                   {createPageMutation.isPending || updatePageMutation.isPending ? (
-                    'Saving...'
-                  ) : editingPage ? (
-                    'Update Page'
+                    <>
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent mr-2"></div>
+                      {editingPage ? 'Updating...' : 'Creating...'}
+                    </>
                   ) : (
-                    'Create Page'
+                    <>{editingPage ? 'Update Page' : 'Create Page'}</>
                   )}
                 </Button>
-                <Button type="button" variant="outline" onClick={resetForm}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={resetForm}
+                  disabled={createPageMutation.isPending || updatePageMutation.isPending}
+                >
                   Cancel
                 </Button>
               </div>
@@ -229,12 +211,17 @@ export default function LandingPageBuilder() {
       <Card>
         <CardHeader>
           <CardTitle>Your Landing Pages</CardTitle>
-          <CardDescription>Manage your created landing pages</CardDescription>
+          <CardDescription>Manage all your created landing pages</CardDescription>
         </CardHeader>
         <CardContent>
           {pages.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
-              No landing pages yet. Create your first one!
+            <div className="text-center py-12">
+              <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+              <p className="text-muted-foreground mb-4">No landing pages created yet</p>
+              <Button onClick={() => setIsCreating(true)} variant="outline">
+                <Plus className="mr-2 h-4 w-4" />
+                Create Your First Page
+              </Button>
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -243,6 +230,7 @@ export default function LandingPageBuilder() {
                   <TableRow>
                     <TableHead>Title</TableHead>
                     <TableHead>Template</TableHead>
+                    <TableHead>Total Visits</TableHead>
                     <TableHead>Created</TableHead>
                     <TableHead>Updated</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
@@ -252,28 +240,43 @@ export default function LandingPageBuilder() {
                   {pages.map((page) => (
                     <TableRow key={page.id.toString()}>
                       <TableCell className="font-medium">{page.title}</TableCell>
-                      <TableCell className="capitalize">{page.template}</TableCell>
                       <TableCell>
-                        {new Date(Number(page.createdAt) / 1000000).toLocaleDateString()}
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                          {page.template}
+                        </span>
                       </TableCell>
                       <TableCell>
+                        <div className="flex items-center gap-1.5">
+                          <Eye className="h-4 w-4 text-emerald-500" />
+                          <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+                            {Number(page.visitCount).toLocaleString()}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-muted-foreground">
+                        {new Date(Number(page.createdAt) / 1000000).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground">
                         {new Date(Number(page.updatedAt) / 1000000).toLocaleDateString()}
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
                           <Button
-                            size="sm"
                             variant="ghost"
+                            size="sm"
                             onClick={() => handleEdit(page)}
+                            disabled={createPageMutation.isPending || updatePageMutation.isPending || deletePageMutation.isPending}
                           >
                             <Edit className="h-4 w-4" />
                           </Button>
                           <Button
-                            size="sm"
                             variant="ghost"
+                            size="sm"
                             onClick={() => handleDelete(page.id)}
+                            disabled={createPageMutation.isPending || updatePageMutation.isPending || deletePageMutation.isPending}
+                            className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950"
                           >
-                            <Trash2 className="h-4 w-4 text-destructive" />
+                            <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
                       </TableCell>
@@ -295,9 +298,20 @@ export default function LandingPageBuilder() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              Delete
+            <AlertDialogCancel disabled={deletePageMutation.isPending}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDelete}
+              disabled={deletePageMutation.isPending}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              {deletePageMutation.isPending ? (
+                <>
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent mr-2"></div>
+                  Deleting...
+                </>
+              ) : (
+                'Delete'
+              )}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
