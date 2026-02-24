@@ -12,6 +12,8 @@ import {
   LogOut,
   Menu,
   Palette,
+  DollarSign,
+  FileText,
 } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
@@ -21,6 +23,8 @@ const navigation = [
   { name: 'Home', href: '/', icon: Home },
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'My Packages', href: '/dashboard/packages', icon: Package },
+  { name: 'Withdrawal Request', href: '/dashboard/withdrawal-requests', icon: DollarSign },
+  { name: 'Landing Page Builder', href: '/dashboard/landing-page-builder', icon: FileText },
   { name: 'Profile Settings', href: '/dashboard/profile', icon: User },
   { name: 'Change Password', href: '/dashboard/change-password', icon: Lock },
 ];

@@ -1,22 +1,27 @@
 import { MessageCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 export default function FloatingWhatsAppButton() {
-  const handleClick = () => {
-    window.open(
-      'https://wa.me/919263989760?text=Hi%2C%20I%20have%20a%20question%20about%20Evergreen%20Hub',
-      '_blank',
-      'noopener,noreferrer'
-    );
-  };
+  const phoneNumber = '9263989760';
+  const maskedNumber = '********60';
+  const message = encodeURIComponent('Hello! I am interested in your courses.');
+  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
   return (
-    <Button
-      onClick={handleClick}
-      className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white shadow-2xl hover:shadow-emerald-500/50 transition-all duration-300 p-0 whatsapp-floating"
-      aria-label="Chat on WhatsApp"
+    <a
+      href={whatsappUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed right-4 bottom-4 z-50 flex flex-col items-center gap-2 group"
     >
-      <MessageCircle className="h-6 w-6" />
-    </Button>
+      <div className="relative">
+        <div className="absolute inset-0 bg-black rounded-full blur-xl opacity-50 group-hover:opacity-75 transition-opacity animate-float"></div>
+        <button className="relative flex items-center justify-center w-14 h-14 bg-black text-white rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-110 animate-float">
+          <MessageCircle className="h-7 w-7" />
+        </button>
+      </div>
+      <span className="text-xs font-medium text-white bg-black px-3 py-1 rounded-full shadow-md cursor-pointer hover:bg-zinc-900 transition-colors">
+        {maskedNumber}
+      </span>
+    </a>
   );
 }

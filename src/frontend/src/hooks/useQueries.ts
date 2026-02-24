@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useActor } from './useActor';
-import type { Package, PaymentProof, UserProfile, AdminStats } from '../backend';
+import type { Package, PaymentProof, UserProfile, AdminStats, Earnings, WithdrawalRequest, LandingPage } from '../backend';
 
 export function useGetActivePackages() {
   const { actor, isFetching } = useActor();
@@ -85,5 +85,60 @@ export function useGetAllPaymentProofs() {
       return actor.getAllPaymentProofs();
     },
     enabled: !!actor && !isFetching,
+  });
+}
+
+export function useGetEarnings(userId: string) {
+  const { actor, isFetching } = useActor();
+
+  return useQuery<Earnings>({
+    queryKey: ['earnings', userId],
+    queryFn: async () => {
+      if (!actor) throw new Error('Actor not available');
+      const principal = { toString: () => userId } as any;
+      return actor.getEarnings(principal);
+    },
+    enabled: !!actor && !isFetching && !!userId,
+  });
+}
+
+export function useGetWithdrawalRequests(userId: string) {
+  const { actor, isFetching } = useActor();
+
+  return useQuery<WithdrawalRequest[]>({
+    queryKey: ['withdrawalRequests', userId],
+    queryFn: async () => {
+      if (!actor) throw new Error('Actor not available');
+      const principal = { toString: () => userId } as any;
+      return actor.getWithdrawalRequests(principal);
+    },
+    enabled: !!actor && !isFetching && !!userId,
+  });
+}
+
+export function useGetAllWithdrawalRequests() {
+  const { actor, isFetching } = useActor();
+
+  return useQuery<WithdrawalRequest[]>({
+    queryKey: ['allWithdrawalRequests'],
+    queryFn: async () => {
+      if (!actor) return [];
+      return actor.getAllWithdrawalRequests();
+    },
+    enabled: !!actor && !isFetching,
+  });
+}
+
+export function useGetLandingPages(userId: string) {
+  const { actor, isFetching } = useActor();
+
+  return useQuery<LandingPage[]>({
+    queryKey: ['landingPages', userId],
+    queryFn: async () => {
+      if (!actor) throw new Error('Actor not available');
+      const principal = { toString: () => userId } as any;
+      return actor.getLandingPages(principal);
+    },
+    enabled: !!actor && !isFetching && !!userId,
   });
 }

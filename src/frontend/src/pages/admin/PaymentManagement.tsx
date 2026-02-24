@@ -21,12 +21,14 @@ import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { Check, X, Eye } from 'lucide-react';
 import ImageModal from '../../components/admin/ImageModal';
-import type { PaymentProof, PaymentStatus } from '../../backend';
+import type { PaymentProof } from '../../backend';
+
+type PaymentStatusFilter = 'all' | 'pending' | 'approved' | 'rejected';
 
 export default function PaymentManagement() {
   const { actor } = useActor();
   const queryClient = useQueryClient();
-  const [statusFilter, setStatusFilter] = useState<'all' | PaymentStatus>('all');
+  const [statusFilter, setStatusFilter] = useState<PaymentStatusFilter>('all');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const { data: paymentProofs = [], isLoading } = useQuery({
@@ -36,7 +38,7 @@ export default function PaymentManagement() {
       if (statusFilter === 'all') {
         return actor.getAllPaymentProofs();
       }
-      return actor.getPaymentProofsByStatus(statusFilter);
+      return actor.getPaymentProofsByStatus(statusFilter as any);
     },
     enabled: !!actor,
   });
@@ -144,7 +146,7 @@ export default function PaymentManagement() {
       <div className="flex items-center gap-4">
         <Select
           value={statusFilter}
-          onValueChange={(value) => setStatusFilter(value as 'all' | PaymentStatus)}
+          onValueChange={(value) => setStatusFilter(value as PaymentStatusFilter)}
         >
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Filter by status" />

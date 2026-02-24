@@ -25,7 +25,7 @@ export default function Login() {
     try {
       await login();
       toast.success('Login successful!');
-      // Navigation will happen via useEffect
+      navigate({ to: '/dashboard' });
     } catch (error: any) {
       console.error('Login error:', error);
       toast.error('Login failed. Please try again.');

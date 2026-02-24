@@ -1,18 +1,20 @@
 import Map "mo:core/Map";
 import Time "mo:core/Time";
 import Text "mo:core/Text";
-import Iter "mo:core/Iter";
-import Nat "mo:core/Nat";
 import Array "mo:core/Array";
 import Runtime "mo:core/Runtime";
-import Principal "mo:core/Principal";
 import AccessControl "authorization/access-control";
+import Iter "mo:core/Iter";
 import MixinAuthorization "authorization/MixinAuthorization";
 import MixinStorage "blob-storage/Mixin";
 import Storage "blob-storage/Storage";
+import Migration "migration";
+import OutCall "http-outcalls/outcall";
+import Nat "mo:core/Nat";
+import Stripe "stripe/stripe";
+import Principal "mo:core/Principal";
 
-
-
+(with migration = Migration.run)
 actor {
   type Role = {
     #user;
@@ -74,22 +76,100 @@ actor {
     createdAt : Int;
   };
 
+  type Earnings = {
+    today : Nat;
+    weekly : Nat;
+    monthly : Nat;
+    lifetime : Nat;
+  };
+
+  type WithdrawalRequestStatus = {
+    #pending;
+    #approved;
+    #rejected;
+  };
+
+  type WithdrawalRequest = {
+    id : Nat;
+    userId : Principal;
+    amount : Nat;
+    message : Text;
+    status : WithdrawalRequestStatus;
+    createdAt : Int;
+  };
+
+  type LandingPage = {
+    id : Nat;
+    userId : Principal;
+    title : Text;
+    content : Text;
+    template : Text;
+    createdAt : Int;
+    updatedAt : Int;
+  };
+
+  type Product = {
+    id : Text;
+    productName : Text;
+    productDescription : Text;
+    currency : Text;
+    priceInCents : Nat;
+  };
+
   let users = Map.empty<Principal, UserProfile>();
   let packages = Map.empty<Nat, Package>();
   let payments = Map.empty<Nat, Payment>();
   let paymentProofs = Map.empty<Nat, PaymentProof>();
+  let userEarnings = Map.empty<Principal, Earnings>();
+  let withdrawalRequests = Map.empty<Nat, WithdrawalRequest>();
+  let landingPages = Map.empty<Nat, LandingPage>();
+  let products = Map.empty<Text, Product>();
 
   var nextPackageId : Nat = 1;
   var nextPaymentId : Nat = 1;
   var nextPaymentProofId : Nat = 1;
+  var nextWithdrawalRequestId : Nat = 1;
+  var nextLandingPageId : Nat = 1;
 
   let accessControlState = AccessControl.initState();
   include MixinAuthorization(accessControlState);
 
   include MixinStorage();
 
-  system func preupgrade() { };
-  system func postupgrade() { };
+  var stripeConfig : ?Stripe.StripeConfiguration = null;
+
+  system func preupgrade() {};
+  system func postupgrade() {};
+
+  public query func isStripeConfigured() : async Bool {
+    stripeConfig != null;
+  };
+
+  public shared ({ caller }) func setStripeConfiguration(config : Stripe.StripeConfiguration) : async () {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can configure Stripe");
+    };
+    stripeConfig := ?config;
+  };
+
+  func getStripeConfig() : Stripe.StripeConfiguration {
+    switch (stripeConfig) {
+      case (null) { Runtime.trap("Stripe needs to be first configured") };
+      case (?value) { value };
+    };
+  };
+
+  public func getStripeSessionStatus(sessionId : Text) : async Stripe.StripeSessionStatus {
+    await Stripe.getSessionStatus(getStripeConfig(), sessionId, transform);
+  };
+
+  public shared ({ caller }) func createCheckoutSession(items : [Stripe.ShoppingItem], successUrl : Text, cancelUrl : Text) : async Text {
+    await Stripe.createCheckoutSession(getStripeConfig(), caller, items, successUrl, cancelUrl, transform);
+  };
+
+  public query func transform(input : OutCall.TransformationInput) : async OutCall.TransformationOutput {
+    OutCall.transform(input);
+  };
 
   private func isUserBlocked(userId : Principal) : Bool {
     switch (users.get(userId)) {
@@ -99,7 +179,7 @@ actor {
   };
 
   public shared ({ caller }) func registerUser(name : Text, email : Text, phone : Text) : async () {
-    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can register");
     };
 
@@ -121,7 +201,7 @@ actor {
   };
 
   public query ({ caller }) func getCallerUserProfile() : async ?UserProfile {
-    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can view profiles");
     };
     users.get(caller);
@@ -135,7 +215,7 @@ actor {
   };
 
   public shared ({ caller }) func saveCallerUserProfile(profile : UserProfile) : async () {
-    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can save profiles");
     };
     if (isUserBlocked(caller)) {
@@ -145,7 +225,7 @@ actor {
   };
 
   public shared ({ caller }) func updateProfile(name : Text, phone : Text) : async () {
-    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can update profiles");
     };
     if (isUserBlocked(caller)) {
@@ -486,5 +566,168 @@ actor {
     paymentProofs.values().toArray().filter(
       func(proof : PaymentProof) : Bool { proof.userId == caller }
     );
+  };
+
+  public query ({ caller }) func getEarnings(userId : Principal) : async Earnings {
+    if (caller != userId and not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Can only view your own earnings");
+    };
+    switch (userEarnings.get(userId)) {
+      case (?earnings) { earnings };
+      case (null) { { today = 0; weekly = 0; monthly = 0; lifetime = 0 } };
+    };
+  };
+
+  public shared ({ caller }) func recordPurchase(userId : Principal, amount : Nat) : async () {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can record purchases");
+    };
+
+    let _currentTime = Time.now();
+    let currentEarnings = switch (userEarnings.get(userId)) {
+      case (?earnings) { earnings };
+      case (null) { { today = 0; weekly = 0; monthly = 0; lifetime = 0 } };
+    };
+
+    let updatedEarnings : Earnings = {
+      today = currentEarnings.today + amount;
+      weekly = currentEarnings.weekly + amount;
+      monthly = currentEarnings.monthly + amount;
+      lifetime = currentEarnings.lifetime + amount;
+    };
+
+    userEarnings.add(userId, updatedEarnings);
+  };
+
+  public shared ({ caller }) func createWithdrawalRequest(amount : Nat, message : Text) : async Nat {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only users can create withdrawal requests");
+    };
+    if (isUserBlocked(caller)) {
+      Runtime.trap("Unauthorized: User is blocked");
+    };
+
+    let requestId = nextWithdrawalRequestId;
+    nextWithdrawalRequestId += 1;
+
+    let newRequest : WithdrawalRequest = {
+      id = requestId;
+      userId = caller;
+      amount;
+      message;
+      status = #pending;
+      createdAt = Time.now();
+    };
+
+    withdrawalRequests.add(requestId, newRequest);
+    requestId;
+  };
+
+  public query ({ caller }) func getWithdrawalRequests(userId : Principal) : async [WithdrawalRequest] {
+    if (caller != userId and not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Can only view your own withdrawal requests");
+    };
+    withdrawalRequests.values().toArray().filter(
+      func(request : WithdrawalRequest) : Bool { request.userId == userId }
+    );
+  };
+
+  public query ({ caller }) func getAllWithdrawalRequests() : async [WithdrawalRequest] {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can view all withdrawal requests");
+    };
+    withdrawalRequests.values().toArray();
+  };
+
+  public shared ({ caller }) func updateRequestStatus(requestId : Nat, status : WithdrawalRequestStatus) : async () {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can update withdrawal request status");
+    };
+
+    switch (withdrawalRequests.get(requestId)) {
+      case (null) { Runtime.trap("Withdrawal request not found") };
+      case (?request) {
+        let updatedRequest = { request with status };
+        withdrawalRequests.add(requestId, updatedRequest);
+      };
+    };
+  };
+
+  public shared ({ caller }) func createLandingPage(title : Text, content : Text, template : Text) : async Nat {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only users can create landing pages");
+    };
+    if (isUserBlocked(caller)) {
+      Runtime.trap("Unauthorized: User is blocked");
+    };
+
+    let pageId = nextLandingPageId;
+    nextLandingPageId += 1;
+
+    let newPage : LandingPage = {
+      id = pageId;
+      userId = caller;
+      title;
+      content;
+      template;
+      createdAt = Time.now();
+      updatedAt = Time.now();
+    };
+
+    landingPages.add(pageId, newPage);
+    pageId;
+  };
+
+  public query ({ caller }) func getLandingPages(userId : Principal) : async [LandingPage] {
+    if (caller != userId and not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Can only view your own landing pages");
+    };
+    landingPages.values().toArray().filter(
+      func(page : LandingPage) : Bool { page.userId == userId }
+    );
+  };
+
+  public query ({ caller }) func getLandingPage(pageId : Nat) : async ?LandingPage {
+    switch (landingPages.get(pageId)) {
+      case (null) { null };
+      case (?page) {
+        if (page.userId != caller and not (AccessControl.isAdmin(accessControlState, caller))) {
+          Runtime.trap("Unauthorized: Can only view your own landing pages");
+        };
+        ?page;
+      };
+    };
+  };
+
+  public shared ({ caller }) func updateLandingPage(pageId : Nat, title : Text, content : Text) : async () {
+    switch (landingPages.get(pageId)) {
+      case (null) { Runtime.trap("Landing page not found") };
+      case (?page) {
+        if (page.userId != caller and not (AccessControl.isAdmin(accessControlState, caller))) {
+          Runtime.trap("Unauthorized: Cannot edit this landing page");
+        };
+        if (isUserBlocked(caller) and not (AccessControl.isAdmin(accessControlState, caller))) {
+          Runtime.trap("Unauthorized: User is blocked");
+        };
+
+        let updatedPage = { page with title; content; updatedAt = Time.now() };
+        landingPages.add(pageId, updatedPage);
+      };
+    };
+  };
+
+  public shared ({ caller }) func deleteLandingPage(pageId : Nat) : async () {
+    switch (landingPages.get(pageId)) {
+      case (null) { Runtime.trap("Landing page not found") };
+      case (?page) {
+        if (page.userId != caller and not (AccessControl.isAdmin(accessControlState, caller))) {
+          Runtime.trap("Unauthorized: Cannot delete this landing page");
+        };
+        if (isUserBlocked(caller) and not (AccessControl.isAdmin(accessControlState, caller))) {
+          Runtime.trap("Unauthorized: User is blocked");
+        };
+        landingPages.remove(pageId);
+      };
+    };
   };
 };

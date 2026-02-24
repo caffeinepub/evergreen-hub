@@ -34,6 +34,8 @@ import DashboardOverview from './pages/user/DashboardOverview';
 import MyPackages from './pages/user/MyPackages';
 import ProfileSettings from './pages/user/ProfileSettings';
 import ChangePassword from './pages/user/ChangePassword';
+import WithdrawalRequests from './pages/user/WithdrawalRequests';
+import LandingPageBuilder from './pages/user/LandingPageBuilder';
 
 // Admin dashboard
 import AdminDashboardLayout from './layouts/AdminDashboardLayout';
@@ -41,19 +43,20 @@ import AdminStats from './pages/admin/AdminStats';
 import UserManagement from './pages/admin/UserManagement';
 import PackageManagement from './pages/admin/PackageManagement';
 import PaymentManagement from './pages/admin/PaymentManagement';
+import WithdrawalManagement from './pages/admin/WithdrawalManagement';
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
+      staleTime: 1000 * 60 * 5,
       refetchOnWindowFocus: false,
-      retry: 1,
     },
   },
 });
 
 function LandingPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <>
       <Header />
       <HeroSection />
       <PricingSection />
@@ -67,17 +70,20 @@ function LandingPage() {
       <FloatingWhatsAppButton />
       <EvergreenAIChatbot />
       <ScrollToTopButton />
-    </div>
+    </>
   );
 }
 
 const rootRoute = createRootRoute({
   component: () => (
-    <>
-      <Outlet />
-      <Toaster />
-      <ScrollToTopButton />
-    </>
+    <ThemeProvider>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <Outlet />
+          <Toaster />
+        </QueryClientProvider>
+      </AuthProvider>
+    </ThemeProvider>
   ),
 });
 
@@ -85,18 +91,6 @@ const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
   component: LandingPage,
-});
-
-const contactRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/contact',
-  component: Contact,
-});
-
-const aboutUsRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/about-us',
-  component: AboutUs,
 });
 
 const registerRoute = createRoute({
@@ -115,6 +109,18 @@ const adminLoginRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/admin-login',
   component: AdminLogin,
+});
+
+const contactRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/contact',
+  component: Contact,
+});
+
+const aboutUsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/about-us',
+  component: AboutUs,
 });
 
 const dashboardRoute = createRoute({
@@ -147,6 +153,18 @@ const dashboardPasswordRoute = createRoute({
   component: ChangePassword,
 });
 
+const dashboardWithdrawalRoute = createRoute({
+  getParentRoute: () => dashboardRoute,
+  path: '/withdrawal-requests',
+  component: WithdrawalRequests,
+});
+
+const dashboardLandingPageRoute = createRoute({
+  getParentRoute: () => dashboardRoute,
+  path: '/landing-page-builder',
+  component: LandingPageBuilder,
+});
+
 const adminDashboardRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/admin-dashboard',
@@ -177,24 +195,33 @@ const adminPaymentsRoute = createRoute({
   component: PaymentManagement,
 });
 
+const adminWithdrawalsRoute = createRoute({
+  getParentRoute: () => adminDashboardRoute,
+  path: '/withdrawals',
+  component: WithdrawalManagement,
+});
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
-  contactRoute,
-  aboutUsRoute,
   registerRoute,
   loginRoute,
   adminLoginRoute,
+  contactRoute,
+  aboutUsRoute,
   dashboardRoute.addChildren([
     dashboardIndexRoute,
     dashboardPackagesRoute,
     dashboardProfileRoute,
     dashboardPasswordRoute,
+    dashboardWithdrawalRoute,
+    dashboardLandingPageRoute,
   ]),
   adminDashboardRoute.addChildren([
     adminDashboardIndexRoute,
     adminUsersRoute,
     adminPackagesRoute,
     adminPaymentsRoute,
+    adminWithdrawalsRoute,
   ]),
 ]);
 
@@ -206,16 +233,6 @@ declare module '@tanstack/react-router' {
   }
 }
 
-function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <AuthProvider>
-          <RouterProvider router={router} />
-        </AuthProvider>
-      </ThemeProvider>
-    </QueryClientProvider>
-  );
+export default function App() {
+  return <RouterProvider router={router} />;
 }
-
-export default App;

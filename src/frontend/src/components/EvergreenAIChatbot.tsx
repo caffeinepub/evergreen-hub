@@ -183,7 +183,7 @@ export default function EvergreenAIChatbot() {
     }
 
     if (lowerMessage.includes('payment proof') || lowerMessage.includes('screenshot') || lowerMessage.includes('submit proof')) {
-      return 'After making payment, submit your payment proof by: 1) Uploading a screenshot of the transaction 2) Entering your transaction ID 3) Clicking Submit. You can also send it directly via WhatsApp to +91 9263989760. Verification takes up to 24 hours.';
+      return 'After making payment, submit your payment proof by: 1) Uploading a screenshot of the transaction 2) Entering your transaction ID 3) Clicking Submit. You can also send it directly via WhatsApp to ********60. Verification takes up to 24 hours.';
     }
 
     if (lowerMessage.includes('transaction id') || lowerMessage.includes('reference number')) {
@@ -201,21 +201,21 @@ export default function EvergreenAIChatbot() {
     }
 
     if (lowerMessage.includes('benefit') || lowerMessage.includes('what do i get') || lowerMessage.includes('includes')) {
-      return 'Every package includes: 🎓 Complete course access 📱 WhatsApp support (+91 9263989760) ♾️ Lifetime access 📚 Step-by-step guidance 👥 Beginner-friendly content 🎯 Practical strategies. Higher packages include more courses and advanced content!';
+      return 'Every package includes: 🎓 Complete course access 📱 WhatsApp support (********60) ♾️ Lifetime access 📚 Step-by-step guidance 👥 Beginner-friendly content 🎯 Practical strategies. Higher packages include more courses and advanced content!';
     }
 
     // Video editing service
     if (lowerMessage.includes('video editing') || lowerMessage.includes('editing service') || lowerMessage.includes('edit video')) {
-      return 'Professional Long Video Editing Service: Just ₹500 per video! We provide high-quality editing with fast turnaround. Order via WhatsApp (+91 9263989760) or through the payment modal on our website. Perfect for YouTube, Instagram, or promotional content!';
+      return 'Professional Long Video Editing Service: Just ₹500 per video! We provide high-quality editing with fast turnaround. Order via WhatsApp (********60) or through the payment modal on our website. Perfect for YouTube, Instagram, or promotional content!';
     }
 
     if (lowerMessage.includes('video price') || lowerMessage.includes('editing cost')) {
-      return 'Our professional video editing service costs ₹500 per video. This includes complete editing with transitions, effects, and professional output. Contact us on WhatsApp (+91 9263989760) to place your order!';
+      return 'Our professional video editing service costs ₹500 per video. This includes complete editing with transitions, effects, and professional output. Contact us on WhatsApp (********60) to place your order!';
     }
 
     // Contact and support
     if (lowerMessage.includes('contact') || lowerMessage.includes('whatsapp') || lowerMessage.includes('phone') || lowerMessage.includes('support number')) {
-      return 'Contact Us: 📱 WhatsApp: +91 9263989760 (Click the floating WhatsApp button for instant chat!) We provide lifetime WhatsApp support for all course purchases. Feel free to reach out anytime!';
+      return 'Contact Us: 📱 WhatsApp: ********60 (Click the floating WhatsApp button for instant chat!) We provide lifetime WhatsApp support for all course purchases. Feel free to reach out anytime!';
     }
 
     // Authentication and account
@@ -259,7 +259,7 @@ export default function EvergreenAIChatbot() {
 
     // Refund policy
     if (lowerMessage.includes('refund') || lowerMessage.includes('money back') || lowerMessage.includes('return')) {
-      return 'For refund policy and related queries, please contact us directly on WhatsApp at +91 9263989760. Our team will assist you with your specific situation.';
+      return 'For refund policy and related queries, please contact us directly on WhatsApp at ********60. Our team will assist you with your specific situation.';
     }
 
     // Social media
@@ -276,13 +276,8 @@ export default function EvergreenAIChatbot() {
       return 'I can help you with: 📦 Course packages (E-LITE to ULTRA PRO) 💰 Pricing and offers 💳 Payment process 📸 Payment proof submission 🎬 Video editing service (₹500) 📱 WhatsApp support 🔐 Login/Registration 📊 Dashboard access 👤 Profile management. What would you like to know?';
     }
 
-    // Thank you
-    if (lowerMessage.includes('thank')) {
-      return 'You\'re welcome! Feel free to ask if you have any other questions. For immediate assistance, contact us on WhatsApp: +91 9263989760. Happy learning! 🚀';
-    }
-
     // Default response
-    return 'I\'m here to help! You can ask me about: 📚 Our 6 course packages 💵 Pricing and payment methods 📱 WhatsApp support (+91 9263989760) 🎬 Video editing (₹500) 🔐 Login/Registration 📊 Dashboard and account management 💳 Payment proof submission. What would you like to know?';
+    return 'I\'m here to help! You can ask me about: 📦 Course packages & pricing 💳 Payment methods 📸 Payment proof submission 🎬 Video editing service 📱 WhatsApp support (********60) 🔐 Login/Registration 📊 Dashboard & account management. What would you like to know?';
   };
 
   const handleSendMessage = () => {
@@ -309,112 +304,91 @@ export default function EvergreenAIChatbot() {
     }, 500);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleSendMessage();
     }
   };
 
-  const buttonStyle = position.x !== 0 || position.y !== 0
-    ? {
-        position: 'fixed' as const,
-        left: `${position.x}px`,
-        top: `${position.y}px`,
-        right: 'auto',
-        bottom: 'auto',
-      }
-    : {};
+  if (!isOpen) {
+    return (
+      <button
+        ref={buttonRef}
+        onClick={handleClick}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        className={`fixed left-4 bottom-4 z-50 flex items-center gap-2 px-4 py-3 bg-black text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 cursor-move ${
+          showBorderAnimation ? 'animate-rotateBorder' : ''
+        }`}
+        style={{
+          transform: `translate(${position.x}px, ${position.y}px)`,
+        }}
+      >
+        <Bot className="h-5 w-5" />
+        <span className="font-medium">Evergreen.AI</span>
+      </button>
+    );
+  }
 
   return (
-    <>
-      {!isOpen && (
+    <Card className="fixed left-4 bottom-4 z-50 w-96 h-[500px] shadow-2xl bg-black border-zinc-800">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 border-b border-zinc-800">
+        <div className="flex items-center gap-2">
+          <Bot className="h-5 w-5 text-emerald-500" />
+          <CardTitle className="text-lg text-white">Evergreen.AI</CardTitle>
+        </div>
         <Button
-          ref={buttonRef}
-          onClick={handleClick}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-          className={`fixed bottom-28 right-6 z-40 h-14 px-6 rounded-full bg-black hover:bg-gray-900 text-emerald-500 shadow-2xl hover:shadow-emerald-500/30 transition-all duration-300 hover:scale-105 font-bold border-2 border-emerald-500 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'} chatbot-button ${showBorderAnimation ? 'chatbot-border-animation' : ''}`}
-          style={buttonStyle}
-          aria-label="Open Evergreen.AI Chatbot"
+          variant="ghost"
+          size="icon"
+          onClick={() => setIsOpen(false)}
+          className="h-8 w-8 text-zinc-400 hover:text-white hover:bg-zinc-800"
         >
-          <Bot className="h-6 w-6 mr-2" />
-          Evergreen.AI
+          <X className="h-4 w-4" />
         </Button>
-      )}
-
-      {isOpen && (
-        <Card className="fixed bottom-28 right-6 z-40 w-full max-w-[calc(100vw-3rem)] sm:w-96 h-[500px] max-h-[calc(100vh-10rem)] shadow-2xl border-2 border-emerald-500 flex flex-col">
-          <CardHeader className="bg-gradient-to-r from-emerald-600 to-emerald-800 text-white rounded-t-lg p-4 flex flex-row items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Bot className="h-6 w-6" />
-              <CardTitle className="text-lg font-bold">Evergreen.AI</CardTitle>
-            </div>
-            <Button
-              onClick={() => setIsOpen(false)}
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 text-white hover:bg-white/20 rounded-full"
-              aria-label="Close Chatbot"
-            >
-              <X className="h-5 w-5" />
-            </Button>
-          </CardHeader>
-
-          <CardContent className="flex-1 p-0 flex flex-col overflow-hidden">
-            <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
-              <div className="space-y-4">
-                {messages.map((message) => (
-                  <div
-                    key={message.id}
-                    className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div
-                      className={`max-w-[80%] rounded-lg p-3 ${
-                        message.sender === 'user'
-                          ? 'bg-emerald-500 text-black'
-                          : 'bg-muted text-foreground'
-                      }`}
-                    >
-                      <p className="text-sm whitespace-pre-wrap break-words">{message.text}</p>
-                      <span className="text-xs opacity-70 mt-1 block">
-                        {message.timestamp.toLocaleTimeString([], {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </ScrollArea>
-
-            <div className="p-4 border-t border-border">
-              <div className="flex gap-2">
-                <Input
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Type your message..."
-                  className="flex-1"
-                />
-                <Button
-                  onClick={handleSendMessage}
-                  size="icon"
-                  className="bg-emerald-500 hover:bg-emerald-600 text-black"
-                  aria-label="Send Message"
+      </CardHeader>
+      <CardContent className="p-0 flex flex-col h-[calc(100%-80px)]">
+        <ScrollArea ref={scrollAreaRef} className="flex-1 p-4">
+          <div className="space-y-4">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
+                <div
+                  className={`max-w-[80%] rounded-lg px-4 py-2 ${
+                    message.sender === 'user'
+                      ? 'bg-emerald-600 text-white'
+                      : 'bg-zinc-800 text-zinc-100'
+                  }`}
                 >
-                  <Send className="h-4 w-4" />
-                </Button>
+                  <p className="text-sm">{message.text}</p>
+                  <p className="text-xs mt-1 opacity-70">
+                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </p>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-    </>
+            ))}
+          </div>
+        </ScrollArea>
+        <div className="p-4 border-t border-zinc-800">
+          <div className="flex gap-2">
+            <Input
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Type your message..."
+              className="flex-1 bg-zinc-900 border-zinc-700 text-white placeholder:text-zinc-500"
+            />
+            <Button onClick={handleSendMessage} size="icon" className="bg-emerald-600 hover:bg-emerald-700">
+              <Send className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

@@ -1,13 +1,9 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Upload, CheckCircle2, AlertCircle, MessageCircle } from 'lucide-react';
-import { Progress } from '@/components/ui/progress';
-import { Separator } from '@/components/ui/separator';
+import { Upload, CheckCircle, AlertCircle } from 'lucide-react';
 import { ExternalBlob } from '../backend';
 
 interface PaymentProofFormProps {
@@ -16,205 +12,170 @@ interface PaymentProofFormProps {
   onSubmit: (transactionId: string, screenshot: ExternalBlob) => Promise<void>;
 }
 
-interface FormData {
-  transactionId: string;
-  screenshot: FileList;
-}
-
 export default function PaymentProofForm({ packageId, onSuccess, onSubmit }: PaymentProofFormProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [transactionId, setTransactionId] = useState('');
+  const [screenshot, setScreenshot] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
+  const phoneNumber = '9263989760';
+  const maskedNumber = '********60';
+  const message = encodeURIComponent(`Hello! I need help with payment proof submission for package ID: ${packageId}`);
+  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm<FormData>();
-
-  const selectedFile = watch('screenshot');
-
-  const onFormSubmit = async (data: FormData) => {
-    setError(null);
-    setIsSubmitting(true);
-    setUploadProgress(0);
-
-    try {
-      const file = data.screenshot[0];
-      if (!file) {
-        throw new Error('Please select a screenshot');
-      }
-
-      // Validate file type
-      if (!file.type.startsWith('image/')) {
-        throw new Error('Please upload an image file');
-      }
-
-      // Validate file size (max 5MB)
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
       if (file.size > 5 * 1024 * 1024) {
-        throw new Error('File size must be less than 5MB');
+        setError('File size must be less than 5MB');
+        return;
       }
-
-      // Convert file to bytes
-      const arrayBuffer = await file.arrayBuffer();
-      const bytes = new Uint8Array(arrayBuffer);
-
-      // Create ExternalBlob with progress tracking
-      const blob = ExternalBlob.fromBytes(bytes).withUploadProgress((percentage) => {
-        setUploadProgress(percentage);
-      });
-
-      // Submit payment proof
-      await onSubmit(data.transactionId, blob);
-
-      setSuccess(true);
-      setTimeout(() => {
-        onSuccess();
-      }, 2000);
-    } catch (err: any) {
-      setError(err.message || 'Failed to submit payment proof');
-    } finally {
-      setIsSubmitting(false);
+      setScreenshot(file);
+      setError('');
     }
   };
 
-  const handleWhatsAppSubmit = () => {
-    window.open(
-      'https://wa.me/919263989760?text=Hi%2C%20I%20need%20help%20with%20payment%20proof%20submission',
-      '_blank',
-      'noopener,noreferrer'
-    );
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!transactionId.trim()) {
+      setError('Please enter transaction ID');
+      return;
+    }
+
+    if (!screenshot) {
+      setError('Please upload payment screenshot');
+      return;
+    }
+
+    setUploading(true);
+    setError('');
+    setUploadProgress(0);
+
+    try {
+      const arrayBuffer = await screenshot.arrayBuffer();
+      const uint8Array = new Uint8Array(arrayBuffer);
+      const blob = ExternalBlob.fromBytes(uint8Array).withUploadProgress((percentage) => {
+        setUploadProgress(percentage);
+      });
+
+      await onSubmit(transactionId, blob);
+      
+      setSuccess(true);
+      setTransactionId('');
+      setScreenshot(null);
+      onSuccess();
+    } catch (err: any) {
+      setError(err.message || 'Failed to submit payment proof');
+    } finally {
+      setUploading(false);
+      setUploadProgress(0);
+    }
   };
 
   if (success) {
     return (
-      <Card className="border-green-500/30">
-        <CardContent className="pt-6">
-          <div className="text-center space-y-4">
-            <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto" />
-            <div>
-              <h3 className="text-xl font-semibold mb-2">Payment Proof Submitted!</h3>
-              <p className="text-muted-foreground">
-                Your payment proof has been submitted successfully. We'll verify it within 24 hours.
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <Alert className="border-green-500/30 bg-green-950/10">
+        <CheckCircle className="h-4 w-4 text-green-500" />
+        <AlertDescription className="text-green-400">
+          Payment proof submitted successfully! We'll verify it within 24 hours.
+        </AlertDescription>
+      </Alert>
     );
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Submit Payment Proof</CardTitle>
-        <CardDescription>
-          Upload your transaction details and payment screenshot
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-6">
-          {error && (
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-2">
+        <Label htmlFor="transactionId">Transaction ID *</Label>
+        <Input
+          id="transactionId"
+          type="text"
+          value={transactionId}
+          onChange={(e) => setTransactionId(e.target.value)}
+          placeholder="Enter your transaction ID"
+          required
+          disabled={uploading}
+        />
+      </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="transactionId">
-              Transaction ID <span className="text-destructive">*</span>
-            </Label>
-            <Input
-              id="transactionId"
-              placeholder="Enter your transaction ID"
-              {...register('transactionId', {
-                required: 'Transaction ID is required',
-                minLength: {
-                  value: 5,
-                  message: 'Transaction ID must be at least 5 characters',
-                },
-              })}
-              disabled={isSubmitting}
+      <div className="space-y-2">
+        <Label htmlFor="screenshot">Payment Screenshot *</Label>
+        <div className="flex items-center gap-2">
+          <Input
+            id="screenshot"
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            required
+            disabled={uploading}
+            className="cursor-pointer"
+          />
+          {screenshot && (
+            <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
+          )}
+        </div>
+        <p className="text-xs text-muted-foreground">
+          Upload a clear screenshot of your payment (Max 5MB)
+        </p>
+      </div>
+
+      {uploadProgress > 0 && uploadProgress < 100 && (
+        <div className="space-y-2">
+          <div className="flex justify-between text-sm">
+            <span>Uploading...</span>
+            <span>{uploadProgress}%</span>
+          </div>
+          <div className="w-full bg-muted rounded-full h-2">
+            <div
+              className="bg-primary h-2 rounded-full transition-all duration-300"
+              style={{ width: `${uploadProgress}%` }}
             />
-            {errors.transactionId && (
-              <p className="text-sm text-destructive">{errors.transactionId.message}</p>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="screenshot">
-              Payment Screenshot <span className="text-destructive">*</span>
-            </Label>
-            <div className="flex items-center gap-4">
-              <Input
-                id="screenshot"
-                type="file"
-                accept="image/*"
-                {...register('screenshot', {
-                  required: 'Payment screenshot is required',
-                })}
-                disabled={isSubmitting}
-                className="cursor-pointer"
-              />
-              <Upload className="h-5 w-5 text-muted-foreground" />
-            </div>
-            {selectedFile && selectedFile.length > 0 && (
-              <p className="text-sm text-muted-foreground">
-                Selected: {selectedFile[0].name} ({(selectedFile[0].size / 1024).toFixed(2)} KB)
-              </p>
-            )}
-            {errors.screenshot && (
-              <p className="text-sm text-destructive">{errors.screenshot.message}</p>
-            )}
-          </div>
-
-          {isSubmitting && uploadProgress > 0 && (
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Uploading...</span>
-                <span className="font-semibold">{uploadProgress}%</span>
-              </div>
-              <Progress value={uploadProgress} className="h-2" />
-            </div>
-          )}
-
-          <Button
-            type="submit"
-            className="w-full bg-emerald-600 hover:bg-emerald-700"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Submitting...' : 'Submit Payment Proof'}
-          </Button>
-        </form>
-
-        <div className="mt-6">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <Separator />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">Or</span>
-            </div>
-          </div>
-
-          <div className="mt-6 space-y-3">
-            <p className="text-sm text-muted-foreground text-center">
-              Prefer to send your screenshot directly?
-            </p>
-            <Button
-              type="button"
-              onClick={handleWhatsAppSubmit}
-              className="w-full bg-emerald-600 hover:bg-emerald-700 flex items-center gap-2"
-            >
-              <MessageCircle className="h-5 w-5" />
-              Send Screenshot via WhatsApp
-            </Button>
           </div>
         </div>
-      </CardContent>
-    </Card>
+      )}
+
+      {error && (
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+
+      <div className="flex flex-col sm:flex-row gap-3">
+        <Button
+          type="submit"
+          disabled={uploading}
+          className="flex-1"
+        >
+          {uploading ? (
+            <>
+              <Upload className="mr-2 h-4 w-4 animate-spin" />
+              Submitting... {uploadProgress}%
+            </>
+          ) : (
+            <>
+              <Upload className="mr-2 h-4 w-4" />
+              Submit Payment Proof
+            </>
+          )}
+        </Button>
+
+        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex-1">
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors"
+          >
+            WhatsApp Support: {maskedNumber}
+          </Button>
+        </a>
+      </div>
+
+      <p className="text-xs text-center text-muted-foreground">
+        Having trouble? Contact us on WhatsApp for assistance
+      </p>
+    </form>
   );
 }

@@ -12,6 +12,7 @@ import {
   LogOut,
   Menu,
   Shield,
+  DollarSign,
 } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
@@ -21,6 +22,7 @@ const navigation = [
   { name: 'User Management', href: '/admin-dashboard/users', icon: Users },
   { name: 'Package Management', href: '/admin-dashboard/packages', icon: Package },
   { name: 'Payment Management', href: '/admin-dashboard/payments', icon: CreditCard },
+  { name: 'Withdrawal Management', href: '/admin-dashboard/withdrawals', icon: DollarSign },
 ];
 
 function Sidebar() {

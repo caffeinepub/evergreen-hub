@@ -58,11 +58,11 @@ export default function PaymentModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-black border-zinc-800">
         <DialogHeader>
-          <DialogTitle className="text-2xl">Complete Your Purchase</DialogTitle>
-          <DialogDescription>
-            You're purchasing: <span className="font-semibold text-foreground">{packageName}</span> for{' '}
+          <DialogTitle className="text-2xl text-white">Complete Your Purchase</DialogTitle>
+          <DialogDescription className="text-zinc-400">
+            You're purchasing: <span className="font-semibold text-white">{packageName}</span> for{' '}
             <span className="font-semibold text-emerald-500">{packagePrice}</span>
           </DialogDescription>
         </DialogHeader>
@@ -70,7 +70,7 @@ export default function PaymentModal({
         <div className="space-y-6 mt-4">
           <Alert className="border-emerald-500/30 bg-emerald-950/10">
             <AlertCircle className="h-4 w-4 text-emerald-500" />
-            <AlertDescription>
+            <AlertDescription className="text-zinc-300">
               {isVideoEditing ? (
                 <>
                   Scan the QR code to make payment of ₹500 via PhonePe, or use bank transfer. Submit your payment proof below for verification within 24 hours.
@@ -85,7 +85,7 @@ export default function PaymentModal({
 
           <PaymentGateway />
 
-          <Separator />
+          <Separator className="bg-zinc-800" />
 
           <PaymentProofForm
             packageId={packageId}

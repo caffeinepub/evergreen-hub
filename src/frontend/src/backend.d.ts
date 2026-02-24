@@ -14,6 +14,48 @@ export class ExternalBlob {
     static fromBytes(blob: Uint8Array<ArrayBuffer>): ExternalBlob;
     withUploadProgress(onProgress: (percentage: number) => void): ExternalBlob;
 }
+export interface Earnings {
+    today: bigint;
+    lifetime: bigint;
+    monthly: bigint;
+    weekly: bigint;
+}
+export interface TransformationOutput {
+    status: bigint;
+    body: Uint8Array;
+    headers: Array<http_header>;
+}
+export interface Payment {
+    id: bigint;
+    status: PaymentStatus;
+    userId: Principal;
+    createdAt: bigint;
+    packageId: bigint;
+    transactionId: string;
+}
+export interface http_header {
+    value: string;
+    name: string;
+}
+export interface http_request_result {
+    status: bigint;
+    body: Uint8Array;
+    headers: Array<http_header>;
+}
+export interface Package {
+    id: bigint;
+    status: PackageStatus;
+    courses: string;
+    name: string;
+    price: bigint;
+}
+export interface ShoppingItem {
+    productName: string;
+    currency: string;
+    quantity: bigint;
+    priceInCents: bigint;
+    productDescription: string;
+}
 export interface PaymentProof {
     id: bigint;
     status: PaymentStatus;
@@ -29,20 +71,42 @@ export interface AdminStats {
     totalUsers: bigint;
     totalRevenue: bigint;
 }
-export interface Payment {
+export interface TransformationInput {
+    context: Uint8Array;
+    response: http_request_result;
+}
+export interface LandingPage {
     id: bigint;
-    status: PaymentStatus;
+    title: string;
+    content: string;
     userId: Principal;
     createdAt: bigint;
-    packageId: bigint;
-    transactionId: string;
+    updatedAt: bigint;
+    template: string;
 }
-export interface Package {
+export interface StripeConfiguration {
+    allowedCountries: Array<string>;
+    secretKey: string;
+}
+export type StripeSessionStatus = {
+    __kind__: "completed";
+    completed: {
+        userPrincipal?: string;
+        response: string;
+    };
+} | {
+    __kind__: "failed";
+    failed: {
+        error: string;
+    };
+};
+export interface WithdrawalRequest {
     id: bigint;
-    status: PackageStatus;
-    courses: string;
-    name: string;
-    price: bigint;
+    status: WithdrawalRequestStatus;
+    userId: Principal;
+    createdAt: bigint;
+    message: string;
+    amount: bigint;
 }
 export interface UserProfile {
     principal: Principal;
@@ -57,11 +121,6 @@ export enum PackageStatus {
     active = "active",
     inactive = "inactive"
 }
-export enum PaymentStatus {
-    pending = "pending",
-    approved = "approved",
-    rejected = "rejected"
-}
 export enum Role {
     admin = "admin",
     user = "user"
@@ -71,12 +130,21 @@ export enum UserRole {
     user = "user",
     guest = "guest"
 }
+export enum WithdrawalRequestStatus {
+    pending = "pending",
+    approved = "approved",
+    rejected = "rejected"
+}
 export interface backendInterface {
     approvePayment(paymentId: bigint): Promise<void>;
     approvePaymentProof(proofId: bigint): Promise<void>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
+    createCheckoutSession(items: Array<ShoppingItem>, successUrl: string, cancelUrl: string): Promise<string>;
+    createLandingPage(title: string, content: string, template: string): Promise<bigint>;
     createPackage(name: string, price: bigint, courses: string): Promise<bigint>;
     createPayment(packageId: bigint, transactionId: string): Promise<bigint>;
+    createWithdrawalRequest(amount: bigint, message: string): Promise<bigint>;
+    deleteLandingPage(pageId: bigint): Promise<void>;
     deletePackage(packageId: bigint): Promise<void>;
     deleteUser(userId: Principal): Promise<void>;
     getActivePackages(): Promise<Array<Package>>;
@@ -85,25 +153,37 @@ export interface backendInterface {
     getAllPaymentProofs(): Promise<Array<PaymentProof>>;
     getAllPayments(): Promise<Array<Payment>>;
     getAllUsers(): Promise<Array<UserProfile>>;
+    getAllWithdrawalRequests(): Promise<Array<WithdrawalRequest>>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
+    getEarnings(userId: Principal): Promise<Earnings>;
+    getLandingPage(pageId: bigint): Promise<LandingPage | null>;
+    getLandingPages(userId: Principal): Promise<Array<LandingPage>>;
     getMyPaymentProofs(): Promise<Array<PaymentProof>>;
     getMyPayments(): Promise<Array<Payment>>;
     getPaymentProof(proofId: bigint): Promise<PaymentProof | null>;
     getPaymentProofsByStatus(status: PaymentStatus): Promise<Array<PaymentProof>>;
     getPaymentsByStatus(status: PaymentStatus): Promise<Array<Payment>>;
     getPaymentsByUser(userId: Principal): Promise<Array<Payment>>;
+    getStripeSessionStatus(sessionId: string): Promise<StripeSessionStatus>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
+    getWithdrawalRequests(userId: Principal): Promise<Array<WithdrawalRequest>>;
     isCallerAdmin(): Promise<boolean>;
+    isStripeConfigured(): Promise<boolean>;
+    recordPurchase(userId: Principal, amount: bigint): Promise<void>;
     registerUser(name: string, email: string, phone: string): Promise<void>;
     rejectPayment(paymentId: bigint): Promise<void>;
     rejectPaymentProof(proofId: bigint): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
+    setStripeConfiguration(config: StripeConfiguration): Promise<void>;
     submitPaymentProof(packageId: bigint, transactionId: string, screenshotBlob: ExternalBlob): Promise<bigint>;
     togglePackageStatus(packageId: bigint): Promise<void>;
     toggleUserBlock(userId: Principal): Promise<void>;
+    transform(input: TransformationInput): Promise<TransformationOutput>;
+    updateLandingPage(pageId: bigint, title: string, content: string): Promise<void>;
     updatePackage(packageId: bigint, name: string, price: bigint, courses: string): Promise<void>;
     updatePaymentProofStatus(proofId: bigint, status: PaymentStatus): Promise<void>;
     updatePaymentStatus(paymentId: bigint, status: PaymentStatus): Promise<void>;
     updateProfile(name: string, phone: string): Promise<void>;
+    updateRequestStatus(requestId: bigint, status: WithdrawalRequestStatus): Promise<void>;
 }

@@ -1,116 +1,97 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Video, Sparkles, MessageCircle, CreditCard } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Video, Clock, CheckCircle, Sparkles } from 'lucide-react';
 import PaymentModal from './PaymentModal';
-import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from '@tanstack/react-router';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 export default function VideoEditingSection() {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-  const { isAuthenticated } = useAuth();
-  const navigate = useNavigate();
   const { ref, isVisible } = useScrollAnimation();
+  const phoneNumber = '9263989760';
+  const maskedNumber = '********60';
+  const message = encodeURIComponent('Hello! I want to order video editing service.');
+  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
-  const handleOrderNow = () => {
-    window.open(
-      'https://wa.me/919263989760?text=Hi%2C%20I%27d%20like%20to%20order%20video%20editing%20service',
-      '_blank',
-      'noopener,noreferrer'
-    );
-  };
-
-  const handlePayNow = () => {
-    if (!isAuthenticated) {
-      navigate({ to: '/login' });
-      return;
-    }
-    setIsPaymentModalOpen(true);
-  };
+  const features = [
+    { icon: Video, title: 'Professional Editing', description: 'High-quality video editing with transitions and effects' },
+    { icon: Clock, title: 'Fast Turnaround', description: 'Quick delivery without compromising quality' },
+    { icon: CheckCircle, title: 'Unlimited Revisions', description: 'We work until you\'re 100% satisfied' },
+    { icon: Sparkles, title: 'Creative Touch', description: 'Professional polish for your content' },
+  ];
 
   return (
     <>
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div ref={ref} className={`scroll-fade-in ${isVisible ? 'visible' : ''}`}>
-              <Card className="border-2 border-emerald-500/30 shadow-2xl shadow-emerald-500/10 overflow-hidden">
-                <div className="bg-gradient-to-br from-emerald-600 to-emerald-800 p-8 text-center">
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-black/30 rounded-full mb-6">
-                    <Video className="h-10 w-10 text-white" />
-                  </div>
-                  <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
-                    Professional Long Video Editing
-                  </h2>
-                  <div className="flex items-center justify-center gap-2 text-white/90">
-                    <Sparkles className="h-5 w-5" />
-                    <span className="text-lg font-semibold">Premium Quality Service</span>
-                  </div>
+      <section ref={ref} className="py-20 bg-gradient-to-br from-background via-primary/5 to-background">
+        <div className={`container mx-auto px-4 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Professional <span className="text-primary">Video Editing</span> Service
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Transform your raw footage into stunning videos. Perfect for YouTube, Instagram, and promotional content.
+            </p>
+          </div>
+
+          <div className="max-w-5xl mx-auto">
+            <Card className="border-2 border-primary/20 shadow-xl">
+              <CardHeader className="text-center pb-4">
+                <CardTitle className="text-3xl font-bold">Long Video Editing</CardTitle>
+                <CardDescription className="text-lg">Professional editing at an affordable price</CardDescription>
+                <div className="mt-4">
+                  <span className="text-5xl font-bold text-primary">₹500</span>
+                  <span className="text-muted-foreground ml-2">per video</span>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-4">
+                  {features.map((feature, index) => (
+                    <div key={index} className="flex items-start gap-3 p-4 rounded-lg bg-muted/50">
+                      <feature.icon className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
+                      <div>
+                        <h3 className="font-semibold mb-1">{feature.title}</h3>
+                        <p className="text-sm text-muted-foreground">{feature.description}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
 
-                <CardContent className="p-8 space-y-6">
-                  <div className="text-center space-y-4">
-                    <p className="text-xl text-muted-foreground">
-                      I provide high-quality long video editing at just
-                    </p>
-                    <div className="inline-block bg-emerald-500/10 border-2 border-emerald-500 rounded-2xl px-8 py-4">
-                      <span className="text-5xl font-black text-emerald-500">₹500</span>
-                      <span className="text-xl text-muted-foreground ml-2">per video</span>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-6">
-                    <div className="text-center p-4 bg-muted/50 rounded-lg">
-                      <div className="text-2xl font-bold text-foreground mb-1">Professional</div>
-                      <div className="text-sm text-muted-foreground">Quality Editing</div>
-                    </div>
-                    <div className="text-center p-4 bg-muted/50 rounded-lg">
-                      <div className="text-2xl font-bold text-foreground mb-1">Fast</div>
-                      <div className="text-sm text-muted-foreground">Turnaround Time</div>
-                    </div>
-                    <div className="text-center p-4 bg-muted/50 rounded-lg">
-                      <div className="text-2xl font-bold text-foreground mb-1">Affordable</div>
-                      <div className="text-sm text-muted-foreground">Pricing</div>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                  <Button
+                    size="lg"
+                    onClick={() => setIsPaymentModalOpen(true)}
+                    className="text-lg px-8 py-6"
+                  >
+                    Order Now - ₹500
+                  </Button>
+                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                     <Button
-                      onClick={handlePayNow}
-                      size="lg"
-                      className="w-full bg-emerald-500 hover:bg-emerald-600 text-black font-bold text-lg py-6 rounded-lg shadow-lg hover:shadow-emerald-500/50 transition-all duration-300"
-                    >
-                      <CreditCard className="mr-2 h-5 w-5" />
-                      Pay Now
-                    </Button>
-                    <Button
-                      onClick={handleOrderNow}
                       size="lg"
                       variant="outline"
-                      className="w-full border-2 border-emerald-500 text-emerald-500 hover:bg-emerald-500 hover:text-black font-bold text-lg py-6 rounded-lg shadow-lg transition-all duration-300"
+                      className="text-lg px-8 py-6 w-full sm:w-auto cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors"
                     >
-                      <MessageCircle className="mr-2 h-5 w-5" />
-                      Order via WhatsApp
+                      WhatsApp: {maskedNumber}
                     </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+                  </a>
+                </div>
+
+                <p className="text-center text-sm text-muted-foreground">
+                  💡 Tip: Send us your raw footage via WhatsApp or Google Drive link after payment
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
 
-      {isPaymentModalOpen && (
-        <PaymentModal
-          isOpen={isPaymentModalOpen}
-          onClose={() => setIsPaymentModalOpen(false)}
-          packageId={BigInt(0)}
-          packageName="Professional Long Video Editing"
-          packagePrice="₹500"
-          isVideoEditing={true}
-        />
-      )}
+      <PaymentModal
+        isOpen={isPaymentModalOpen}
+        onClose={() => setIsPaymentModalOpen(false)}
+        packageId={BigInt(0)}
+        packageName="Video Editing Service"
+        packagePrice="₹500"
+        isVideoEditing={true}
+      />
     </>
   );
 }

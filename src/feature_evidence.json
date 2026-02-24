@@ -2,10 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-create-a-new-aboutus-page-component-at-frontend-src-pages-aboutus-tsx-with-professional-trust-building-content-describing-evergreen-hub-as-a-digital-learning-and-earning-platform-the-page-must-include-six-distinct-sections-introduction-who-we-are-our-mission-what-we-offer-as-bullet-points-why-choose-evergreen-hub-our-vision-for-the-future-and-commitment-to-transparency-support-content-should-be-500-700-words-total-written-in-professional-yet-motivational-tone-with-clear-and-simple-language-avoid-fake-income-promises-or-exaggerated-claims-like-guaranteed-income-emphasize-honesty-and-transparency-throughout",
-      "featureTitle": "Create a new AboutUs page component at frontend/src/pages/AboutUs.tsx with professional, trust-building content describing Evergreen Hub as a digital learning and earning platform. The page must include six distinct sections: Introduction (Who we are), Our Mission, What We Offer (as bullet points), Why Choose Evergreen Hub, Our Vision for the Future, and Commitment to Transparency & Support. Content should be 500-700 words total, written in professional yet motivational tone with clear and simple language. Avoid fake income promises or exaggerated claims like 'guaranteed income'. Emphasize honesty and transparency throughout.",
+      "featureId": "feature-change-paymentmodal-component-background-from-transparent-to-solid-black-000000-update-the-modal-container-styling-to-use-a-solid-black-background-instead-of-the-current-transparent-or-semi-transparent-background",
+      "featureTitle": "Change PaymentModal component background from transparent to solid black (#000000). Update the modal container styling to use a solid black background instead of the current transparent or semi-transparent background.",
       "files": [
-        "frontend/src/pages/AboutUs.tsx"
+        "frontend/src/components/PaymentModal.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -19,15 +19,15 @@
         "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-112"
+        "REQ-121"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-style-the-aboutus-page-component-with-responsive-mobile-first-layout-using-the-existing-green-and-black-theme-with-emerald-accents-apply-tailwind-css-classes-consistent-with-the-site-s-existing-design-system-use-clean-typography-with-the-inter-font-family-each-section-should-have-appropriate-spacing-headings-styled-with-emerald-green-accents-and-content-formatted-for-readability-ensure-the-page-is-fully-responsive-across-mobile-tablet-and-desktop-viewports",
-      "featureTitle": "Style the AboutUs page component with responsive mobile-first layout using the existing green and black theme with emerald accents. Apply Tailwind CSS classes consistent with the site's existing design system. Use clean typography with the Inter font family. Each section should have appropriate spacing, headings styled with emerald green accents, and content formatted for readability. Ensure the page is fully responsive across mobile, tablet, and desktop viewports.",
+      "featureId": "feature-change-evergreenaichatbot-component-background-to-solid-black-000000-update-the-chatbot-interface-container-to-use-a-solid-black-background-instead-of-any-transparent-or-glassmorphism-effects",
+      "featureTitle": "Change EvergreenAIChatbot component background to solid black (#000000). Update the chatbot interface container to use a solid black background instead of any transparent or glassmorphism effects.",
       "files": [
-        "frontend/src/pages/AboutUs.tsx"
+        "frontend/src/components/EvergreenAIChatbot.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -41,15 +41,15 @@
         "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-113"
+        "REQ-122"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-integrate-the-aboutus-page-component-with-the-existing-themecontext-so-all-colors-backgrounds-and-text-adapt-correctly-to-the-user-s-selected-theme-light-dark-system-ensure-visual-consistency-with-the-rest-of-the-application-when-theme-changes",
-      "featureTitle": "Integrate the AboutUs page component with the existing ThemeContext so all colors, backgrounds, and text adapt correctly to the user's selected theme (light/dark/system). Ensure visual consistency with the rest of the application when theme changes.",
+      "featureId": "feature-reposition-evergreenaichatbot-floating-button-to-the-left-side-of-the-viewport-change-the-positioning-from-right-side-to-left-side-while-maintaining-appropriate-spacing-from-edges-and-ensuring-it-doesn-t-overlap-with-other-ui-elements",
+      "featureTitle": "Reposition EvergreenAIChatbot floating button to the left side of the viewport. Change the positioning from right side to left side while maintaining appropriate spacing from edges and ensuring it doesn't overlap with other UI elements.",
       "files": [
-        "frontend/src/pages/AboutUs.tsx"
+        "frontend/src/components/EvergreenAIChatbot.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -63,15 +63,15 @@
         "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-114"
+        "REQ-123"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-add-a-new-route-at-about-us-in-the-main-app-tsx-routing-configuration-that-renders-the-aboutus-page-component-ensure-the-route-is-accessible-to-all-users-no-authentication-required-update-the-route-definition-to-match-the-existing-routing-patterns-in-the-application",
-      "featureTitle": "Add a new route at /about-us in the main App.tsx routing configuration that renders the AboutUs page component. Ensure the route is accessible to all users (no authentication required). Update the route definition to match the existing routing patterns in the application.",
+      "featureId": "feature-update-floatingwhatsappbutton-component-background-to-solid-black-000000-change-the-button-background-styling-to-use-a-solid-black-background",
+      "featureTitle": "Update FloatingWhatsAppButton component background to solid black (#000000). Change the button background styling to use a solid black background.",
       "files": [
-        "frontend/src/App.tsx"
+        "frontend/src/components/FloatingWhatsAppButton.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -85,15 +85,19 @@
         "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-115"
+        "REQ-124"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-update-the-mobilesidebar-component-navigation-menu-to-change-the-about-us-link-target-from-about-to-about-us-route-ensuring-it-navigates-to-the-new-dedicated-about-us-page-instead-of-a-section-anchor",
-      "featureTitle": "Update the MobileSidebar component navigation menu to change the 'About Us' link target from '/#about' to '/about-us' route, ensuring it navigates to the new dedicated About Us page instead of a section anchor.",
+      "featureId": "feature-mask-phone-number-9263989760-throughout-the-application-to-display-only-the-last-2-digits-showing-as-60-make-the-masked-number-clickable-opening-whatsapp-or-phone-dialer-with-the-full-phone-number-when-clicked-apply-masking-to-all-instances-floatingwhatsappbutton-footer-herosection-videoeditingsection-paymentproofform-and-any-other-components-displaying-the-phone-number",
+      "featureTitle": "Mask phone number 9263989760 throughout the application to display only the last 2 digits, showing as '********60'. Make the masked number clickable, opening WhatsApp or phone dialer with the full phone number when clicked. Apply masking to all instances: FloatingWhatsAppButton, Footer, HeroSection, VideoEditingSection, PaymentProofForm, and any other components displaying the phone number.",
       "files": [
-        "frontend/src/components/MobileSidebar.tsx"
+        "frontend/src/components/FloatingWhatsAppButton.tsx",
+        "frontend/src/components/Footer.tsx",
+        "frontend/src/components/HeroSection.tsx",
+        "frontend/src/components/PaymentProofForm.tsx",
+        "frontend/src/components/VideoEditingSection.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -107,15 +111,15 @@
         "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-116"
+        "REQ-125"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-update-the-footer-component-quick-links-section-to-change-the-about-us-link-from-about-to-about-us-route-ensuring-it-navigates-to-the-new-dedicated-about-us-page",
-      "featureTitle": "Update the Footer component Quick Links section to change the 'About Us' link from '/#about' to '/about-us' route, ensuring it navigates to the new dedicated About Us page.",
+      "featureId": "feature-after-successful-login-redirect-authenticated-users-directly-to-the-user-dashboard-dashboard-instead-of-the-homepage-update-the-login-page-and-authentication-flow-to-navigate-to-dashboard-upon-successful-authentication",
+      "featureTitle": "After successful login, redirect authenticated users directly to the user dashboard (/dashboard) instead of the homepage. Update the Login page and authentication flow to navigate to /dashboard upon successful authentication.",
       "files": [
-        "frontend/src/components/Footer.tsx"
+        "frontend/src/pages/Login.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -129,15 +133,16 @@
         "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-117"
+        "REQ-126"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-add-scroll-triggered-fade-in-animation-with-slight-upward-motion-to-the-aboutus-page-sections-using-the-existing-usescrollanimation-hook-and-intersection-observer-pattern-apply-the-same-cubic-bezier-easing-function-cubic-bezier-0-4-0-0-0-2-1-used-in-other-landing-page-sections-for-consistent-premium-transitions",
-      "featureTitle": "Add scroll-triggered fade-in animation with slight upward motion to the AboutUs page sections using the existing useScrollAnimation hook and Intersection Observer pattern. Apply the same cubic-bezier easing function (cubic-bezier(0.4, 0.0, 0.2, 1)) used in other landing page sections for consistent premium transitions.",
+      "featureId": "feature-create-an-earnings-dashboard-section-in-the-user-dashboard-overview-page-displaying-four-earnings-metrics-today-s-earning-weekly-earning-monthly-earning-and-lifetime-earning-display-each-metric-in-a-separate-card-with-emerald-green-accents-showing-the-earnings-amount-in-inr-use-a-responsive-grid-layout-that-adapts-to-mobile-tablet-and-desktop-viewports",
+      "featureTitle": "Create an Earnings Dashboard section in the user Dashboard Overview page displaying four earnings metrics: Today's Earning, Weekly Earning, Monthly Earning, and Lifetime Earning. Display each metric in a separate card with emerald green accents, showing the earnings amount in INR (₹). Use a responsive grid layout that adapts to mobile, tablet, and desktop viewports.",
       "files": [
-        "frontend/src/pages/AboutUs.tsx"
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/pages/user/DashboardOverview.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -151,15 +156,18 @@
         "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-118"
+        "REQ-127"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-add-seo-meta-tags-to-the-aboutus-page-including-a-descriptive-page-title-about-us-evergreen-hub-digital-learning-earning-platform-and-meta-description-highlighting-the-platform-s-mission-to-empower-students-beginners-job-seekers-and-housewives-with-skill-based-courses-and-affiliate-marketing-opportunities-include-relevant-keywords-for-search-engine-optimization",
-      "featureTitle": "Add SEO meta tags to the AboutUs page including a descriptive page title 'About Us - Evergreen Hub | Digital Learning & Earning Platform' and meta description highlighting the platform's mission to empower students, beginners, job seekers, and housewives with skill-based courses and affiliate marketing opportunities. Include relevant keywords for search engine optimization.",
+      "featureId": "feature-add-a-withdrawal-request-feature-to-the-user-dashboard-create-a-new-page-or-section-where-users-can-submit-withdrawal-questions-or-requests-include-a-form-with-fields-for-withdrawal-amount-and-message-question-and-a-submit-button-display-a-list-of-the-user-s-previous-withdrawal-requests-with-status-pending-approved-rejected-and-submission-date",
+      "featureTitle": "Add a Withdrawal Request feature to the user dashboard. Create a new page or section where users can submit withdrawal questions or requests. Include a form with fields for withdrawal amount and message/question, and a submit button. Display a list of the user's previous withdrawal requests with status (pending/approved/rejected) and submission date.",
       "files": [
-        "frontend/src/pages/AboutUs.tsx"
+        "frontend/src/App.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/layouts/UserDashboardLayout.tsx",
+        "frontend/src/pages/user/WithdrawalRequests.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -173,15 +181,18 @@
         "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-119"
+        "REQ-129"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-emphasize-in-the-about-us-page-content-that-the-platform-targets-students-beginners-job-seekers-housewives-and-anyone-wanting-to-start-online-earning-clearly-present-the-seven-service-offerings-skill-based-online-courses-affiliate-marketing-opportunities-ready-made-landing-pages-training-sessions-and-webinars-performance-tracking-dashboard-and-community-and-team-support-system-ensure-the-tone-remains-motivational-yet-realistic-avoiding-any-fake-income-promises-or-exaggerated-claims-like-guaranteed-income",
-      "featureTitle": "Emphasize in the About Us page content that the platform targets students, beginners, job seekers, housewives, and anyone wanting to start online earning. Clearly present the seven service offerings: skill-based online courses, affiliate marketing opportunities, ready-made landing pages, training sessions and webinars, performance tracking dashboard, and community and team support system. Ensure the tone remains motivational yet realistic, avoiding any fake income promises or exaggerated claims like 'guaranteed income'.",
+      "featureId": "feature-add-a-landing-page-builder-creator-option-to-the-user-dashboard-create-a-new-navigation-item-and-page-that-allows-users-to-build-or-customize-landing-pages-the-page-should-provide-a-user-friendly-interface-for-creating-landing-pages-potentially-with-templates-or-customization-options",
+      "featureTitle": "Add a Landing Page Builder/Creator option to the user dashboard. Create a new navigation item and page that allows users to build or customize landing pages. The page should provide a user-friendly interface for creating landing pages, potentially with templates or customization options.",
       "files": [
-        "frontend/src/pages/AboutUs.tsx"
+        "frontend/src/App.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/layouts/UserDashboardLayout.tsx",
+        "frontend/src/pages/user/LandingPageBuilder.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -195,7 +206,32 @@
         "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-120"
+        "REQ-131"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-an-admin-withdrawal-management-page-to-the-admin-dashboard-create-a-page-listing-all-user-withdrawal-requests-in-a-table-with-columns-user-name-amount-message-status-submission-date-and-actions-implement-approve-reject-buttons-for-each-request-and-include-filtering-by-status-all-pending-approved-rejected-add-a-navigation-item-in-the-admin-sidebar-for-withdrawal-management",
+      "featureTitle": "Add an admin Withdrawal Management page to the admin dashboard. Create a page listing all user withdrawal requests in a table with columns: User Name, Amount (₹), Message, Status, Submission Date, and Actions. Implement approve/reject buttons for each request and include filtering by status (All/Pending/Approved/Rejected). Add a navigation item in the admin sidebar for Withdrawal Management.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/layouts/AdminDashboardLayout.tsx",
+        "frontend/src/pages/admin/WithdrawalManagement.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-133"
       ],
       "confidence": "high"
     }

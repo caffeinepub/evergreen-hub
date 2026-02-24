@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 33,
+  "projectStateVersion": 35,
   "summary": "Evergreen Hub - A modern affiliate marketing website with green and black theme, featuring course pricing packages, YouTube channel integration, video editing services, WhatsApp lead generation system, and complete authentication system with user/admin dashboards",
   "architectural_notes": [
     "Green and black color theme throughout the site",
@@ -880,6 +880,86 @@
         "REQ-120"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-change-paymentmodal-component-background-from-transparent-to-solid-black-000000-update-the-modal-container-styling-to-use-a-solid-black-background-instead-of-the-current-transparent-or-semi-transparent-background",
+      "title": "Change PaymentModal component background from transparent to solid black (#000000). Update the modal container styling to use a solid black background instead of the current transparent or semi-transparent background.",
+      "reqIds": [
+        "REQ-121"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-change-evergreenaichatbot-component-background-to-solid-black-000000-update-the-chatbot-interface-container-to-use-a-solid-black-background-instead-of-any-transparent-or-glassmorphism-effects",
+      "title": "Change EvergreenAIChatbot component background to solid black (#000000). Update the chatbot interface container to use a solid black background instead of any transparent or glassmorphism effects.",
+      "reqIds": [
+        "REQ-122"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-reposition-evergreenaichatbot-floating-button-to-the-left-side-of-the-viewport-change-the-positioning-from-right-side-to-left-side-while-maintaining-appropriate-spacing-from-edges-and-ensuring-it-doesn-t-overlap-with-other-ui-elements",
+      "title": "Reposition EvergreenAIChatbot floating button to the left side of the viewport. Change the positioning from right side to left side while maintaining appropriate spacing from edges and ensuring it doesn't overlap with other UI elements.",
+      "reqIds": [
+        "REQ-123"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-floatingwhatsappbutton-component-background-to-solid-black-000000-change-the-button-background-styling-to-use-a-solid-black-background",
+      "title": "Update FloatingWhatsAppButton component background to solid black (#000000). Change the button background styling to use a solid black background.",
+      "reqIds": [
+        "REQ-124"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-mask-phone-number-9263989760-throughout-the-application-to-display-only-the-last-2-digits-showing-as-60-make-the-masked-number-clickable-opening-whatsapp-or-phone-dialer-with-the-full-phone-number-when-clicked-apply-masking-to-all-instances-floatingwhatsappbutton-footer-herosection-videoeditingsection-paymentproofform-and-any-other-components-displaying-the-phone-number",
+      "title": "Mask phone number 9263989760 throughout the application to display only the last 2 digits, showing as '********60'. Make the masked number clickable, opening WhatsApp or phone dialer with the full phone number when clicked. Apply masking to all instances: FloatingWhatsAppButton, Footer, HeroSection, VideoEditingSection, PaymentProofForm, and any other components displaying the phone number.",
+      "reqIds": [
+        "REQ-125"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-after-successful-login-redirect-authenticated-users-directly-to-the-user-dashboard-dashboard-instead-of-the-homepage-update-the-login-page-and-authentication-flow-to-navigate-to-dashboard-upon-successful-authentication",
+      "title": "After successful login, redirect authenticated users directly to the user dashboard (/dashboard) instead of the homepage. Update the Login page and authentication flow to navigate to /dashboard upon successful authentication.",
+      "reqIds": [
+        "REQ-126"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-an-earnings-dashboard-section-in-the-user-dashboard-overview-page-displaying-four-earnings-metrics-today-s-earning-weekly-earning-monthly-earning-and-lifetime-earning-display-each-metric-in-a-separate-card-with-emerald-green-accents-showing-the-earnings-amount-in-inr-use-a-responsive-grid-layout-that-adapts-to-mobile-tablet-and-desktop-viewports",
+      "title": "Create an Earnings Dashboard section in the user Dashboard Overview page displaying four earnings metrics: Today's Earning, Weekly Earning, Monthly Earning, and Lifetime Earning. Display each metric in a separate card with emerald green accents, showing the earnings amount in INR (₹). Use a responsive grid layout that adapts to mobile, tablet, and desktop viewports.",
+      "reqIds": [
+        "REQ-127"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-withdrawal-request-feature-to-the-user-dashboard-create-a-new-page-or-section-where-users-can-submit-withdrawal-questions-or-requests-include-a-form-with-fields-for-withdrawal-amount-and-message-question-and-a-submit-button-display-a-list-of-the-user-s-previous-withdrawal-requests-with-status-pending-approved-rejected-and-submission-date",
+      "title": "Add a Withdrawal Request feature to the user dashboard. Create a new page or section where users can submit withdrawal questions or requests. Include a form with fields for withdrawal amount and message/question, and a submit button. Display a list of the user's previous withdrawal requests with status (pending/approved/rejected) and submission date.",
+      "reqIds": [
+        "REQ-129"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-landing-page-builder-creator-option-to-the-user-dashboard-create-a-new-navigation-item-and-page-that-allows-users-to-build-or-customize-landing-pages-the-page-should-provide-a-user-friendly-interface-for-creating-landing-pages-potentially-with-templates-or-customization-options",
+      "title": "Add a Landing Page Builder/Creator option to the user dashboard. Create a new navigation item and page that allows users to build or customize landing pages. The page should provide a user-friendly interface for creating landing pages, potentially with templates or customization options.",
+      "reqIds": [
+        "REQ-131"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-admin-withdrawal-management-page-to-the-admin-dashboard-create-a-page-listing-all-user-withdrawal-requests-in-a-table-with-columns-user-name-amount-message-status-submission-date-and-actions-implement-approve-reject-buttons-for-each-request-and-include-filtering-by-status-all-pending-approved-rejected-add-a-navigation-item-in-the-admin-sidebar-for-withdrawal-management",
+      "title": "Add an admin Withdrawal Management page to the admin dashboard. Create a page listing all user withdrawal requests in a table with columns: User Name, Amount (₹), Message, Status, Submission Date, and Actions. Implement approve/reject buttons for each request and include filtering by status (All/Pending/Approved/Rejected). Add a navigation item in the admin sidebar for Withdrawal Management.",
+      "reqIds": [
+        "REQ-133"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -1235,6 +1315,66 @@
       "id": "AR-76",
       "summary": "Create fully responsive mobile-first dashboard with sliding left sidebar (off-canvas menu), hamburger toggle, smooth animations, dark blue design, navigation menu with icons, expandable Reports dropdown, authentication check, and logout button",
       "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-77",
+      "summary": "Change PaymentModal background from transparent to solid black, change Evergreen.AI chatbot background to solid black",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-78",
+      "summary": "Move Evergreen.AI chatbot floating button to left side of screen instead of right",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-79",
+      "summary": "Make phone number clickable with masked format showing only last 2 digits (e.g., ********60)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-80",
+      "summary": "After login, redirect to user dashboard showing earnings: today's earning, weekly earning, monthly earning, lifetime earning",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-81",
+      "summary": "Add withdrawal question/request feature in user dashboard allowing users to send withdrawal queries",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-82",
+      "summary": "Add landing page builder/creator option in user dashboard",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-90",
+      "summary": "Add backend support for earnings tracking and retrieval. Implement data structures to store and calculate user earnings (today, weekly, monthly, lifetime) and create a backend function to retrieve earnings data for authenticated users. Initialize earnings data when users make approved purchases.",
+      "reqIds": [
+        "REQ-128"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-92",
+      "summary": "Implement backend support for withdrawal requests. Create a WithdrawalRequest data structure with fields: id, userId, amount, message, status (pending/approved/rejected), createdAt. Add backend functions to create new withdrawal requests, list requests by user, list all requests (admin), and update request status (admin only).",
+      "reqIds": [
+        "REQ-130"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-94",
+      "summary": "Implement backend support for user-created landing pages. Create data structures to store landing page configurations (title, content, template selection, customizations) and add backend functions to create, retrieve, update, and delete user landing pages. Associate landing pages with user Principal for ownership.",
+      "reqIds": [
+        "REQ-132"
+      ],
       "status": "pending"
     }
   ],

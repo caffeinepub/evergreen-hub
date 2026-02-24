@@ -16,7 +16,22 @@ export interface AdminStats {
   'totalUsers' : bigint,
   'totalRevenue' : bigint,
 }
+export interface Earnings {
+  'today' : bigint,
+  'lifetime' : bigint,
+  'monthly' : bigint,
+  'weekly' : bigint,
+}
 export type ExternalBlob = Uint8Array;
+export interface LandingPage {
+  'id' : bigint,
+  'title' : string,
+  'content' : string,
+  'userId' : Principal,
+  'createdAt' : bigint,
+  'updatedAt' : bigint,
+  'template' : string,
+}
 export interface Package {
   'id' : bigint,
   'status' : PackageStatus,
@@ -48,6 +63,30 @@ export type PaymentStatus = { 'pending' : null } |
   { 'rejected' : null };
 export type Role = { 'admin' : null } |
   { 'user' : null };
+export interface ShoppingItem {
+  'productName' : string,
+  'currency' : string,
+  'quantity' : bigint,
+  'priceInCents' : bigint,
+  'productDescription' : string,
+}
+export interface StripeConfiguration {
+  'allowedCountries' : Array<string>,
+  'secretKey' : string,
+}
+export type StripeSessionStatus = {
+    'completed' : { 'userPrincipal' : [] | [string], 'response' : string }
+  } |
+  { 'failed' : { 'error' : string } };
+export interface TransformationInput {
+  'context' : Uint8Array,
+  'response' : http_request_result,
+}
+export interface TransformationOutput {
+  'status' : bigint,
+  'body' : Uint8Array,
+  'headers' : Array<http_header>,
+}
 export interface UserProfile {
   'principal' : Principal,
   'blocked' : boolean,
@@ -60,6 +99,17 @@ export interface UserProfile {
 export type UserRole = { 'admin' : null } |
   { 'user' : null } |
   { 'guest' : null };
+export interface WithdrawalRequest {
+  'id' : bigint,
+  'status' : WithdrawalRequestStatus,
+  'userId' : Principal,
+  'createdAt' : bigint,
+  'message' : string,
+  'amount' : bigint,
+}
+export type WithdrawalRequestStatus = { 'pending' : null } |
+  { 'approved' : null } |
+  { 'rejected' : null };
 export interface _CaffeineStorageCreateCertificateResult {
   'method' : string,
   'blob_hash' : string,
@@ -70,6 +120,12 @@ export interface _CaffeineStorageRefillInformation {
 export interface _CaffeineStorageRefillResult {
   'success' : [] | [boolean],
   'topped_up_amount' : [] | [bigint],
+}
+export interface http_header { 'value' : string, 'name' : string }
+export interface http_request_result {
+  'status' : bigint,
+  'body' : Uint8Array,
+  'headers' : Array<http_header>,
 }
 export interface _SERVICE {
   '_caffeineStorageBlobIsLive' : ActorMethod<[Uint8Array], boolean>,
@@ -91,8 +147,15 @@ export interface _SERVICE {
   'approvePayment' : ActorMethod<[bigint], undefined>,
   'approvePaymentProof' : ActorMethod<[bigint], undefined>,
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
+  'createCheckoutSession' : ActorMethod<
+    [Array<ShoppingItem>, string, string],
+    string
+  >,
+  'createLandingPage' : ActorMethod<[string, string, string], bigint>,
   'createPackage' : ActorMethod<[string, bigint, string], bigint>,
   'createPayment' : ActorMethod<[bigint, string], bigint>,
+  'createWithdrawalRequest' : ActorMethod<[bigint, string], bigint>,
+  'deleteLandingPage' : ActorMethod<[bigint], undefined>,
   'deletePackage' : ActorMethod<[bigint], undefined>,
   'deleteUser' : ActorMethod<[Principal], undefined>,
   'getActivePackages' : ActorMethod<[], Array<Package>>,
@@ -101,8 +164,12 @@ export interface _SERVICE {
   'getAllPaymentProofs' : ActorMethod<[], Array<PaymentProof>>,
   'getAllPayments' : ActorMethod<[], Array<Payment>>,
   'getAllUsers' : ActorMethod<[], Array<UserProfile>>,
+  'getAllWithdrawalRequests' : ActorMethod<[], Array<WithdrawalRequest>>,
   'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
   'getCallerUserRole' : ActorMethod<[], UserRole>,
+  'getEarnings' : ActorMethod<[Principal], Earnings>,
+  'getLandingPage' : ActorMethod<[bigint], [] | [LandingPage]>,
+  'getLandingPages' : ActorMethod<[Principal], Array<LandingPage>>,
   'getMyPaymentProofs' : ActorMethod<[], Array<PaymentProof>>,
   'getMyPayments' : ActorMethod<[], Array<Payment>>,
   'getPaymentProof' : ActorMethod<[bigint], [] | [PaymentProof]>,
@@ -112,19 +179,30 @@ export interface _SERVICE {
   >,
   'getPaymentsByStatus' : ActorMethod<[PaymentStatus], Array<Payment>>,
   'getPaymentsByUser' : ActorMethod<[Principal], Array<Payment>>,
+  'getStripeSessionStatus' : ActorMethod<[string], StripeSessionStatus>,
   'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
+  'getWithdrawalRequests' : ActorMethod<[Principal], Array<WithdrawalRequest>>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
+  'isStripeConfigured' : ActorMethod<[], boolean>,
+  'recordPurchase' : ActorMethod<[Principal, bigint], undefined>,
   'registerUser' : ActorMethod<[string, string, string], undefined>,
   'rejectPayment' : ActorMethod<[bigint], undefined>,
   'rejectPaymentProof' : ActorMethod<[bigint], undefined>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
+  'setStripeConfiguration' : ActorMethod<[StripeConfiguration], undefined>,
   'submitPaymentProof' : ActorMethod<[bigint, string, ExternalBlob], bigint>,
   'togglePackageStatus' : ActorMethod<[bigint], undefined>,
   'toggleUserBlock' : ActorMethod<[Principal], undefined>,
+  'transform' : ActorMethod<[TransformationInput], TransformationOutput>,
+  'updateLandingPage' : ActorMethod<[bigint, string, string], undefined>,
   'updatePackage' : ActorMethod<[bigint, string, bigint, string], undefined>,
   'updatePaymentProofStatus' : ActorMethod<[bigint, PaymentStatus], undefined>,
   'updatePaymentStatus' : ActorMethod<[bigint, PaymentStatus], undefined>,
   'updateProfile' : ActorMethod<[string, string], undefined>,
+  'updateRequestStatus' : ActorMethod<
+    [bigint, WithdrawalRequestStatus],
+    undefined
+  >,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];

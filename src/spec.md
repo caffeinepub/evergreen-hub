@@ -1,19 +1,19 @@
 # Specification
 
 ## Summary
-**Goal:** Create a professional, SEO-friendly About Us page for Evergreen Hub that builds trust and clearly communicates the platform's mission, services, and target audience.
+**Goal:** Update UI backgrounds to solid black, reposition chatbot, mask phone number, and add earnings dashboard with withdrawal request functionality.
 
 **Planned changes:**
-- Create new AboutUs page component with six sections: Introduction, Our Mission, What We Offer, Why Choose Evergreen Hub, Our Vision for the Future, and Commitment to Transparency & Support
-- Style the page with responsive mobile-first layout using existing green and black theme with emerald accents
-- Integrate with ThemeContext for light/dark mode support
-- Add /about-us route to App.tsx routing configuration
-- Update MobileSidebar navigation link from '/#about' to '/about-us'
-- Update Footer Quick Links section link from '/#about' to '/about-us'
-- Add scroll-triggered fade-in animations with upward motion using existing useScrollAnimation hook
-- Add SEO meta tags with descriptive title and meta description
-- Write 500-700 words of professional, motivational content targeting students, beginners, job seekers, housewives, and aspiring online earners
-- Clearly list all seven service offerings: skill-based courses, affiliate marketing, landing pages, training/webinars, performance tracking, and community support
-- Emphasize honesty and transparency without fake income promises or exaggerated claims
+- Change PaymentModal, EvergreenAIChatbot, and FloatingWhatsAppButton backgrounds to solid black (#000000)
+- Move EvergreenAIChatbot floating button from right side to left side of viewport
+- Mask phone number 9263989760 to display as '********60' while keeping it clickable across all components
+- Redirect authenticated users to /dashboard after successful login instead of homepage
+- Create Earnings Dashboard section showing Today's, Weekly, Monthly, and Lifetime earnings in INR with emerald green accents
+- Add backend support for earnings tracking and calculation based on approved payment proofs
+- Implement Withdrawal Request feature allowing users to submit withdrawal requests with amount and message
+- Add backend data structures and functions for withdrawal request management (create, list, update status)
+- Create admin Withdrawal Management page with approve/reject functionality and status filtering
+- Add Landing Page Builder option in user dashboard for creating and customizing landing pages
+- Implement backend support for storing and managing user-created landing pages
 
-**User-visible outcome:** Users can navigate to a dedicated About Us page at /about-us that professionally explains Evergreen Hub's mission, services, and values with smooth animations and responsive design that adapts to their selected theme.
+**User-visible outcome:** Users will see a cleaner black-themed interface with repositioned chatbot, masked but clickable phone number, direct access to their earnings dashboard after login showing four earning metrics, ability to submit withdrawal requests and view their status, and access to a landing page builder tool. Admins can manage withdrawal requests through a dedicated management page.

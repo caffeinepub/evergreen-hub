@@ -1,177 +1,141 @@
 import { Link } from '@tanstack/react-router';
-import { SiYoutube, SiInstagram } from 'react-icons/si';
 import { Heart } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
+import { SiFacebook, SiInstagram, SiYoutube } from 'react-icons/si';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  const appIdentifier = encodeURIComponent(
-    typeof window !== 'undefined' ? window.location.hostname : 'evergreen-hub'
-  );
-  const { theme } = useTheme();
-  const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const appIdentifier = typeof window !== 'undefined' ? window.location.hostname : 'evergreen-hub';
 
   return (
-    <footer className="relative overflow-hidden">
-      {/* Background gradient with glassmorphism */}
-      <div className={`absolute inset-0 ${
-        isDark 
-          ? 'bg-gradient-to-b from-[#0a1929] to-[#1a237e]' 
-          : 'bg-gradient-to-b from-slate-100 to-slate-200'
-      } transition-colors duration-300`}>
-        {/* Glassmorphism overlay */}
-        <div className={`absolute inset-0 backdrop-blur-md ${
-          isDark ? 'bg-white/5' : 'bg-black/5'
-        }`} />
+    <footer className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
+      {/* Decorative floating dots */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-10 left-10 w-2 h-2 bg-emerald-400/30 rounded-full animate-float"></div>
+        <div className="absolute top-20 right-20 w-3 h-3 bg-emerald-500/20 rounded-full animate-float" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute bottom-20 left-1/4 w-2 h-2 bg-emerald-300/25 rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute bottom-32 right-1/3 w-3 h-3 bg-emerald-400/20 rounded-full animate-float" style={{ animationDelay: '1.5s' }}></div>
       </div>
 
-      {/* Floating decorative dots */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        {/* Red glowing dots */}
-        <div className="absolute top-[10%] left-[5%] w-32 h-32 bg-red-500 rounded-full blur-xl opacity-20 animate-pulse" />
-        <div className="absolute top-[60%] right-[10%] w-40 h-40 bg-red-500 rounded-full blur-xl opacity-15" />
-        <div className="absolute bottom-[20%] left-[15%] w-36 h-36 bg-red-500 rounded-full blur-xl opacity-25 animate-pulse" />
-        
-        {/* Blue glowing dots */}
-        <div className="absolute top-[30%] right-[5%] w-48 h-48 bg-blue-500 rounded-full blur-xl opacity-20" />
-        <div className="absolute bottom-[40%] left-[8%] w-44 h-44 bg-blue-500 rounded-full blur-xl opacity-15 animate-pulse" />
-        <div className="absolute top-[70%] right-[20%] w-32 h-32 bg-blue-500 rounded-full blur-xl opacity-30" />
-      </div>
-
-      {/* Main content */}
-      <div className="relative z-10 container mx-auto px-4 py-12">
-        {/* Brand section */}
-        <div className="mb-8 text-center md:text-left">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-            Evergreen Hub
-          </h2>
-          <p className="text-sm md:text-base text-white/80">
-            Learn Today, Grow Forever
-          </p>
-        </div>
-
-        {/* Main footer content grid */}
+      <div className="relative container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          {/* Brand Section */}
+          <div className="space-y-4">
+            <h3 className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
+              Evergreen Hub
+            </h3>
+            <p className="text-slate-300 text-sm leading-relaxed">
+              Your trusted partner in affiliate marketing education. Learn, grow, and succeed with our comprehensive courses.
+            </p>
+            <div className="flex gap-4">
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-slate-700/50 backdrop-blur-sm flex items-center justify-center hover:bg-emerald-600 transition-all duration-300 hover:scale-110"
+              >
+                <SiFacebook className="h-5 w-5" />
+              </a>
+              <a
+                href="https://instagram.com/rajput.rudra_s"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-slate-700/50 backdrop-blur-sm flex items-center justify-center hover:bg-emerald-600 transition-all duration-300 hover:scale-110"
+              >
+                <SiInstagram className="h-5 w-5" />
+              </a>
+              <a
+                href="https://youtube.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-slate-700/50 backdrop-blur-sm flex items-center justify-center hover:bg-emerald-600 transition-all duration-300 hover:scale-110"
+              >
+                <SiYoutube className="h-5 w-5" />
+              </a>
+            </div>
+          </div>
+
           {/* Quick Links */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-white mb-4">Quick Links</h3>
-            <nav className="flex flex-col space-y-2">
-              <Link 
-                to="/" 
-                className="text-sm text-white/70 hover:text-white transition-colors"
-              >
-                Home
-              </Link>
-              <Link 
-                to="/about-us" 
-                className="text-sm text-white/70 hover:text-white transition-colors"
-              >
-                About Us
-              </Link>
-              <a 
-                href="/#courses" 
-                className="text-sm text-white/70 hover:text-white transition-colors"
-              >
-                Courses
-              </a>
-              <Link 
-                to="/contact" 
-                className="text-sm text-white/70 hover:text-white transition-colors"
-              >
-                Contact Us
-              </Link>
-              <Link 
-                to="/login" 
-                className="text-sm text-white/70 hover:text-white transition-colors"
-              >
-                Login
-              </Link>
-              <Link 
-                to="/register" 
-                className="text-sm text-white/70 hover:text-white transition-colors"
-              >
-                Register
-              </Link>
-            </nav>
+            <h4 className="text-lg font-semibold text-emerald-400">Quick Links</h4>
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  to="/"
+                  className="text-slate-300 hover:text-emerald-400 transition-colors duration-200 text-sm"
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/about-us"
+                  className="text-slate-300 hover:text-emerald-400 transition-colors duration-200 text-sm"
+                >
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contact"
+                  className="text-slate-300 hover:text-emerald-400 transition-colors duration-200 text-sm"
+                >
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="https://wa.me/9263989760"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-slate-300 hover:text-emerald-400 transition-colors duration-200 text-sm cursor-pointer"
+                >
+                  WhatsApp: ********60
+                </a>
+              </li>
+            </ul>
           </div>
 
           {/* Legal Links */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-white mb-4">Legal Links</h3>
-            <nav className="flex flex-col space-y-2">
-              <a 
-                href="#" 
-                className="text-sm text-white/70 hover:text-white transition-colors"
-              >
-                Disclaimer
-              </a>
-              <a 
-                href="#" 
-                className="text-sm text-white/70 hover:text-white transition-colors"
-              >
-                Privacy Policy
-              </a>
-              <a 
-                href="#" 
-                className="text-sm text-white/70 hover:text-white transition-colors"
-              >
-                Refund Policy
-              </a>
-              <a 
-                href="#" 
-                className="text-sm text-white/70 hover:text-white transition-colors"
-              >
-                Terms & Conditions
-              </a>
-            </nav>
-          </div>
-
-          {/* Social Media */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-white mb-4">Connect With Us</h3>
-            <div className="flex gap-4">
-              <a
-                href="https://www.instagram.com/rajput.rudra_s?igsh=MXVtZDVxYjNub2NnbA=="
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group"
-                aria-label="Instagram"
-              >
-                <div className="p-3 rounded-lg bg-gradient-to-br from-pink-500 to-purple-600 hover:scale-110 transition-transform shadow-lg">
-                  <SiInstagram className="h-6 w-6 text-white" />
-                </div>
-              </a>
-              <a
-                href="https://youtube.com/@evergreengamerz?si=cQtRVvA1XpyUHMyQ"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group"
-                aria-label="YouTube"
-              >
-                <div className="p-3 rounded-lg bg-red-600 hover:scale-110 transition-transform shadow-lg">
-                  <SiYoutube className="h-6 w-6 text-white" />
-                </div>
-              </a>
-            </div>
+            <h4 className="text-lg font-semibold text-emerald-400">Legal</h4>
+            <ul className="space-y-2">
+              <li>
+                <a href="#" className="text-slate-300 hover:text-emerald-400 transition-colors duration-200 text-sm">
+                  Privacy Policy
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-slate-300 hover:text-emerald-400 transition-colors duration-200 text-sm">
+                  Terms of Service
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-slate-300 hover:text-emerald-400 transition-colors duration-200 text-sm">
+                  Refund Policy
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="border-t border-white/20 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
-          <p className="text-white/70">
-            © {currentYear} Evergreen Hub. All rights reserved.
-          </p>
-          <p className="flex items-center gap-1 text-white/70">
-            Built with <Heart className="h-4 w-4 text-red-500 fill-red-500" /> using{' '}
-            <a
-              href={`https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=${appIdentifier}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white hover:text-white/90 transition-colors underline"
-            >
-              caffeine.ai
-            </a>
-          </p>
+        {/* Bottom Bar */}
+        <div className="pt-8 border-t border-slate-700/50">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-slate-400 text-sm text-center md:text-left">
+              © {currentYear} Evergreen Hub. All rights reserved.
+            </p>
+            <p className="text-slate-400 text-sm flex items-center gap-1">
+              Built with <Heart className="h-4 w-4 text-red-500 fill-red-500" /> using{' '}
+              <a
+                href={`https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(appIdentifier)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-emerald-400 hover:text-emerald-300 transition-colors font-medium"
+              >
+                caffeine.ai
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>
