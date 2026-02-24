@@ -37,7 +37,7 @@ export default function AppearanceSettingsModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md bg-card border-border">
         <DialogHeader>
           <DialogTitle>Appearance Settings</DialogTitle>
           <DialogDescription>Choose Theme</DialogDescription>
@@ -45,7 +45,7 @@ export default function AppearanceSettingsModal({
 
         <div className="py-4">
           <RadioGroup value={selectedTheme} onValueChange={(value) => setSelectedTheme(value as typeof theme)}>
-            <div className="flex items-center space-x-3 rounded-lg border p-4 hover:bg-accent transition-colors cursor-pointer">
+            <div className="flex items-center space-x-3 rounded-lg border border-border bg-card p-4 hover:bg-accent transition-colors cursor-pointer">
               <RadioGroupItem value="system" id="system" />
               <Label htmlFor="system" className="flex-1 cursor-pointer flex items-center gap-3">
                 <Monitor className="h-5 w-5 text-muted-foreground" />
@@ -56,7 +56,7 @@ export default function AppearanceSettingsModal({
               </Label>
             </div>
 
-            <div className="flex items-center space-x-3 rounded-lg border p-4 hover:bg-accent transition-colors cursor-pointer mt-3">
+            <div className="flex items-center space-x-3 rounded-lg border border-border bg-card p-4 hover:bg-accent transition-colors cursor-pointer mt-3">
               <RadioGroupItem value="light" id="light" />
               <Label htmlFor="light" className="flex-1 cursor-pointer flex items-center gap-3">
                 <Sun className="h-5 w-5 text-muted-foreground" />
@@ -67,7 +67,7 @@ export default function AppearanceSettingsModal({
               </Label>
             </div>
 
-            <div className="flex items-center space-x-3 rounded-lg border p-4 hover:bg-accent transition-colors cursor-pointer mt-3">
+            <div className="flex items-center space-x-3 rounded-lg border border-border bg-card p-4 hover:bg-accent transition-colors cursor-pointer mt-3">
               <RadioGroupItem value="dark" id="dark" />
               <Label htmlFor="dark" className="flex-1 cursor-pointer flex items-center gap-3">
                 <Moon className="h-5 w-5 text-muted-foreground" />
@@ -84,7 +84,7 @@ export default function AppearanceSettingsModal({
           <Button variant="outline" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button onClick={handleOk}>OK</Button>
+          <Button onClick={handleOk} className="bg-emerald-600 hover:bg-emerald-700">OK</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

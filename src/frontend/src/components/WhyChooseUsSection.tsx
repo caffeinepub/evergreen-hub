@@ -28,7 +28,7 @@ export default function WhyChooseUsSection() {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section className="py-20 bg-background">
+    <section className="section-padding bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
@@ -43,7 +43,7 @@ export default function WhyChooseUsSection() {
           {benefits.map((benefit, index) => (
             <Card
               key={index}
-              className="border-border hover:border-emerald-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+              className="card-radius soft-shadow card-hover border-border"
             >
               <CardContent className="pt-8 text-center space-y-4">
                 <div className="flex justify-center">

@@ -1,278 +1,42 @@
 {
   "kind": "build_request",
-  "title": "Update payment and chatbot backgrounds, reposition elements, mask phone number, add earnings dashboard and withdrawal requests",
+  "title": "Remove Buy Course button from hero section, keep only Explore Courses button and background image",
+  "projectName": "Evergreen Hub",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-121",
-      "text": "Change PaymentModal component background from transparent to solid black (#000000). Update the modal container styling to use a solid black background instead of the current transparent or semi-transparent background.",
+      "id": "REQ-170",
+      "text": "Remove the 'Buy Course' button from the HeroSection component (frontend/src/components/HeroSection.tsx), keeping only the 'Explore Courses' button visible. The button removal should not affect the existing hero section background image, layout, headline, or subheadline. Maintain the current styling and positioning of the remaining 'Explore Courses' button.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-latest"
+          "msg-last"
         ],
         "quotes": [
-          "Payment wale ko transparent se black background"
+          "Buy course wala option hata do first page se bss explore course wala rahne do or wo hero wala image rahne do first page pe"
         ]
       },
       "acceptanceCriteria": [
-        "PaymentModal background is solid black (#000000)",
-        "Modal content remains visible with appropriate contrast",
-        "Theme-aware styling preserved for text and elements"
-      ]
-    },
-    {
-      "id": "REQ-122",
-      "text": "Change EvergreenAIChatbot component background to solid black (#000000). Update the chatbot interface container to use a solid black background instead of any transparent or glassmorphism effects.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-latest"
-        ],
-        "quotes": [
-          "evergreen.ai ko bhi black background do"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Chatbot interface background is solid black (#000000)",
-        "Chat messages and interface elements maintain readability",
-        "Black background applies to both collapsed button and expanded chat interface"
-      ]
-    },
-    {
-      "id": "REQ-123",
-      "text": "Reposition EvergreenAIChatbot floating button to the left side of the viewport. Change the positioning from right side to left side while maintaining appropriate spacing from edges and ensuring it doesn't overlap with other UI elements.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-latest"
-        ],
-        "quotes": [
-          "evergreen.ai ko left side move kardo"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Chatbot floating button appears on the left side of the viewport",
-        "Button maintains appropriate spacing from left edge and bottom",
-        "Draggable functionality continues to work after repositioning",
-        "No overlap with FloatingWhatsAppButton on the right side"
-      ]
-    },
-    {
-      "id": "REQ-124",
-      "text": "Update FloatingWhatsAppButton component background to solid black (#000000). Change the button background styling to use a solid black background.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-latest"
-        ],
-        "quotes": [
-          "messaging walo ko bhi"
-        ]
-      },
-      "acceptanceCriteria": [
-        "FloatingWhatsAppButton has solid black background",
-        "WhatsApp icon remains visible with appropriate contrast",
-        "Hover effects and animations continue to work",
-        "Button remains easily identifiable as WhatsApp contact"
-      ]
-    },
-    {
-      "id": "REQ-125",
-      "text": "Mask phone number 9263989760 throughout the application to display only the last 2 digits, showing as '********60'. Make the masked number clickable, opening WhatsApp or phone dialer with the full phone number when clicked. Apply masking to all instances: FloatingWhatsAppButton, Footer, HeroSection, VideoEditingSection, PaymentProofForm, and any other components displaying the phone number.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-latest"
-        ],
-        "quotes": [
-          "Mera number masked type kar do but clickable ho bss last ka 2 ank dekhe"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Phone number displays as '********60' wherever shown",
-        "Masked number is clickable and opens WhatsApp with full number 9263989760",
-        "Masking applied consistently across all components",
-        "Clicking maintains existing pre-filled message functionality",
-        "Visual styling indicates the number is clickable (hover effects, cursor pointer)"
-      ]
-    },
-    {
-      "id": "REQ-126",
-      "text": "After successful login, redirect authenticated users directly to the user dashboard (/dashboard) instead of the homepage. Update the Login page and authentication flow to navigate to /dashboard upon successful authentication.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-latest"
-        ],
-        "quotes": [
-          "login ke baad dashboard aana chahiye"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Login page redirects to /dashboard after successful authentication",
-        "Redirection works for both regular login and Internet Identity authentication",
-        "Users land on Dashboard Overview page showing their earnings"
-      ]
-    },
-    {
-      "id": "REQ-127",
-      "text": "Create an Earnings Dashboard section in the user Dashboard Overview page displaying four earnings metrics: Today's Earning, Weekly Earning, Monthly Earning, and Lifetime Earning. Display each metric in a separate card with emerald green accents, showing the earnings amount in INR (₹). Use a responsive grid layout that adapts to mobile, tablet, and desktop viewports.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-latest"
-        ],
-        "quotes": [
-          "usme uska earning dikhna chahiye today uske baad weekly earning fir monthly uske baad lifetime earning dikhe"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Dashboard Overview displays four earnings cards: Today, Weekly, Monthly, Lifetime",
-        "Each card shows the earning amount in INR format (₹)",
-        "Cards use emerald green accent colors consistent with theme",
-        "Layout is responsive across mobile, tablet, and desktop",
-        "Earnings cards appear at the top of the Dashboard Overview page"
-      ]
-    },
-    {
-      "id": "REQ-128",
-      "text": "Add backend support for earnings tracking and retrieval. Implement data structures to store and calculate user earnings (today, weekly, monthly, lifetime) and create a backend function to retrieve earnings data for authenticated users. Initialize earnings data when users make approved purchases.",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-latest"
-        ],
-        "quotes": [
-          "usme uska earning dikhna chahiye today uske baad weekly earning fir monthly uske baad lifetime earning dikhe"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Backend stores earnings data associated with user Principal",
-        "Function calculates today's, weekly, monthly, and lifetime earnings",
-        "Earnings update when payment proofs are approved",
-        "API returns earnings data in format consumable by frontend"
-      ]
-    },
-    {
-      "id": "REQ-129",
-      "text": "Add a Withdrawal Request feature to the user dashboard. Create a new page or section where users can submit withdrawal questions or requests. Include a form with fields for withdrawal amount and message/question, and a submit button. Display a list of the user's previous withdrawal requests with status (pending/approved/rejected) and submission date.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-latest"
-        ],
-        "quotes": [
-          "wo withdrawal ke liye question bhej sake"
-        ]
-      },
-      "acceptanceCriteria": [
-        "User dashboard includes Withdrawal Request navigation item",
-        "Withdrawal request form allows users to submit amount and message",
-        "Users can view their previous withdrawal requests with status",
-        "Form validation ensures valid amount and message input",
-        "Success message displayed after submission"
-      ]
-    },
-    {
-      "id": "REQ-130",
-      "text": "Implement backend support for withdrawal requests. Create a WithdrawalRequest data structure with fields: id, userId, amount, message, status (pending/approved/rejected), createdAt. Add backend functions to create new withdrawal requests, list requests by user, list all requests (admin), and update request status (admin only).",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-latest"
-        ],
-        "quotes": [
-          "wo withdrawal ke liye question bhej sake"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Backend stores withdrawal requests with user association",
-        "Users can create new withdrawal requests",
-        "Users can retrieve their own withdrawal requests",
-        "Admins can view and update status of all withdrawal requests",
-        "Requests are timestamped with creation date"
-      ]
-    },
-    {
-      "id": "REQ-131",
-      "text": "Add a Landing Page Builder/Creator option to the user dashboard. Create a new navigation item and page that allows users to build or customize landing pages. The page should provide a user-friendly interface for creating landing pages, potentially with templates or customization options.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-latest"
-        ],
-        "quotes": [
-          "landing page banane wala bhi option wahi dena"
-        ]
-      },
-      "acceptanceCriteria": [
-        "User dashboard includes Landing Page Builder navigation item",
-        "Landing Page Builder page is accessible to authenticated users",
-        "Interface provides tools or options for creating/customizing landing pages",
-        "Users can save and preview their created landing pages",
-        "Created landing pages are associated with user account"
-      ]
-    },
-    {
-      "id": "REQ-132",
-      "text": "Implement backend support for user-created landing pages. Create data structures to store landing page configurations (title, content, template selection, customizations) and add backend functions to create, retrieve, update, and delete user landing pages. Associate landing pages with user Principal for ownership.",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-latest"
-        ],
-        "quotes": [
-          "landing page banane wala bhi option wahi dena"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Backend stores landing page data associated with users",
-        "Users can create multiple landing pages",
-        "Users can retrieve, update, and delete their own landing pages",
-        "Landing page data includes customizable fields (title, content, template)",
-        "Backend validates user ownership before allowing modifications"
-      ]
-    },
-    {
-      "id": "REQ-133",
-      "text": "Add an admin Withdrawal Management page to the admin dashboard. Create a page listing all user withdrawal requests in a table with columns: User Name, Amount (₹), Message, Status, Submission Date, and Actions. Implement approve/reject buttons for each request and include filtering by status (All/Pending/Approved/Rejected). Add a navigation item in the admin sidebar for Withdrawal Management.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-latest"
-        ],
-        "quotes": [
-          "wo withdrawal ke liye question bhej sake"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Admin dashboard includes Withdrawal Management navigation item",
-        "Table displays all withdrawal requests with user details",
-        "Admins can approve or reject withdrawal requests",
-        "Status filter allows viewing by All/Pending/Approved/Rejected",
-        "Actions update withdrawal request status in real-time",
-        "Success/error messages displayed after status changes"
+        "'Buy Course' button is completely removed from the hero section",
+        "'Explore Courses' button remains visible and functional",
+        "Hero section background image is preserved without changes",
+        "Hero section headline and subheadline remain unchanged",
+        "Smooth scroll functionality to courses section still works when 'Explore Courses' button is clicked",
+        "Component renders correctly on mobile, tablet, and desktop viewports"
       ]
     }
   ],
   "constraints": [
-    "Maintain single-actor architecture in backend with all logic in main.mo",
-    "Do not edit immutable frontend paths: useInternetIdentity.ts, useInternetIdentity.tsx, useActor.ts, main.tsx, frontend/src/components/ui/*",
-    "Preserve existing green and black theme with emerald accents",
-    "Maintain integration with existing ThemeContext for light/dark mode support",
-    "Keep existing WhatsApp functionality (9263989760) fully operational",
-    "Ensure all new features work with existing authentication (Internet Identity)",
-    "Maintain responsive mobile-first design across all viewport sizes"
+    "Do not modify the hero section background image",
+    "Do not change the HeroSection headline or subheadline text",
+    "Maintain existing scroll animation and fade-in effects",
+    "Preserve the CoursePackagesModal component functionality for use in other sections"
   ],
   "nonGoals": [
-    "Changing the core technology stack (React, Motoko, Tailwind)",
-    "Removing or disabling existing features not mentioned in the request",
-    "Adding new payment gateways or payment processors",
-    "Implementing real-time WebSocket connections",
-    "Adding third-party authentication providers beyond Internet Identity",
-    "Creating a full WYSIWYG editor for landing page builder (basic interface is sufficient)",
-    "Implementing automated earnings calculations based on affiliate conversions (manual approval-based earnings are sufficient)"
+    "Removing the CoursePackagesModal component entirely",
+    "Changing the 'Explore Courses' button styling or behavior",
+    "Modifying other sections of the landing page",
+    "Removing Buy Now buttons from the PricingSection cards"
   ],
   "imageRequirements": {
     "required": [],

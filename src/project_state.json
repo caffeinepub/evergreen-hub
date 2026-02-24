@@ -1,18 +1,18 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 35,
-  "summary": "Evergreen Hub - A modern affiliate marketing website with green and black theme, featuring course pricing packages, YouTube channel integration, video editing services, WhatsApp lead generation system, and complete authentication system with user/admin dashboards",
+  "projectStateVersion": 43,
+  "summary": "Evergreen Hub - A modern, premium, high-conversion affiliate marketing educational platform with blue (#2563EB) primary color, orange (#F59E0B) CTA color, redesigned with clean UI, smooth scroll animations, scroll reveal effects, card-based course section, improved hero section with gradient background, sticky navbar, chat-style AI chatbot, testimonials, trust badges, floating gradient background blobs, conversion-optimized design, and professional dark mode system with CSS variables and localStorage persistence",
   "architectural_notes": [
-    "Green and black color theme throughout the site",
     "Mobile-first responsive design approach",
     "SEO optimized with meta tags (title and description)",
     "WhatsApp integration: phone 9263989760, direct link wa.me/919263989760",
     "YouTube channel: @evergreengamerz integration with embedded preview",
     "Floating WhatsApp button positioned bottom-right corner",
-    "Modern font pairing for clean typography",
     "Fast loading performance optimization",
-    "High-contrast CTA buttons for conversion optimization",
-    "Clean section spacing and hover effects on pricing cards"
+    "Clean section spacing and hover effects on pricing cards",
+    "New color palette: Primary Blue #2563EB, Accent Orange #F59E0B, white backgrounds",
+    "Soft shadows with 12px border radius throughout",
+    "80px section spacing (top-bottom padding)"
   ],
   "known_issues": [],
   "isFixRequest": false,
@@ -960,6 +960,278 @@
         "REQ-133"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-replace-all-transparent-backgrounds-throughout-the-application-with-appropriate-solid-theme-aware-colors-update-components-including-but-not-limited-to-paymentmodal-evergreenaichatbot-floatingwhatsappbutton-mobilesidebar-and-any-other-components-using-transparent-or-rgba-0-0-0-0-backgrounds-to-use-proper-css-variables-that-adapt-to-light-and-dark-themes",
+      "title": "Replace all transparent backgrounds throughout the application with appropriate solid theme-aware colors. Update components including but not limited to PaymentModal, EvergreenAIChatbot, FloatingWhatsAppButton, MobileSidebar, and any other components using transparent or rgba(0,0,0,0) backgrounds to use proper CSS variables that adapt to light and dark themes.",
+      "reqIds": [
+        "REQ-134"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-all-components-currently-using-solid-black-000000-backgrounds-to-use-theme-aware-background-colors-that-work-properly-in-both-light-and-dark-modes-replace-hardcoded-black-backgrounds-with-css-variables-like-background-card-or-muted-from-the-existing-oklch-color-system",
+      "title": "Update all components currently using solid black (#000000) backgrounds to use theme-aware background colors that work properly in both light and dark modes. Replace hardcoded black backgrounds with CSS variables like --background, --card, or --muted from the existing OKLCH color system.",
+      "reqIds": [
+        "REQ-135"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-enhance-the-evergreenaichatbot-component-with-comprehensive-knowledge-to-answer-all-user-questions-including-course-package-prices-e-lite-699-silver-1499-gold-2999-diamond-4999-platinum-9999-ultra-pro-14999-detailed-explanation-of-how-to-earn-through-affiliate-marketing-step-by-step-guidance-on-getting-started-commission-structure-payment-methods-course-access-procedures-and-any-other-site-related-information",
+      "title": "Enhance the EvergreenAIChatbot component with comprehensive knowledge to answer all user questions including: course package prices (E-LITE ₹699, SILVER ₹1499, GOLD ₹2999, DIAMOND ₹4999, PLATINUM ₹9999, ULTRA PRO ₹14999), detailed explanation of how to earn through affiliate marketing, step-by-step guidance on getting started, commission structure, payment methods, course access procedures, and any other site-related information.",
+      "reqIds": [
+        "REQ-136"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-entire-color-system-throughout-the-application-with-the-new-palette-primary-color-2563eb-blue-accent-cta-color-f59e0b-orange-background-ffffff-light-section-background-f8fafc-primary-text-1f2937-secondary-text-6b7280-update-all-css-variables-in-frontend-index-css-to-use-these-exact-hex-colors-replacing-the-current-green-and-black-theme-with-the-new-blue-and-orange-system",
+      "title": "Replace the entire color system throughout the application with the new palette: Primary Color #2563EB (Blue), Accent CTA Color #F59E0B (Orange), Background #FFFFFF, Light Section Background #F8FAFC, Primary Text #1F2937, Secondary Text #6B7280. Update all CSS variables in frontend/index.css to use these exact hex colors, replacing the current green and black theme with the new blue and orange system.",
+      "reqIds": [
+        "REQ-139"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-all-button-components-throughout-the-application-to-use-the-new-button-styling-primary-button-background-f59e0b-orange-white-text-color-hover-state-darker-orange-d97706-and-scale-1-05-animation-on-hover-apply-to-all-cta-buttons-including-buy-course-explore-courses-buy-now-login-register-and-all-other-action-buttons",
+      "title": "Update all button components throughout the application to use the new button styling: primary button background #F59E0B (orange), white text color, hover state darker orange #D97706, and scale 1.05 animation on hover. Apply to all CTA buttons including Buy Course, Explore Courses, Buy Now, Login, Register, and all other action buttons.",
+      "reqIds": [
+        "REQ-140"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-clean-minimal-professional-ui-design-system-throughout-the-application-with-soft-shadows-0-4px-6px-rgba-0-0-0-0-1-rounded-corners-with-12px-border-radius-on-cards-and-buttons-generous-section-spacing-with-80px-top-bottom-padding-and-strong-visual-hierarchy-using-font-sizes-h1-48px-h2-36px-h3-24px-body-16px",
+      "title": "Apply clean, minimal, professional UI design system throughout the application with soft shadows (0 4px 6px rgba(0,0,0,0.1)), rounded corners with 12px border radius on cards and buttons, generous section spacing with 80px top-bottom padding, and strong visual hierarchy using font sizes (h1: 48px, h2: 36px, h3: 24px, body: 16px).",
+      "reqIds": [
+        "REQ-141"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-redesign-the-herosection-component-with-bold-headline-with-strong-contrast-using-primary-text-color-1f2937-subheading-in-lighter-gray-6b7280-two-cta-buttons-labeled-buy-course-and-explore-courses-subtle-background-gradient-from-light-blue-eff6ff-to-white-ffffff-and-fade-in-animation-on-page-load-with-0-8s-duration",
+      "title": "Redesign the HeroSection component with bold headline with strong contrast using primary text color #1F2937, subheading in lighter gray #6B7280, two CTA buttons labeled 'Buy Course' and 'Explore Courses', subtle background gradient from light blue (#EFF6FF) to white (#FFFFFF), and fade-in animation on page load with 0.8s duration.",
+      "reqIds": [
+        "REQ-142"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-smooth-scroll-animation-when-the-buy-course-button-is-clicked-use-scrollintoview-with-behavior-smooth-to-scroll-to-the-courses-section-element-add-a-slight-bounce-scale-effect-scale-0-95-then-1-0-to-the-button-when-clicked-ensure-no-page-jump-occurs",
+      "title": "Implement smooth scroll animation when the 'Buy Course' button is clicked. Use scrollIntoView with behavior: 'smooth' to scroll to the #courses-section element. Add a slight bounce/scale effect (scale 0.95 then 1.0) to the button when clicked. Ensure no page jump occurs.",
+      "reqIds": [
+        "REQ-143"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-scroll-reveal-animations-for-all-landing-page-sections-pricingsection-whychooseussection-testimonialssection-faqsection-youtubesection-videoeditingsection-instagramsection-each-section-should-start-with-opacity-0-then-fade-in-with-upward-slide-motion-translatey-from-20px-to-0-when-entering-viewport-animation-duration-should-be-0-6s-and-trigger-only-once-using-intersection-observer-api",
+      "title": "Implement scroll reveal animations for all landing page sections (PricingSection, WhyChooseUsSection, TestimonialsSection, FAQSection, YouTubeSection, VideoEditingSection, InstagramSection). Each section should start with opacity: 0, then fade in with upward slide motion (translateY from 20px to 0) when entering viewport. Animation duration should be 0.6s and trigger only once using Intersection Observer API.",
+      "reqIds": [
+        "REQ-144"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-redesign-the-course-pricing-section-pricingsection-with-card-based-layout-each-card-must-include-course-title-short-description-2-3-sentences-price-in-and-buy-now-button-add-hover-effects-lift-card-up-with-translatey-5px-add-stronger-shadow-0-10px-25px-rgba-0-0-0-0-15-highlight-the-most-popular-course-diamond-package-with-a-best-value-badge-positioned-at-the-top-right-corner-of-the-card",
+      "title": "Redesign the course pricing section (PricingSection) with card-based layout. Each card must include course title, short description (2-3 sentences), price in ₹, and Buy Now button. Add hover effects: lift card up with translateY(-5px), add stronger shadow (0 10px 25px rgba(0,0,0,0.15)). Highlight the most popular course (DIAMOND package) with a 'Best Value' badge positioned at the top-right corner of the card.",
+      "reqIds": [
+        "REQ-145"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-navbar-header-component-to-be-sticky-with-transparent-background-at-page-top-transition-to-white-background-ffffff-with-subtle-shadow-when-scrolled-past-50px-smooth-transition-animation-0-3s-ease-and-highlight-the-active-section-in-the-navigation-menu-using-the-primary-blue-color-2563eb",
+      "title": "Update the navbar/header component to be sticky with transparent background at page top, transition to white background (#FFFFFF) with subtle shadow when scrolled past 50px, smooth transition animation (0.3s ease), and highlight the active section in the navigation menu using the primary blue color #2563EB.",
+      "reqIds": [
+        "REQ-146"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-redesign-the-evergreenaichatbot-component-with-chat-style-layout-featuring-rounded-chat-bubbles-16px-border-radius-smooth-typing-animation-for-bot-responses-character-by-character-reveal-light-background-contrast-f8fafc-for-bot-messages-white-for-user-messages-and-modern-input-field-with-glowing-blue-focus-effect-using-box-shadow-0-0-0-3px-rgba-37-99-235-0-1",
+      "title": "Redesign the EvergreenAIChatbot component with chat-style layout featuring rounded chat bubbles (16px border radius), smooth typing animation for bot responses (character-by-character reveal), light background contrast (#F8FAFC for bot messages, white for user messages), and modern input field with glowing blue focus effect using box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1).",
+      "reqIds": [
+        "REQ-147"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-explore-courses-button-to-the-herosection-that-smoothly-scrolls-to-the-courses-section-when-clicked-style-it-as-a-secondary-button-with-white-background-blue-2563eb-text-and-border-and-hover-effect-that-inverts-to-blue-background-with-white-text-position-it-next-to-the-buy-course-button",
+      "title": "Add an 'Explore Courses' button to the HeroSection that smoothly scrolls to the #courses-section when clicked. Style it as a secondary button with white background, blue #2563EB text and border, and hover effect that inverts to blue background with white text. Position it next to the 'Buy Course' button.",
+      "reqIds": [
+        "REQ-148"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-testimonials-section-component-if-it-doesn-t-exist-or-update-the-existing-testimonialssection-component-with-card-based-layout-customer-names-5-star-ratings-displayed-as-stars-testimonial-text-and-customer-photos-or-avatars-style-cards-with-white-background-subtle-shadow-and-12px-border-radius-arrange-in-responsive-grid-1-column-mobile-3-columns-desktop",
+      "title": "Create a testimonials section component if it doesn't exist, or update the existing TestimonialsSection component with card-based layout, customer names, 5-star ratings displayed as stars, testimonial text, and customer photos or avatars. Style cards with white background, subtle shadow, and 12px border radius. Arrange in responsive grid (1 column mobile, 3 columns desktop).",
+      "reqIds": [
+        "REQ-149"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-trust-badges-section-to-the-landing-page-displaying-credibility-indicators-such-as-1000-students-expert-instructors-24-7-support-and-money-back-guarantee-display-as-icon-text-pairs-in-a-horizontal-row-with-appropriate-spacing-use-icons-from-existing-icon-library-and-style-with-the-new-color-system",
+      "title": "Add trust badges section to the landing page displaying credibility indicators such as '1000+ Students', 'Expert Instructors', '24/7 Support', and 'Money-Back Guarantee'. Display as icon + text pairs in a horizontal row with appropriate spacing. Use icons from existing icon library and style with the new color system.",
+      "reqIds": [
+        "REQ-150"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-clear-cta-section-at-the-bottom-of-the-landing-page-above-footer-with-heading-start-learning-today-subheading-encouraging-action-and-a-large-orange-button-with-white-text-add-light-section-background-f8fafc-generous-padding-80px-vertical-and-center-aligned-content-button-should-scroll-to-courses-section-or-open-course-modal",
+      "title": "Create a clear CTA section at the bottom of the landing page (above footer) with heading 'Start Learning Today', subheading encouraging action, and a large orange button with white text. Add light section background #F8FAFC, generous padding (80px vertical), and center-aligned content. Button should scroll to courses section or open course modal.",
+      "reqIds": [
+        "REQ-151"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-subtle-floating-gradient-blobs-to-the-background-for-a-modern-premium-saas-feel-create-2-3-large-circular-gradient-elements-with-blur-effect-positioned-absolutely-in-the-background-layer-use-gradients-combining-blue-2563eb-with-low-opacity-and-orange-f59e0b-with-low-opacity-add-subtle-floating-animation-with-css-keyframes-moving-vertically-20-30px-over-10-15-seconds-ensure-blobs-don-t-interfere-with-content-readability",
+      "title": "Add subtle floating gradient blobs to the background for a modern premium SaaS feel. Create 2-3 large circular gradient elements with blur effect positioned absolutely in the background layer. Use gradients combining blue (#2563EB with low opacity) and orange (#F59E0B with low opacity). Add subtle floating animation with CSS keyframes moving vertically 20-30px over 10-15 seconds. Ensure blobs don't interfere with content readability.",
+      "reqIds": [
+        "REQ-152"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-optimize-all-animations-for-performance-use-css-transitions-instead-of-javascript-animations-where-possible-limit-animations-to-transform-and-opacity-properties-only-avoid-layout-triggering-properties-ensure-smooth-60fps-mobile-scrolling-add-will-change-hints-to-animated-elements-and-use-gpu-acceleration-with-transform-translate3d",
+      "title": "Optimize all animations for performance: use CSS transitions instead of JavaScript animations where possible, limit animations to transform and opacity properties only (avoid layout-triggering properties), ensure smooth 60fps mobile scrolling, add will-change hints to animated elements, and use GPU acceleration with transform: translate3d().",
+      "reqIds": [
+        "REQ-153"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-mobilesidebar-component-to-use-the-new-color-system-with-white-background-in-light-mode-primary-text-1f2937-secondary-text-6b7280-blue-2563eb-for-active-states-and-orange-f59e0b-for-the-login-register-button-remove-the-dark-blue-gradient-and-glassmorphism-effect-replacing-with-a-clean-white-sidebar-with-subtle-shadow",
+      "title": "Update the MobileSidebar component to use the new color system with white background in light mode, primary text #1F2937, secondary text #6B7280, blue #2563EB for active states, and orange #F59E0B for the Login/Register button. Remove the dark blue gradient and glassmorphism effect, replacing with a clean white sidebar with subtle shadow.",
+      "reqIds": [
+        "REQ-155"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-footer-component-to-use-the-new-color-system-with-light-section-background-f8fafc-primary-text-1f2937-secondary-text-6b7280-and-blue-2563eb-for-link-hover-states-remove-the-dark-navy-gradient-and-floating-dots-replacing-with-a-clean-minimal-footer-design-with-appropriate-spacing-and-dividers",
+      "title": "Update the Footer component to use the new color system with light section background #F8FAFC, primary text #1F2937, secondary text #6B7280, and blue #2563EB for link hover states. Remove the dark navy gradient and floating dots, replacing with a clean minimal footer design with appropriate spacing and dividers.",
+      "reqIds": [
+        "REQ-156"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-all-scroll-triggered-animations-use-smooth-cubic-bezier-0-4-0-0-0-2-1-easing-function-for-premium-feel-update-all-existing-scroll-animations-and-the-new-scroll-reveal-animations-to-use-this-consistent-easing",
+      "title": "Ensure all scroll-triggered animations use smooth cubic-bezier(0.4, 0.0, 0.2, 1) easing function for premium feel. Update all existing scroll animations and the new scroll reveal animations to use this consistent easing.",
+      "reqIds": [
+        "REQ-157"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-id-courses-section-attribute-to-the-pricingsection-component-or-its-container-to-enable-smooth-scrolling-from-the-buy-course-and-explore-courses-buttons-in-the-hero-section",
+      "title": "Add an id='courses-section' attribute to the PricingSection component or its container to enable smooth scrolling from the Buy Course and Explore Courses buttons in the hero section.",
+      "reqIds": [
+        "REQ-158"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-frontend-index-css-to-define-comprehensive-css-variable-color-systems-for-both-light-mode-and-dark-mode-light-mode-colors-background-ffffff-section-background-f8fafc-primary-text-1f2937-secondary-text-6b7280-primary-blue-2563eb-cta-orange-f59e0b-card-background-ffffff-border-color-e5e7eb-dark-mode-colors-background-0f172a-section-background-1e293b-primary-text-f1f5f9-secondary-text-94a3b8-primary-blue-3b82f6-cta-orange-fbbf24-card-background-1e293b-border-color-334155-use-the-dark-class-on-body-element-for-theme-switching",
+      "title": "Update frontend/index.css to define comprehensive CSS variable color systems for both light mode and dark mode. Light mode colors: Background #FFFFFF, Section Background #F8FAFC, Primary Text #1F2937, Secondary Text #6B7280, Primary Blue #2563EB, CTA Orange #F59E0B, Card Background #FFFFFF, Border Color #E5E7EB. Dark mode colors: Background #0F172A, Section Background #1E293B, Primary Text #F1F5F9, Secondary Text #94A3B8, Primary Blue #3B82F6, CTA Orange #FBBF24, Card Background #1E293B, Border Color #334155. Use the 'dark' class on body element for theme switching.",
+      "reqIds": [
+        "REQ-159"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-set-light-mode-as-the-default-theme-on-initial-application-load-update-the-themecontext-provider-to-initialize-with-light-theme-when-no-localstorage-preference-exists-and-no-explicit-system-preference-is-set",
+      "title": "Set Light Mode as the default theme on initial application load. Update the ThemeContext provider to initialize with 'light' theme when no localStorage preference exists and no explicit system preference is set.",
+      "reqIds": [
+        "REQ-160"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-theme-toggle-button-to-the-header-component-navbar-positioned-on-the-right-side-the-toggle-should-display-a-sun-icon-when-in-light-mode-and-a-moon-icon-when-in-dark-mode-integrate-with-existing-themecontext-to-switch-between-light-and-dark-themes",
+      "title": "Add a theme toggle button to the Header component navbar positioned on the right side. The toggle should display a Sun icon when in light mode and a Moon icon when in dark mode. Integrate with existing ThemeContext to switch between light and dark themes.",
+      "reqIds": [
+        "REQ-161"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-smooth-transition-animations-when-switching-between-light-and-dark-themes-apply-0-3s-ease-transitions-to-background-color-color-border-color-and-box-shadow-properties-across-all-components-ensure-no-page-flicker-occurs-during-theme-transitions",
+      "title": "Implement smooth transition animations when switching between light and dark themes. Apply 0.3s ease transitions to background-color, color, border-color, and box-shadow properties across all components. Ensure no page flicker occurs during theme transitions.",
+      "reqIds": [
+        "REQ-162"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-dark-mode-ui-styling-to-all-components-when-dark-theme-is-active-background-becomes-deep-navy-0f172a-cards-become-slightly-lighter-than-background-using-1e293b-text-becomes-off-white-f1f5f9-not-pure-white-buttons-stay-vibrant-with-updated-colors-3b82f6-blue-fbbf24-orange-shadows-become-softer-glow-style-navbar-becomes-darker-with-slight-transparency-and-icons-invert-automatically",
+      "title": "Apply dark mode UI styling to all components when dark theme is active. Background becomes deep navy #0F172A, cards become slightly lighter than background using #1E293B, text becomes off-white #F1F5F9 (not pure white), buttons stay vibrant with updated colors (#3B82F6 blue, #FBBF24 orange), shadows become softer glow style, navbar becomes darker with slight transparency, and icons invert automatically.",
+      "reqIds": [
+        "REQ-163"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-smooth-animation-to-the-theme-toggle-button-implement-icon-rotation-animation-when-switching-themes-and-add-fade-transition-effect-between-sun-and-moon-icons-ensure-the-toggle-provides-instant-visual-feedback-without-requiring-page-reload",
+      "title": "Add smooth animation to the theme toggle button. Implement icon rotation animation when switching themes and add fade transition effect between sun and moon icons. Ensure the toggle provides instant visual feedback without requiring page reload.",
+      "reqIds": [
+        "REQ-164"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-theme-preference-persistence-using-localstorage-store-the-user-s-selected-theme-and-restore-it-on-page-refresh-integrate-system-theme-preference-detection-using-prefers-color-scheme-media-query-as-fallback-when-no-stored-preference-exists",
+      "title": "Implement theme preference persistence using localStorage. Store the user's selected theme and restore it on page refresh. Integrate system theme preference detection using prefers-color-scheme media query as fallback when no stored preference exists.",
+      "reqIds": [
+        "REQ-165"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-dark-mode-specific-styling-to-the-evergreenaichatbot-component-in-dark-mode-chat-background-becomes-darker-using-1e293b-bot-message-bubbles-have-slight-blue-tint-using-3b82f6-with-low-opacity-user-message-bubbles-have-slight-gray-tint-and-input-field-is-dark-with-glowing-border-on-focus-using-blue-glow-effect",
+      "title": "Apply dark mode specific styling to the EvergreenAIChatbot component. In dark mode: chat background becomes darker using #1E293B, bot message bubbles have slight blue tint using #3B82F6 with low opacity, user message bubbles have slight gray tint, and input field is dark with glowing border on focus using blue glow effect.",
+      "reqIds": [
+        "REQ-166"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-soft-gradient-glow-effect-behind-the-herosection-in-dark-mode-for-a-modern-premium-saas-aesthetic-use-subtle-gradient-combining-blue-and-orange-colors-with-low-opacity-positioned-absolutely-behind-hero-content-without-interfering-with-text-readability",
+      "title": "Add a soft gradient glow effect behind the HeroSection in dark mode for a modern premium SaaS aesthetic. Use subtle gradient combining blue and orange colors with low opacity, positioned absolutely behind hero content without interfering with text readability.",
+      "reqIds": [
+        "REQ-167"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-full-accessibility-compliance-with-proper-contrast-ratios-in-both-light-and-dark-modes-verify-all-text-background-combinations-meet-wcag-aa-standards-minimum-4-5-1-for-normal-text-3-1-for-large-text-test-and-adjust-colors-if-necessary-to-maintain-readability",
+      "title": "Ensure full accessibility compliance with proper contrast ratios in both light and dark modes. Verify all text-background combinations meet WCAG AA standards (minimum 4.5:1 for normal text, 3:1 for large text). Test and adjust colors if necessary to maintain readability.",
+      "reqIds": [
+        "REQ-168"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-optimize-theme-transition-animations-for-performance-across-all-devices-use-gpu-accelerated-css-properties-transform-opacity-avoid-layout-triggering-properties-ensure-smooth-60fps-transitions-on-mobile-devices-and-add-will-change-hints-where-appropriate",
+      "title": "Optimize theme transition animations for performance across all devices. Use GPU-accelerated CSS properties (transform, opacity), avoid layout-triggering properties, ensure smooth 60fps transitions on mobile devices, and add will-change hints where appropriate.",
+      "reqIds": [
+        "REQ-169"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-the-buy-course-button-from-the-herosection-component-frontend-src-components-herosection-tsx-keeping-only-the-explore-courses-button-visible-the-button-removal-should-not-affect-the-existing-hero-section-background-image-layout-headline-or-subheadline-maintain-the-current-styling-and-positioning-of-the-remaining-explore-courses-button",
+      "title": "Remove the 'Buy Course' button from the HeroSection component (frontend/src/components/HeroSection.tsx), keeping only the 'Explore Courses' button visible. The button removal should not affect the existing hero section background image, layout, headline, or subheadline. Maintain the current styling and positioning of the remaining 'Explore Courses' button.",
+      "reqIds": [
+        "REQ-170"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -1375,6 +1647,180 @@
       "reqIds": [
         "REQ-132"
       ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-95",
+      "summary": "Fix transparent and black backgrounds throughout the site with proper color theming",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-96",
+      "summary": "Enhance Evergreen.AI chatbot to answer all questions about course prices, affiliate marketing earnings process, and comprehensive site information",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-97",
+      "summary": "Improve color grading and theming for light mode and dark mode throughout the application",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-101",
+      "summary": "Improve color grading and contrast throughout the application for both light and dark modes. Ensure all text is readable with proper contrast ratios (WCAG AA standard), buttons and interactive elements have clear visual hierarchy, and the emerald green accent color works harmoniously in both themes. Update the OKLCH color values in frontend/index.css if needed.",
+      "reqIds": [
+        "REQ-137"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-102",
+      "summary": "Review and optimize all component backgrounds, borders, and shadows to ensure consistent and professional appearance across light and dark modes. Apply appropriate muted colors for card backgrounds, subtle borders for separation, and elevation shadows that work in both themes using the existing CSS variable system.",
+      "reqIds": [
+        "REQ-138"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-103",
+      "summary": "Redesign entire site with modern clean professional UI: soft shadows, 12px border radius, 80px section spacing, mobile-first responsive design, strong visual hierarchy",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-104",
+      "summary": "Implement new color system: Primary Blue #2563EB, Accent Orange #F59E0B, White background #FFFFFF, Light section background #F8FAFC, Primary text #1F2937, Secondary text #6B7280. Apply consistently across entire website.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-105",
+      "summary": "Style all buttons with Orange primary background #F59E0B, white text, hover darker orange #D97706, scale 1.05 animation on hover",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-106",
+      "summary": "Improve hero section: bold headline with strong contrast, lighter gray subheading, 2 buttons (Buy Course + Explore Courses), subtle light blue to white background gradient, fade-in animation on page load",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-107",
+      "summary": "Add smooth scroll animation when Buy Course button clicked: scrollIntoView behavior smooth to #courses-section, slight bounce/scale button click effect, no page jump",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-108",
+      "summary": "Implement scroll reveal animations for all sections: start opacity 0, fade in + slide up when entering viewport, 0.6s duration, trigger once only",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-109",
+      "summary": "Improve course section with card-based layout: course title, short description, price, Buy Now button. Card hover: lift translateY -5px, stronger shadow. Highlight most popular course with Best Value badge",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-110",
+      "summary": "Improve navbar: sticky, transparent at top, white background when scrolled, smooth transition, active section highlight",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-111",
+      "summary": "Improve AI chatbot section: chat-style layout, rounded chat bubbles, smooth typing animation, light background contrast, modern input field with glowing focus effect",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-112",
+      "summary": "Optimize animations for performance: no lag, CSS transitions instead of heavy JS, smooth mobile scrolling",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-113",
+      "summary": "Add conversion optimization features: testimonial section, trust badges, clear bottom CTA section 'Start Learning Today' with large orange button",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-114",
+      "summary": "Add subtle floating gradient blobs in background for modern premium SaaS feel",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-130",
+      "summary": "Update all theme-related components (ThemeContext, AppearanceSettingsModal, ThemeToggleSwitch) to work with the new blue-orange color system. Ensure light mode uses white backgrounds with blue/orange accents, and dark mode uses dark backgrounds (#1F2937) with appropriate contrast while maintaining the blue-orange accent colors.",
+      "reqIds": [
+        "REQ-154"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-131",
+      "summary": "Implement professional dark mode system with CSS variables, navbar toggle button (sun/moon icons), default light mode, 0.3s smooth transitions, localStorage persistence, system theme detection",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-132",
+      "summary": "Define CSS variable color systems for light mode (Background #FFFFFF, Section #F8FAFC, Primary Text #1F2937, Secondary Text #6B7280, Blue #2563EB, Orange #F59E0B, Card #FFFFFF, Border #E5E7EB) and dark mode (Background #0F172A, Section #1E293B, Primary Text #F1F5F9, Secondary Text #94A3B8, Blue #3B82F6, Orange #FBBF24, Card #1E293B, Border #334155) using 'dark' class on body",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-133",
+      "summary": "Apply dark mode UI behavior: deep navy background, lighter card backgrounds, off-white text, vibrant buttons, softer glow shadows, darker navbar with transparency, automatic icon inversion",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-134",
+      "summary": "Add smooth toggle animations: button animation, icon rotation on switch, fade transition between themes, no page reload",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-135",
+      "summary": "Implement theme preference persistence: localStorage saving, page refresh persistence, system theme auto-detection using prefers-color-scheme",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-136",
+      "summary": "Apply dark mode styling to AI chat section: darker chat background, bot messages with blue tint, user messages with gray tint, dark input field with glowing border on focus",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-137",
+      "summary": "Optimize theme animations for quality: smooth color transitions, no flicker, performance optimized, mobile friendly",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-138",
+      "summary": "Add premium dark mode touch: soft gradient glow behind hero section in dark mode for modern SaaS effect",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-139",
+      "summary": "Ensure full accessibility with proper contrast ratios (WCAG standards) in both light and dark mode",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-140",
+      "summary": "Remove 'Buy Course' button from hero section on homepage, keep only 'Explore Courses' button visible. Maintain existing hero section background image.",
+      "reqIds": [],
       "status": "pending"
     }
   ],

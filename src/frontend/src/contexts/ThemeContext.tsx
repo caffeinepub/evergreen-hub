@@ -19,9 +19,10 @@ function getSystemTheme(): 'light' | 'dark' {
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window === 'undefined') return 'system';
+    if (typeof window === 'undefined') return 'light';
     const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
-    return stored || 'system';
+    // Default to light mode if no preference is stored
+    return stored || 'light';
   });
 
   const [systemTheme, setSystemTheme] = useState<'light' | 'dark'>(getSystemTheme);
@@ -40,8 +41,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const root = document.documentElement;
+    const body = document.body;
+    
     root.classList.remove('light', 'dark');
+    body.classList.remove('light', 'dark');
+    
     root.classList.add(actualTheme);
+    body.classList.add(actualTheme);
   }, [actualTheme]);
 
   const setTheme = (newTheme: Theme) => {

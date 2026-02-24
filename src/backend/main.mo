@@ -8,13 +8,13 @@ import Iter "mo:core/Iter";
 import MixinAuthorization "authorization/MixinAuthorization";
 import MixinStorage "blob-storage/Mixin";
 import Storage "blob-storage/Storage";
-import Migration "migration";
+
 import OutCall "http-outcalls/outcall";
 import Nat "mo:core/Nat";
 import Stripe "stripe/stripe";
 import Principal "mo:core/Principal";
 
-(with migration = Migration.run)
+
 actor {
   type Role = {
     #user;

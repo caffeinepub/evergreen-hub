@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Check, Sparkles } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from '@tanstack/react-router';
 import PaymentModal from './PaymentModal';
@@ -13,7 +13,7 @@ const packages = [
     id: 1n,
     name: 'E-LITE PACKAGE',
     price: '₹699',
-    description: 'Total 2 courses',
+    description: 'Perfect for beginners starting their journey in affiliate marketing',
     image: '/assets/1736790168_99817e5b501599cb1a32.webp',
     courses: [
       'Ms Excel',
@@ -24,7 +24,7 @@ const packages = [
     id: 2n,
     name: 'SILVER PACKAGE',
     price: '₹1499',
-    description: '6 courses + E-lite free',
+    description: 'Essential tools for content creators and video editors',
     image: '/assets/1736790180_92ef8bcb1e432a9a949a.webp',
     courses: [
       'Canva mastery',
@@ -37,7 +37,7 @@ const packages = [
     id: 3n,
     name: 'GOLD PACKAGE',
     price: '₹2999',
-    description: '11 courses + E-lite & silver free',
+    description: 'Comprehensive social media marketing and growth strategies',
     image: '/assets/1736790230_c5566f358eb6ca101c0d.webp',
     courses: [
       'YouTube growth',
@@ -52,7 +52,7 @@ const packages = [
     name: 'DIAMOND PACKAGE',
     price: '₹4999',
     popular: true,
-    description: '17 courses + E-lite, silver and gold free',
+    description: 'Advanced business and communication skills for professionals',
     image: '/assets/1736790264_f670ec31ba7738d0be77.webp',
     courses: [
       'Finance Mastery',
@@ -67,7 +67,7 @@ const packages = [
     id: 5n,
     name: 'PLATINUM PACKAGE',
     price: '₹9999',
-    description: '24 courses + E-lite, silver, gold, diamond free',
+    description: 'Master modern technologies and AI-powered content creation',
     image: '/assets/1736790287_1899f7fdfeac4fa91418.webp',
     courses: [
       'Stock Market',
@@ -83,7 +83,7 @@ const packages = [
     id: 6n,
     name: 'ULTRA PRO PACKAGE',
     price: '₹14999',
-    description: '34 courses + All packages free',
+    description: 'Complete web development and digital marketing mastery',
     image: '/assets/1736790311_3efed5100955914f22fb.webp',
     courses: [
       'Website development',
@@ -124,7 +124,7 @@ export default function PricingSection() {
 
   return (
     <>
-      <section id="pricing" className="py-20 bg-gradient-to-b from-background to-emerald-950/10">
+      <section id="courses-section" className="section-padding bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
@@ -139,58 +139,46 @@ export default function PricingSection() {
             {packages.map((pkg) => (
               <Card
                 key={pkg.name}
-                className={`relative transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 ${
-                  pkg.popular
-                    ? 'border-emerald-500 border-2 shadow-emerald-500/20 shadow-xl scale-105'
-                    : 'border-border hover:border-emerald-500/50'
+                className={`relative card-radius soft-shadow card-hover overflow-hidden ${
+                  pkg.popular ? 'border-2 border-primary' : ''
                 }`}
               >
                 {pkg.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                    <Badge className="bg-emerald-500 text-black font-bold px-4 py-1 text-sm">
-                      <Sparkles className="h-3 w-3 mr-1 inline" />
-                      MOST POPULAR
-                    </Badge>
-                  </div>
+                  <Badge className="absolute top-4 right-4 bg-accent text-accent-foreground z-10">
+                    Best Value
+                  </Badge>
                 )}
-
-                <CardHeader className="text-center pb-4 pt-8">
-                  <div className="mb-4 flex justify-center">
-                    <img 
-                      src={pkg.image} 
+                <CardHeader className="pb-4">
+                  <div className="aspect-video w-full overflow-hidden rounded-lg mb-4">
+                    <img
+                      src={pkg.image}
                       alt={pkg.name}
-                      className="w-48 h-48 object-contain"
+                      className="w-full h-full object-cover"
                     />
                   </div>
-                  <CardTitle className="text-2xl font-bold mb-2">{pkg.name}</CardTitle>
-                  <CardDescription className="text-4xl font-black text-emerald-500 mb-2">
-                    {pkg.price}
-                  </CardDescription>
-                  <p className="text-sm text-muted-foreground font-semibold">
+                  <CardTitle className="text-2xl text-foreground">{pkg.name}</CardTitle>
+                  <CardDescription className="text-muted-foreground">
                     {pkg.description}
-                  </p>
+                  </CardDescription>
                 </CardHeader>
-
-                <CardContent className="space-y-3">
-                  {pkg.courses.map((course, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <Check className="h-5 w-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-muted-foreground">{course}</span>
-                    </div>
-                  ))}
+                <CardContent className="space-y-4">
+                  <div className="text-4xl font-bold text-primary">{pkg.price}</div>
+                  <ul className="space-y-2">
+                    {pkg.courses.map((course, idx) => (
+                      <li key={idx} className="flex items-start gap-2">
+                        <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                        <span className="text-sm text-muted-foreground">{course}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </CardContent>
-
-                <CardFooter className="pt-6">
-                  <Button
+                <CardFooter>
+                  <button
                     onClick={() => handleBuyNow(pkg)}
-                    className={`w-full font-bold text-lg py-6 transition-all duration-300 ${
-                      pkg.popular
-                        ? 'bg-emerald-500 hover:bg-emerald-600 text-black shadow-lg hover:shadow-emerald-500/50'
-                        : 'bg-emerald-600 hover:bg-emerald-700 text-white'
-                    }`}
+                    className="w-full btn-cta btn-click-scale py-3 font-semibold"
                   >
                     Buy Now
-                  </Button>
+                  </button>
                 </CardFooter>
               </Card>
             ))}

@@ -1,204 +1,34 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-23T21:20:17.151Z",
+  "generatedAt": "2026-02-24T02:45:17.318Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 13,
-    "implemented": 10,
+    "total": 1,
+    "implemented": 1,
     "items": [
       {
-        "id": "REQ-121",
-        "summary": "Change PaymentModal component background from transparent to solid black (#000000). Update the modal container styling to use a solid black background instead of the current transparent or semi-transparent background.",
+        "id": "REQ-170",
+        "summary": "Remove the 'Buy Course' button from the HeroSection component (frontend/src/components/HeroSection.tsx), keeping only the 'Explore Courses' button visible. The button removal should not affect the existing hero section background image, layout, headline, or subheadline. Maintain the current styling and positioning of the remaining 'Explore Courses' button.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/PaymentModal.tsx"
+          "frontend/src/components/HeroSection.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/PaymentModal.tsx"
-        ]
-      },
-      {
-        "id": "REQ-122",
-        "summary": "Change EvergreenAIChatbot component background to solid black (#000000). Update the chatbot interface container to use a solid black background instead of any transparent or glassmorphism effects.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/EvergreenAIChatbot.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/EvergreenAIChatbot.tsx"
-        ]
-      },
-      {
-        "id": "REQ-123",
-        "summary": "Reposition EvergreenAIChatbot floating button to the left side of the viewport. Change the positioning from right side to left side while maintaining appropriate spacing from edges and ensuring it doesn't overlap with other UI elements.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/EvergreenAIChatbot.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/EvergreenAIChatbot.tsx"
-        ]
-      },
-      {
-        "id": "REQ-124",
-        "summary": "Update FloatingWhatsAppButton component background to solid black (#000000). Change the button background styling to use a solid black background.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/FloatingWhatsAppButton.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/FloatingWhatsAppButton.tsx"
-        ]
-      },
-      {
-        "id": "REQ-125",
-        "summary": "Mask phone number 9263989760 throughout the application to display only the last 2 digits, showing as '********60'. Make the masked number clickable, opening WhatsApp or phone dialer with the full phone number when clicked. Apply masking to all instances: FloatingWhatsAppButton, Footer, HeroSection, VideoEditingSection, PaymentProofForm, and any other components displaying the phone number.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/FloatingWhatsAppButton.tsx",
-          "frontend/src/components/Footer.tsx",
-          "frontend/src/components/HeroSection.tsx",
-          "frontend/src/components/VideoEditingSection.tsx",
-          "frontend/src/components/PaymentProofForm.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/FloatingWhatsAppButton.tsx",
-          "frontend/src/components/Footer.tsx",
-          "frontend/src/components/HeroSection.tsx",
-          "frontend/src/components/VideoEditingSection.tsx",
-          "frontend/src/components/PaymentProofForm.tsx"
-        ]
-      },
-      {
-        "id": "REQ-126",
-        "summary": "After successful login, redirect authenticated users directly to the user dashboard (/dashboard) instead of the homepage. Update the Login page and authentication flow to navigate to /dashboard upon successful authentication.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/pages/Login.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/pages/Login.tsx"
-        ]
-      },
-      {
-        "id": "REQ-127",
-        "summary": "Create an Earnings Dashboard section in the user Dashboard Overview page displaying four earnings metrics: Today's Earning, Weekly Earning, Monthly Earning, and Lifetime Earning. Display each metric in a separate card with emerald green accents, showing the earnings amount in INR (₹). Use a responsive grid layout that adapts to mobile, tablet, and desktop viewports.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/pages/user/DashboardOverview.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/pages/user/DashboardOverview.tsx"
-        ]
-      },
-      {
-        "id": "REQ-128",
-        "summary": "Add backend support for earnings tracking and retrieval. Implement data structures to store and calculate user earnings (today, weekly, monthly, lifetime) and create a backend function to retrieve earnings data for authenticated users. Initialize earnings data when users make approved purchases.",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
-      },
-      {
-        "id": "REQ-129",
-        "summary": "Add a Withdrawal Request feature to the user dashboard. Create a new page or section where users can submit withdrawal questions or requests. Include a form with fields for withdrawal amount and message/question, and a submit button. Display a list of the user's previous withdrawal requests with status (pending/approved/rejected) and submission date.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/layouts/UserDashboardLayout.tsx",
-          "frontend/src/pages/user/WithdrawalRequests.tsx",
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/App.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/layouts/UserDashboardLayout.tsx",
-          "frontend/src/pages/user/WithdrawalRequests.tsx",
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/App.tsx"
-        ]
-      },
-      {
-        "id": "REQ-130",
-        "summary": "Implement backend support for withdrawal requests. Create a WithdrawalRequest data structure with fields: id, userId, amount, message, status (pending/approved/rejected), createdAt. Add backend functions to create new withdrawal requests, list requests by user, list all requests (admin), and update request status (admin only).",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
-      },
-      {
-        "id": "REQ-131",
-        "summary": "Add a Landing Page Builder/Creator option to the user dashboard. Create a new navigation item and page that allows users to build or customize landing pages. The page should provide a user-friendly interface for creating landing pages, potentially with templates or customization options.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/layouts/UserDashboardLayout.tsx",
-          "frontend/src/pages/user/LandingPageBuilder.tsx",
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/App.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/layouts/UserDashboardLayout.tsx",
-          "frontend/src/pages/user/LandingPageBuilder.tsx",
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/App.tsx"
-        ]
-      },
-      {
-        "id": "REQ-132",
-        "summary": "Implement backend support for user-created landing pages. Create data structures to store landing page configurations (title, content, template selection, customizations) and add backend functions to create, retrieve, update, and delete user landing pages. Associate landing pages with user Principal for ownership.",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
-      },
-      {
-        "id": "REQ-133",
-        "summary": "Add an admin Withdrawal Management page to the admin dashboard. Create a page listing all user withdrawal requests in a table with columns: User Name, Amount (₹), Message, Status, Submission Date, and Actions. Implement approve/reject buttons for each request and include filtering by status (All/Pending/Approved/Rejected). Add a navigation item in the admin sidebar for Withdrawal Management.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/layouts/AdminDashboardLayout.tsx",
-          "frontend/src/pages/admin/WithdrawalManagement.tsx",
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/App.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/layouts/AdminDashboardLayout.tsx",
-          "frontend/src/pages/admin/WithdrawalManagement.tsx",
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/App.tsx"
+          "frontend/src/components/HeroSection.tsx"
         ]
       }
     ]
   },
   "changedFiles": [
-    "backend/main.mo",
-    "backend/migration.mo",
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/App.tsx",
-    "frontend/src/backend.d.ts",
-    "frontend/src/backend.ts",
-    "frontend/src/components/EvergreenAIChatbot.tsx",
-    "frontend/src/components/FloatingWhatsAppButton.tsx",
-    "frontend/src/components/Footer.tsx",
     "frontend/src/components/HeroSection.tsx",
-    "frontend/src/components/PaymentModal.tsx",
-    "frontend/src/components/PaymentProofForm.tsx",
-    "frontend/src/components/VideoEditingSection.tsx",
-    "frontend/src/declarations/backend.did.d.ts",
-    "frontend/src/declarations/backend.did.js",
-    "frontend/src/hooks/useQueries.ts",
-    "frontend/src/layouts/AdminDashboardLayout.tsx",
-    "frontend/src/layouts/UserDashboardLayout.tsx",
-    "frontend/src/pages/Login.tsx",
-    "frontend/src/pages/admin/PaymentManagement.tsx",
-    "frontend/src/pages/admin/WithdrawalManagement.tsx",
-    "frontend/src/pages/user/DashboardOverview.tsx",
-    "frontend/src/pages/user/LandingPageBuilder.tsx",
-    "frontend/src/pages/user/WithdrawalRequests.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

@@ -45,7 +45,7 @@ export default function CoursePackagesModal({ isOpen, onClose }: CoursePackagesM
   return (
     <>
       <Dialog open={isOpen && !selectedPackage} onOpenChange={onClose}>
-        <DialogContent className="max-w-7xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-7xl max-h-[90vh] overflow-y-auto bg-card border-border">
           <DialogHeader>
             <DialogTitle className="text-3xl font-bold text-center">Choose Your Course Package</DialogTitle>
             <DialogDescription className="text-center text-lg">
@@ -67,10 +67,10 @@ export default function CoursePackagesModal({ isOpen, onClose }: CoursePackagesM
                   return (
                     <Card
                       key={pkg.id.toString()}
-                      className={`relative transition-all duration-300 hover:shadow-xl ${
+                      className={`relative transition-all duration-300 hover:shadow-xl bg-card border-border ${
                         isPopular
                           ? 'border-emerald-500 border-2 shadow-emerald-500/20 shadow-lg'
-                          : 'border-border hover:border-emerald-500/50'
+                          : 'hover:border-emerald-500/50'
                       }`}
                     >
                       {isPopular && (

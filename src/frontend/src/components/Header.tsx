@@ -1,7 +1,10 @@
-import { Link, useNavigate } from '@tanstack/react-router';
-import { useAuth } from '../contexts/AuthContext';
+import { useState, useEffect } from 'react';
+import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
-import { LogOut, User, Shield, Palette, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import MobileSidebar from './MobileSidebar';
+import ThemeToggleSwitch from './ThemeToggleSwitch';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,85 +12,91 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import ThemeToggleSwitch from './ThemeToggleSwitch';
-import AppearanceSettingsModal from './AppearanceSettingsModal';
-import MobileSidebar from './MobileSidebar';
-import { useState } from 'react';
 
 export default function Header() {
-  const { isAuthenticated, isAdmin, userProfile, logout } = useAuth();
-  const navigate = useNavigate();
-  const [appearanceModalOpen, setAppearanceModalOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { isAuthenticated, isAdmin, logout } = useAuth();
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const handleLogout = async () => {
-    await logout();
-    navigate({ to: '/' });
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2">
-            <img 
-              src="/assets/FB_IMG_1766033480161.jpg" 
-              alt="Evergreen Gamerz" 
-              className="h-10 md:h-12 object-contain"
-            />
-            <span className="text-xl md:text-2xl font-bold text-primary">Evergreen Hub</span>
-          </Link>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? 'bg-background/95 backdrop-blur-sm shadow-soft dark:bg-background/90 dark:shadow-[0_4px_12px_rgba(59,130,246,0.15)]'
+            : 'bg-transparent'
+        }`}
+      >
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-2">
+              <img
+                src="/assets/FB_IMG_1766033480161.jpg"
+                alt="Evergreen Hub"
+                className="h-10 w-10 rounded-full object-cover"
+              />
+              <span className="text-xl font-bold text-primary">Evergreen Hub</span>
+            </Link>
 
-          <nav className="flex items-center gap-2">
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-2">
+            <nav className="hidden md:flex items-center gap-6">
+              <Link
+                to="/"
+                className="text-foreground hover:text-primary transition-colors font-medium"
+              >
+                Home
+              </Link>
+              <Link
+                to="/about-us"
+                className="text-foreground hover:text-primary transition-colors font-medium"
+              >
+                About
+              </Link>
+              <Link
+                to="/contact"
+                className="text-foreground hover:text-primary transition-colors font-medium"
+              >
+                Contact
+              </Link>
+            </nav>
+
+            {/* Desktop Auth */}
+            <div className="hidden md:flex items-center gap-4">
               <ThemeToggleSwitch />
-              
               {!isAuthenticated ? (
                 <>
-                  <Button variant="ghost" asChild>
+                  <Button asChild variant="ghost" className="text-foreground hover:text-primary">
                     <Link to="/login">Login</Link>
                   </Button>
-                  <Button asChild>
+                  <button className="btn-cta px-6 py-2 font-semibold">
                     <Link to="/register">Register</Link>
-                  </Button>
+                  </button>
                 </>
               ) : (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="gap-2">
-                      {isAdmin ? <Shield className="h-4 w-4" /> : <User className="h-4 w-4" />}
-                      {userProfile?.name || 'Account'}
+                    <Button variant="outline" className="border-primary text-primary">
+                      {isAdmin ? 'Admin' : 'My Account'}
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
-                    <div className="px-2 py-1.5 text-sm font-semibold">
-                      {userProfile?.name}
-                      <div className="text-xs text-muted-foreground">{userProfile?.email}</div>
-                    </div>
-                    <DropdownMenuSeparator />
-                    {isAdmin ? (
-                      <DropdownMenuItem asChild>
-                        <Link to="/admin-dashboard" className="cursor-pointer">
-                          <Shield className="mr-2 h-4 w-4" />
-                          Admin Panel
-                        </Link>
-                      </DropdownMenuItem>
-                    ) : (
-                      <DropdownMenuItem asChild>
-                        <Link to="/dashboard" className="cursor-pointer">
-                          <User className="mr-2 h-4 w-4" />
-                          Dashboard
-                        </Link>
-                      </DropdownMenuItem>
-                    )}
-                    <DropdownMenuItem onClick={() => setAppearanceModalOpen(true)} className="cursor-pointer">
-                      <Palette className="mr-2 h-4 w-4" />
-                      Appearance
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem asChild>
+                      <Link to={isAdmin ? '/admin-dashboard' : '/dashboard'}>
+                        Dashboard
+                      </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive">
-                      <LogOut className="mr-2 h-4 w-4" />
+                    <DropdownMenuItem onClick={logout}>
                       Logout
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -95,22 +104,23 @@ export default function Header() {
               )}
             </div>
 
-            {/* Mobile Menu Toggle */}
+            {/* Mobile Menu Button */}
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden"
-              onClick={() => setMobileMenuOpen(true)}
-              aria-label="Open menu"
+              className="md:hidden text-foreground"
+              onClick={() => setIsMobileSidebarOpen(true)}
             >
               <Menu className="h-6 w-6" />
             </Button>
-          </nav>
+          </div>
         </div>
       </header>
 
-      <AppearanceSettingsModal open={appearanceModalOpen} onOpenChange={setAppearanceModalOpen} />
-      <MobileSidebar isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
+      <MobileSidebar
+        isOpen={isMobileSidebarOpen}
+        onClose={() => setIsMobileSidebarOpen(false)}
+      />
     </>
   );
 }

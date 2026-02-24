@@ -18,6 +18,9 @@ import FloatingWhatsAppButton from './components/FloatingWhatsAppButton';
 import EvergreenAIChatbot from './components/EvergreenAIChatbot';
 import ScrollToTopButton from './components/ScrollToTopButton';
 import Header from './components/Header';
+import GradientBlobs from './components/GradientBlobs';
+import TrustBadgesSection from './components/TrustBadgesSection';
+import BottomCTASection from './components/BottomCTASection';
 
 // Auth pages
 import Register from './pages/Register';
@@ -57,8 +60,10 @@ const queryClient = new QueryClient({
 function LandingPage() {
   return (
     <>
+      <GradientBlobs />
       <Header />
       <HeroSection />
+      <TrustBadgesSection />
       <PricingSection />
       <WhyChooseUsSection />
       <YouTubeSection />
@@ -66,6 +71,7 @@ function LandingPage() {
       <VideoEditingSection />
       <TestimonialsSection />
       <FAQSection />
+      <BottomCTASection />
       <Footer />
       <FloatingWhatsAppButton />
       <EvergreenAIChatbot />

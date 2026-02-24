@@ -1,29 +1,25 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Star } from 'lucide-react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const testimonials = [
   {
-    name: 'Rahul Sharma',
-    role: 'Student',
-    content: 'Evergreen Hub transformed my life! I went from zero knowledge to earning my first commission in just 3 weeks. The step-by-step guidance is incredible.',
+    name: 'Rajesh Kumar',
     rating: 5,
-    initials: 'RS',
+    text: 'Evergreen Hub transformed my career! The courses are comprehensive and easy to follow. I started earning within 2 months!',
+    image: '/assets/generated/benefit-beginner.dim_128x128.png',
   },
   {
-    name: 'Priya Patel',
-    role: 'Freelancer',
-    content: 'Best investment I ever made! The WhatsApp support is super responsive and the course content is easy to understand. Already made back my investment!',
+    name: 'Priya Sharma',
     rating: 5,
-    initials: 'PP',
+    text: 'Best investment I made! The WhatsApp support is amazing and the instructors are always ready to help. Highly recommended!',
+    image: '/assets/generated/benefit-guidance.dim_128x128.png',
   },
   {
-    name: 'Amit Kumar',
-    role: 'College Student',
-    content: 'As a beginner, I was nervous about starting. But the beginner-friendly approach and lifetime access gave me confidence. Now I earn while studying!',
+    name: 'Amit Patel',
     rating: 5,
-    initials: 'AK',
+    text: 'The DIAMOND package is worth every penny. Learned so much about affiliate marketing and digital skills. Thank you Evergreen Hub!',
+    image: '/assets/generated/benefit-lifetime.dim_128x128.png',
   },
 ];
 
@@ -31,41 +27,39 @@ export default function TestimonialsSection() {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section className="py-20 bg-gradient-to-b from-background to-emerald-950/10">
+    <section className="section-padding bg-secondary">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Success Stories
+            What Our Students Say
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            See what our students are saying about their journey with Evergreen Hub
+            Join thousands of satisfied students who transformed their lives
           </p>
         </div>
 
         <div ref={ref} className={`grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto scroll-fade-in ${isVisible ? 'visible' : ''}`}>
           {testimonials.map((testimonial, index) => (
-            <Card
-              key={index}
-              className="border-border hover:border-emerald-500/50 transition-all duration-300 hover:shadow-xl"
-            >
+            <Card key={index} className="card-radius soft-shadow bg-background">
               <CardContent className="pt-8 space-y-4">
-                <div className="flex gap-1 mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-emerald-500 text-emerald-500" />
+                <div className="flex justify-center">
+                  <img
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="w-16 h-16 rounded-full object-cover"
+                  />
+                </div>
+                <div className="flex justify-center gap-1">
+                  {Array.from({ length: testimonial.rating }).map((_, i) => (
+                    <Star key={i} className="h-5 w-5 fill-accent text-accent" />
                   ))}
                 </div>
-                <p className="text-muted-foreground italic">"{testimonial.content}"</p>
-                <div className="flex items-center gap-3 pt-4">
-                  <Avatar className="h-12 w-12 bg-emerald-500">
-                    <AvatarFallback className="bg-emerald-500 text-black font-bold">
-                      {testimonial.initials}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <div className="font-bold text-foreground">{testimonial.name}</div>
-                    <div className="text-sm text-muted-foreground">{testimonial.role}</div>
-                  </div>
-                </div>
+                <p className="text-muted-foreground text-center italic">
+                  "{testimonial.text}"
+                </p>
+                <p className="text-foreground font-semibold text-center">
+                  {testimonial.name}
+                </p>
               </CardContent>
             </Card>
           ))}
