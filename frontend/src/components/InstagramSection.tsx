@@ -3,6 +3,8 @@ import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { SiInstagram } from 'react-icons/si';
 import { ExternalLink, Heart } from 'lucide-react';
 
+const INSTAGRAM_URL = 'https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw';
+
 export default function InstagramSection() {
   const { ref, isVisible } = useScrollAnimation();
 
@@ -26,13 +28,13 @@ export default function InstagramSection() {
             </div>
           </div>
           <h2 className="text-2xl font-bold mb-2">Follow Us on Instagram</h2>
-          <p className="text-white/80 mb-2 font-medium">@evergreenhub</p>
+          <p className="text-white/80 mb-2 font-medium">@evergreenhub2026</p>
           <p className="text-white/70 text-sm mb-6">
             Get daily motivation, tips, and behind-the-scenes content. Follow us for your daily dose of digital inspiration!
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <a
-              href="https://www.instagram.com/evergreenhub"
+              href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 bg-white text-pink-600 hover:bg-white/90 px-6 py-3 rounded-full font-semibold transition-colors"
@@ -41,7 +43,7 @@ export default function InstagramSection() {
               Follow Us
             </a>
             <a
-              href="https://www.instagram.com/evergreenhub"
+              href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 bg-white/20 hover:bg-white/30 border border-white/30 text-white px-6 py-3 rounded-full font-semibold transition-colors"

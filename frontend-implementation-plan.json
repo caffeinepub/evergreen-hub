@@ -1,65 +1,85 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Replace Facebook Section with Attractive Our Founder Section",
+  "title": "Make Social Media Links Clickable with Real URLs",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Remove FacebookSection component from the landing page and delete/empty the component file",
+      "summary": "Update Footer component social media links with real URLs and proper attributes",
       "acceptanceCriteria": [
-        "The Facebook follow/like section is no longer visible on the landing page",
-        "No broken import or render errors related to FacebookSection"
+        "Footer YouTube icon/link navigates to https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj- in a new tab",
+        "Footer Facebook icon/link navigates to https://www.facebook.com/share/1AWvNBtfuD/ in a new tab",
+        "Footer Instagram icon/link navigates to https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw in a new tab",
+        "Visual appearance of footer remains unchanged"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/App.tsx",
+          "path": "frontend/src/components/Footer.tsx",
           "operation": "modify",
-          "description": "Remove the FacebookSection import statement and remove its usage from the LandingPage component render output"
-        },
-        {
-          "path": "frontend/src/components/FacebookSection.tsx",
-          "operation": "modify",
-          "description": "Empty the component file content entirely, leaving only an empty export to prevent import errors during transition"
+          "description": "Replace placeholder social media links with real URLs: YouTube → https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-, Facebook → https://www.facebook.com/share/1AWvNBtfuD/, Instagram → https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw. Add target='_blank' and rel='noopener noreferrer' to all three social media link elements. Do not modify any styling or layout."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Create an attractive FounderSection component with photo, bold heading, highlighted name, full bio, scroll animation, and gradient styling",
+      "summary": "Update InstagramSection component links with real Instagram profile URL",
       "acceptanceCriteria": [
-        "Founder photo is displayed prominently with an attractive circular/rounded frame",
-        "'Our Founder' appears in bold below the photo",
-        "'Rudra Pratap Singh' appears directly below 'Our Founder' in accent styling",
-        "Full About Me bio text is displayed below the name",
-        "Section has scroll-triggered animation",
-        "Section is visually attractive with gradient/decorative elements"
+        "InstagramSection follow and view-profile buttons/links navigate to https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw in a new tab",
+        "Visual appearance of InstagramSection remains unchanged"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/FounderSection.tsx",
-          "operation": "create",
-          "description": "Create a new FounderSection component that displays the founder's photo from frontend/public/assets/generated/founder-photo.dim_400x400.png in a circular frame with glowing gradient border, followed by a bold 'Our Founder' heading, 'Rudra Pratap Singh' name in green/gold gradient accent styling, and the full About Me bio text: 'Hello! I'm Rudra Pratap Singh, the founder of Evergreen Hub. I help coaching institutes, affiliate marketers, bloggers, and local businesses grow online with professional websites, Google Map profiles, and lead-focused digital solutions. As a passionate digital entrepreneur and affiliate marketer, I also provide affiliate marketing support and video editing services to help businesses promote their brand and products effectively online. At Evergreen Hub, my mission is to combine modern design, smart functionality, and high-quality content to deliver solutions that not only look professional but also drive real results. Whether you're starting your first website, boosting your online presence, or creating engaging marketing videos, I make sure your business stands out in the digital world.' Use the useScrollAnimation hook for scroll-triggered fade-in animation. Apply an attractive card or split-layout design with gradient accents, badges, or decorative elements using Tailwind CSS classes consistent with existing sections like WhyChooseUsSection and TrustBadgesSection"
-        },
-        {
-          "path": "frontend/src/App.tsx",
+          "path": "frontend/src/components/InstagramSection.tsx",
           "operation": "modify",
-          "description": "Import the new FounderSection component and add it to the LandingPage component render output in the position previously occupied by FacebookSection, maintaining the existing section order and spacing"
+          "description": "Update all Instagram links (follow button and view-profile link) to use the real URL https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw. Add target='_blank' and rel='noopener noreferrer' to all link elements. Preserve all existing styling and layout."
         }
       ]
     },
     {
       "id": "REQ-3",
-      "summary": "Add Founder/About Me subsection inside WebDesignServices page reusing FounderSection content",
+      "summary": "Update YouTubeSection component links with real YouTube channel URL",
       "acceptanceCriteria": [
-        "Founder photo, 'Our Founder' heading, 'Rudra Pratap Singh' name, and full bio appear on the Web Design Services page",
-        "Styling is consistent with the WebDesignServices page theme",
-        "No duplicate component code — FounderSection component is reused"
+        "YouTubeSection subscribe button navigates to https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj- in a new tab",
+        "Visual appearance of YouTubeSection remains unchanged"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/WebDesignServices.tsx",
+          "path": "frontend/src/components/YouTubeSection.tsx",
           "operation": "modify",
-          "description": "Import FounderSection component and add it to the page layout after the intro/hero section and before the pricing cards section. Ensure styling is consistent with the existing WebDesignServices page theme by wrapping it in appropriate container classes that match the page's layout structure"
+          "description": "Update the subscribe button and any channel links to use the real YouTube URL https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-. Add target='_blank' and rel='noopener noreferrer' to all YouTube link elements. Do not modify visual appearance or layout."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Update all remaining social media links across frontend components",
+      "acceptanceCriteria": [
+        "No social media link anywhere on the site points to a placeholder, '#', or incorrect URL",
+        "All YouTube links resolve to the correct channel",
+        "All Facebook links resolve to the correct profile/page",
+        "All Instagram links resolve to the correct profile",
+        "All social links open in a new browser tab"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/FacebookSection.tsx",
+          "operation": "modify",
+          "description": "Update any Facebook links to use https://www.facebook.com/share/1AWvNBtfuD/ with target='_blank' and rel='noopener noreferrer'. If the file is empty or contains no links, add a functional Facebook link component following the pattern of InstagramSection.tsx."
+        },
+        {
+          "path": "frontend/src/components/Header.tsx",
+          "operation": "modify",
+          "description": "Scan for any social media links (Facebook, Instagram, YouTube) and replace with real URLs: YouTube → https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-, Facebook → https://www.facebook.com/share/1AWvNBtfuD/, Instagram → https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw. Add target='_blank' and rel='noopener noreferrer' to all social links. Preserve styling."
+        },
+        {
+          "path": "frontend/src/components/MobileSidebar.tsx",
+          "operation": "modify",
+          "description": "Locate any social media links in the mobile sidebar and update with real URLs: YouTube → https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-, Facebook → https://www.facebook.com/share/1AWvNBtfuD/, Instagram → https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw. Add target='_blank' and rel='noopener noreferrer'. Do not alter layout or styling."
+        },
+        {
+          "path": "frontend/src/pages/AboutUs.tsx",
+          "operation": "modify",
+          "description": "Search for any social media links or icons on the About Us page and replace with real URLs: YouTube → https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-, Facebook → https://www.facebook.com/share/1AWvNBtfuD/, Instagram → https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw. Ensure all social links have target='_blank' and rel='noopener noreferrer'. Keep visual design unchanged."
         }
       ]
     }

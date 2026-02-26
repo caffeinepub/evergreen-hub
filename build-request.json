@@ -1,83 +1,100 @@
 {
   "kind": "build_request",
-  "title": "Replace Facebook Section with Attractive Our Founder Section",
+  "title": "Make Social Media Links Clickable with Real URLs",
   "projectName": "Evergreen Hub",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Remove the FacebookSection component from the landing page (LandingPage / App.tsx render) entirely. Delete or empty the FacebookSection.tsx component so it no longer appears anywhere on the site.",
+      "text": "In the Footer component (frontend/src/components/Footer.tsx), update the Facebook, Instagram, and YouTube social media link elements to use the following real URLs and open in a new tab: YouTube → https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-, Facebook → https://www.facebook.com/share/1AWvNBtfuD/, Instagram → https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw. Each link must have target='_blank' and rel='noopener noreferrer'.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-6"
         ],
         "quotes": [
-          "Facebook wale section ko hata ke our founder section banao"
+          "YouTube:- https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-",
+          "Facebook:-https://www.facebook.com/share/1AWvNBtfuD/",
+          "Instagram -https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw",
+          "Jo jesa h wesa hi rahe bss click laga do jaha jaha youtube, insta or Facebook ka h"
         ]
       },
       "acceptanceCriteria": [
-        "The Facebook follow/like section is no longer visible on the landing page",
-        "No broken import or render errors related to FacebookSection"
+        "Footer YouTube icon/link navigates to https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj- in a new tab",
+        "Footer Facebook icon/link navigates to https://www.facebook.com/share/1AWvNBtfuD/ in a new tab",
+        "Footer Instagram icon/link navigates to https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw in a new tab",
+        "Visual appearance of footer remains unchanged"
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Create a new FounderSection.tsx component that replaces the Facebook section on the landing page. The section must: (1) Display the founder's photo (frontend/public/assets/generated/founder-photo.png) centered in a circular or rounded card frame with a glowing/gradient border for an attractive look; (2) Below the photo, display the bold heading 'Our Founder' in large bold typography; (3) Directly below 'Our Founder', display the name 'Rudra Pratap Singh' in a highlighted accent color (e.g., green or gold gradient); (4) Below the name, display the full About Me bio text: 'Hello! I'm Rudra Pratap Singh, the founder of Evergreen Hub. I help coaching institutes, affiliate marketers, bloggers, and local businesses grow online with professional websites, Google Map profiles, and lead-focused digital solutions. As a passionate digital entrepreneur and affiliate marketer, I also provide affiliate marketing support and video editing services to help businesses promote their brand and products effectively online. At Evergreen Hub, my mission is to combine modern design, smart functionality, and high-quality content to deliver solutions that not only look professional but also drive real results. Whether you're starting your first website, boosting your online presence, or creating engaging marketing videos, I make sure your business stands out in the digital world.'; (5) Apply scroll-triggered fade-in animation consistent with other sections; (6) Use an attractive card or split-layout design with gradient accents, badges, or decorative elements to make it visually appealing.",
+      "text": "In the InstagramSection component (frontend/src/components/InstagramSection.tsx), update the Instagram follow/view-profile links to use the real URL https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw with target='_blank' and rel='noopener noreferrer'.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-6"
         ],
         "quotes": [
-          "our founder section banao jisme tora attractive type se likha ho",
-          "Our Founder ko bold me likhna mere photo ke niche",
-          "Our founder ke niche hi Rudra Pratap Singh name ho"
+          "Instagram -https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw",
+          "Jo jesa h wesa hi rahe bss click laga do jaha jaha youtube, insta or Facebook ka h"
         ]
       },
       "acceptanceCriteria": [
-        "Founder photo is displayed prominently with an attractive circular/rounded frame",
-        "'Our Founder' appears in bold below the photo",
-        "'Rudra Pratap Singh' appears directly below 'Our Founder' in accent styling",
-        "Full About Me bio text is displayed below the name",
-        "Section has scroll-triggered animation",
-        "Section is visually attractive with gradient/decorative elements"
+        "InstagramSection follow and view-profile buttons/links navigate to https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw in a new tab",
+        "Visual appearance of InstagramSection remains unchanged"
       ]
     },
     {
       "id": "REQ-3",
-      "text": "Add a Founder / About Me subsection inside the WebDesignServices page (frontend/src/pages/WebDesignServices.tsx). It should reuse or mirror the FounderSection content — showing the founder photo, 'Our Founder' bold heading, 'Rudra Pratap Singh' name, and the full About Me bio — placed in an appropriate position on the page (e.g., after the intro/hero of that page and before pricing cards). Style it consistently with the rest of the WebDesignServices page.",
+      "text": "In the YouTubeSection component (frontend/src/components/YouTubeSection.tsx), update the subscribe button and any channel links to use the real YouTube channel URL https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj- with target='_blank' and rel='noopener noreferrer'.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-6"
         ],
         "quotes": [
-          "ye web design services me bhi dikhna chahiye"
+          "YouTube:- https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-",
+          "Jo jesa h wesa hi rahe bss click laga do jaha jaha youtube, insta or Facebook ka h"
         ]
       },
       "acceptanceCriteria": [
-        "Founder photo, 'Our Founder' heading, 'Rudra Pratap Singh' name, and full bio appear on the Web Design Services page",
-        "Styling is consistent with the WebDesignServices page theme",
-        "No duplicate component code — FounderSection component is reused"
+        "YouTubeSection subscribe button navigates to https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj- in a new tab",
+        "Visual appearance of YouTubeSection remains unchanged"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Scan all remaining frontend components and pages (including FacebookSection.tsx, Header.tsx, MobileSidebar.tsx, AboutUs.tsx, and any other files containing social media links) and update any placeholder or empty Facebook, Instagram, and YouTube links with the real URLs: YouTube → https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-, Facebook → https://www.facebook.com/share/1AWvNBtfuD/, Instagram → https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw. All links must open in a new tab with rel='noopener noreferrer'.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-6"
+        ],
+        "quotes": [
+          "Jo jesa h wesa hi rahe bss click laga do jaha jaha youtube, insta or Facebook ka h"
+        ]
+      },
+      "acceptanceCriteria": [
+        "No social media link anywhere on the site points to a placeholder, '#', or incorrect URL",
+        "All YouTube links resolve to the correct channel",
+        "All Facebook links resolve to the correct profile/page",
+        "All Instagram links resolve to the correct profile",
+        "All social links open in a new browser tab"
       ]
     }
   ],
   "constraints": [
-    "Do not modify any files under frontend/src/hooks/ or frontend/src/components/ui/",
-    "Founder photo must be served from frontend/public/assets/generated/ as a static asset"
+    "Do not alter the visual design, layout, or styling of any component — only update href/URL values and add target/rel attributes",
+    "Do not modify any files listed in frontend.immutablePaths"
   ],
   "nonGoals": [
-    "Editing any backend logic or data models",
-    "Adding a new backend API for founder data",
-    "Changing any other existing sections on the landing page"
+    "Adding new social media platforms",
+    "Changing icons or button styles",
+    "Backend changes",
+    "Any new sections or features"
   ],
   "imageRequirements": {
-    "required": [
-      "Professional portrait photo of a young Indian male digital entrepreneur sitting at a desk with a laptop and phone, neon-lit background with digital charts and dollar signs, dark hoodie, confident smile — styled for a founder profile section (founder-photo.dim_400x400.png)"
-    ],
-    "edits": [
-      "Use the uploaded photo of Rudra Pratap Singh (IMG_20260209_103145.png) as the founder profile image, cropped to a square centered on the face (founder-photo.dim_400x400.png)"
-    ]
+    "required": [],
+    "edits": []
   }
 }

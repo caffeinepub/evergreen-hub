@@ -1,50 +1,60 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-26T00:11:43.043Z",
+  "generatedAt": "2026-02-26T00:47:11.653Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 3,
-    "implemented": 3,
+    "total": 4,
+    "implemented": 4,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Remove the FacebookSection component from the landing page (LandingPage / App.tsx render) entirely. Delete or empty the FacebookSection.tsx component so it no longer appears anywhere on the site.",
+        "summary": "In the Footer component (frontend/src/components/Footer.tsx), update the Facebook, Instagram, and YouTube social media link elements to use the following real URLs and open in a new tab: YouTube → https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-, Facebook → https://www.facebook.com/share/1AWvNBtfuD/, Instagram → https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw. Each link must have target='_blank' and rel='noopener noreferrer'.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/App.tsx",
-          "frontend/src/components/FacebookSection.tsx"
+          "frontend/src/components/Footer.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/App.tsx",
-          "frontend/src/components/FacebookSection.tsx"
+          "frontend/src/components/Footer.tsx"
         ]
       },
       {
         "id": "REQ-2",
-        "summary": "Create a new FounderSection.tsx component that replaces the Facebook section on the landing page. The section must: (1) Display the founder's photo (frontend/public/assets/generated/founder-photo.png) centered in a circular or rounded card frame with a glowing/gradient border for an attractive look; (2) Below the photo, display the bold heading 'Our Founder' in large bold typography; (3) Directly below 'Our Founder', display the name 'Rudra Pratap Singh' in a highlighted accent color (e.g., green or gold gradient); (4) Below the name, display the full About Me bio text: 'Hello! I'm Rudra Pratap Singh, the founder of Evergreen Hub. I help coaching institutes, affiliate marketers, bloggers, and local businesses grow online with professional websites, Google Map profiles, and lead-focused digital solutions. As a passionate digital entrepreneur and affiliate marketer, I also provide affiliate marketing support and video editing services to help businesses promote their brand and products effectively online. At Evergreen Hub, my mission is to combine modern design, smart functionality, and high-quality content to deliver solutions that not only look professional but also drive real results. Whether you're starting your first website, boosting your online presence, or creating engaging marketing videos, I make sure your business stands out in the digital world.'; (5) Apply scroll-triggered fade-in animation consistent with other sections; (6) Use an attractive card or split-layout design with gradient accents, badges, or decorative elements to make it visually appealing.",
+        "summary": "In the InstagramSection component (frontend/src/components/InstagramSection.tsx), update the Instagram follow/view-profile links to use the real URL https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw with target='_blank' and rel='noopener noreferrer'.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/FounderSection.tsx",
-          "frontend/src/App.tsx"
+          "frontend/src/components/InstagramSection.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/FounderSection.tsx",
-          "frontend/src/App.tsx"
+          "frontend/src/components/InstagramSection.tsx"
         ]
       },
       {
         "id": "REQ-3",
-        "summary": "Add a Founder / About Me subsection inside the WebDesignServices page (frontend/src/pages/WebDesignServices.tsx). It should reuse or mirror the FounderSection content — showing the founder photo, 'Our Founder' bold heading, 'Rudra Pratap Singh' name, and the full About Me bio — placed in an appropriate position on the page (e.g., after the intro/hero of that page and before pricing cards). Style it consistently with the rest of the WebDesignServices page.",
+        "summary": "In the YouTubeSection component (frontend/src/components/YouTubeSection.tsx), update the subscribe button and any channel links to use the real YouTube channel URL https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj- with target='_blank' and rel='noopener noreferrer'.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/pages/WebDesignServices.tsx"
+          "frontend/src/components/YouTubeSection.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/pages/WebDesignServices.tsx"
+          "frontend/src/components/YouTubeSection.tsx"
+        ]
+      },
+      {
+        "id": "REQ-4",
+        "summary": "Scan all remaining frontend components and pages (including FacebookSection.tsx, Header.tsx, MobileSidebar.tsx, AboutUs.tsx, and any other files containing social media links) and update any placeholder or empty Facebook, Instagram, and YouTube links with the real URLs: YouTube → https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-, Facebook → https://www.facebook.com/share/1AWvNBtfuD/, Instagram → https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw. All links must open in a new tab with rel='noopener noreferrer'.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/FacebookSection.tsx",
+          "frontend/src/components/Header.tsx",
+          "frontend/src/components/MobileSidebar.tsx",
+          "frontend/src/pages/AboutUs.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/FacebookSection.tsx"
         ]
       }
     ]
@@ -54,11 +64,10 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/public/assets/generated/founder-photo.dim_400x400.png",
-    "frontend/src/App.tsx",
     "frontend/src/components/FacebookSection.tsx",
-    "frontend/src/components/FounderSection.tsx",
-    "frontend/src/pages/WebDesignServices.tsx",
+    "frontend/src/components/Footer.tsx",
+    "frontend/src/components/InstagramSection.tsx",
+    "frontend/src/components/YouTubeSection.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

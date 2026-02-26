@@ -18,7 +18,7 @@ export default function Footer() {
             </p>
             <div className="flex gap-4">
               <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/share/1AWvNBtfuD/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-background flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300"
@@ -26,7 +26,7 @@ export default function Footer() {
                 <SiFacebook className="h-5 w-5" />
               </a>
               <a
-                href="https://instagram.com/rajput.rudra_s"
+                href="https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-background flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300"
@@ -34,7 +34,7 @@ export default function Footer() {
                 <SiInstagram className="h-5 w-5" />
               </a>
               <a
-                href="https://youtube.com"
+                href="https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-background flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300"
@@ -124,7 +124,7 @@ export default function Footer() {
               © {currentYear} Evergreen Hub. All rights reserved.
             </p>
             <p className="text-muted-foreground text-sm">
-              Built by Rudra in Bihar
+              Built by Rudra in Bihar with ❤️
             </p>
           </div>
         </div>

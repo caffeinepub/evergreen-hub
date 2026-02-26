@@ -285,9 +285,6 @@ export default function WebDesignServices() {
         </AnimatedSection>
       </section>
 
-      {/* Founder Section */}
-      <FounderSection compact />
-
       {/* Why Choose Us */}
       <section className="py-16 px-4 bg-gray-50">
         <AnimatedSection className="max-w-5xl mx-auto">
@@ -343,7 +340,7 @@ export default function WebDesignServices() {
         </AnimatedSection>
       </section>
 
-      {/* Packages */}
+      {/* Packages — shown FIRST before Founder */}
       <section id="packages" className="py-16 px-4 bg-white">
         <AnimatedSection className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
@@ -363,54 +360,43 @@ export default function WebDesignServices() {
                 key={pkg.name}
                 className={`relative rounded-2xl border-2 p-6 flex flex-col transition-all hover:shadow-xl ${
                   pkg.highlight
-                    ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-indigo-50 shadow-lg'
+                    ? 'border-blue-500 bg-gradient-to-b from-blue-50 to-white shadow-lg scale-105'
                     : 'border-gray-200 bg-white hover:border-blue-300'
                 }`}
               >
-                {pkg.highlight && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs font-bold px-4 py-1 rounded-full shadow">
-                      ⭐ {pkg.badge}
-                    </span>
+                {pkg.badge && (
+                  <div
+                    className={`absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold ${
+                      pkg.highlight ? 'bg-blue-500 text-white' : 'bg-gray-800 text-white'
+                    }`}
+                  >
+                    {pkg.badge}
                   </div>
                 )}
-                {pkg.badge && !pkg.highlight && (
-                  <div className="absolute -top-3 left-4">
-                    <span className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
-                      {pkg.badge}
-                    </span>
+                <div className="mb-4">
+                  <h3 className="text-xl font-extrabold text-gray-900 mb-1">{pkg.name}</h3>
+                  {pkg.tagline && (
+                    <p className="text-xs text-gray-500 mb-2 leading-relaxed">{pkg.tagline}</p>
+                  )}
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-3xl font-extrabold text-blue-600">{pkg.price}</span>
+                    <span className="text-gray-400 line-through text-sm">{pkg.originalPrice}</span>
                   </div>
-                )}
-
-                {/* Demo badge */}
-                <div className="absolute top-4 right-4">
-                  <span className="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded-full border border-green-200">
-                    ✅ Demo Available
-                  </span>
-                </div>
-
-                <h3 className="text-xl font-extrabold text-gray-900 mb-1 mt-2">{pkg.name}</h3>
-                {pkg.tagline && <p className="text-xs text-orange-600 font-medium mb-3">{pkg.tagline}</p>}
-
-                <div className="flex items-baseline gap-2 mb-1">
-                  <span className="text-3xl font-extrabold text-blue-700">{pkg.price}</span>
-                  <span className="text-gray-400 line-through text-sm">{pkg.originalPrice}</span>
-                </div>
-
-                {/* Delivery & Support pills */}
-                <div className="flex gap-2 mb-4 flex-wrap">
-                  {pkg.delivery && (
-                    <span className="bg-blue-50 text-blue-700 text-xs font-medium px-2 py-1 rounded-full border border-blue-100">
-                      🚀 {pkg.delivery}
-                    </span>
-                  )}
-                  {pkg.support && (
-                    <span className="bg-green-50 text-green-700 text-xs font-medium px-2 py-1 rounded-full border border-green-100">
-                      🛡️ {pkg.support} Support
-                    </span>
+                  {(pkg.delivery || pkg.support) && (
+                    <div className="flex gap-3 mt-2">
+                      {pkg.delivery && (
+                        <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">
+                          ⏱ {pkg.delivery}
+                        </span>
+                      )}
+                      {pkg.support && (
+                        <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">
+                          🛡 {pkg.support} Support
+                        </span>
+                      )}
+                    </div>
                   )}
                 </div>
-
                 <ul className="space-y-2 mb-6 flex-1">
                   {pkg.features.map((f) => (
                     <li key={f} className="flex items-start gap-2 text-sm text-gray-700">
@@ -419,12 +405,11 @@ export default function WebDesignServices() {
                     </li>
                   ))}
                 </ul>
-
                 <button
                   onClick={() => handleOrder(pkg)}
                   className={`w-full py-3 rounded-xl font-bold text-sm transition-all ${
                     pkg.highlight
-                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg'
+                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md'
                       : 'bg-gray-900 hover:bg-gray-700 text-white'
                   }`}
                 >
@@ -436,13 +421,16 @@ export default function WebDesignServices() {
         </AnimatedSection>
       </section>
 
+      {/* Our Founder — shown AFTER packages, BEFORE testimonials */}
+      <FounderSection compact />
+
       {/* Testimonials */}
       <section className="py-16 px-4 bg-gray-50">
         <AnimatedSection className="max-w-5xl mx-auto">
           <h2 className="text-3xl font-extrabold text-center text-gray-900 mb-12">
-            Client{' '}
+            Hamare{' '}
             <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Reviews
+              Happy Clients
             </span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -455,8 +443,8 @@ export default function WebDesignServices() {
                 </div>
                 <p className="text-gray-700 text-sm leading-relaxed mb-4">"{t.text}"</p>
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm">
-                    {t.name[0]}
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm">
+                    {t.name.charAt(0)}
                   </div>
                   <div>
                     <p className="font-semibold text-gray-900 text-sm">{t.name}</p>
@@ -483,17 +471,19 @@ export default function WebDesignServices() {
               <div key={i} className="border border-gray-200 rounded-xl overflow-hidden">
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center justify-between p-5 text-left bg-white hover:bg-gray-50 transition-colors"
+                  className="w-full flex items-center justify-between px-6 py-4 text-left font-semibold text-gray-900 hover:bg-gray-50 transition-colors"
                 >
-                  <span className="font-semibold text-gray-900 text-sm pr-4">{faq.q}</span>
+                  <span>{faq.q}</span>
                   {openFaq === i ? (
-                    <ChevronUp className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                    <ChevronUp className="w-5 h-5 text-blue-500 flex-shrink-0" />
                   ) : (
                     <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0" />
                   )}
                 </button>
                 {openFaq === i && (
-                  <div className="px-5 pb-5 bg-blue-50 text-gray-700 text-sm leading-relaxed">{faq.a}</div>
+                  <div className="px-6 pb-4 text-gray-600 text-sm leading-relaxed border-t border-gray-100 pt-3">
+                    {faq.a}
+                  </div>
                 )}
               </div>
             ))}
@@ -502,41 +492,44 @@ export default function WebDesignServices() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 px-4 bg-gradient-to-br from-blue-900 to-indigo-900 text-white">
+      <section className="py-16 px-4 bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white">
         <AnimatedSection className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl font-extrabold mb-4">Ready to Go Online?</h2>
-          <p className="text-blue-200 mb-8 text-lg">
+          <h2 className="text-3xl font-extrabold mb-4">
+            Ready to Go{' '}
+            <span className="bg-gradient-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent">
+              Online?
+            </span>
+          </h2>
+          <p className="text-blue-100 mb-8 text-lg">
             Aaj hi apni website banwao aur apne business ko digital world mein launch karo!
           </p>
-          <a
-            href="https://wa.me/919263989760?text=Hi%2C%20I%20want%20to%20order%20a%20website%20from%20Evergreen%20Hub"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white font-bold px-10 py-4 rounded-full transition-all shadow-xl text-lg"
-          >
-            <MessageCircle className="w-5 h-5" />
-            WhatsApp Karo — Free Consultation
-          </a>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <a
+              href="#packages"
+              className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-300 hover:to-orange-400 text-gray-900 font-bold px-8 py-4 rounded-full transition-all shadow-lg text-lg"
+            >
+              Package Choose Karo
+            </a>
+            <a
+              href="https://wa.me/919263989760?text=Hi%2C%20I%20want%20to%20start%20my%20website%20project"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 bg-green-500 hover:bg-green-400 text-white font-bold px-8 py-4 rounded-full transition-all text-lg"
+            >
+              <MessageCircle className="w-5 h-5" />
+              WhatsApp Karo
+            </a>
+          </div>
         </AnimatedSection>
       </section>
 
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-400 py-8 px-4 text-center text-sm">
-        <p>© {new Date().getFullYear()} Evergreen Hub. All rights reserved.</p>
-        <p className="mt-1">
-          Built with ❤️ using{' '}
-          <a
-            href={`https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(window.location.hostname)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-400 hover:underline"
-          >
-            caffeine.ai
-          </a>
-        </p>
+        <p className="mb-1">© {new Date().getFullYear()} Evergreen Hub. All rights reserved.</p>
+        <p>Built by Rudra in Bihar with ❤️</p>
       </footer>
 
-      {/* Payment Modal — uses isOpen prop as defined in WebDesignPaymentModal */}
+      {/* Payment Modal */}
       {selectedPackage && (
         <WebDesignPaymentModal
           isOpen={paymentOpen}

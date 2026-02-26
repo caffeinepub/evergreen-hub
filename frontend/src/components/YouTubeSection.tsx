@@ -3,6 +3,8 @@ import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { SiYoutube } from 'react-icons/si';
 import { ExternalLink } from 'lucide-react';
 
+const YOUTUBE_URL = 'https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-';
+
 export default function YouTubeSection() {
   const { ref, isVisible } = useScrollAnimation();
 
@@ -42,7 +44,7 @@ export default function YouTubeSection() {
 
         <div className="text-center">
           <a
-            href="https://www.youtube.com/@evergreenhub"
+            href={YOUTUBE_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full font-bold transition-colors"
