@@ -1,0 +1,83 @@
+{
+  "kind": "build_request",
+  "title": "Replace Facebook Section with Attractive Our Founder Section",
+  "projectName": "Evergreen Hub",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Remove the FacebookSection component from the landing page (LandingPage / App.tsx render) entirely. Delete or empty the FacebookSection.tsx component so it no longer appears anywhere on the site.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Facebook wale section ko hata ke our founder section banao"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The Facebook follow/like section is no longer visible on the landing page",
+        "No broken import or render errors related to FacebookSection"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Create a new FounderSection.tsx component that replaces the Facebook section on the landing page. The section must: (1) Display the founder's photo (frontend/public/assets/generated/founder-photo.png) centered in a circular or rounded card frame with a glowing/gradient border for an attractive look; (2) Below the photo, display the bold heading 'Our Founder' in large bold typography; (3) Directly below 'Our Founder', display the name 'Rudra Pratap Singh' in a highlighted accent color (e.g., green or gold gradient); (4) Below the name, display the full About Me bio text: 'Hello! I'm Rudra Pratap Singh, the founder of Evergreen Hub. I help coaching institutes, affiliate marketers, bloggers, and local businesses grow online with professional websites, Google Map profiles, and lead-focused digital solutions. As a passionate digital entrepreneur and affiliate marketer, I also provide affiliate marketing support and video editing services to help businesses promote their brand and products effectively online. At Evergreen Hub, my mission is to combine modern design, smart functionality, and high-quality content to deliver solutions that not only look professional but also drive real results. Whether you're starting your first website, boosting your online presence, or creating engaging marketing videos, I make sure your business stands out in the digital world.'; (5) Apply scroll-triggered fade-in animation consistent with other sections; (6) Use an attractive card or split-layout design with gradient accents, badges, or decorative elements to make it visually appealing.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "our founder section banao jisme tora attractive type se likha ho",
+          "Our Founder ko bold me likhna mere photo ke niche",
+          "Our founder ke niche hi Rudra Pratap Singh name ho"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Founder photo is displayed prominently with an attractive circular/rounded frame",
+        "'Our Founder' appears in bold below the photo",
+        "'Rudra Pratap Singh' appears directly below 'Our Founder' in accent styling",
+        "Full About Me bio text is displayed below the name",
+        "Section has scroll-triggered animation",
+        "Section is visually attractive with gradient/decorative elements"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Add a Founder / About Me subsection inside the WebDesignServices page (frontend/src/pages/WebDesignServices.tsx). It should reuse or mirror the FounderSection content — showing the founder photo, 'Our Founder' bold heading, 'Rudra Pratap Singh' name, and the full About Me bio — placed in an appropriate position on the page (e.g., after the intro/hero of that page and before pricing cards). Style it consistently with the rest of the WebDesignServices page.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "ye web design services me bhi dikhna chahiye"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Founder photo, 'Our Founder' heading, 'Rudra Pratap Singh' name, and full bio appear on the Web Design Services page",
+        "Styling is consistent with the WebDesignServices page theme",
+        "No duplicate component code — FounderSection component is reused"
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not modify any files under frontend/src/hooks/ or frontend/src/components/ui/",
+    "Founder photo must be served from frontend/public/assets/generated/ as a static asset"
+  ],
+  "nonGoals": [
+    "Editing any backend logic or data models",
+    "Adding a new backend API for founder data",
+    "Changing any other existing sections on the landing page"
+  ],
+  "imageRequirements": {
+    "required": [
+      "Professional portrait photo of a young Indian male digital entrepreneur sitting at a desk with a laptop and phone, neon-lit background with digital charts and dollar signs, dark hoodie, confident smile — styled for a founder profile section (founder-photo.dim_400x400.png)"
+    ],
+    "edits": [
+      "Use the uploaded photo of Rudra Pratap Singh (IMG_20260209_103145.png) as the founder profile image, cropped to a square centered on the face (founder-photo.dim_400x400.png)"
+    ]
+  }
+}

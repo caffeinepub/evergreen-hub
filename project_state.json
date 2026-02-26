@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Website for Evergreen Hub — a digital services business by Rudra Pratap Singh offering web design, Google Map profiles, affiliate marketing support, and video editing. Project includes homepage with packages, founder section, and web design services page.",
+  "architectural_notes": [
+    "Project is for Evergreen Hub — digital services brand by Rudra Pratap Singh (web design, Google Maps, affiliate marketing, video editing)"
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Professional portrait photo of a young Indian male digital entrepreneur sitting at a desk with a laptop and phone, neon-lit background with digital charts and dollar signs, dark hoodie, confident smile — styled for a founder profile section (founder-photo.dim_400x400.png)\n\n## Edit Images\n- Use the uploaded photo of Rudra Pratap Singh (IMG_20260209_103145.png) as the founder profile image, cropped to a square centered on the face (founder-photo.dim_400x400.png)",
+  "existing_features": [
+    {
+      "id": "feature-remove-the-facebooksection-component-from-the-landing-page-landingpage-app-tsx-render-entirely-delete-or-empty-the-facebooksection-tsx-component-so-it-no-longer-appears-anywhere-on-the-site",
+      "title": "Remove the FacebookSection component from the landing page (LandingPage / App.tsx render) entirely. Delete or empty the FacebookSection.tsx component so it no longer appears anywhere on the site.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-new-foundersection-tsx-component-that-replaces-the-facebook-section-on-the-landing-page-the-section-must-1-display-the-founder-s-photo-frontend-public-assets-generated-founder-photo-png-centered-in-a-circular-or-rounded-card-frame-with-a-glowing-gradient-border-for-an-attractive-look-2-below-the-photo-display-the-bold-heading-our-founder-in-large-bold-typography-3-directly-below-our-founder-display-the-name-rudra-pratap-singh-in-a-highlighted-accent-color-e-g-green-or-gold-gradient-4-below-the-name-display-the-full-about-me-bio-text-hello-i-m-rudra-pratap-singh-the-founder-of-evergreen-hub-i-help-coaching-institutes-affiliate-marketers-bloggers-and-local-businesses-grow-online-with-professional-websites-google-map-profiles-and-lead-focused-digital-solutions-as-a-passionate-digital-entrepreneur-and-affiliate-marketer-i-also-provide-affiliate-marketing-support-and-video-editing-services-to-help-businesses-promote-their-brand-and-products-effectively-online-at-evergreen-hub-my-mission-is-to-combine-modern-design-smart-functionality-and-high-quality-content-to-deliver-solutions-that-not-only-look-professional-but-also-drive-real-results-whether-you-re-starting-your-first-website-boosting-your-online-presence-or-creating-engaging-marketing-videos-i-make-sure-your-business-stands-out-in-the-digital-world-5-apply-scroll-triggered-fade-in-animation-consistent-with-other-sections-6-use-an-attractive-card-or-split-layout-design-with-gradient-accents-badges-or-decorative-elements-to-make-it-visually-appealing",
+      "title": "Create a new FounderSection.tsx component that replaces the Facebook section on the landing page. The section must: (1) Display the founder's photo (frontend/public/assets/generated/founder-photo.png) centered in a circular or rounded card frame with a glowing/gradient border for an attractive look; (2) Below the photo, display the bold heading 'Our Founder' in large bold typography; (3) Directly below 'Our Founder', display the name 'Rudra Pratap Singh' in a highlighted accent color (e.g., green or gold gradient); (4) Below the name, display the full About Me bio text: 'Hello! I'm Rudra Pratap Singh, the founder of Evergreen Hub. I help coaching institutes, affiliate marketers, bloggers, and local businesses grow online with professional websites, Google Map profiles, and lead-focused digital solutions. As a passionate digital entrepreneur and affiliate marketer, I also provide affiliate marketing support and video editing services to help businesses promote their brand and products effectively online. At Evergreen Hub, my mission is to combine modern design, smart functionality, and high-quality content to deliver solutions that not only look professional but also drive real results. Whether you're starting your first website, boosting your online presence, or creating engaging marketing videos, I make sure your business stands out in the digital world.'; (5) Apply scroll-triggered fade-in animation consistent with other sections; (6) Use an attractive card or split-layout design with gradient accents, badges, or decorative elements to make it visually appealing.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-founder-about-me-subsection-inside-the-webdesignservices-page-frontend-src-pages-webdesignservices-tsx-it-should-reuse-or-mirror-the-foundersection-content-showing-the-founder-photo-our-founder-bold-heading-rudra-pratap-singh-name-and-the-full-about-me-bio-placed-in-an-appropriate-position-on-the-page-e-g-after-the-intro-hero-of-that-page-and-before-pricing-cards-style-it-consistently-with-the-rest-of-the-webdesignservices-page",
+      "title": "Add a Founder / About Me subsection inside the WebDesignServices page (frontend/src/pages/WebDesignServices.tsx). It should reuse or mirror the FounderSection content — showing the founder photo, 'Our Founder' bold heading, 'Rudra Pratap Singh' name, and the full About Me bio — placed in an appropriate position on the page (e.g., after the intro/hero of that page and before pricing cards). Style it consistently with the rest of the WebDesignServices page.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Remove Facebook section and add an attractive 'Our Founder' section with photo, bold 'Our Founder' heading, founder name 'Rudra Pratap Singh', and About Me bio text",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Show founder/About Me content (Rudra Pratap Singh bio) in the Web Design Services section as well",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Evergreen Hub",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

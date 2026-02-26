@@ -1,0 +1,73 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-remove-the-facebooksection-component-from-the-landing-page-landingpage-app-tsx-render-entirely-delete-or-empty-the-facebooksection-tsx-component-so-it-no-longer-appears-anywhere-on-the-site",
+      "featureTitle": "Remove the FacebookSection component from the landing page (LandingPage / App.tsx render) entirely. Delete or empty the FacebookSection.tsx component so it no longer appears anywhere on the site.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/FacebookSection.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-new-foundersection-tsx-component-that-replaces-the-facebook-section-on-the-landing-page-the-section-must-1-display-the-founder-s-photo-frontend-public-assets-generated-founder-photo-png-centered-in-a-circular-or-rounded-card-frame-with-a-glowing-gradient-border-for-an-attractive-look-2-below-the-photo-display-the-bold-heading-our-founder-in-large-bold-typography-3-directly-below-our-founder-display-the-name-rudra-pratap-singh-in-a-highlighted-accent-color-e-g-green-or-gold-gradient-4-below-the-name-display-the-full-about-me-bio-text-hello-i-m-rudra-pratap-singh-the-founder-of-evergreen-hub-i-help-coaching-institutes-affiliate-marketers-bloggers-and-local-businesses-grow-online-with-professional-websites-google-map-profiles-and-lead-focused-digital-solutions-as-a-passionate-digital-entrepreneur-and-affiliate-marketer-i-also-provide-affiliate-marketing-support-and-video-editing-services-to-help-businesses-promote-their-brand-and-products-effectively-online-at-evergreen-hub-my-mission-is-to-combine-modern-design-smart-functionality-and-high-quality-content-to-deliver-solutions-that-not-only-look-professional-but-also-drive-real-results-whether-you-re-starting-your-first-website-boosting-your-online-presence-or-creating-engaging-marketing-videos-i-make-sure-your-business-stands-out-in-the-digital-world-5-apply-scroll-triggered-fade-in-animation-consistent-with-other-sections-6-use-an-attractive-card-or-split-layout-design-with-gradient-accents-badges-or-decorative-elements-to-make-it-visually-appealing",
+      "featureTitle": "Create a new FounderSection.tsx component that replaces the Facebook section on the landing page. The section must: (1) Display the founder's photo (frontend/public/assets/generated/founder-photo.png) centered in a circular or rounded card frame with a glowing/gradient border for an attractive look; (2) Below the photo, display the bold heading 'Our Founder' in large bold typography; (3) Directly below 'Our Founder', display the name 'Rudra Pratap Singh' in a highlighted accent color (e.g., green or gold gradient); (4) Below the name, display the full About Me bio text: 'Hello! I'm Rudra Pratap Singh, the founder of Evergreen Hub. I help coaching institutes, affiliate marketers, bloggers, and local businesses grow online with professional websites, Google Map profiles, and lead-focused digital solutions. As a passionate digital entrepreneur and affiliate marketer, I also provide affiliate marketing support and video editing services to help businesses promote their brand and products effectively online. At Evergreen Hub, my mission is to combine modern design, smart functionality, and high-quality content to deliver solutions that not only look professional but also drive real results. Whether you're starting your first website, boosting your online presence, or creating engaging marketing videos, I make sure your business stands out in the digital world.'; (5) Apply scroll-triggered fade-in animation consistent with other sections; (6) Use an attractive card or split-layout design with gradient accents, badges, or decorative elements to make it visually appealing.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/FounderSection.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-founder-about-me-subsection-inside-the-webdesignservices-page-frontend-src-pages-webdesignservices-tsx-it-should-reuse-or-mirror-the-foundersection-content-showing-the-founder-photo-our-founder-bold-heading-rudra-pratap-singh-name-and-the-full-about-me-bio-placed-in-an-appropriate-position-on-the-page-e-g-after-the-intro-hero-of-that-page-and-before-pricing-cards-style-it-consistently-with-the-rest-of-the-webdesignservices-page",
+      "featureTitle": "Add a Founder / About Me subsection inside the WebDesignServices page (frontend/src/pages/WebDesignServices.tsx). It should reuse or mirror the FounderSection content — showing the founder photo, 'Our Founder' bold heading, 'Rudra Pratap Singh' name, and the full About Me bio — placed in an appropriate position on the page (e.g., after the intro/hero of that page and before pricing cards). Style it consistently with the rest of the WebDesignServices page.",
+      "files": [
+        "frontend/src/pages/WebDesignServices.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

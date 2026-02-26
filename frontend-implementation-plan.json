@@ -1,0 +1,67 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Replace Facebook Section with Attractive Our Founder Section",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Remove FacebookSection component from the landing page and delete/empty the component file",
+      "acceptanceCriteria": [
+        "The Facebook follow/like section is no longer visible on the landing page",
+        "No broken import or render errors related to FacebookSection"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Remove the FacebookSection import statement and remove its usage from the LandingPage component render output"
+        },
+        {
+          "path": "frontend/src/components/FacebookSection.tsx",
+          "operation": "modify",
+          "description": "Empty the component file content entirely, leaving only an empty export to prevent import errors during transition"
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Create an attractive FounderSection component with photo, bold heading, highlighted name, full bio, scroll animation, and gradient styling",
+      "acceptanceCriteria": [
+        "Founder photo is displayed prominently with an attractive circular/rounded frame",
+        "'Our Founder' appears in bold below the photo",
+        "'Rudra Pratap Singh' appears directly below 'Our Founder' in accent styling",
+        "Full About Me bio text is displayed below the name",
+        "Section has scroll-triggered animation",
+        "Section is visually attractive with gradient/decorative elements"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/FounderSection.tsx",
+          "operation": "create",
+          "description": "Create a new FounderSection component that displays the founder's photo from frontend/public/assets/generated/founder-photo.dim_400x400.png in a circular frame with glowing gradient border, followed by a bold 'Our Founder' heading, 'Rudra Pratap Singh' name in green/gold gradient accent styling, and the full About Me bio text: 'Hello! I'm Rudra Pratap Singh, the founder of Evergreen Hub. I help coaching institutes, affiliate marketers, bloggers, and local businesses grow online with professional websites, Google Map profiles, and lead-focused digital solutions. As a passionate digital entrepreneur and affiliate marketer, I also provide affiliate marketing support and video editing services to help businesses promote their brand and products effectively online. At Evergreen Hub, my mission is to combine modern design, smart functionality, and high-quality content to deliver solutions that not only look professional but also drive real results. Whether you're starting your first website, boosting your online presence, or creating engaging marketing videos, I make sure your business stands out in the digital world.' Use the useScrollAnimation hook for scroll-triggered fade-in animation. Apply an attractive card or split-layout design with gradient accents, badges, or decorative elements using Tailwind CSS classes consistent with existing sections like WhyChooseUsSection and TrustBadgesSection"
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Import the new FounderSection component and add it to the LandingPage component render output in the position previously occupied by FacebookSection, maintaining the existing section order and spacing"
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Add Founder/About Me subsection inside WebDesignServices page reusing FounderSection content",
+      "acceptanceCriteria": [
+        "Founder photo, 'Our Founder' heading, 'Rudra Pratap Singh' name, and full bio appear on the Web Design Services page",
+        "Styling is consistent with the WebDesignServices page theme",
+        "No duplicate component code — FounderSection component is reused"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/WebDesignServices.tsx",
+          "operation": "modify",
+          "description": "Import FounderSection component and add it to the page layout after the intro/hero section and before the pricing cards section. Ensure styling is consistent with the existing WebDesignServices page theme by wrapping it in appropriate container classes that match the page's layout structure"
+        }
+      ]
+    }
+  ]
+}
