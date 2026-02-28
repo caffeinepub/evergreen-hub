@@ -1,56 +1,34 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-28T03:50:12.278Z",
+  "generatedAt": "2026-02-28T04:06:08.289Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 2,
-    "implemented": 2,
+    "total": 1,
+    "implemented": 1,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "In the FloatingWhatsAppButton component, keep the WhatsApp button visible and functional, but remove/hide the displayed phone number text from the button UI so only the WhatsApp icon and label remain visible (no number shown to users). The wa.me link should still work by using the hardcoded number internally without rendering it.",
+        "summary": "In the FloatingWhatsAppButton component, remove the text label 'WhatsApp' from the button so that only the WhatsApp icon is displayed. The element at XPath /html[1]/body[1]/div[1]/a[1]/span[1] (the text span inside the floating WhatsApp anchor/button) should be removed or hidden, leaving only the icon visible.",
         "status": "implemented",
         "plannedFiles": [
           "frontend/src/components/FloatingWhatsAppButton.tsx"
         ],
         "matchedFiles": [
           "frontend/src/components/FloatingWhatsAppButton.tsx"
-        ]
-      },
-      {
-        "id": "REQ-2",
-        "summary": "Integrate the UPI ID `7970705775@ybl` as the default/hardcoded UPI ID into all payment flows (PaymentGateway, PaymentModal, PricingSection, VideoEditingSection, WebDesignPaymentModal, WebDesignServicesPromo, and any other component that handles UPI/PhonePe payment). The UPI ID must NOT be displayed or rendered anywhere in the UI — it should only be used internally (e.g., embedded in a UPI deep link or QR code generation) so users can complete payments without seeing the raw UPI ID string.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/PaymentGateway.tsx",
-          "frontend/src/components/PaymentModal.tsx",
-          "frontend/src/components/PricingSection.tsx",
-          "frontend/src/components/VideoEditingSection.tsx",
-          "frontend/src/components/WebDesignPaymentModal.tsx",
-          "frontend/src/components/WebDesignServicesPromo.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/PaymentGateway.tsx",
-          "frontend/src/components/WebDesignPaymentModal.tsx"
         ]
       }
     ]
   },
   "changedFiles": [
     "build-request.json",
-    "caffeine.lock.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/camera/useCamera.ts",
     "frontend/src/components/FloatingWhatsAppButton.tsx",
-    "frontend/src/components/PaymentGateway.tsx",
-    "frontend/src/components/WebDesignPaymentModal.tsx",
-    "frontend/src/qr-code/useQRScanner.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

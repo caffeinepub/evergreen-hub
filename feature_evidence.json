@@ -2,8 +2,8 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-in-the-floatingwhatsappbutton-component-keep-the-whatsapp-button-visible-and-functional-but-remove-hide-the-displayed-phone-number-text-from-the-button-ui-so-only-the-whatsapp-icon-and-label-remain-visible-no-number-shown-to-users-the-wa-me-link-should-still-work-by-using-the-hardcoded-number-internally-without-rendering-it",
-      "featureTitle": "In the FloatingWhatsAppButton component, keep the WhatsApp button visible and functional, but remove/hide the displayed phone number text from the button UI so only the WhatsApp icon and label remain visible (no number shown to users). The wa.me link should still work by using the hardcoded number internally without rendering it.",
+      "featureId": "feature-in-the-floatingwhatsappbutton-component-remove-the-text-label-whatsapp-from-the-button-so-that-only-the-whatsapp-icon-is-displayed-the-element-at-xpath-html-1-body-1-div-1-a-1-span-1-the-text-span-inside-the-floating-whatsapp-anchor-button-should-be-removed-or-hidden-leaving-only-the-icon-visible",
+      "featureTitle": "In the FloatingWhatsAppButton component, remove the text label 'WhatsApp' from the button so that only the WhatsApp icon is displayed. The element at XPath /html[1]/body[1]/div[1]/a[1]/span[1] (the text span inside the floating WhatsApp anchor/button) should be removed or hidden, leaving only the icon visible.",
       "files": [
         "frontend/src/components/FloatingWhatsAppButton.tsx"
       ],
@@ -22,31 +22,6 @@
       ],
       "testIds": [
         "REQ-1"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-integrate-the-upi-id-7970705775-ybl-as-the-default-hardcoded-upi-id-into-all-payment-flows-paymentgateway-paymentmodal-pricingsection-videoeditingsection-webdesignpaymentmodal-webdesignservicespromo-and-any-other-component-that-handles-upi-phonepe-payment-the-upi-id-must-not-be-displayed-or-rendered-anywhere-in-the-ui-it-should-only-be-used-internally-e-g-embedded-in-a-upi-deep-link-or-qr-code-generation-so-users-can-complete-payments-without-seeing-the-raw-upi-id-string",
-      "featureTitle": "Integrate the UPI ID `7970705775@ybl` as the default/hardcoded UPI ID into all payment flows (PaymentGateway, PaymentModal, PricingSection, VideoEditingSection, WebDesignPaymentModal, WebDesignServicesPromo, and any other component that handles UPI/PhonePe payment). The UPI ID must NOT be displayed or rendered anywhere in the UI — it should only be used internally (e.g., embedded in a UPI deep link or QR code generation) so users can complete payments without seeing the raw UPI ID string.",
-      "files": [
-        "frontend/src/components/PaymentGateway.tsx",
-        "frontend/src/components/WebDesignPaymentModal.tsx"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "stripe@3.0.0",
-        "http-outcalls@3.0.0",
-        "qr-code@1.0.0",
-        "camera@1.0.0"
-      ],
-      "testIds": [
-        "REQ-2"
       ],
       "confidence": "high"
     }

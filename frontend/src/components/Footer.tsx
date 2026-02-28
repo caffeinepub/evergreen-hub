@@ -1,12 +1,8 @@
 import { Link } from '@tanstack/react-router';
 import { SiFacebook, SiInstagram, SiYoutube } from 'react-icons/si';
-import { Heart } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  const appId = encodeURIComponent(
-    typeof window !== 'undefined' ? window.location.hostname : 'evergreen-hub'
-  );
 
   return (
     <footer className="bg-secondary text-foreground">
@@ -126,16 +122,8 @@ export default function Footer() {
             <p className="text-muted-foreground text-sm text-center md:text-left">
               © {currentYear} Evergreen Hub. All rights reserved.
             </p>
-            <p className="text-muted-foreground text-sm flex items-center gap-1">
-              Built with <Heart className="h-3.5 w-3.5 text-red-500 fill-red-500" /> using{' '}
-              <a
-                href={`https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=${appId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline font-medium"
-              >
-                caffeine.ai
-              </a>
+            <p className="text-muted-foreground text-sm">
+              Built by Rudra in Bihar with ❤️
             </p>
           </div>
         </div>

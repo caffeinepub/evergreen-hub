@@ -1,59 +1,36 @@
 {
   "kind": "build_request",
-  "title": "Hide WhatsApp number, integrate UPI ID into all payment flows (hidden)",
-  "projectName": "Evergreen Hub",
+  "title": "Remove 'WhatsApp' text label from floating WhatsApp button",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "In the FloatingWhatsAppButton component, keep the WhatsApp button visible and functional, but remove/hide the displayed phone number text from the button UI so only the WhatsApp icon and label remain visible (no number shown to users). The wa.me link should still work by using the hardcoded number internally without rendering it.",
+      "text": "In the FloatingWhatsAppButton component, remove the text label 'WhatsApp' from the button so that only the WhatsApp icon is displayed. The element at XPath /html[1]/body[1]/div[1]/a[1]/span[1] (the text span inside the floating WhatsApp anchor/button) should be removed or hidden, leaving only the icon visible.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-1"
         ],
         "quotes": [
-          "Yaha pe bss whatsapp button rahne mera number hide kardo"
+          "Yaha pe bss whatsapp button rahe naa ki likha ho whatsapp"
         ]
       },
       "acceptanceCriteria": [
-        "FloatingWhatsAppButton is visible on the page",
-        "No phone number text is rendered in the button or its tooltip",
-        "Clicking the button still opens WhatsApp with the correct number via wa.me link",
-        "The selected element at XPath /html[1]/body[1]/div[1]/a[1]/span[1] (the number span) is hidden or its text content is removed"
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "text": "Integrate the UPI ID `7970705775@ybl` as the default/hardcoded UPI ID into all payment flows (PaymentGateway, PaymentModal, PricingSection, VideoEditingSection, WebDesignPaymentModal, WebDesignServicesPromo, and any other component that handles UPI/PhonePe payment). The UPI ID must NOT be displayed or rendered anywhere in the UI — it should only be used internally (e.g., embedded in a UPI deep link or QR code generation) so users can complete payments without seeing the raw UPI ID string.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-4"
-        ],
-        "quotes": [
-          "ye mera upi id 7970705775@ybl h isko payment wale sab me integrate kardo or ye hide ho bss sab payment kar sake aisa bana"
-        ]
-      },
-      "acceptanceCriteria": [
-        "UPI ID 7970705775@ybl is used in all payment components as the recipient UPI address",
-        "The UPI ID string is never rendered as visible text in any payment UI",
-        "Payment flows (PaymentGateway, PaymentModal, PricingSection, VideoEditingSection, WebDesignPaymentModal) function correctly with this UPI ID",
-        "QR code or UPI deep link (upi://pay?pa=7970705775@ybl) is generated/used where applicable so users can pay without reading the raw ID",
-        "The SiteContentManagement admin page may still store/display the UPI ID for admin use only, but it must not leak to public-facing pages"
+        "The floating WhatsApp button displays only the WhatsApp icon with no text label.",
+        "The text 'WhatsApp' is not visible anywhere on the floating button.",
+        "The button remains fully functional and still links to the WhatsApp chat URL.",
+        "The button layout/positioning is not broken after removing the text."
       ]
     }
   ],
   "constraints": [
-    "Do not remove or disable the WhatsApp floating button — only hide the phone number display",
-    "UPI ID must never appear as plain text in any user-facing component",
-    "Do not modify files in frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or frontend/src/components/ui"
+    "Only modify the FloatingWhatsAppButton component (frontend/src/components/FloatingWhatsAppButton.tsx).",
+    "Do not change the button's functionality, link, or positioning."
   ],
   "nonGoals": [
-    "Changing the WhatsApp number itself",
-    "Removing payment functionality",
-    "Modifying admin-side views that show the UPI ID to admins",
-    "Adding new payment methods"
+    "Changing the WhatsApp button's icon, color, or size.",
+    "Modifying any other WhatsApp-related buttons or links on other pages.",
+    "Any backend changes."
   ],
   "imageRequirements": {
     "required": [],

@@ -1,65 +1,22 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Hide WhatsApp number, integrate UPI ID into all payment flows (hidden)",
+  "title": "Remove 'WhatsApp' text label from floating WhatsApp button",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Hide the phone number text from FloatingWhatsAppButton while keeping the button functional",
+      "summary": "Remove the text label 'WhatsApp' from the FloatingWhatsAppButton component so only the WhatsApp icon is displayed",
       "acceptanceCriteria": [
-        "FloatingWhatsAppButton is visible on the page",
-        "No phone number text is rendered in the button or its tooltip",
-        "Clicking the button still opens WhatsApp with the correct number via wa.me link",
-        "The selected element at XPath /html[1]/body[1]/div[1]/a[1]/span[1] (the number span) is hidden or its text content is removed"
+        "The floating WhatsApp button displays only the WhatsApp icon with no text label.",
+        "The text 'WhatsApp' is not visible anywhere on the floating button.",
+        "The button remains fully functional and still links to the WhatsApp chat URL.",
+        "The button layout/positioning is not broken after removing the text."
       ],
       "file_operations": [
         {
           "path": "frontend/src/components/FloatingWhatsAppButton.tsx",
           "operation": "modify",
-          "description": "Remove or hide the phone number display from the button UI. Keep only the WhatsApp icon and label visible. The phone number should still be used internally in the wa.me link but not rendered as visible text. Remove the <span> element that displays the formatted phone number or set its display to 'none'."
-        }
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "summary": "Integrate the hardcoded UPI ID 7970705775@ybl into all payment flows without displaying it in the UI",
-      "acceptanceCriteria": [
-        "UPI ID 7970705775@ybl is used in all payment components as the recipient UPI address",
-        "The UPI ID string is never rendered as visible text in any payment UI",
-        "Payment flows (PaymentGateway, PaymentModal, PricingSection, VideoEditingSection, WebDesignPaymentModal) function correctly with this UPI ID",
-        "QR code or UPI deep link (upi://pay?pa=7970705775@ybl) is generated/used where applicable so users can pay without reading the raw ID",
-        "The SiteContentManagement admin page may still store/display the UPI ID for admin use only, but it must not leak to public-facing pages"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/PaymentGateway.tsx",
-          "operation": "modify",
-          "description": "Replace the dynamically fetched UPI ID with the hardcoded value '7970705775@ybl'. Remove any UI elements that display the UPI ID as visible text. Ensure the QR code generation or UPI deep link uses this hardcoded UPI ID internally without rendering the string in the component. If the component currently displays phonePeDetails.upiId, remove that display while keeping the QR code functional."
-        },
-        {
-          "path": "frontend/src/components/PaymentModal.tsx",
-          "operation": "modify",
-          "description": "Verify that PaymentModal passes the hardcoded UPI ID '7970705775@ybl' to PaymentGateway or any child payment components. Ensure no UPI ID text is displayed in the modal UI. The UPI ID should only be used for generating payment links or QR codes, never shown as plain text to users."
-        },
-        {
-          "path": "frontend/src/components/PricingSection.tsx",
-          "operation": "modify",
-          "description": "Update any inline payment handling logic to use the hardcoded UPI ID '7970705775@ybl' instead of fetching from site content. Ensure the UPI ID is not displayed in any pricing cards or payment buttons. The ID should only be embedded in payment deep links or passed to PaymentModal/PaymentGateway without rendering as visible text."
-        },
-        {
-          "path": "frontend/src/components/VideoEditingSection.tsx",
-          "operation": "modify",
-          "description": "Ensure the VideoEditingSection uses the hardcoded UPI ID '7970705775@ybl' when opening PaymentModal or generating payment links. Remove any display of the UPI ID from the service cards or 'Order Now' button area. The UPI ID must only be used internally for payment processing, not shown to users."
-        },
-        {
-          "path": "frontend/src/components/WebDesignPaymentModal.tsx",
-          "operation": "modify",
-          "description": "Replace any dynamically fetched UPI ID with the hardcoded value '7970705775@ybl'. Remove all UI elements that display the UPI ID as text. Ensure the WhatsApp payment message or any payment link generation uses this hardcoded UPI ID without showing it to the user. The UPI ID should be embedded in deep links or messages but never rendered as visible text in the modal."
-        },
-        {
-          "path": "frontend/src/components/WebDesignServicesPromo.tsx",
-          "operation": "modify",
-          "description": "Update the component to pass the hardcoded UPI ID '7970705775@ybl' to WebDesignPaymentModal or any payment flows. Ensure no UPI ID text is displayed in the promotional cards or package pricing sections. The UPI ID should only be used for payment link generation, never shown as plain text to users."
+          "description": "Remove or hide the text span element containing 'WhatsApp' from the button JSX. Keep the WhatsApp icon and all button functionality intact. Ensure the button remains properly positioned and styled after removing the text element. The element at XPath /html[1]/body[1]/div[1]/a[1]/span[1] (the text span) should be removed or set to display:none."
         }
       ]
     }

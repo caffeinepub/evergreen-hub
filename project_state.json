@@ -1,27 +1,16 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Project with admin panel, dashboard stats, package/payment/user management. WhatsApp button visible but number hidden. UPI ID (7970705775@ybl) integrated into all payment flows but kept hidden from users — payments work seamlessly without exposing the UPI ID.",
-  "architectural_notes": [
-    "UPI ID is stored server-side/config only — never exposed in frontend UI",
-    "WhatsApp button shown without displaying the phone number"
-  ],
+  "summary": "Project with a footer containing 'Built by Rudra in Bihar with ❤️' and a WhatsApp button (icon only, no text label).",
+  "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-in-the-floatingwhatsappbutton-component-keep-the-whatsapp-button-visible-and-functional-but-remove-hide-the-displayed-phone-number-text-from-the-button-ui-so-only-the-whatsapp-icon-and-label-remain-visible-no-number-shown-to-users-the-wa-me-link-should-still-work-by-using-the-hardcoded-number-internally-without-rendering-it",
-      "title": "In the FloatingWhatsAppButton component, keep the WhatsApp button visible and functional, but remove/hide the displayed phone number text from the button UI so only the WhatsApp icon and label remain visible (no number shown to users). The wa.me link should still work by using the hardcoded number internally without rendering it.",
+      "id": "feature-in-the-floatingwhatsappbutton-component-remove-the-text-label-whatsapp-from-the-button-so-that-only-the-whatsapp-icon-is-displayed-the-element-at-xpath-html-1-body-1-div-1-a-1-span-1-the-text-span-inside-the-floating-whatsapp-anchor-button-should-be-removed-or-hidden-leaving-only-the-icon-visible",
+      "title": "In the FloatingWhatsAppButton component, remove the text label 'WhatsApp' from the button so that only the WhatsApp icon is displayed. The element at XPath /html[1]/body[1]/div[1]/a[1]/span[1] (the text span inside the floating WhatsApp anchor/button) should be removed or hidden, leaving only the icon visible.",
       "reqIds": [
         "REQ-1"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-integrate-the-upi-id-7970705775-ybl-as-the-default-hardcoded-upi-id-into-all-payment-flows-paymentgateway-paymentmodal-pricingsection-videoeditingsection-webdesignpaymentmodal-webdesignservicespromo-and-any-other-component-that-handles-upi-phonepe-payment-the-upi-id-must-not-be-displayed-or-rendered-anywhere-in-the-ui-it-should-only-be-used-internally-e-g-embedded-in-a-upi-deep-link-or-qr-code-generation-so-users-can-complete-payments-without-seeing-the-raw-upi-id-string",
-      "title": "Integrate the UPI ID `7970705775@ybl` as the default/hardcoded UPI ID into all payment flows (PaymentGateway, PaymentModal, PricingSection, VideoEditingSection, WebDesignPaymentModal, WebDesignServicesPromo, and any other component that handles UPI/PhonePe payment). The UPI ID must NOT be displayed or rendered anywhere in the UI — it should only be used internally (e.g., embedded in a UPI deep link or QR code generation) so users can complete payments without seeing the raw UPI ID string.",
-      "reqIds": [
-        "REQ-2"
       ],
       "version": 1
     }
@@ -29,19 +18,12 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Hide WhatsApp number but keep WhatsApp button visible",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-2",
-      "summary": "Integrate UPI ID (7970705775@ybl) into all payment flows but keep it hidden from users",
+      "summary": "WhatsApp button should show only the button/icon, not the text 'WhatsApp'",
       "reqIds": [],
       "status": "pending"
     }
   ],
-  "gameProjectType": "none",
-  "projectName": "Evergreen Hub",
+  "projectName": "Remove 'WhatsApp' text label from floating WhatsApp button",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }
