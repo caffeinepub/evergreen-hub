@@ -1,85 +1,105 @@
-import { Outlet, Link, useNavigate, useLocation } from '@tanstack/react-router';
-import { useAuth } from '../contexts/AuthContext';
+import React, { useState } from 'react';
+import { Link, useLocation, Outlet } from '@tanstack/react-router';
 import ProtectedRoute from '../components/ProtectedRoute';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Badge } from '@/components/ui/badge';
 import {
   LayoutDashboard,
-  Users,
   Package,
   CreditCard,
-  LogOut,
+  Users,
+  Wallet,
   Menu,
   Shield,
-  DollarSign,
+  LogOut,
+  MessageSquare,
+  Settings,
 } from 'lucide-react';
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
+import { useAuth } from '../contexts/AuthContext';
 
-const navigation = [
-  { name: 'Dashboard Stats', href: '/admin-dashboard', icon: LayoutDashboard },
-  { name: 'User Management', href: '/admin-dashboard/users', icon: Users },
-  { name: 'Package Management', href: '/admin-dashboard/packages', icon: Package },
-  { name: 'Payment Management', href: '/admin-dashboard/payments', icon: CreditCard },
-  { name: 'Withdrawal Management', href: '/admin-dashboard/withdrawals', icon: DollarSign },
+interface NavItem {
+  label: string;
+  path: string;
+  icon: React.ReactNode;
+}
+
+const navItems: NavItem[] = [
+  { label: 'Dashboard', path: '/admin/stats', icon: <LayoutDashboard className="h-4 w-4" /> },
+  { label: 'Packages', path: '/admin/packages', icon: <Package className="h-4 w-4" /> },
+  { label: 'Payments', path: '/admin/payments', icon: <CreditCard className="h-4 w-4" /> },
+  { label: 'Users', path: '/admin/users', icon: <Users className="h-4 w-4" /> },
+  { label: 'Withdrawals', path: '/admin/withdrawals', icon: <Wallet className="h-4 w-4" /> },
+  { label: 'Inquiries', path: '/admin/inquiries', icon: <MessageSquare className="h-4 w-4" /> },
+  { label: 'Site Content', path: '/admin/site-content', icon: <Settings className="h-4 w-4" /> },
 ];
 
-function Sidebar() {
-  const location = useLocation();
-  const navigate = useNavigate();
+function SidebarContent({
+  currentPath,
+  onNavigate,
+}: {
+  currentPath: string;
+  onNavigate?: () => void;
+}) {
   const { logout, userProfile } = useAuth();
 
-  const handleLogout = async () => {
-    await logout();
-    navigate({ to: '/admin-login' });
-  };
-
   return (
-    <div className="flex h-full flex-col bg-card border-r">
-      <div className="p-6 border-b">
-        <div className="flex items-center gap-2 mb-2">
-          <h2 className="text-2xl font-bold text-primary">Evergreen Hub</h2>
-          <Badge variant="outline" className="gap-1">
-            <Shield className="h-3 w-3" />
-            Admin
-          </Badge>
+    <div className="flex flex-col h-full bg-gray-900 text-white">
+      {/* Logo */}
+      <div className="p-4 border-b border-gray-700">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center shrink-0">
+            <Shield className="h-4 w-4 text-white" />
+          </div>
+          <div>
+            <p className="font-bold text-sm">Admin Panel</p>
+            <p className="text-xs text-gray-400">Evergreen Hub</p>
+          </div>
         </div>
-        <p className="text-sm text-muted-foreground">Admin Dashboard</p>
+        {userProfile && (
+          <div className="mt-3 px-2 py-1.5 bg-gray-800 rounded-lg">
+            <p className="text-xs text-gray-400">Logged in as</p>
+            <p className="text-sm font-medium truncate">{userProfile.name}</p>
+          </div>
+        )}
       </div>
 
-      <nav className="flex-1 space-y-1 p-4">
-        {navigation.map((item) => {
-          const isActive = location.pathname === item.href;
+      {/* Nav */}
+      <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
+        {navItems.map((item) => {
+          const isActive =
+            currentPath === item.path || currentPath.startsWith(item.path + '/');
           return (
             <Link
-              key={item.name}
-              to={item.href}
-              className={cn(
-                'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+              key={item.path}
+              to={item.path}
+              onClick={onNavigate}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                 isActive
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-              )}
+                  ? 'bg-emerald-600 text-white'
+                  : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+              }`}
             >
-              <item.icon className="h-5 w-5" />
-              {item.name}
+              {item.icon}
+              {item.label}
             </Link>
           );
         })}
       </nav>
 
-      <div className="p-4 border-t">
-        <div className="mb-3 px-3">
-          <p className="text-sm font-medium">{userProfile?.name}</p>
-          <p className="text-xs text-muted-foreground">Administrator</p>
-        </div>
-        <Button
-          variant="outline"
-          className="w-full justify-start gap-2"
-          onClick={handleLogout}
+      {/* Footer */}
+      <div className="p-3 border-t border-gray-700">
+        <Link
+          to="/"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800 transition-colors mb-1"
         >
-          <LogOut className="h-4 w-4" />
+          View Website
+        </Link>
+        <Button
+          variant="ghost"
+          className="w-full justify-start text-red-400 hover:text-red-300 hover:bg-red-900/20 px-3"
+          onClick={logout}
+        >
+          <LogOut className="h-4 w-4 mr-3" />
           Logout
         </Button>
       </div>
@@ -87,35 +107,47 @@ function Sidebar() {
   );
 }
 
+// No children prop — uses <Outlet /> so TanStack Router can render nested routes
 export default function AdminDashboardLayout() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const location = useLocation();
+  const currentPath = location.pathname;
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <ProtectedRoute requireAdmin>
-      <div className="flex h-screen overflow-hidden">
+      <div className="flex h-screen bg-gray-50 dark:bg-gray-950 overflow-hidden">
         {/* Desktop Sidebar */}
-        <aside className="hidden md:flex md:w-64 md:flex-col">
-          <Sidebar />
+        <aside className="hidden md:flex md:flex-col w-56 shrink-0 border-r border-gray-200 dark:border-gray-800">
+          <SidebarContent currentPath={currentPath} />
         </aside>
 
-        {/* Mobile Sidebar */}
-        <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-          <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon" className="fixed top-4 left-4 z-40">
-              <Menu className="h-6 w-6" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="p-0 w-64">
-            <Sidebar />
-          </SheetContent>
-        </Sheet>
+        {/* Mobile Header + Sheet */}
+        <div className="flex flex-col flex-1 overflow-hidden">
+          <header className="md:hidden flex items-center gap-3 px-4 py-3 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+            <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="p-0 w-56">
+                <SidebarContent
+                  currentPath={currentPath}
+                  onNavigate={() => setMobileOpen(false)}
+                />
+              </SheetContent>
+            </Sheet>
+            <div className="flex items-center gap-2">
+              <Shield className="h-5 w-5 text-emerald-500" />
+              <span className="font-bold text-sm">Admin Panel</span>
+            </div>
+          </header>
 
-        {/* Main Content */}
-        <main className="flex-1 overflow-y-auto bg-background">
-          <div className="container py-6 md:py-8">
+          {/* Main Content — Outlet renders the matched child route */}
+          <main className="flex-1 overflow-y-auto">
             <Outlet />
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
     </ProtectedRoute>
   );

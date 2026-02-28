@@ -1,11 +1,23 @@
-import { RouterProvider, createRouter, createRoute, createRootRoute, Outlet } from '@tanstack/react-router';
+import React, { Suspense, lazy } from 'react';
+import {
+  createRouter,
+  createRoute,
+  createRootRoute,
+  RouterProvider,
+  Outlet,
+  redirect,
+} from '@tanstack/react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AuthProvider } from './contexts/AuthContext';
-import { ThemeProvider } from './contexts/ThemeContext';
+import { ThemeProvider } from 'next-themes';
 import { Toaster } from '@/components/ui/sonner';
-import WelcomeSplashScreen from './components/WelcomeSplashScreen';
+import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider as CustomThemeProvider } from './contexts/ThemeContext';
 
-// Landing page components
+// Layouts
+import UserDashboardLayout from './layouts/UserDashboardLayout';
+import AdminDashboardLayout from './layouts/AdminDashboardLayout';
+
+// Landing page components (inlined — no separate LandingPage file)
 import HeroSection from './components/HeroSection';
 import PricingSection from './components/PricingSection';
 import WhyChooseUsSection from './components/WhyChooseUsSection';
@@ -24,47 +36,52 @@ import TrustBadgesSection from './components/TrustBadgesSection';
 import BottomCTASection from './components/BottomCTASection';
 import ContactFormSection from './components/ContactFormSection';
 import WebDesignServicesPromo from './components/WebDesignServicesPromo';
+import WelcomeSplashScreen from './components/WelcomeSplashScreen';
 
-// Auth pages
-import Register from './pages/Register';
-import Login from './pages/Login';
-import AdminLogin from './pages/AdminLogin';
+// Public Pages (lazy)
+const Login = lazy(() => import('./pages/Login'));
+const Register = lazy(() => import('./pages/Register'));
+const AdminLogin = lazy(() => import('./pages/AdminLogin'));
+const AboutUs = lazy(() => import('./pages/AboutUs'));
+const Contact = lazy(() => import('./pages/Contact'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const TermsOfService = lazy(() => import('./pages/TermsOfService'));
+const RefundPolicy = lazy(() => import('./pages/RefundPolicy'));
+const LandingPagePreview = lazy(() => import('./pages/LandingPagePreview'));
+const WebDesignServices = lazy(() => import('./pages/WebDesignServices'));
 
-// Other pages
-import Contact from './pages/Contact';
-import AboutUs from './pages/AboutUs';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import TermsOfService from './pages/TermsOfService';
-import RefundPolicy from './pages/RefundPolicy';
-import LandingPagePreview from './pages/LandingPagePreview';
-import WebDesignServices from './pages/WebDesignServices';
+// User Dashboard Pages (lazy)
+const DashboardOverview = lazy(() => import('./pages/user/DashboardOverview'));
+const MyPackages = lazy(() => import('./pages/user/MyPackages'));
+const ProfileSettings = lazy(() => import('./pages/user/ProfileSettings'));
+const ChangePassword = lazy(() => import('./pages/user/ChangePassword'));
+const WithdrawalRequests = lazy(() => import('./pages/user/WithdrawalRequests'));
+const LandingPageBuilder = lazy(() => import('./pages/user/LandingPageBuilder'));
+const MyLandingPages = lazy(() => import('./pages/user/MyLandingPages'));
 
-// User dashboard
-import UserDashboardLayout from './layouts/UserDashboardLayout';
-import DashboardOverview from './pages/user/DashboardOverview';
-import MyPackages from './pages/user/MyPackages';
-import ProfileSettings from './pages/user/ProfileSettings';
-import ChangePassword from './pages/user/ChangePassword';
-import WithdrawalRequests from './pages/user/WithdrawalRequests';
-import LandingPageBuilder from './pages/user/LandingPageBuilder';
-import MyLandingPages from './pages/user/MyLandingPages';
-
-// Admin dashboard
-import AdminDashboardLayout from './layouts/AdminDashboardLayout';
-import AdminStats from './pages/admin/AdminStats';
-import UserManagement from './pages/admin/UserManagement';
-import PackageManagement from './pages/admin/PackageManagement';
-import PaymentManagement from './pages/admin/PaymentManagement';
-import WithdrawalManagement from './pages/admin/WithdrawalManagement';
+// Admin Pages (lazy)
+const AdminStats = lazy(() => import('./pages/admin/AdminStats'));
+const UserManagement = lazy(() => import('./pages/admin/UserManagement'));
+const PackageManagement = lazy(() => import('./pages/admin/PackageManagement'));
+const PaymentManagement = lazy(() => import('./pages/admin/PaymentManagement'));
+const WithdrawalManagement = lazy(() => import('./pages/admin/WithdrawalManagement'));
+const ContactInquiries = lazy(() => import('./pages/admin/ContactInquiries'));
+const SiteContentManagement = lazy(() => import('./pages/admin/SiteContentManagement'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5,
-      refetchOnWindowFocus: false,
+      retry: 1,
+      staleTime: 30000,
     },
   },
 });
+
+const PageLoader = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" />
+  </div>
+);
 
 function LandingPage() {
   return (
@@ -73,9 +90,7 @@ function LandingPage() {
       <Header />
       <HeroSection />
       <TrustBadgesSection />
-      {/* 1st: Web Design Services promo section */}
       <WebDesignServicesPromo />
-      {/* 2nd: All Packages / Pricing */}
       <PricingSection />
       <WhyChooseUsSection />
       <YouTubeSection />
@@ -93,19 +108,17 @@ function LandingPage() {
   );
 }
 
+// Root route
 const rootRoute = createRootRoute({
   component: () => (
-    <ThemeProvider>
-      <AuthProvider>
-        <QueryClientProvider client={queryClient}>
-          <WelcomeSplashScreen />
-          <Outlet />
-          <Toaster />
-        </QueryClientProvider>
-      </AuthProvider>
-    </ThemeProvider>
+    <>
+      <WelcomeSplashScreen />
+      <Outlet />
+    </>
   ),
 });
+
+// ─── Public Routes ────────────────────────────────────────────────────────────
 
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -113,65 +126,117 @@ const indexRoute = createRoute({
   component: LandingPage,
 });
 
-const registerRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/register',
-  component: Register,
-});
-
 const loginRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/login',
-  component: Login,
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <Login />
+    </Suspense>
+  ),
+});
+
+const registerRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/register',
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <Register />
+    </Suspense>
+  ),
 });
 
 const adminLoginRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/admin-login',
-  component: AdminLogin,
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <AdminLogin />
+    </Suspense>
+  ),
+});
+
+const aboutRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/about',
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <AboutUs />
+    </Suspense>
+  ),
+});
+
+// Keep /about-us as alias for backward compat
+const aboutUsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/about-us',
+  beforeLoad: () => {
+    throw redirect({ to: '/about' });
+  },
+  component: () => null,
 });
 
 const contactRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/contact',
-  component: Contact,
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <Contact />
+    </Suspense>
+  ),
 });
 
-const aboutUsRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/about-us',
-  component: AboutUs,
-});
-
-const privacyPolicyRoute = createRoute({
+const privacyRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/privacy-policy',
-  component: PrivacyPolicy,
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <PrivacyPolicy />
+    </Suspense>
+  ),
 });
 
-const termsOfServiceRoute = createRoute({
+const termsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/terms-of-service',
-  component: TermsOfService,
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <TermsOfService />
+    </Suspense>
+  ),
 });
 
-const refundPolicyRoute = createRoute({
+const refundRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/refund-policy',
-  component: RefundPolicy,
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <RefundPolicy />
+    </Suspense>
+  ),
 });
 
 const landingPagePreviewRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/landing/$pageId',
-  component: LandingPagePreview,
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <LandingPagePreview />
+    </Suspense>
+  ),
 });
 
-const webDesignServicesRoute = createRoute({
+const webDesignRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/web-design-services',
-  component: WebDesignServices,
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <WebDesignServices />
+    </Suspense>
+  ),
 });
+
+// ─── User Dashboard Routes (nested under UserDashboardLayout) ─────────────────
 
 const dashboardRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -182,93 +247,182 @@ const dashboardRoute = createRoute({
 const dashboardIndexRoute = createRoute({
   getParentRoute: () => dashboardRoute,
   path: '/',
-  component: DashboardOverview,
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <DashboardOverview />
+    </Suspense>
+  ),
 });
 
 const dashboardPackagesRoute = createRoute({
   getParentRoute: () => dashboardRoute,
   path: '/packages',
-  component: MyPackages,
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <MyPackages />
+    </Suspense>
+  ),
 });
 
 const dashboardProfileRoute = createRoute({
   getParentRoute: () => dashboardRoute,
   path: '/profile',
-  component: ProfileSettings,
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <ProfileSettings />
+    </Suspense>
+  ),
 });
 
 const dashboardPasswordRoute = createRoute({
   getParentRoute: () => dashboardRoute,
   path: '/change-password',
-  component: ChangePassword,
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <ChangePassword />
+    </Suspense>
+  ),
 });
 
 const dashboardWithdrawalRoute = createRoute({
   getParentRoute: () => dashboardRoute,
   path: '/withdrawal-requests',
-  component: WithdrawalRequests,
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <WithdrawalRequests />
+    </Suspense>
+  ),
 });
 
 const dashboardLandingPageRoute = createRoute({
   getParentRoute: () => dashboardRoute,
   path: '/landing-page-builder',
-  component: LandingPageBuilder,
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <LandingPageBuilder />
+    </Suspense>
+  ),
 });
 
 const dashboardMyLandingPagesRoute = createRoute({
   getParentRoute: () => dashboardRoute,
   path: '/my-landing-pages',
-  component: MyLandingPages,
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <MyLandingPages />
+    </Suspense>
+  ),
 });
+
+// ─── Admin Routes (nested under AdminDashboardLayout) ─────────────────────────
 
 const adminDashboardRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/admin-dashboard',
+  beforeLoad: () => {
+    throw redirect({ to: '/admin/stats' });
+  },
+  component: () => null,
+});
+
+const adminRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/admin',
   component: AdminDashboardLayout,
 });
 
-const adminDashboardIndexRoute = createRoute({
-  getParentRoute: () => adminDashboardRoute,
+const adminIndexRoute = createRoute({
+  getParentRoute: () => adminRoute,
   path: '/',
-  component: AdminStats,
+  beforeLoad: () => {
+    throw redirect({ to: '/admin/stats' });
+  },
+  component: () => null,
+});
+
+const adminStatsRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: '/stats',
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <AdminStats />
+    </Suspense>
+  ),
 });
 
 const adminUsersRoute = createRoute({
-  getParentRoute: () => adminDashboardRoute,
+  getParentRoute: () => adminRoute,
   path: '/users',
-  component: UserManagement,
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <UserManagement />
+    </Suspense>
+  ),
 });
 
 const adminPackagesRoute = createRoute({
-  getParentRoute: () => adminDashboardRoute,
+  getParentRoute: () => adminRoute,
   path: '/packages',
-  component: PackageManagement,
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <PackageManagement />
+    </Suspense>
+  ),
 });
 
 const adminPaymentsRoute = createRoute({
-  getParentRoute: () => adminDashboardRoute,
+  getParentRoute: () => adminRoute,
   path: '/payments',
-  component: PaymentManagement,
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <PaymentManagement />
+    </Suspense>
+  ),
 });
 
 const adminWithdrawalsRoute = createRoute({
-  getParentRoute: () => adminDashboardRoute,
+  getParentRoute: () => adminRoute,
   path: '/withdrawals',
-  component: WithdrawalManagement,
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <WithdrawalManagement />
+    </Suspense>
+  ),
+});
+
+const adminInquiriesRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: '/inquiries',
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <ContactInquiries />
+    </Suspense>
+  ),
+});
+
+const adminSiteContentRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: '/site-content',
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <SiteContentManagement />
+    </Suspense>
+  ),
 });
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
-  registerRoute,
   loginRoute,
+  registerRoute,
   adminLoginRoute,
-  contactRoute,
+  aboutRoute,
   aboutUsRoute,
-  privacyPolicyRoute,
-  termsOfServiceRoute,
-  refundPolicyRoute,
+  contactRoute,
+  privacyRoute,
+  termsRoute,
+  refundRoute,
   landingPagePreviewRoute,
-  webDesignServicesRoute,
+  webDesignRoute,
   dashboardRoute.addChildren([
     dashboardIndexRoute,
     dashboardPackagesRoute,
@@ -278,12 +432,16 @@ const routeTree = rootRoute.addChildren([
     dashboardLandingPageRoute,
     dashboardMyLandingPagesRoute,
   ]),
-  adminDashboardRoute.addChildren([
-    adminDashboardIndexRoute,
+  adminDashboardRoute,
+  adminRoute.addChildren([
+    adminIndexRoute,
+    adminStatsRoute,
     adminUsersRoute,
     adminPackagesRoute,
     adminPaymentsRoute,
     adminWithdrawalsRoute,
+    adminInquiriesRoute,
+    adminSiteContentRoute,
   ]),
 ]);
 
@@ -296,5 +454,16 @@ declare module '@tanstack/react-router' {
 }
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+        <CustomThemeProvider>
+          <AuthProvider>
+            <RouterProvider router={router} />
+            <Toaster />
+          </AuthProvider>
+        </CustomThemeProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
 }

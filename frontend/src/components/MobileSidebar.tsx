@@ -34,12 +34,10 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
 
   const scrollToSection = (sectionId: string) => {
     onClose();
-
     if (window.location.pathname !== '/') {
       window.location.href = `/#${sectionId}`;
       return;
     }
-
     setTimeout(() => {
       const element = document.getElementById(sectionId);
       if (element) {
@@ -59,7 +57,11 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
 
   const handleDashboardClick = () => {
     onClose();
-    navigate({ to: isAdmin ? '/admin-dashboard' : '/dashboard' });
+    if (isAdmin) {
+      navigate({ to: '/admin/stats' });
+    } else {
+      navigate({ to: '/dashboard' });
+    }
   };
 
   const handleLogout = async () => {
@@ -78,9 +80,7 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
         <div className="h-full flex flex-col">
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-300 dark:border-slate-700">
-            <h2 className="text-xl font-bold text-primary">
-              Menu
-            </h2>
+            <h2 className="text-xl font-bold text-primary">Menu</h2>
             <Button
               variant="ghost"
               size="icon"
@@ -91,11 +91,11 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
             </Button>
           </div>
 
-          {/* User Profile Section - Only show when authenticated */}
+          {/* User Profile Section */}
           {isAuthenticated && userProfile && (
             <div className="px-6 py-4 border-b border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800">
               <div className="flex items-start gap-3">
-                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
+                <div className="shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
                   {profilePhotoUrl ? (
                     <img
                       src={profilePhotoUrl}
@@ -139,7 +139,6 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
                   <span className="font-medium">Our Courses</span>
                 </AccordionTrigger>
                 <AccordionContent className="pl-8 pr-4 space-y-3 mt-2">
-                  {/* 1. All Packages */}
                   <div className="space-y-2">
                     <div
                       onClick={handleAllPackagesClick}
@@ -160,7 +159,6 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
                     </div>
                   </div>
 
-                  {/* 2. Video Editing Charge */}
                   <div
                     onClick={() => scrollToSection('video-editing-section')}
                     className="py-2 font-semibold text-gray-900 dark:text-gray-100 hover:text-primary transition-colors cursor-pointer text-sm"
@@ -168,7 +166,6 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
                     2. Video Editing Charge
                   </div>
 
-                  {/* 3. Web Design Services */}
                   <div
                     onClick={handleWebDesignClick}
                     className="py-2 font-semibold text-gray-900 dark:text-gray-100 hover:text-primary transition-colors cursor-pointer text-sm flex items-center gap-2"
@@ -181,7 +178,7 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
             </Accordion>
 
             <Link
-              to="/about-us"
+              to="/about"
               onClick={onClose}
               className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-900 dark:text-gray-100 hover:text-primary hover:bg-gray-100 dark:hover:bg-slate-800 transition-all duration-200"
             >
@@ -198,7 +195,7 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
               <span className="font-medium">Contact</span>
             </Link>
 
-            {/* Contact Interest Form in Sidebar */}
+            {/* Contact Interest Form */}
             <div className="pt-2">
               <button
                 onClick={() => setShowContactForm(!showContactForm)}
@@ -217,7 +214,7 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
               )}
             </div>
 
-            {/* Dashboard Button - Visible only when authenticated */}
+            {/* Dashboard Button */}
             {isAuthenticated && (
               <div className="pt-2">
                 <button

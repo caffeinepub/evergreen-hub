@@ -1,85 +1,65 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Make Social Media Links Clickable with Real URLs",
+  "title": "Hide WhatsApp number, integrate UPI ID into all payment flows (hidden)",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Update Footer component social media links with real URLs and proper attributes",
+      "summary": "Hide the phone number text from FloatingWhatsAppButton while keeping the button functional",
       "acceptanceCriteria": [
-        "Footer YouTube icon/link navigates to https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj- in a new tab",
-        "Footer Facebook icon/link navigates to https://www.facebook.com/share/1AWvNBtfuD/ in a new tab",
-        "Footer Instagram icon/link navigates to https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw in a new tab",
-        "Visual appearance of footer remains unchanged"
+        "FloatingWhatsAppButton is visible on the page",
+        "No phone number text is rendered in the button or its tooltip",
+        "Clicking the button still opens WhatsApp with the correct number via wa.me link",
+        "The selected element at XPath /html[1]/body[1]/div[1]/a[1]/span[1] (the number span) is hidden or its text content is removed"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/Footer.tsx",
+          "path": "frontend/src/components/FloatingWhatsAppButton.tsx",
           "operation": "modify",
-          "description": "Replace placeholder social media links with real URLs: YouTube → https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-, Facebook → https://www.facebook.com/share/1AWvNBtfuD/, Instagram → https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw. Add target='_blank' and rel='noopener noreferrer' to all three social media link elements. Do not modify any styling or layout."
+          "description": "Remove or hide the phone number display from the button UI. Keep only the WhatsApp icon and label visible. The phone number should still be used internally in the wa.me link but not rendered as visible text. Remove the <span> element that displays the formatted phone number or set its display to 'none'."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Update InstagramSection component links with real Instagram profile URL",
+      "summary": "Integrate the hardcoded UPI ID 7970705775@ybl into all payment flows without displaying it in the UI",
       "acceptanceCriteria": [
-        "InstagramSection follow and view-profile buttons/links navigate to https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw in a new tab",
-        "Visual appearance of InstagramSection remains unchanged"
+        "UPI ID 7970705775@ybl is used in all payment components as the recipient UPI address",
+        "The UPI ID string is never rendered as visible text in any payment UI",
+        "Payment flows (PaymentGateway, PaymentModal, PricingSection, VideoEditingSection, WebDesignPaymentModal) function correctly with this UPI ID",
+        "QR code or UPI deep link (upi://pay?pa=7970705775@ybl) is generated/used where applicable so users can pay without reading the raw ID",
+        "The SiteContentManagement admin page may still store/display the UPI ID for admin use only, but it must not leak to public-facing pages"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/InstagramSection.tsx",
+          "path": "frontend/src/components/PaymentGateway.tsx",
           "operation": "modify",
-          "description": "Update all Instagram links (follow button and view-profile link) to use the real URL https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw. Add target='_blank' and rel='noopener noreferrer' to all link elements. Preserve all existing styling and layout."
-        }
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "summary": "Update YouTubeSection component links with real YouTube channel URL",
-      "acceptanceCriteria": [
-        "YouTubeSection subscribe button navigates to https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj- in a new tab",
-        "Visual appearance of YouTubeSection remains unchanged"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/YouTubeSection.tsx",
-          "operation": "modify",
-          "description": "Update the subscribe button and any channel links to use the real YouTube URL https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-. Add target='_blank' and rel='noopener noreferrer' to all YouTube link elements. Do not modify visual appearance or layout."
-        }
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "summary": "Update all remaining social media links across frontend components",
-      "acceptanceCriteria": [
-        "No social media link anywhere on the site points to a placeholder, '#', or incorrect URL",
-        "All YouTube links resolve to the correct channel",
-        "All Facebook links resolve to the correct profile/page",
-        "All Instagram links resolve to the correct profile",
-        "All social links open in a new browser tab"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/FacebookSection.tsx",
-          "operation": "modify",
-          "description": "Update any Facebook links to use https://www.facebook.com/share/1AWvNBtfuD/ with target='_blank' and rel='noopener noreferrer'. If the file is empty or contains no links, add a functional Facebook link component following the pattern of InstagramSection.tsx."
+          "description": "Replace the dynamically fetched UPI ID with the hardcoded value '7970705775@ybl'. Remove any UI elements that display the UPI ID as visible text. Ensure the QR code generation or UPI deep link uses this hardcoded UPI ID internally without rendering the string in the component. If the component currently displays phonePeDetails.upiId, remove that display while keeping the QR code functional."
         },
         {
-          "path": "frontend/src/components/Header.tsx",
+          "path": "frontend/src/components/PaymentModal.tsx",
           "operation": "modify",
-          "description": "Scan for any social media links (Facebook, Instagram, YouTube) and replace with real URLs: YouTube → https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-, Facebook → https://www.facebook.com/share/1AWvNBtfuD/, Instagram → https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw. Add target='_blank' and rel='noopener noreferrer' to all social links. Preserve styling."
+          "description": "Verify that PaymentModal passes the hardcoded UPI ID '7970705775@ybl' to PaymentGateway or any child payment components. Ensure no UPI ID text is displayed in the modal UI. The UPI ID should only be used for generating payment links or QR codes, never shown as plain text to users."
         },
         {
-          "path": "frontend/src/components/MobileSidebar.tsx",
+          "path": "frontend/src/components/PricingSection.tsx",
           "operation": "modify",
-          "description": "Locate any social media links in the mobile sidebar and update with real URLs: YouTube → https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-, Facebook → https://www.facebook.com/share/1AWvNBtfuD/, Instagram → https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw. Add target='_blank' and rel='noopener noreferrer'. Do not alter layout or styling."
+          "description": "Update any inline payment handling logic to use the hardcoded UPI ID '7970705775@ybl' instead of fetching from site content. Ensure the UPI ID is not displayed in any pricing cards or payment buttons. The ID should only be embedded in payment deep links or passed to PaymentModal/PaymentGateway without rendering as visible text."
         },
         {
-          "path": "frontend/src/pages/AboutUs.tsx",
+          "path": "frontend/src/components/VideoEditingSection.tsx",
           "operation": "modify",
-          "description": "Search for any social media links or icons on the About Us page and replace with real URLs: YouTube → https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-, Facebook → https://www.facebook.com/share/1AWvNBtfuD/, Instagram → https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw. Ensure all social links have target='_blank' and rel='noopener noreferrer'. Keep visual design unchanged."
+          "description": "Ensure the VideoEditingSection uses the hardcoded UPI ID '7970705775@ybl' when opening PaymentModal or generating payment links. Remove any display of the UPI ID from the service cards or 'Order Now' button area. The UPI ID must only be used internally for payment processing, not shown to users."
+        },
+        {
+          "path": "frontend/src/components/WebDesignPaymentModal.tsx",
+          "operation": "modify",
+          "description": "Replace any dynamically fetched UPI ID with the hardcoded value '7970705775@ybl'. Remove all UI elements that display the UPI ID as text. Ensure the WhatsApp payment message or any payment link generation uses this hardcoded UPI ID without showing it to the user. The UPI ID should be embedded in deep links or messages but never rendered as visible text in the modal."
+        },
+        {
+          "path": "frontend/src/components/WebDesignServicesPromo.tsx",
+          "operation": "modify",
+          "description": "Update the component to pass the hardcoded UPI ID '7970705775@ybl' to WebDesignPaymentModal or any payment flows. Ensure no UPI ID text is displayed in the promotional cards or package pricing sections. The UPI ID should only be used for payment link generation, never shown as plain text to users."
         }
       ]
     }

@@ -16,8 +16,25 @@ export interface AdminStats {
   'totalUsers' : bigint,
   'totalRevenue' : bigint,
 }
+export interface BankDetails {
+  'branch' : string,
+  'qrCodeBlob' : ExternalBlob,
+  'ifsc' : string,
+  'accountHolderName' : string,
+  'upiHandle' : string,
+  'accountNumber' : string,
+}
 export type CommissionType = { 'active' : null } |
   { 'passive' : null };
+export interface ContactInterest {
+  'id' : bigint,
+  'resolved' : boolean,
+  'name' : string,
+  'createdAt' : bigint,
+  'email' : string,
+  'message' : string,
+  'phone' : string,
+}
 export interface Earnings {
   'today' : bigint,
   'lifetime' : bigint,
@@ -64,6 +81,10 @@ export interface PaymentProof {
 export type PaymentStatus = { 'pending' : null } |
   { 'approved' : null } |
   { 'rejected' : null };
+export interface PhonePeDetails {
+  'qrCodeBlob' : ExternalBlob,
+  'upiId' : string,
+}
 export interface Referral {
   'id' : bigint,
   'status' : ReferralStatus,
@@ -85,6 +106,11 @@ export interface ShoppingItem {
   'quantity' : bigint,
   'priceInCents' : bigint,
   'productDescription' : string,
+}
+export interface SiteContent {
+  'bankDetails' : BankDetails,
+  'phonePeDetails' : PhonePeDetails,
+  'whatsappPhoneNumber' : string,
 }
 export interface StripeConfiguration {
   'allowedCountries' : Array<string>,
@@ -178,6 +204,7 @@ export interface _SERVICE {
   'deleteUser' : ActorMethod<[Principal], undefined>,
   'getActivePackages' : ActorMethod<[], Array<Package>>,
   'getAdminStats' : ActorMethod<[], AdminStats>,
+  'getAllContactInterests' : ActorMethod<[], Array<ContactInterest>>,
   'getAllPackages' : ActorMethod<[], Array<Package>>,
   'getAllPaymentProofs' : ActorMethod<[], Array<PaymentProof>>,
   'getAllPayments' : ActorMethod<[], Array<Payment>>,
@@ -198,6 +225,7 @@ export interface _SERVICE {
   >,
   'getPaymentsByStatus' : ActorMethod<[PaymentStatus], Array<Payment>>,
   'getPaymentsByUser' : ActorMethod<[Principal], Array<Payment>>,
+  'getPersistentSiteContent' : ActorMethod<[], [] | [SiteContent]>,
   'getReferralsByUser' : ActorMethod<[Principal], Array<Referral>>,
   'getStripeSessionStatus' : ActorMethod<[string], StripeSessionStatus>,
   'getTotalCommissions' : ActorMethod<
@@ -209,6 +237,7 @@ export interface _SERVICE {
   'incrementLandingPageVisit' : ActorMethod<[bigint], undefined>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
   'isStripeConfigured' : ActorMethod<[], boolean>,
+  'markContactResolved' : ActorMethod<[bigint], undefined>,
   'recordPurchase' : ActorMethod<[Principal, bigint], undefined>,
   'registerUser' : ActorMethod<
     [string, string, string, [] | [Principal]],
@@ -217,7 +246,12 @@ export interface _SERVICE {
   'rejectPayment' : ActorMethod<[bigint], undefined>,
   'rejectPaymentProof' : ActorMethod<[bigint], undefined>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
+  'setPersistentSiteContent' : ActorMethod<[SiteContent], undefined>,
   'setStripeConfiguration' : ActorMethod<[StripeConfiguration], undefined>,
+  'submitContactInterest' : ActorMethod<
+    [string, string, string, string],
+    undefined
+  >,
   'submitPaymentProof' : ActorMethod<[bigint, string, ExternalBlob], bigint>,
   'togglePackageStatus' : ActorMethod<[bigint], undefined>,
   'toggleUserBlock' : ActorMethod<[Principal], undefined>,

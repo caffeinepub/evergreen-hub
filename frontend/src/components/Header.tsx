@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
@@ -14,6 +14,7 @@ import {
 
 export default function Header() {
   const { isAuthenticated, isAdmin, logout } = useAuth();
+  const navigate = useNavigate();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -21,10 +22,17 @@ export default function Header() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleDashboardClick = () => {
+    if (isAdmin) {
+      navigate({ to: '/admin/stats' });
+    } else {
+      navigate({ to: '/dashboard' });
+    }
+  };
 
   return (
     <>
@@ -56,7 +64,7 @@ export default function Header() {
                 Home
               </Link>
               <Link
-                to="/about-us"
+                to="/about"
                 className="text-foreground hover:text-primary transition-colors font-medium"
               >
                 About
@@ -94,15 +102,11 @@ export default function Header() {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-48">
-                    <DropdownMenuItem asChild>
-                      <Link to={isAdmin ? '/admin-dashboard' : '/dashboard'}>
-                        Dashboard
-                      </Link>
+                    <DropdownMenuItem onClick={handleDashboardClick}>
+                      Dashboard
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={logout}>
-                      Logout
-                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}

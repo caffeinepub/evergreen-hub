@@ -1,8 +1,12 @@
 import { Link } from '@tanstack/react-router';
 import { SiFacebook, SiInstagram, SiYoutube } from 'react-icons/si';
+import { Heart } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const appId = encodeURIComponent(
+    typeof window !== 'undefined' ? window.location.hostname : 'evergreen-hub'
+  );
 
   return (
     <footer className="bg-secondary text-foreground">
@@ -10,11 +14,10 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Brand Section */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-bold text-primary">
-              Evergreen Hub
-            </h3>
+            <h3 className="text-2xl font-bold text-primary">Evergreen Hub</h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Your trusted partner in affiliate marketing education. Learn, grow, and succeed with our comprehensive courses.
+              Your trusted partner in affiliate marketing education. Learn, grow, and succeed with
+              our comprehensive courses.
             </p>
             <div className="flex gap-4">
               <a
@@ -58,7 +61,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  to="/about-us"
+                  to="/about"
                   className="text-muted-foreground hover:text-primary transition-colors duration-200 text-sm"
                 >
                   About Us
@@ -123,8 +126,16 @@ export default function Footer() {
             <p className="text-muted-foreground text-sm text-center md:text-left">
               © {currentYear} Evergreen Hub. All rights reserved.
             </p>
-            <p className="text-muted-foreground text-sm">
-              Built by Rudra in Bihar with ❤️
+            <p className="text-muted-foreground text-sm flex items-center gap-1">
+              Built with <Heart className="h-3.5 w-3.5 text-red-500 fill-red-500" /> using{' '}
+              <a
+                href={`https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=${appId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline font-medium"
+              >
+                caffeine.ai
+              </a>
             </p>
           </div>
         </div>

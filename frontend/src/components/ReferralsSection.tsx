@@ -2,16 +2,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Users, TrendingUp, Award, Clock } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { useGetReferralsByUser, useGetTotalCommissions, useGetUserProfile } from '../hooks/useQueries';
+import { useGetReferralsByUser, useGetTotalCommissions } from '../hooks/useQueries';
 import type { Referral } from '../backend';
-import { ReactElement } from 'react';
 
 export default function ReferralsSection() {
   const { userProfile } = useAuth();
   const userId = userProfile?.principal.toString() || '';
 
-  const { data: referrals = [], isLoading: referralsLoading } = useGetReferralsByUser(userId);
-  const { data: commissions, isLoading: commissionsLoading } = useGetTotalCommissions(userId);
+  const { data: referrals = [], isLoading: referralsLoading } = useGetReferralsByUser(userId || null);
+  const { data: commissions, isLoading: commissionsLoading } = useGetTotalCommissions(userId || null);
 
   const getPackageName = (packageId: bigint) => {
     const packages: Record<string, string> = {
@@ -106,56 +105,36 @@ export default function ReferralsSection() {
         <CardContent>
           {referrals.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
-              <Users className="h-12 w-12 mx-auto mb-3 opacity-50" />
-              <p>No referrals yet</p>
-              <p className="text-sm mt-1">Share your referral link to start earning commissions!</p>
+              <Users className="h-12 w-12 mx-auto mb-3 opacity-30" />
+              <p>No referrals yet. Share your referral link to start earning!</p>
             </div>
           ) : (
-            <div className="space-y-4">
-              {referrals.map((referral) => (
-                <ReferralCard key={referral.id.toString()} referral={referral} getPackageName={getPackageName} getStatusBadge={getStatusBadge} />
+            <div className="space-y-3">
+              {referrals.map((referral: Referral) => (
+                <div
+                  key={referral.id.toString()}
+                  className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-slate-700"
+                >
+                  <div>
+                    <p className="text-sm font-medium">
+                      {referral.referredUserId.toString().slice(0, 12)}...
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Package: {getPackageName(referral.packageId)}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-semibold text-emerald-600">
+                      ₹{Number(referral.commissionAmount)}
+                    </p>
+                    {getStatusBadge(referral.status)}
+                  </div>
+                </div>
               ))}
             </div>
           )}
         </CardContent>
       </Card>
-    </div>
-  );
-}
-
-function ReferralCard({ 
-  referral, 
-  getPackageName, 
-  getStatusBadge 
-}: { 
-  referral: Referral; 
-  getPackageName: (id: bigint) => string;
-  getStatusBadge: (status: string) => ReactElement;
-}) {
-  const { data: userProfile } = useGetUserProfile(referral.referredUserId.toString());
-
-  return (
-    <div className="flex items-center justify-between p-4 border rounded-lg bg-white dark:bg-slate-800">
-      <div className="flex-1">
-        <p className="font-semibold">
-          {userProfile?.name || referral.referredUserId.toString().slice(0, 10) + '...'}
-        </p>
-        <p className="text-sm text-muted-foreground">
-          Package: {getPackageName(referral.packageId)}
-        </p>
-        <div className="flex items-center gap-4 mt-2">
-          <span className="text-xs">
-            <span className="text-green-600 dark:text-green-400 font-semibold">
-              {referral.commissionType === 'active' ? 'Active' : 'Passive'}:
-            </span>{' '}
-            ₹{Number(referral.commissionAmount)}
-          </span>
-          <span className="text-xs text-muted-foreground">
-            {new Date(Number(referral.createdAt) / 1000000).toLocaleDateString()}
-          </span>
-        </div>
-      </div>
-      {getStatusBadge(referral.status)}
     </div>
   );
 }

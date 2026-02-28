@@ -22,16 +22,17 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
+import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from 'sonner';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
+import { Plus, Pencil, Trash2, Package } from 'lucide-react';
 import PackageModal from '../../components/admin/PackageModal';
-import type { Package } from '../../backend';
+import type { Package as PackageType } from '../../backend';
 
 export default function PackageManagement() {
   const { actor } = useActor();
   const queryClient = useQueryClient();
   const [modalOpen, setModalOpen] = useState(false);
-  const [editingPackage, setEditingPackage] = useState<Package | null>(null);
+  const [editingPackage, setEditingPackage] = useState<PackageType | null>(null);
   const [deletePackageId, setDeletePackageId] = useState<bigint | null>(null);
 
   const { data: packages = [], isLoading } = useQuery({
@@ -50,6 +51,8 @@ export default function PackageManagement() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['packages'] });
+      queryClient.invalidateQueries({ queryKey: ['allPackages'] });
+      queryClient.invalidateQueries({ queryKey: ['activePackages'] });
       toast.success('Package status updated');
     },
     onError: (error: any) => {
@@ -64,6 +67,8 @@ export default function PackageManagement() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['packages'] });
+      queryClient.invalidateQueries({ queryKey: ['allPackages'] });
+      queryClient.invalidateQueries({ queryKey: ['activePackages'] });
       toast.success('Package deleted successfully');
       setDeletePackageId(null);
     },
@@ -72,7 +77,7 @@ export default function PackageManagement() {
     },
   });
 
-  const handleEdit = (pkg: Package) => {
+  const handleEdit = (pkg: PackageType) => {
     setEditingPackage(pkg);
     setModalOpen(true);
   };
@@ -82,31 +87,29 @@ export default function PackageManagement() {
     setModalOpen(true);
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading packages...</p>
-        </div>
-      </div>
-    );
-  }
+  const activeCount = packages.filter((p) => p.status === 'active').length;
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Package Management</h1>
-          <p className="text-muted-foreground mt-1">Manage course packages and pricing</p>
+        <div className="flex items-center gap-3">
+          <div className="p-2 rounded-lg bg-primary/10">
+            <Package className="h-6 w-6 text-primary" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold">Package Management</h1>
+            <p className="text-muted-foreground mt-0.5">
+              {packages.length} packages — {activeCount} active
+            </p>
+          </div>
         </div>
-        <Button onClick={handleAdd}>
-          <Plus className="h-4 w-4 mr-2" />
+        <Button onClick={handleAdd} className="gap-2">
+          <Plus className="h-4 w-4" />
           Add Package
         </Button>
       </div>
 
-      <div className="border rounded-lg">
+      <div className="border rounded-lg overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>
@@ -118,21 +121,45 @@ export default function PackageManagement() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {packages.length === 0 ? (
+            {isLoading ? (
+              Array.from({ length: 3 }).map((_, i) => (
+                <TableRow key={i}>
+                  {Array.from({ length: 5 }).map((_, j) => (
+                    <TableCell key={j}>
+                      <Skeleton className="h-4 w-full" />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : packages.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
-                  No packages found
+                <TableCell colSpan={5} className="text-center py-12 text-muted-foreground">
+                  <Package className="h-8 w-8 mx-auto mb-2 opacity-30" />
+                  <p>No packages found. Add your first package.</p>
                 </TableCell>
               </TableRow>
             ) : (
               packages.map((pkg) => (
                 <TableRow key={pkg.id.toString()}>
-                  <TableCell className="font-medium">{pkg.name}</TableCell>
-                  <TableCell>₹{Number(pkg.price).toLocaleString()}</TableCell>
-                  <TableCell className="max-w-xs truncate">{pkg.courses}</TableCell>
+                  <TableCell className="font-semibold">{pkg.name}</TableCell>
+                  <TableCell className="font-medium">
+                    ₹{Number(pkg.price).toLocaleString('en-IN')}
+                  </TableCell>
+                  <TableCell className="max-w-xs">
+                    <p className="truncate text-sm text-muted-foreground" title={pkg.courses}>
+                      {pkg.courses}
+                    </p>
+                  </TableCell>
                   <TableCell>
-                    <Badge variant={pkg.status === 'active' ? 'default' : 'secondary'}>
-                      {pkg.status}
+                    <Badge
+                      variant={pkg.status === 'active' ? 'default' : 'secondary'}
+                      className={
+                        pkg.status === 'active'
+                          ? 'bg-emerald-500 hover:bg-emerald-600 text-white'
+                          : ''
+                      }
+                    >
+                      {pkg.status === 'active' ? 'Active' : 'Inactive'}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
@@ -141,11 +168,14 @@ export default function PackageManagement() {
                         checked={pkg.status === 'active'}
                         onCheckedChange={() => toggleStatusMutation.mutate(pkg.id)}
                         disabled={toggleStatusMutation.isPending}
+                        title={pkg.status === 'active' ? 'Deactivate' : 'Activate'}
                       />
                       <Button
                         variant="ghost"
                         size="icon"
                         onClick={() => handleEdit(pkg)}
+                        className="h-8 w-8"
+                        title="Edit package"
                       >
                         <Pencil className="h-4 w-4" />
                       </Button>
@@ -154,6 +184,8 @@ export default function PackageManagement() {
                         size="icon"
                         onClick={() => setDeletePackageId(pkg.id)}
                         disabled={deletePackageMutation.isPending}
+                        className="h-8 w-8 hover:bg-red-50 dark:hover:bg-red-950/30"
+                        title="Delete package"
                       >
                         <Trash2 className="h-4 w-4 text-destructive" />
                       </Button>
@@ -175,9 +207,10 @@ export default function PackageManagement() {
       <AlertDialog open={!!deletePackageId} onOpenChange={() => setDeletePackageId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Delete Package?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the package.
+              This action cannot be undone. This will permanently delete the package and may affect
+              users who have purchased it.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -185,8 +218,9 @@ export default function PackageManagement() {
             <AlertDialogAction
               onClick={() => deletePackageId && deletePackageMutation.mutate(deletePackageId)}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              disabled={deletePackageMutation.isPending}
             >
-              Delete
+              {deletePackageMutation.isPending ? 'Deleting...' : 'Delete Package'}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

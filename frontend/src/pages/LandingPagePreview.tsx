@@ -5,19 +5,24 @@ import { Loader2 } from 'lucide-react';
 
 export default function LandingPagePreview() {
   const { pageId } = useParams({ strict: false }) as { pageId: string };
-  const { data: landingPage, isLoading, error } = useGetLandingPageById(pageId);
+
+  // Convert string pageId to bigint for the hook
+  const pageIdBigInt = pageId ? BigInt(pageId) : null;
+
+  const { data: landingPage, isLoading, error } = useGetLandingPageById(pageIdBigInt);
   const incrementVisit = useIncrementLandingPageVisit();
 
   useEffect(() => {
-    if (landingPage && pageId) {
-      incrementVisit.mutate(BigInt(pageId));
+    if (landingPage && pageIdBigInt) {
+      incrementVisit.mutate(pageIdBigInt);
     }
-  }, [landingPage, pageId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [landingPage?.id]);
 
   useEffect(() => {
     if (landingPage) {
       document.title = landingPage.title || 'Landing Page';
-      
+
       const metaDescription = document.querySelector('meta[name="description"]');
       if (metaDescription) {
         metaDescription.setAttribute('content', landingPage.content.substring(0, 160));
@@ -72,7 +77,7 @@ export default function LandingPagePreview() {
             </div>
           </header>
 
-          <div 
+          <div
             className="prose prose-lg dark:prose-invert max-w-none"
             dangerouslySetInnerHTML={{ __html: landingPage.content }}
           />

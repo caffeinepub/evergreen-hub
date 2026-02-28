@@ -1,12 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Replace all placeholder/empty social media links across the Evergreen Hub frontend with real, functional URLs that open in a new tab.
+**Goal:** Hide the WhatsApp phone number from the floating button UI and integrate the UPI ID `7970705775@ybl` into all payment components without displaying it to users.
 
 **Planned changes:**
-- Update Footer social media links (YouTube, Facebook, Instagram) with real URLs and `target="_blank" rel="noopener noreferrer"`
-- Update InstagramSection follow/view-profile links to use the real Instagram URL
-- Update YouTubeSection subscribe button and channel links to use the real YouTube URL
-- Scan and update all remaining components (FacebookSection, Header, MobileSidebar, AboutUs, etc.) to replace any placeholder or `#` social media links with the correct real URLs
+- In `FloatingWhatsAppButton`, remove/hide the phone number text from the button UI while keeping the `wa.me` link functional with the hardcoded number internally
+- Integrate UPI ID `7970705775@ybl` into all payment-related components (`PaymentGateway`, `PaymentModal`, `PricingSection`, `VideoEditingSection`, `WebDesignPaymentModal`, `WebDesignServicesPromo`, and any other UPI/PhonePe payment component)
+- Ensure the UPI ID is never rendered as visible text in any public-facing UI — only used internally in UPI deep links (`upi://pay?pa=7970705775@ybl`) or QR code generation
 
-**User-visible outcome:** Clicking any YouTube, Facebook, or Instagram link/button anywhere on the site opens the correct real social media profile or channel in a new browser tab.
+**User-visible outcome:** Users see the WhatsApp button without any phone number displayed, and can complete payments via UPI deep link or QR code without the raw UPI ID string being shown anywhere on the page.

@@ -1,40 +1,27 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Project includes a website with footer, founder section, and package details. Social media links (YouTube, Facebook, Instagram) need to be made clickable and redirect to the user's actual social media profiles.",
-  "architectural_notes": [],
+  "summary": "Project with admin panel, dashboard stats, package/payment/user management. WhatsApp button visible but number hidden. UPI ID (7970705775@ybl) integrated into all payment flows but kept hidden from users — payments work seamlessly without exposing the UPI ID.",
+  "architectural_notes": [
+    "UPI ID is stored server-side/config only — never exposed in frontend UI",
+    "WhatsApp button shown without displaying the phone number"
+  ],
   "known_issues": [],
   "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-in-the-footer-component-frontend-src-components-footer-tsx-update-the-facebook-instagram-and-youtube-social-media-link-elements-to-use-the-following-real-urls-and-open-in-a-new-tab-youtube-https-youtube-com-evergreengamerz-si-2bqwy16gg-4ghuj-facebook-https-www-facebook-com-share-1awvnbtfud-instagram-https-www-instagram-com-evergreenhub2026-igsh-bm1icxo1bwxrntmw-each-link-must-have-target-blank-and-rel-noopener-noreferrer",
-      "title": "In the Footer component (frontend/src/components/Footer.tsx), update the Facebook, Instagram, and YouTube social media link elements to use the following real URLs and open in a new tab: YouTube → https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-, Facebook → https://www.facebook.com/share/1AWvNBtfuD/, Instagram → https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw. Each link must have target='_blank' and rel='noopener noreferrer'.",
+      "id": "feature-in-the-floatingwhatsappbutton-component-keep-the-whatsapp-button-visible-and-functional-but-remove-hide-the-displayed-phone-number-text-from-the-button-ui-so-only-the-whatsapp-icon-and-label-remain-visible-no-number-shown-to-users-the-wa-me-link-should-still-work-by-using-the-hardcoded-number-internally-without-rendering-it",
+      "title": "In the FloatingWhatsAppButton component, keep the WhatsApp button visible and functional, but remove/hide the displayed phone number text from the button UI so only the WhatsApp icon and label remain visible (no number shown to users). The wa.me link should still work by using the hardcoded number internally without rendering it.",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-in-the-instagramsection-component-frontend-src-components-instagramsection-tsx-update-the-instagram-follow-view-profile-links-to-use-the-real-url-https-www-instagram-com-evergreenhub2026-igsh-bm1icxo1bwxrntmw-with-target-blank-and-rel-noopener-noreferrer",
-      "title": "In the InstagramSection component (frontend/src/components/InstagramSection.tsx), update the Instagram follow/view-profile links to use the real URL https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw with target='_blank' and rel='noopener noreferrer'.",
+      "id": "feature-integrate-the-upi-id-7970705775-ybl-as-the-default-hardcoded-upi-id-into-all-payment-flows-paymentgateway-paymentmodal-pricingsection-videoeditingsection-webdesignpaymentmodal-webdesignservicespromo-and-any-other-component-that-handles-upi-phonepe-payment-the-upi-id-must-not-be-displayed-or-rendered-anywhere-in-the-ui-it-should-only-be-used-internally-e-g-embedded-in-a-upi-deep-link-or-qr-code-generation-so-users-can-complete-payments-without-seeing-the-raw-upi-id-string",
+      "title": "Integrate the UPI ID `7970705775@ybl` as the default/hardcoded UPI ID into all payment flows (PaymentGateway, PaymentModal, PricingSection, VideoEditingSection, WebDesignPaymentModal, WebDesignServicesPromo, and any other component that handles UPI/PhonePe payment). The UPI ID must NOT be displayed or rendered anywhere in the UI — it should only be used internally (e.g., embedded in a UPI deep link or QR code generation) so users can complete payments without seeing the raw UPI ID string.",
       "reqIds": [
         "REQ-2"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-in-the-youtubesection-component-frontend-src-components-youtubesection-tsx-update-the-subscribe-button-and-any-channel-links-to-use-the-real-youtube-channel-url-https-youtube-com-evergreengamerz-si-2bqwy16gg-4ghuj-with-target-blank-and-rel-noopener-noreferrer",
-      "title": "In the YouTubeSection component (frontend/src/components/YouTubeSection.tsx), update the subscribe button and any channel links to use the real YouTube channel URL https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj- with target='_blank' and rel='noopener noreferrer'.",
-      "reqIds": [
-        "REQ-3"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-scan-all-remaining-frontend-components-and-pages-including-facebooksection-tsx-header-tsx-mobilesidebar-tsx-aboutus-tsx-and-any-other-files-containing-social-media-links-and-update-any-placeholder-or-empty-facebook-instagram-and-youtube-links-with-the-real-urls-youtube-https-youtube-com-evergreengamerz-si-2bqwy16gg-4ghuj-facebook-https-www-facebook-com-share-1awvnbtfud-instagram-https-www-instagram-com-evergreenhub2026-igsh-bm1icxo1bwxrntmw-all-links-must-open-in-a-new-tab-with-rel-noopener-noreferrer",
-      "title": "Scan all remaining frontend components and pages (including FacebookSection.tsx, Header.tsx, MobileSidebar.tsx, AboutUs.tsx, and any other files containing social media links) and update any placeholder or empty Facebook, Instagram, and YouTube links with the real URLs: YouTube → https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-, Facebook → https://www.facebook.com/share/1AWvNBtfuD/, Instagram → https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw. All links must open in a new tab with rel='noopener noreferrer'.",
-      "reqIds": [
-        "REQ-4"
       ],
       "version": 1
     }
@@ -42,13 +29,19 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Make YouTube, Facebook, and Instagram links clickable and redirect to user's actual social media profiles wherever they appear on the site",
+      "summary": "Hide WhatsApp number but keep WhatsApp button visible",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Integrate UPI ID (7970705775@ybl) into all payment flows but keep it hidden from users",
       "reqIds": [],
       "status": "pending"
     }
   ],
   "gameProjectType": "none",
-  "projectName": "EverGreenHub",
+  "projectName": "Evergreen Hub",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

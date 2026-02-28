@@ -16,7 +16,7 @@ export default function AdminLogin() {
   useEffect(() => {
     if (isAuthenticated && !isInitializing) {
       if (isAdmin) {
-        navigate({ to: '/admin-dashboard' });
+        navigate({ to: '/admin/stats' });
       } else {
         toast.error('Access denied. Admin privileges required.');
         navigate({ to: '/dashboard' });
@@ -67,7 +67,8 @@ export default function AdminLogin() {
           <Alert>
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>
-              Admin authentication uses Internet Identity with role verification. Only authorized administrators can access the admin panel.
+              Admin authentication uses Internet Identity with role verification. Only authorized
+              administrators can access the admin panel.
             </AlertDescription>
           </Alert>
 

@@ -48,6 +48,15 @@ export const AdminStats = IDL.Record({
   'totalUsers' : IDL.Nat,
   'totalRevenue' : IDL.Nat,
 });
+export const ContactInterest = IDL.Record({
+  'id' : IDL.Nat,
+  'resolved' : IDL.Bool,
+  'name' : IDL.Text,
+  'createdAt' : IDL.Int,
+  'email' : IDL.Text,
+  'message' : IDL.Text,
+  'phone' : IDL.Text,
+});
 export const PaymentStatus = IDL.Variant({
   'pending' : IDL.Null,
   'approved' : IDL.Null,
@@ -110,6 +119,23 @@ export const LandingPage = IDL.Record({
   'createdAt' : IDL.Int,
   'updatedAt' : IDL.Int,
   'template' : IDL.Text,
+});
+export const BankDetails = IDL.Record({
+  'branch' : IDL.Text,
+  'qrCodeBlob' : ExternalBlob,
+  'ifsc' : IDL.Text,
+  'accountHolderName' : IDL.Text,
+  'upiHandle' : IDL.Text,
+  'accountNumber' : IDL.Text,
+});
+export const PhonePeDetails = IDL.Record({
+  'qrCodeBlob' : ExternalBlob,
+  'upiId' : IDL.Text,
+});
+export const SiteContent = IDL.Record({
+  'bankDetails' : BankDetails,
+  'phonePeDetails' : PhonePeDetails,
+  'whatsappPhoneNumber' : IDL.Text,
 });
 export const ReferralStatus = IDL.Variant({
   'pending' : IDL.Null,
@@ -206,6 +232,11 @@ export const idlService = IDL.Service({
   'deleteUser' : IDL.Func([IDL.Principal], [], []),
   'getActivePackages' : IDL.Func([], [IDL.Vec(Package)], ['query']),
   'getAdminStats' : IDL.Func([], [AdminStats], ['query']),
+  'getAllContactInterests' : IDL.Func(
+      [],
+      [IDL.Vec(ContactInterest)],
+      ['query'],
+    ),
   'getAllPackages' : IDL.Func([], [IDL.Vec(Package)], ['query']),
   'getAllPaymentProofs' : IDL.Func([], [IDL.Vec(PaymentProof)], ['query']),
   'getAllPayments' : IDL.Func([], [IDL.Vec(Payment)], ['query']),
@@ -243,6 +274,7 @@ export const idlService = IDL.Service({
       [IDL.Vec(Payment)],
       ['query'],
     ),
+  'getPersistentSiteContent' : IDL.Func([], [IDL.Opt(SiteContent)], ['query']),
   'getReferralsByUser' : IDL.Func(
       [IDL.Principal],
       [IDL.Vec(Referral)],
@@ -273,6 +305,7 @@ export const idlService = IDL.Service({
   'incrementLandingPageVisit' : IDL.Func([IDL.Nat], [], []),
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
   'isStripeConfigured' : IDL.Func([], [IDL.Bool], ['query']),
+  'markContactResolved' : IDL.Func([IDL.Nat], [], []),
   'recordPurchase' : IDL.Func([IDL.Principal, IDL.Nat], [], []),
   'registerUser' : IDL.Func(
       [IDL.Text, IDL.Text, IDL.Text, IDL.Opt(IDL.Principal)],
@@ -282,7 +315,13 @@ export const idlService = IDL.Service({
   'rejectPayment' : IDL.Func([IDL.Nat], [], []),
   'rejectPaymentProof' : IDL.Func([IDL.Nat], [], []),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+  'setPersistentSiteContent' : IDL.Func([SiteContent], [], []),
   'setStripeConfiguration' : IDL.Func([StripeConfiguration], [], []),
+  'submitContactInterest' : IDL.Func(
+      [IDL.Text, IDL.Text, IDL.Text, IDL.Text],
+      [],
+      [],
+    ),
   'submitPaymentProof' : IDL.Func(
       [IDL.Nat, IDL.Text, ExternalBlob],
       [IDL.Nat],
@@ -347,6 +386,15 @@ export const idlFactory = ({ IDL }) => {
     'totalUsers' : IDL.Nat,
     'totalRevenue' : IDL.Nat,
   });
+  const ContactInterest = IDL.Record({
+    'id' : IDL.Nat,
+    'resolved' : IDL.Bool,
+    'name' : IDL.Text,
+    'createdAt' : IDL.Int,
+    'email' : IDL.Text,
+    'message' : IDL.Text,
+    'phone' : IDL.Text,
+  });
   const PaymentStatus = IDL.Variant({
     'pending' : IDL.Null,
     'approved' : IDL.Null,
@@ -409,6 +457,23 @@ export const idlFactory = ({ IDL }) => {
     'createdAt' : IDL.Int,
     'updatedAt' : IDL.Int,
     'template' : IDL.Text,
+  });
+  const BankDetails = IDL.Record({
+    'branch' : IDL.Text,
+    'qrCodeBlob' : ExternalBlob,
+    'ifsc' : IDL.Text,
+    'accountHolderName' : IDL.Text,
+    'upiHandle' : IDL.Text,
+    'accountNumber' : IDL.Text,
+  });
+  const PhonePeDetails = IDL.Record({
+    'qrCodeBlob' : ExternalBlob,
+    'upiId' : IDL.Text,
+  });
+  const SiteContent = IDL.Record({
+    'bankDetails' : BankDetails,
+    'phonePeDetails' : PhonePeDetails,
+    'whatsappPhoneNumber' : IDL.Text,
   });
   const ReferralStatus = IDL.Variant({
     'pending' : IDL.Null,
@@ -506,6 +571,11 @@ export const idlFactory = ({ IDL }) => {
     'deleteUser' : IDL.Func([IDL.Principal], [], []),
     'getActivePackages' : IDL.Func([], [IDL.Vec(Package)], ['query']),
     'getAdminStats' : IDL.Func([], [AdminStats], ['query']),
+    'getAllContactInterests' : IDL.Func(
+        [],
+        [IDL.Vec(ContactInterest)],
+        ['query'],
+      ),
     'getAllPackages' : IDL.Func([], [IDL.Vec(Package)], ['query']),
     'getAllPaymentProofs' : IDL.Func([], [IDL.Vec(PaymentProof)], ['query']),
     'getAllPayments' : IDL.Func([], [IDL.Vec(Payment)], ['query']),
@@ -547,6 +617,11 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Vec(Payment)],
         ['query'],
       ),
+    'getPersistentSiteContent' : IDL.Func(
+        [],
+        [IDL.Opt(SiteContent)],
+        ['query'],
+      ),
     'getReferralsByUser' : IDL.Func(
         [IDL.Principal],
         [IDL.Vec(Referral)],
@@ -577,6 +652,7 @@ export const idlFactory = ({ IDL }) => {
     'incrementLandingPageVisit' : IDL.Func([IDL.Nat], [], []),
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
     'isStripeConfigured' : IDL.Func([], [IDL.Bool], ['query']),
+    'markContactResolved' : IDL.Func([IDL.Nat], [], []),
     'recordPurchase' : IDL.Func([IDL.Principal, IDL.Nat], [], []),
     'registerUser' : IDL.Func(
         [IDL.Text, IDL.Text, IDL.Text, IDL.Opt(IDL.Principal)],
@@ -586,7 +662,13 @@ export const idlFactory = ({ IDL }) => {
     'rejectPayment' : IDL.Func([IDL.Nat], [], []),
     'rejectPaymentProof' : IDL.Func([IDL.Nat], [], []),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+    'setPersistentSiteContent' : IDL.Func([SiteContent], [], []),
     'setStripeConfiguration' : IDL.Func([StripeConfiguration], [], []),
+    'submitContactInterest' : IDL.Func(
+        [IDL.Text, IDL.Text, IDL.Text, IDL.Text],
+        [],
+        [],
+      ),
     'submitPaymentProof' : IDL.Func(
         [IDL.Nat, IDL.Text, ExternalBlob],
         [IDL.Nat],
