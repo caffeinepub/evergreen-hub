@@ -5,14 +5,14 @@
 @layer base {
   :root {
     /* Light Mode Colors - Exact Hex Values */
-    --bg-light: #FFFFFF;
-    --bg-section-light: #F8FAFC;
-    --text-primary-light: #1F2937;
-    --text-secondary-light: #6B7280;
-    --blue-primary-light: #2563EB;
-    --orange-cta-light: #F59E0B;
-    --card-bg-light: #FFFFFF;
-    --border-light: #E5E7EB;
+    --bg-light: #ffffff;
+    --bg-section-light: #f8fafc;
+    --text-primary-light: #1f2937;
+    --text-secondary-light: #6b7280;
+    --blue-primary-light: #2563eb;
+    --orange-cta-light: #f59e0b;
+    --card-bg-light: #ffffff;
+    --border-light: #e5e7eb;
 
     /* OKLCH Blue-Orange Color System (Light Mode) */
     --background: oklch(100% 0 0); /* #FFFFFF */
@@ -38,19 +38,19 @@
     --chart-1: oklch(55% 0.18 264);
     --chart-2: oklch(70% 0.15 60);
     --chart-3: oklch(65% 0.12 200);
-    --chart-4: oklch(75% 0.10 220);
-    --chart-5: oklch(55% 0.20 140);
+    --chart-4: oklch(75% 0.1 220);
+    --chart-5: oklch(55% 0.2 140);
   }
 
   .dark {
     /* Dark Mode Colors - Exact Hex Values */
-    --bg-dark: #0F172A;
-    --bg-section-dark: #1E293B;
-    --text-primary-dark: #F1F5F9;
-    --text-secondary-dark: #94A3B8;
-    --blue-primary-dark: #3B82F6;
-    --orange-cta-dark: #FBBF24;
-    --card-bg-dark: #1E293B;
+    --bg-dark: #0f172a;
+    --bg-section-dark: #1e293b;
+    --text-primary-dark: #f1f5f9;
+    --text-secondary-dark: #94a3b8;
+    --blue-primary-dark: #3b82f6;
+    --orange-cta-dark: #fbbf24;
+    --card-bg-dark: #1e293b;
     --border-dark: #334155;
 
     /* OKLCH Color System (Dark Mode) */
@@ -60,7 +60,7 @@
     --card-foreground: oklch(95% 0.005 240);
     --popover: oklch(20% 0.02 250);
     --popover-foreground: oklch(95% 0.005 240);
-    --primary: oklch(60% 0.20 264); /* #3B82F6 Vibrant Blue */
+    --primary: oklch(60% 0.2 264); /* #3B82F6 Vibrant Blue */
     --primary-foreground: oklch(100% 0 0);
     --secondary: oklch(22% 0.02 250); /* #1E293B */
     --secondary-foreground: oklch(95% 0.005 240);
@@ -68,15 +68,15 @@
     --muted-foreground: oklch(65% 0.01 240); /* #94A3B8 */
     --accent: oklch(75% 0.15 80); /* #FBBF24 Vibrant Orange */
     --accent-foreground: oklch(15% 0.02 250);
-    --destructive: oklch(50% 0.20 25);
+    --destructive: oklch(50% 0.2 25);
     --destructive-foreground: oklch(95% 0.005 240);
     --border: oklch(30% 0.02 250); /* #334155 */
     --input: oklch(30% 0.02 250);
-    --ring: oklch(60% 0.20 264);
-    --chart-1: oklch(60% 0.20 264);
+    --ring: oklch(60% 0.2 264);
+    --chart-1: oklch(60% 0.2 264);
     --chart-2: oklch(75% 0.15 80);
     --chart-3: oklch(60% 0.12 200);
-    --chart-4: oklch(75% 0.10 220);
+    --chart-4: oklch(75% 0.1 220);
     --chart-5: oklch(55% 0.22 140);
   }
 }
@@ -85,7 +85,7 @@
   * {
     @apply border-border;
   }
-  
+
   body {
     @apply bg-background text-foreground;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -106,7 +106,8 @@
   input,
   textarea,
   select {
-    transition-property: background-color, color, border-color, box-shadow, transform, opacity;
+    transition-property: background-color, color, border-color, box-shadow,
+      transform, opacity;
   }
 }
 
@@ -143,7 +144,7 @@
 
 /* Button Styles */
 .btn-cta {
-  background-color: #F59E0B;
+  background-color: #f59e0b;
   color: white;
   border-radius: 12px;
   transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
@@ -151,7 +152,7 @@
 }
 
 .btn-cta:hover {
-  background-color: #D97706;
+  background-color: #d97706;
   transform: scale(1.05);
 }
 
@@ -160,12 +161,12 @@
 }
 
 .dark .btn-cta {
-  background-color: #FBBF24;
-  color: #0F172A;
+  background-color: #fbbf24;
+  color: #0f172a;
 }
 
 .dark .btn-cta:hover {
-  background-color: #F59E0B;
+  background-color: #f59e0b;
 }
 
 /* Premium Animations */
@@ -201,7 +202,8 @@
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate3d(0, 0, 0);
   }
   50% {
@@ -210,7 +212,8 @@
 }
 
 @keyframes floatSlow {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate3d(0, 0, 0);
   }
   50% {
@@ -243,8 +246,8 @@
 .scroll-fade-in {
   opacity: 0;
   transform: translate3d(0, 20px, 0);
-  transition: opacity 0.6s cubic-bezier(0.4, 0.0, 0.2, 1),
-              transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transition: opacity 0.6s cubic-bezier(0.4, 0.0, 0.2, 1), transform 0.6s
+    cubic-bezier(0.4, 0.0, 0.2, 1);
   will-change: transform, opacity;
 }
 
@@ -255,7 +258,8 @@
 
 /* Floating Gradient Blobs */
 @keyframes floatBlob1 {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate3d(0, 0, 0);
   }
   50% {
@@ -264,7 +268,8 @@
 }
 
 @keyframes floatBlob2 {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate3d(0, 0, 0);
   }
   50% {
@@ -273,7 +278,8 @@
 }
 
 @keyframes floatBlob3 {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate3d(0, 0, 0);
   }
   50% {
@@ -293,7 +299,7 @@
 .gradient-blob-1 {
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, #2563EB 0%, transparent 70%);
+  background: radial-gradient(circle, #2563eb 0%, transparent 70%);
   top: 10%;
   left: 10%;
   animation: floatBlob1 15s ease-in-out infinite;
@@ -302,7 +308,7 @@
 .gradient-blob-2 {
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, #F59E0B 0%, transparent 70%);
+  background: radial-gradient(circle, #f59e0b 0%, transparent 70%);
   top: 50%;
   right: 10%;
   animation: floatBlob2 12s ease-in-out infinite;
@@ -311,24 +317,24 @@
 .gradient-blob-3 {
   width: 350px;
   height: 350px;
-  background: radial-gradient(circle, #2563EB 0%, transparent 70%);
+  background: radial-gradient(circle, #2563eb 0%, transparent 70%);
   bottom: 10%;
   left: 50%;
   animation: floatBlob3 18s ease-in-out infinite;
 }
 
 .dark .gradient-blob-1 {
-  background: radial-gradient(circle, #3B82F6 0%, transparent 70%);
+  background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
   opacity: 0.2;
 }
 
 .dark .gradient-blob-2 {
-  background: radial-gradient(circle, #FBBF24 0%, transparent 70%);
+  background: radial-gradient(circle, #fbbf24 0%, transparent 70%);
   opacity: 0.2;
 }
 
 .dark .gradient-blob-3 {
-  background: radial-gradient(circle, #3B82F6 0%, transparent 70%);
+  background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
   opacity: 0.2;
 }
 
@@ -375,12 +381,12 @@
 /* Input Focus Glow */
 .input-glow:focus {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-  border-color: #2563EB;
+  border-color: #2563eb;
 }
 
 .dark .input-glow:focus {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-  border-color: #3B82F6;
+  border-color: #3b82f6;
 }
 
 /* WhatsApp Button Float */
@@ -393,10 +399,56 @@
   transform: rotate(-4deg) scale(1.1) translate3d(0, -10px, 0);
 }
 
-/* Chatbot Button */
+/* Chatbot Button - Legacy (kept for compatibility) */
 .chatbot-button {
   animation: float 3s ease-in-out infinite;
   will-change: transform;
+}
+
+/* Chatbot Button - Vibrant pulsing glow */
+@keyframes chatbotPulseGlow {
+  0% {
+    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.5), 0 0 0 0
+      rgba(37, 99, 235, 0.4);
+    transform: scale(1) translateY(0);
+  }
+  40% {
+    box-shadow: 0 12px 40px rgba(124, 58, 237, 0.6), 0 0 0 8px
+      rgba(37, 99, 235, 0.1);
+    transform: scale(1.05) translateY(-3px);
+  }
+  70% {
+    box-shadow: 0 10px 36px rgba(245, 158, 11, 0.5), 0 0 0 14px
+      rgba(37, 99, 235, 0.05);
+    transform: scale(1.02) translateY(-2px);
+  }
+  100% {
+    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.5), 0 0 0 0 rgba(37, 99, 235, 0);
+    transform: scale(1) translateY(0);
+  }
+}
+
+.chatbot-button-glow {
+  animation: chatbotPulseGlow 2.5s ease-in-out infinite;
+  will-change: transform, box-shadow;
+}
+
+/* Rising bubbles animation for dashboard */
+@keyframes riseBubble {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100vh) scale(0.6);
+    opacity: 0;
+  }
 }
 
 /* Performance Optimizations */

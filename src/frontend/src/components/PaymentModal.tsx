@@ -1,14 +1,22 @@
-import { useState } from 'react';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Separator } from '@/components/ui/separator';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { AlertCircle } from 'lucide-react';
-import PaymentGateway from './PaymentGateway';
-import PaymentProofForm from './PaymentProofForm';
-import { useActor } from '../hooks/useActor';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import type { ExternalBlob } from '../backend';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AlertCircle } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import type { ExternalBlob } from "../backend";
+import { useAuth } from "../contexts/AuthContext";
+import { useActor } from "../hooks/useActor";
+import CongratulationsModal from "./CongratulationsModal";
+import PaymentGateway from "./PaymentGateway";
+import PaymentProofForm from "./PaymentProofForm";
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -28,72 +36,105 @@ export default function PaymentModal({
   isVideoEditing = false,
 }: PaymentModalProps) {
   const { actor } = useActor();
+  const { userProfile } = useAuth();
   const queryClient = useQueryClient();
+  const [showCongrats, setShowCongrats] = useState(false);
 
   const submitProofMutation = useMutation({
-    mutationFn: async ({ transactionId, screenshot }: { transactionId: string; screenshot: ExternalBlob }) => {
-      if (!actor) throw new Error('Actor not available');
+    mutationFn: async ({
+      transactionId,
+      screenshot,
+    }: { transactionId: string; screenshot: ExternalBlob }) => {
+      if (!actor) throw new Error("Actor not available");
       return actor.submitPaymentProof(packageId, transactionId, screenshot);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['myPaymentProofs'] });
-      queryClient.invalidateQueries({ queryKey: ['myPayments'] });
-      toast.success('Payment proof submitted successfully!');
+      queryClient.invalidateQueries({ queryKey: ["myPaymentProofs"] });
+      queryClient.invalidateQueries({ queryKey: ["myPayments"] });
+      toast.success("Payment proof submitted successfully!");
+      setShowCongrats(true);
     },
     onError: (error: any) => {
-      toast.error(error.message || 'Failed to submit payment proof');
+      toast.error(error.message || "Failed to submit payment proof");
       throw error;
     },
   });
 
-  const handleSubmit = async (transactionId: string, screenshot: ExternalBlob) => {
+  const handleSubmit = async (
+    transactionId: string,
+    screenshot: ExternalBlob,
+  ) => {
     await submitProofMutation.mutateAsync({ transactionId, screenshot });
   };
 
   const handleSuccess = () => {
-    setTimeout(() => {
-      onClose();
-    }, 2000);
+    // Congrats modal will handle the success state
+  };
+
+  const handleCongratsClose = () => {
+    setShowCongrats(false);
+    onClose();
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-900 border-gray-300 dark:border-slate-700">
-        <DialogHeader>
-          <DialogTitle className="text-2xl text-gray-900 dark:text-gray-100">Complete Your Purchase</DialogTitle>
-          <DialogDescription className="text-gray-700 dark:text-gray-300">
-            You're purchasing: <span className="font-semibold text-gray-900 dark:text-gray-100">{packageName}</span> for{' '}
-            <span className="font-semibold text-emerald-600 dark:text-emerald-400">{packagePrice}</span>
-          </DialogDescription>
-        </DialogHeader>
+    <>
+      <Dialog open={isOpen && !showCongrats} onOpenChange={onClose}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-900 border-gray-300 dark:border-slate-700">
+          <DialogHeader>
+            <DialogTitle className="text-2xl text-gray-900 dark:text-gray-100">
+              Complete Your Purchase
+            </DialogTitle>
+            <DialogDescription className="text-gray-700 dark:text-gray-300">
+              You're purchasing:{" "}
+              <span className="font-semibold text-gray-900 dark:text-gray-100">
+                {packageName}
+              </span>{" "}
+              for{" "}
+              <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+                {packagePrice}
+              </span>
+            </DialogDescription>
+          </DialogHeader>
 
-        <div className="space-y-6 mt-4">
-          <Alert className="border-emerald-500/30 bg-emerald-50 dark:bg-emerald-950/20">
-            <AlertCircle className="h-4 w-4 text-emerald-600 dark:text-emerald-500" />
-            <AlertDescription className="text-gray-900 dark:text-gray-100">
-              {isVideoEditing ? (
-                <>
-                  Scan the QR code to make payment of ₹500 via PhonePe, or use bank transfer. Submit your payment proof below for verification within 24 hours.
-                </>
-              ) : (
-                <>
-                  Scan the QR code to make payment via PhonePe, or use bank transfer. Submit your payment proof below for verification within 24 hours.
-                </>
-              )}
-            </AlertDescription>
-          </Alert>
+          <div className="space-y-6 mt-4">
+            <Alert className="border-emerald-500/30 bg-emerald-50 dark:bg-emerald-950/20">
+              <AlertCircle className="h-4 w-4 text-emerald-600 dark:text-emerald-500" />
+              <AlertDescription className="text-gray-900 dark:text-gray-100">
+                {isVideoEditing ? (
+                  <>
+                    Scan the QR code to make payment of ₹500 via PhonePe, or use
+                    bank transfer. Submit your payment proof below for
+                    verification within 24 hours.
+                  </>
+                ) : (
+                  <>
+                    Scan the QR code to make payment via PhonePe, or use bank
+                    transfer. Submit your payment proof below for verification
+                    within 24 hours.
+                  </>
+                )}
+              </AlertDescription>
+            </Alert>
 
-          <PaymentGateway />
+            <PaymentGateway />
 
-          <Separator className="bg-gray-300 dark:bg-slate-700" />
+            <Separator className="bg-gray-300 dark:bg-slate-700" />
 
-          <PaymentProofForm
-            packageId={packageId}
-            onSuccess={handleSuccess}
-            onSubmit={handleSubmit}
-          />
-        </div>
-      </DialogContent>
-    </Dialog>
+            <PaymentProofForm
+              packageId={packageId}
+              onSuccess={handleSuccess}
+              onSubmit={handleSubmit}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <CongratulationsModal
+        isOpen={showCongrats}
+        onClose={handleCongratsClose}
+        userName={userProfile?.name || ""}
+        packageName={packageName}
+      />
+    </>
   );
 }

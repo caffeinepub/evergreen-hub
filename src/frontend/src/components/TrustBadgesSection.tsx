@@ -1,35 +1,56 @@
-import { Users, Award, Clock, Shield } from 'lucide-react';
+import { BookOpen, Headphones, Shield, Users } from "lucide-react";
+import type React from "react";
+import { useScrollAnimation } from "../hooks/useScrollAnimation";
 
 const badges = [
   {
-    icon: Users,
-    text: '1000+ Students',
+    icon: BookOpen,
+    title: "Expert Instructors",
+    description: "Learn from industry professionals with real-world experience",
   },
   {
-    icon: Award,
-    text: 'Expert Instructors',
-  },
-  {
-    icon: Clock,
-    text: '24/7 Support',
+    icon: Headphones,
+    title: "24/7 Support",
+    description:
+      "Get help whenever you need it with our dedicated support team",
   },
   {
     icon: Shield,
-    text: 'Money-Back Guarantee',
+    title: "Money-Back Guarantee",
+    description: "Not satisfied? We offer a hassle-free refund policy",
   },
 ];
 
 export default function TrustBadgesSection() {
+  const { ref, isVisible } = useScrollAnimation();
+
   return (
-    <section className="py-12 bg-secondary">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
-          {badges.map((badge, index) => {
+    <section className="py-10 bg-background border-b border-border">
+      <div className="max-w-6xl mx-auto px-4">
+        <div
+          ref={ref as React.RefObject<HTMLDivElement>}
+          className={`flex flex-wrap justify-center gap-6 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          {badges.map((badge) => {
             const Icon = badge.icon;
             return (
-              <div key={index} className="flex items-center gap-3">
-                <Icon className="h-8 w-8 text-primary" />
-                <span className="text-muted-foreground font-medium">{badge.text}</span>
+              <div
+                key={badge.title}
+                className="flex items-center gap-3 bg-card border border-border rounded-xl px-6 py-4 shadow-sm min-w-[220px]"
+              >
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Icon className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <p className="font-semibold text-foreground text-sm">
+                    {badge.title}
+                  </p>
+                  <p className="text-muted-foreground text-xs mt-0.5">
+                    {badge.description}
+                  </p>
+                </div>
               </div>
             );
           })}

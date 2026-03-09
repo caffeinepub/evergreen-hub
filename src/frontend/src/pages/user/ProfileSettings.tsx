@@ -1,14 +1,20 @@
-import { useState, useEffect } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { useUploadProfilePhoto } from '../../hooks/useQueries';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { toast } from 'sonner';
-import { useActor } from '../../hooks/useActor';
-import { Upload, User } from 'lucide-react';
-import { ExternalBlob } from '../../backend';
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Upload, User } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { ExternalBlob } from "../../backend";
+import { useAuth } from "../../contexts/AuthContext";
+import { useActor } from "../../hooks/useActor";
+import { useUploadProfilePhoto } from "../../hooks/useQueries";
 
 export default function ProfileSettings() {
   const { userProfile, refreshProfile } = useAuth();
@@ -16,8 +22,8 @@ export default function ProfileSettings() {
   const uploadProfilePhoto = useUploadProfilePhoto();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
+    name: "",
+    phone: "",
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -35,12 +41,12 @@ export default function ProfileSettings() {
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (!file.type.startsWith('image/')) {
-        toast.error('Please select an image file');
+      if (!file.type.startsWith("image/")) {
+        toast.error("Please select an image file");
         return;
       }
       if (file.size > 5 * 1024 * 1024) {
-        toast.error('Image size should be less than 5MB');
+        toast.error("Image size should be less than 5MB");
         return;
       }
       setSelectedFile(file);
@@ -51,7 +57,7 @@ export default function ProfileSettings() {
 
   const handlePhotoUpload = async () => {
     if (!selectedFile) {
-      toast.error('Please select an image first');
+      toast.error("Please select an image first");
       return;
     }
 
@@ -59,12 +65,12 @@ export default function ProfileSettings() {
     try {
       await uploadProfilePhoto.mutateAsync(selectedFile);
       await refreshProfile();
-      toast.success('Profile photo updated successfully!');
+      toast.success("Profile photo updated successfully!");
       setSelectedFile(null);
       setPreviewUrl(null);
     } catch (error: any) {
-      console.error('Upload error:', error);
-      toast.error(error.message || 'Failed to upload profile photo');
+      console.error("Upload error:", error);
+      toast.error(error.message || "Failed to upload profile photo");
     } finally {
       setUploadingPhoto(false);
     }
@@ -74,20 +80,20 @@ export default function ProfileSettings() {
     e.preventDefault();
 
     if (!formData.name.trim() || !formData.phone.trim()) {
-      toast.error('Please fill in all fields');
+      toast.error("Please fill in all fields");
       return;
     }
 
     setLoading(true);
     try {
-      if (!actor) throw new Error('Actor not available');
+      if (!actor) throw new Error("Actor not available");
 
       await actor.updateProfile(formData.name, formData.phone);
       await refreshProfile();
-      toast.success('Profile updated successfully!');
+      toast.success("Profile updated successfully!");
     } catch (error: any) {
-      console.error('Update error:', error);
-      toast.error(error.message || 'Failed to update profile');
+      console.error("Update error:", error);
+      toast.error(error.message || "Failed to update profile");
     } finally {
       setLoading(false);
     }
@@ -101,14 +107,18 @@ export default function ProfileSettings() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Profile Settings</h1>
-        <p className="text-muted-foreground mt-1">Update your personal information</p>
+        <p className="text-muted-foreground mt-1">
+          Update your personal information
+        </p>
       </div>
 
       {/* Profile Photo Section */}
       <Card className="max-w-2xl">
         <CardHeader>
           <CardTitle className="text-yellow-500">Profile Photo</CardTitle>
-          <CardDescription>Upload or change your profile picture</CardDescription>
+          <CardDescription>
+            Upload or change your profile picture
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex flex-col items-center gap-4">
@@ -142,7 +152,7 @@ export default function ProfileSettings() {
                 <div className="flex items-center justify-center gap-2 px-4 py-2 border-2 border-dashed border-yellow-500 rounded-lg hover:bg-yellow-500/10 transition-colors">
                   <Upload className="w-5 h-5 text-yellow-500" />
                   <span className="text-sm font-medium text-yellow-500">
-                    {selectedFile ? selectedFile.name : 'Choose Image'}
+                    {selectedFile ? selectedFile.name : "Choose Image"}
                   </span>
                 </div>
               </Label>
@@ -165,7 +175,7 @@ export default function ProfileSettings() {
                 disabled={uploadingPhoto}
                 className="bg-green-600 hover:bg-green-700 text-white"
               >
-                {uploadingPhoto ? 'Uploading...' : 'Upload Photo'}
+                {uploadingPhoto ? "Uploading..." : "Upload Photo"}
               </Button>
             )}
           </div>
@@ -175,7 +185,9 @@ export default function ProfileSettings() {
       {/* Personal Information Section */}
       <Card className="max-w-2xl">
         <CardHeader>
-          <CardTitle className="text-yellow-500">Personal Information</CardTitle>
+          <CardTitle className="text-yellow-500">
+            Personal Information
+          </CardTitle>
           <CardDescription>Update your name and phone number</CardDescription>
         </CardHeader>
         <CardContent>
@@ -185,11 +197,13 @@ export default function ProfileSettings() {
               <Input
                 id="email"
                 type="email"
-                value={userProfile?.email || ''}
+                value={userProfile?.email || ""}
                 disabled
                 className="bg-muted"
               />
-              <p className="text-xs text-muted-foreground">Email cannot be changed</p>
+              <p className="text-xs text-muted-foreground">
+                Email cannot be changed
+              </p>
             </div>
 
             <div className="space-y-2">
@@ -198,7 +212,9 @@ export default function ProfileSettings() {
                 id="name"
                 type="text"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 placeholder="John Doe"
               />
             </div>
@@ -209,17 +225,19 @@ export default function ProfileSettings() {
                 id="phone"
                 type="tel"
                 value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, phone: e.target.value })
+                }
                 placeholder="9876543210"
               />
             </div>
 
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               disabled={loading}
               className="bg-yellow-500 hover:bg-yellow-600 text-black"
             >
-              {loading ? 'Updating...' : 'Update Profile'}
+              {loading ? "Updating..." : "Update Profile"}
             </Button>
           </form>
         </CardContent>

@@ -1,12 +1,18 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, Link } from '@tanstack/react-router';
-import { useAuth } from '../contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
-import { toast } from 'sonner';
-import { AlertCircle } from 'lucide-react';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { AlertCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -16,7 +22,7 @@ export default function Login() {
 
   useEffect(() => {
     if (isAuthenticated && !isInitializing) {
-      navigate({ to: '/dashboard' });
+      navigate({ to: "/dashboard" });
     }
   }, [isAuthenticated, isInitializing, navigate]);
 
@@ -24,25 +30,27 @@ export default function Login() {
     setLoading(true);
     try {
       await login();
-      toast.success('Login successful!');
-      navigate({ to: '/dashboard' });
+      toast.success("Login successful!");
+      navigate({ to: "/dashboard" });
     } catch (error: any) {
-      console.error('Login error:', error);
-      toast.error('Login failed. Please try again.');
+      console.error("Login error:", error);
+      toast.error("Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   const handleForgotPassword = () => {
-    toast.info('Password reset is managed through Internet Identity. Please use the Internet Identity recovery options.');
+    toast.info(
+      "Password reset is managed through Internet Identity. Please use the Internet Identity recovery options.",
+    );
   };
 
   if (isInitializing) {
     return (
       <div className="flex h-screen items-center justify-center">
         <div className="text-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4"></div>
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
           <p className="text-muted-foreground">Loading...</p>
         </div>
       </div>
@@ -53,7 +61,9 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Welcome Back</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">
+            Welcome Back
+          </CardTitle>
           <CardDescription className="text-center">
             Login to access your Evergreen Hub dashboard
           </CardDescription>
@@ -62,7 +72,8 @@ export default function Login() {
           <Alert>
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>
-              This application uses Internet Identity for secure authentication. Click the button below to login.
+              This application uses Internet Identity for secure authentication.
+              Click the button below to login.
             </AlertDescription>
           </Alert>
 
@@ -81,7 +92,7 @@ export default function Login() {
           </div>
 
           <Button onClick={handleLogin} className="w-full" disabled={loading}>
-            {loading ? 'Logging in...' : 'Login with Internet Identity'}
+            {loading ? "Logging in..." : "Login with Internet Identity"}
           </Button>
 
           <button
@@ -93,8 +104,11 @@ export default function Login() {
           </button>
 
           <div className="mt-4 text-center text-sm">
-            Don't have an account?{' '}
-            <Link to="/register" className="text-primary hover:underline font-medium">
+            Don't have an account?{" "}
+            <Link
+              to="/register"
+              className="text-primary hover:underline font-medium"
+            >
               Register here
             </Link>
           </div>

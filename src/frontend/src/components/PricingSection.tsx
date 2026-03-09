@@ -1,130 +1,144 @@
-import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from '@tanstack/react-router';
-import PaymentGateway from './PaymentGateway';
-import PaymentProofForm from './PaymentProofForm';
-import { useScrollAnimation } from '../hooks/useScrollAnimation';
-import { ChevronDown, ChevronUp } from 'lucide-react';
-import { useActor } from '../hooks/useActor';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import type { ExternalBlob } from '../backend';
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import type { ExternalBlob } from "../backend";
+import { useAuth } from "../contexts/AuthContext";
+import { useActor } from "../hooks/useActor";
+import { useScrollAnimation } from "../hooks/useScrollAnimation";
+import CongratulationsModal from "./CongratulationsModal";
+import PaymentGateway from "./PaymentGateway";
+import PaymentProofForm from "./PaymentProofForm";
 
 const packages = [
   {
     id: 1n,
-    name: 'E-LITE PACKAGE',
-    price: '₹699',
-    image: '/assets/1736790168_99817e5b501599cb1a32.webp',
-    courses: [
-      'Ms Excel',
-      'Time Management'
-    ],
-    totalCourses: 'Total 2 courses'
+    name: "E-LITE PACKAGE",
+    price: "₹699",
+    image: "/assets/1736790168_99817e5b501599cb1a32.webp",
+    courses: ["Ms Excel", "Time Management"],
+    totalCourses: "Total 2 courses",
   },
   {
     id: 2n,
-    name: 'SILVER PACKAGE',
-    price: '₹1499',
-    image: '/assets/1736790180_92ef8bcb1e432a9a949a.webp',
+    name: "SILVER PACKAGE",
+    price: "₹1499",
+    image: "/assets/1736790180_92ef8bcb1e432a9a949a.webp",
     courses: [
-      'Canva mastery',
-      'Kinemaster editing',
-      'Photoshop editing',
-      'Premium pro'
+      "Canva mastery",
+      "Kinemaster editing",
+      "Photoshop editing",
+      "Premium pro",
     ],
-    totalCourses: '6 courses + E-lite free'
+    totalCourses: "6 courses + E-lite free",
   },
   {
     id: 3n,
-    name: 'GOLD PACKAGE',
-    price: '₹2999',
-    image: '/assets/1736790230_c5566f358eb6ca101c0d.webp',
+    name: "GOLD PACKAGE",
+    price: "₹2999",
+    image: "/assets/1736790230_c5566f358eb6ca101c0d.webp",
     courses: [
-      'YouTube growth',
-      'Instagram growth',
-      'Video Marketing',
-      'Attractions Marketing',
-      'Goal setting'
+      "YouTube growth",
+      "Instagram growth",
+      "Video Marketing",
+      "Attractions Marketing",
+      "Goal setting",
     ],
-    totalCourses: '11 courses + E-lite & silver free'
+    totalCourses: "11 courses + E-lite & silver free",
   },
   {
     id: 4n,
-    name: 'DIAMOND PACKAGE',
-    price: '₹4999',
+    name: "DIAMOND PACKAGE",
+    price: "₹4999",
     popular: true,
-    image: '/assets/1736790264_f670ec31ba7738d0be77.webp',
+    image: "/assets/1736790264_f670ec31ba7738d0be77.webp",
     courses: [
-      'Finance Mastery',
-      'Reselling Mastery',
-      'Communication Mastery',
-      'Public Speaking',
-      'Facebook Mastery',
-      'English Spoken'
+      "Finance Mastery",
+      "Reselling Mastery",
+      "Communication Mastery",
+      "Public Speaking",
+      "Facebook Mastery",
+      "English Spoken",
     ],
-    totalCourses: '17 courses + E-lite, silver and gold free'
+    totalCourses: "17 courses + E-lite, silver and gold free",
   },
   {
     id: 5n,
-    name: 'PLATINUM PACKAGE',
-    price: '₹9999',
-    image: '/assets/1736790287_1899f7fdfeac4fa91418.webp',
+    name: "PLATINUM PACKAGE",
+    price: "₹9999",
+    image: "/assets/1736790287_1899f7fdfeac4fa91418.webp",
     courses: [
-      'Stock Market',
-      'Cryptocurrency',
-      'AI game changer',
-      'Interview Skills Mastery',
-      '0 to hero AI content creation',
-      'Viral Reels With AI',
-      'ChatGPT Mastery'
+      "Stock Market",
+      "Cryptocurrency",
+      "AI game changer",
+      "Interview Skills Mastery",
+      "0 to hero AI content creation",
+      "Viral Reels With AI",
+      "ChatGPT Mastery",
     ],
-    totalCourses: '24 courses + E-lite, silver, gold, diamond free'
+    totalCourses: "24 courses + E-lite, silver, gold, diamond free",
   },
   {
     id: 6n,
-    name: 'ULTRA PRO PACKAGE',
-    price: '₹14999',
-    image: '/assets/1736790311_3efed5100955914f22fb.webp',
+    name: "ULTRA PRO PACKAGE",
+    price: "₹14999",
+    image: "/assets/1736790311_3efed5100955914f22fb.webp",
     courses: [
-      'Website development',
-      'JavaScript',
-      'Blockchain',
-      'Python',
-      'SEO',
-      'HTML',
-      'CSS Mastery',
-      'Google Ads',
-      'E-commerce business mastery',
-      'Blogging'
+      "Website development",
+      "JavaScript",
+      "Blockchain",
+      "Python",
+      "SEO",
+      "HTML",
+      "CSS Mastery",
+      "Google Ads",
+      "E-commerce business mastery",
+      "Blogging",
     ],
-    totalCourses: '34 courses + All packages free'
+    totalCourses: "34 courses + All packages free",
   },
 ];
 
 export default function PricingSection() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, userProfile } = useAuth();
   const navigate = useNavigate();
   const { actor } = useActor();
   const queryClient = useQueryClient();
   const [expandedPackage, setExpandedPackage] = useState<bigint | null>(null);
   const [showPayment, setShowPayment] = useState<bigint | null>(null);
+  const [congratsPackage, setCongratsPackage] = useState<{
+    id: bigint;
+    name: string;
+  } | null>(null);
   const { ref, isVisible } = useScrollAnimation();
 
   const submitProofMutation = useMutation({
-    mutationFn: async ({ packageId, transactionId, screenshot }: { packageId: bigint; transactionId: string; screenshot: ExternalBlob }) => {
-      if (!actor) throw new Error('Actor not available');
+    mutationFn: async ({
+      packageId,
+      transactionId,
+      screenshot,
+    }: {
+      packageId: bigint;
+      transactionId: string;
+      screenshot: ExternalBlob;
+    }) => {
+      if (!actor) throw new Error("Actor not available");
       return actor.submitPaymentProof(packageId, transactionId, screenshot);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['myPaymentProofs'] });
-      queryClient.invalidateQueries({ queryKey: ['myPayments'] });
-      toast.success('Payment proof submitted successfully!');
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["myPaymentProofs"] });
+      queryClient.invalidateQueries({ queryKey: ["myPayments"] });
+      toast.success("Payment proof submitted successfully!");
+      const pkg = packages.find((p) => p.id === variables.packageId);
+      if (pkg) {
+        setCongratsPackage({ id: pkg.id, name: pkg.name });
+      }
     },
     onError: (error: any) => {
-      toast.error(error.message || 'Failed to submit payment proof');
+      toast.error(error.message || "Failed to submit payment proof");
       throw error;
     },
   });
@@ -141,32 +155,44 @@ export default function PricingSection() {
 
   const handleProceedToPayment = (packageId: bigint) => {
     if (!isAuthenticated) {
-      navigate({ to: '/login' });
+      navigate({ to: "/login" });
       return;
     }
     setShowPayment(packageId);
   };
 
-  const handleSubmit = async (packageId: bigint, transactionId: string, screenshot: ExternalBlob) => {
-    await submitProofMutation.mutateAsync({ packageId, transactionId, screenshot });
+  const handleSubmit = async (
+    packageId: bigint,
+    transactionId: string,
+    screenshot: ExternalBlob,
+  ) => {
+    await submitProofMutation.mutateAsync({
+      packageId,
+      transactionId,
+      screenshot,
+    });
   };
 
-  const handleSuccess = (packageId: bigint) => {
-    setTimeout(() => {
-      setShowPayment(null);
-      setExpandedPackage(null);
-    }, 2000);
+  const handleCongratsClose = () => {
+    setCongratsPackage(null);
+    setShowPayment(null);
+    setExpandedPackage(null);
   };
 
   const handleVideoEditingClick = () => {
-    const videoEditingSection = document.getElementById('video-editing-section');
+    const videoEditingSection = document.getElementById(
+      "video-editing-section",
+    );
     if (videoEditingSection) {
-      videoEditingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      videoEditingSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }
   };
 
   return (
-    <section id="courses-section" className="section-padding bg-background">
+    <section id="pricing-section" className="section-padding bg-background">
       <div className="container mx-auto px-4">
         {/* All Packages Section */}
         <div className="mb-16">
@@ -179,7 +205,10 @@ export default function PricingSection() {
             </p>
           </div>
 
-          <div ref={ref} className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto scroll-fade-in ${isVisible ? 'visible' : ''}`}>
+          <div
+            ref={ref}
+            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto scroll-fade-in ${isVisible ? "visible" : ""}`}
+          >
             {packages.map((pkg) => {
               const isExpanded = expandedPackage === pkg.id;
               const isPaymentVisible = showPayment === pkg.id;
@@ -188,18 +217,21 @@ export default function PricingSection() {
                 <Card
                   key={pkg.name}
                   className={`relative card-radius soft-shadow overflow-hidden bg-card border-border transition-all duration-300 ${
-                    pkg.popular ? 'border-2 border-primary' : ''
-                  } ${isExpanded ? 'md:col-span-2 lg:col-span-3' : ''}`}
+                    pkg.popular ? "border-2 border-primary" : ""
+                  } ${isExpanded ? "md:col-span-2 lg:col-span-3" : ""}`}
                 >
                   {pkg.popular && (
                     <Badge className="absolute top-4 right-4 bg-accent text-accent-foreground z-10">
                       Best Value
                     </Badge>
                   )}
-                  
+
                   {/* Clickable Header Section */}
                   <div
                     onClick={() => handlePackageClick(pkg.id)}
+                    onKeyDown={(e) =>
+                      e.key === "Enter" && handlePackageClick(pkg.id)
+                    }
                     className="cursor-pointer hover:bg-muted/50 transition-colors"
                   >
                     <CardHeader className="pb-4">
@@ -211,7 +243,9 @@ export default function PricingSection() {
                         />
                       </div>
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-2xl text-foreground">{pkg.name}</CardTitle>
+                        <CardTitle className="text-2xl text-foreground">
+                          {pkg.name}
+                        </CardTitle>
                         {isExpanded ? (
                           <ChevronUp className="w-6 h-6 text-primary" />
                         ) : (
@@ -220,8 +254,12 @@ export default function PricingSection() {
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                      <div className="text-4xl font-bold text-primary">{pkg.price}</div>
-                      <p className="text-sm text-muted-foreground font-medium">{pkg.totalCourses}</p>
+                      <div className="text-4xl font-bold text-primary">
+                        {pkg.price}
+                      </div>
+                      <p className="text-sm text-muted-foreground font-medium">
+                        {pkg.totalCourses}
+                      </p>
                     </CardContent>
                   </div>
 
@@ -230,23 +268,28 @@ export default function PricingSection() {
                     <div className="px-6 pb-6 space-y-6 animate-in fade-in slide-in-from-top-4 duration-300">
                       {/* Course List */}
                       <div className="bg-muted/30 rounded-lg p-6">
-                        <h3 className="text-xl font-semibold text-foreground mb-4">Course Details</h3>
+                        <h3 className="text-xl font-semibold text-foreground mb-4">
+                          Course Details
+                        </h3>
                         <ul className="space-y-2">
-                          {pkg.courses.map((course, index) => (
-                            <li key={index} className="flex items-start">
+                          {pkg.courses.map((course) => (
+                            <li key={course} className="flex items-start">
                               <span className="text-primary mr-2">✓</span>
                               <span className="text-foreground">{course}</span>
                             </li>
                           ))}
                         </ul>
                         <div className="mt-4 pt-4 border-t border-border">
-                          <p className="text-sm font-semibold text-primary">{pkg.totalCourses}</p>
+                          <p className="text-sm font-semibold text-primary">
+                            {pkg.totalCourses}
+                          </p>
                         </div>
                       </div>
 
                       {/* Payment Button */}
                       {!isPaymentVisible && (
                         <button
+                          type="button"
                           onClick={() => handleProceedToPayment(pkg.id)}
                           className="w-full bg-[#F59E0B] hover:bg-[#D97706] text-white py-4 rounded-lg font-semibold text-lg transition-colors shadow-md hover:shadow-lg"
                         >
@@ -258,12 +301,20 @@ export default function PricingSection() {
                       {isPaymentVisible && (
                         <div className="space-y-6 animate-in fade-in slide-in-from-top-4 duration-300">
                           <div className="border-t border-border pt-6">
-                            <h3 className="text-2xl font-bold text-foreground mb-2">Complete Your Payment</h3>
+                            <h3 className="text-2xl font-bold text-foreground mb-2">
+                              Complete Your Payment
+                            </h3>
                             <p className="text-muted-foreground mb-6">
-                              You're purchasing: <span className="font-semibold text-foreground">{pkg.name}</span> for{' '}
-                              <span className="font-semibold text-primary">{pkg.price}</span>
+                              You're purchasing:{" "}
+                              <span className="font-semibold text-foreground">
+                                {pkg.name}
+                              </span>{" "}
+                              for{" "}
+                              <span className="font-semibold text-primary">
+                                {pkg.price}
+                              </span>
                             </p>
-                            
+
                             {/* Payment Gateway */}
                             <div className="mb-6">
                               <PaymentGateway />
@@ -273,8 +324,14 @@ export default function PricingSection() {
                             <div className="bg-muted/30 rounded-lg p-6">
                               <PaymentProofForm
                                 packageId={pkg.id}
-                                onSuccess={() => handleSuccess(pkg.id)}
-                                onSubmit={(transactionId, screenshot) => handleSubmit(pkg.id, transactionId, screenshot)}
+                                onSuccess={() => {}}
+                                onSubmit={(transactionId, screenshot) =>
+                                  handleSubmit(
+                                    pkg.id,
+                                    transactionId,
+                                    screenshot,
+                                  )
+                                }
                               />
                             </div>
                           </div>
@@ -291,6 +348,7 @@ export default function PricingSection() {
         {/* Video Editing Charge Section */}
         <div className="text-center mt-16">
           <button
+            type="button"
             onClick={handleVideoEditingClick}
             className="inline-block"
           >
@@ -303,6 +361,14 @@ export default function PricingSection() {
           </button>
         </div>
       </div>
+
+      {/* Congratulations Modal */}
+      <CongratulationsModal
+        isOpen={!!congratsPackage}
+        onClose={handleCongratsClose}
+        userName={userProfile?.name || ""}
+        packageName={congratsPackage?.name}
+      />
     </section>
   );
 }

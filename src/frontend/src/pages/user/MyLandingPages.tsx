@@ -1,11 +1,3 @@
-import { useAuth } from '../../contexts/AuthContext';
-import { useGetLandingPages, useDeleteLandingPage } from '../../hooks/useQueries';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Eye, Edit, Trash2, Calendar, TrendingUp } from 'lucide-react';
-import { toast } from 'sonner';
-import { useState } from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,23 +7,52 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { useNavigate } from '@tanstack/react-router';
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { useNavigate } from "@tanstack/react-router";
+import { Calendar, Edit, Eye, Trash2, TrendingUp } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import { useAuth } from "../../contexts/AuthContext";
+import {
+  useDeleteLandingPage,
+  useGetLandingPages,
+} from "../../hooks/useQueries";
 
 export default function MyLandingPages() {
   const { userProfile } = useAuth();
   const navigate = useNavigate();
-  const { data: landingPages, isLoading } = useGetLandingPages(userProfile?.principal.toString() || '');
+  const { data: landingPages, isLoading } = useGetLandingPages(
+    userProfile?.principal.toString() || "",
+  );
   const deleteLandingPage = useDeleteLandingPage();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedPageId, setSelectedPageId] = useState<bigint | null>(null);
 
   const handlePreview = (pageId: bigint) => {
-    window.open(`/landing/${pageId}`, '_blank');
+    window.open(`/landing/${pageId}`, "_blank");
   };
 
   const handleEdit = (pageId: bigint) => {
-    navigate({ to: '/dashboard/landing-page-builder', search: { edit: pageId.toString() } });
+    navigate({
+      to: "/dashboard/landing-page-builder",
+      search: { edit: pageId.toString() },
+    });
   };
 
   const handleDeleteClick = (pageId: bigint) => {
@@ -44,21 +65,21 @@ export default function MyLandingPages() {
 
     try {
       await deleteLandingPage.mutateAsync(selectedPageId);
-      toast.success('Landing page deleted successfully!');
+      toast.success("Landing page deleted successfully!");
       setDeleteDialogOpen(false);
       setSelectedPageId(null);
     } catch (error: any) {
-      console.error('Delete error:', error);
-      toast.error(error.message || 'Failed to delete landing page');
+      console.error("Delete error:", error);
+      toast.error(error.message || "Failed to delete landing page");
     }
   };
 
   const formatDate = (timestamp: bigint) => {
     const date = new Date(Number(timestamp) / 1000000);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
@@ -67,7 +88,9 @@ export default function MyLandingPages() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">My Landing Pages</h1>
-          <p className="text-muted-foreground mt-1">Loading your landing pages...</p>
+          <p className="text-muted-foreground mt-1">
+            Loading your landing pages...
+          </p>
         </div>
       </div>
     );
@@ -78,10 +101,12 @@ export default function MyLandingPages() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">My Landing Pages</h1>
-          <p className="text-muted-foreground mt-1">View and manage all your created landing pages</p>
+          <p className="text-muted-foreground mt-1">
+            View and manage all your created landing pages
+          </p>
         </div>
         <Button
-          onClick={() => navigate({ to: '/dashboard/landing-page-builder' })}
+          onClick={() => navigate({ to: "/dashboard/landing-page-builder" })}
           className="bg-yellow-500 hover:bg-yellow-600 text-black"
         >
           Create New Page
@@ -92,15 +117,20 @@ export default function MyLandingPages() {
         <CardHeader>
           <CardTitle className="text-yellow-500">Your Landing Pages</CardTitle>
           <CardDescription>
-            {landingPages?.length || 0} landing page{landingPages?.length !== 1 ? 's' : ''} created
+            {landingPages?.length || 0} landing page
+            {landingPages?.length !== 1 ? "s" : ""} created
           </CardDescription>
         </CardHeader>
         <CardContent>
           {!landingPages || landingPages.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-muted-foreground mb-4">You haven't created any landing pages yet.</p>
+              <p className="text-muted-foreground mb-4">
+                You haven't created any landing pages yet.
+              </p>
               <Button
-                onClick={() => navigate({ to: '/dashboard/landing-page-builder' })}
+                onClick={() =>
+                  navigate({ to: "/dashboard/landing-page-builder" })
+                }
                 className="bg-green-600 hover:bg-green-700 text-white"
               >
                 Create Your First Landing Page
@@ -131,7 +161,9 @@ export default function MyLandingPages() {
                 <TableBody>
                   {landingPages.map((page) => (
                     <TableRow key={page.id.toString()}>
-                      <TableCell className="font-medium">{page.title}</TableCell>
+                      <TableCell className="font-medium">
+                        {page.title}
+                      </TableCell>
                       <TableCell>
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
                           {page.template}
@@ -190,7 +222,8 @@ export default function MyLandingPages() {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your landing page.
+              This action cannot be undone. This will permanently delete your
+              landing page.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

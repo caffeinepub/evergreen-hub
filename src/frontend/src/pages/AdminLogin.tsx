@@ -1,12 +1,18 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, Link } from '@tanstack/react-router';
-import { useAuth } from '../contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { toast } from 'sonner';
-import { Shield, AlertCircle } from 'lucide-react';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { AlertCircle, Shield } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -16,10 +22,10 @@ export default function AdminLogin() {
   useEffect(() => {
     if (isAuthenticated && !isInitializing) {
       if (isAdmin) {
-        navigate({ to: '/admin-dashboard' });
+        navigate({ to: "/admin/stats" });
       } else {
-        toast.error('Access denied. Admin privileges required.');
-        navigate({ to: '/dashboard' });
+        toast.error("Access denied. Admin privileges required.");
+        navigate({ to: "/dashboard" });
       }
     }
   }, [isAuthenticated, isAdmin, isInitializing, navigate]);
@@ -30,8 +36,8 @@ export default function AdminLogin() {
       await login();
       // Navigation will happen via useEffect after role check
     } catch (error: any) {
-      console.error('Login error:', error);
-      toast.error('Login failed. Please try again.');
+      console.error("Login error:", error);
+      toast.error("Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -41,7 +47,7 @@ export default function AdminLogin() {
     return (
       <div className="flex h-screen items-center justify-center">
         <div className="text-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4"></div>
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
           <p className="text-muted-foreground">Loading...</p>
         </div>
       </div>
@@ -58,7 +64,9 @@ export default function AdminLogin() {
               Admin Access
             </Badge>
           </div>
-          <CardTitle className="text-2xl font-bold text-center">Admin Panel</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">
+            Admin Panel
+          </CardTitle>
           <CardDescription className="text-center">
             Secure login for administrators only
           </CardDescription>
@@ -67,12 +75,14 @@ export default function AdminLogin() {
           <Alert>
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>
-              Admin authentication uses Internet Identity with role verification. Only authorized administrators can access the admin panel.
+              Admin authentication uses Internet Identity with role
+              verification. Only authorized administrators can access the admin
+              panel.
             </AlertDescription>
           </Alert>
 
           <Button onClick={handleLogin} className="w-full" disabled={loading}>
-            {loading ? 'Authenticating...' : 'Login as Admin'}
+            {loading ? "Authenticating..." : "Login as Admin"}
           </Button>
 
           <div className="mt-4 text-center text-sm text-muted-foreground">

@@ -1,20 +1,20 @@
-import { useState, useEffect } from 'react';
-import { Link } from '@tanstack/react-router';
-import { Button } from '@/components/ui/button';
-import { Menu } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
-import MobileSidebar from './MobileSidebar';
-import ThemeToggleSwitch from './ThemeToggleSwitch';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Menu } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import MobileSidebar from "./MobileSidebar";
 
 export default function Header() {
   const { isAuthenticated, isAdmin, logout } = useAuth();
+  const navigate = useNavigate();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -22,18 +22,25 @@ export default function Header() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleDashboardClick = () => {
+    if (isAdmin) {
+      navigate({ to: "/admin/stats" });
+    } else {
+      navigate({ to: "/dashboard" });
+    }
+  };
 
   return (
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? 'bg-background/95 backdrop-blur-sm shadow-soft dark:bg-background/90 dark:shadow-[0_4px_12px_rgba(59,130,246,0.15)]'
-            : 'bg-transparent'
+            ? "bg-background/95 backdrop-blur-sm shadow-soft dark:bg-background/90 dark:shadow-[0_4px_12px_rgba(59,130,246,0.15)]"
+            : "bg-transparent"
         }`}
       >
         <div className="container mx-auto px-4">
@@ -41,11 +48,13 @@ export default function Header() {
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2">
               <img
-                src="/assets/FB_IMG_1766033480161.jpg"
-                alt="Evergreen Hub"
-                className="h-10 w-10 rounded-full object-cover"
+                src="/assets/CC_20260226_043346-1.png"
+                alt="Evergreen Hub Logo"
+                className="h-10 w-10 object-contain rounded-full"
               />
-              <span className="text-xl font-bold text-primary">Evergreen Hub</span>
+              <span className="text-xl font-bold text-primary">
+                Evergreen Hub
+              </span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -57,10 +66,16 @@ export default function Header() {
                 Home
               </Link>
               <Link
-                to="/about-us"
+                to="/about"
                 className="text-foreground hover:text-primary transition-colors font-medium"
               >
                 About
+              </Link>
+              <Link
+                to="/web-design-services"
+                className="text-foreground hover:text-primary transition-colors font-medium"
+              >
+                Web Design
               </Link>
               <Link
                 to="/contact"
@@ -72,33 +87,38 @@ export default function Header() {
 
             {/* Desktop Auth */}
             <div className="hidden md:flex items-center gap-4">
-              <ThemeToggleSwitch />
               {!isAuthenticated ? (
                 <>
-                  <Button asChild variant="ghost" className="text-foreground hover:text-primary">
+                  <Button
+                    asChild
+                    variant="ghost"
+                    className="text-foreground hover:text-primary"
+                  >
                     <Link to="/login">Login</Link>
                   </Button>
-                  <button className="btn-cta px-6 py-2 font-semibold">
+                  <button
+                    type="button"
+                    className="btn-cta px-6 py-2 font-semibold"
+                  >
                     <Link to="/register">Register</Link>
                   </button>
                 </>
               ) : (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="border-primary text-primary">
-                      {isAdmin ? 'Admin' : 'My Account'}
+                    <Button
+                      variant="outline"
+                      className="border-primary text-primary"
+                    >
+                      {isAdmin ? "Admin" : "My Account"}
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-48">
-                    <DropdownMenuItem asChild>
-                      <Link to={isAdmin ? '/admin-dashboard' : '/dashboard'}>
-                        Dashboard
-                      </Link>
+                    <DropdownMenuItem onClick={handleDashboardClick}>
+                      Dashboard
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={logout}>
-                      Logout
-                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}

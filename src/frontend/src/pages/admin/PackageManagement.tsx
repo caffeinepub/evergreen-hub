@@ -1,15 +1,3 @@
-import { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useActor } from '../../hooks/useActor';
-import { Button } from '@/components/ui/button';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,25 +7,40 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { Badge } from '@/components/ui/badge';
-import { Switch } from '@/components/ui/switch';
-import { toast } from 'sonner';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
-import PackageModal from '../../components/admin/PackageModal';
-import type { Package } from '../../backend';
+} from "@/components/ui/alert-dialog";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Switch } from "@/components/ui/switch";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Package, Pencil, Plus, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import type { Package as PackageType } from "../../backend";
+import PackageModal from "../../components/admin/PackageModal";
+import { useActor } from "../../hooks/useActor";
 
 export default function PackageManagement() {
   const { actor } = useActor();
   const queryClient = useQueryClient();
   const [modalOpen, setModalOpen] = useState(false);
-  const [editingPackage, setEditingPackage] = useState<Package | null>(null);
+  const [editingPackage, setEditingPackage] = useState<PackageType | null>(
+    null,
+  );
   const [deletePackageId, setDeletePackageId] = useState<bigint | null>(null);
 
   const { data: packages = [], isLoading } = useQuery({
-    queryKey: ['packages'],
+    queryKey: ["packages"],
     queryFn: async () => {
-      if (!actor) throw new Error('Actor not available');
+      if (!actor) throw new Error("Actor not available");
       return actor.getAllPackages();
     },
     enabled: !!actor,
@@ -45,34 +48,38 @@ export default function PackageManagement() {
 
   const toggleStatusMutation = useMutation({
     mutationFn: async (packageId: bigint) => {
-      if (!actor) throw new Error('Actor not available');
+      if (!actor) throw new Error("Actor not available");
       return actor.togglePackageStatus(packageId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['packages'] });
-      toast.success('Package status updated');
+      queryClient.invalidateQueries({ queryKey: ["packages"] });
+      queryClient.invalidateQueries({ queryKey: ["allPackages"] });
+      queryClient.invalidateQueries({ queryKey: ["activePackages"] });
+      toast.success("Package status updated");
     },
     onError: (error: any) => {
-      toast.error(error.message || 'Failed to update package status');
+      toast.error(error.message || "Failed to update package status");
     },
   });
 
   const deletePackageMutation = useMutation({
     mutationFn: async (packageId: bigint) => {
-      if (!actor) throw new Error('Actor not available');
+      if (!actor) throw new Error("Actor not available");
       return actor.deletePackage(packageId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['packages'] });
-      toast.success('Package deleted successfully');
+      queryClient.invalidateQueries({ queryKey: ["packages"] });
+      queryClient.invalidateQueries({ queryKey: ["allPackages"] });
+      queryClient.invalidateQueries({ queryKey: ["activePackages"] });
+      toast.success("Package deleted successfully");
       setDeletePackageId(null);
     },
     onError: (error: any) => {
-      toast.error(error.message || 'Failed to delete package');
+      toast.error(error.message || "Failed to delete package");
     },
   });
 
-  const handleEdit = (pkg: Package) => {
+  const handleEdit = (pkg: PackageType) => {
     setEditingPackage(pkg);
     setModalOpen(true);
   };
@@ -82,31 +89,29 @@ export default function PackageManagement() {
     setModalOpen(true);
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading packages...</p>
-        </div>
-      </div>
-    );
-  }
+  const activeCount = packages.filter((p) => p.status === "active").length;
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Package Management</h1>
-          <p className="text-muted-foreground mt-1">Manage course packages and pricing</p>
+        <div className="flex items-center gap-3">
+          <div className="p-2 rounded-lg bg-primary/10">
+            <Package className="h-6 w-6 text-primary" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold">Package Management</h1>
+            <p className="text-muted-foreground mt-0.5">
+              {packages.length} packages — {activeCount} active
+            </p>
+          </div>
         </div>
-        <Button onClick={handleAdd}>
-          <Plus className="h-4 w-4 mr-2" />
+        <Button onClick={handleAdd} className="gap-2">
+          <Plus className="h-4 w-4" />
           Add Package
         </Button>
       </div>
 
-      <div className="border rounded-lg">
+      <div className="border rounded-lg overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>
@@ -118,34 +123,73 @@ export default function PackageManagement() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {packages.length === 0 ? (
+            {isLoading ? (
+              Array.from({ length: 3 }, (_, i) => i).map((i) => (
+                <TableRow key={`skel-row-${i}`}>
+                  {Array.from({ length: 5 }, (_, j) => j).map((j) => (
+                    <TableCell key={`skel-cell-${j}`}>
+                      <Skeleton className="h-4 w-full" />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : packages.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
-                  No packages found
+                <TableCell
+                  colSpan={5}
+                  className="text-center py-12 text-muted-foreground"
+                >
+                  <Package className="h-8 w-8 mx-auto mb-2 opacity-30" />
+                  <p>No packages found. Add your first package.</p>
                 </TableCell>
               </TableRow>
             ) : (
               packages.map((pkg) => (
                 <TableRow key={pkg.id.toString()}>
-                  <TableCell className="font-medium">{pkg.name}</TableCell>
-                  <TableCell>₹{Number(pkg.price).toLocaleString()}</TableCell>
-                  <TableCell className="max-w-xs truncate">{pkg.courses}</TableCell>
+                  <TableCell className="font-semibold">{pkg.name}</TableCell>
+                  <TableCell className="font-medium">
+                    ₹{Number(pkg.price).toLocaleString("en-IN")}
+                  </TableCell>
+                  <TableCell className="max-w-xs">
+                    <p
+                      className="truncate text-sm text-muted-foreground"
+                      title={pkg.courses}
+                    >
+                      {pkg.courses}
+                    </p>
+                  </TableCell>
                   <TableCell>
-                    <Badge variant={pkg.status === 'active' ? 'default' : 'secondary'}>
-                      {pkg.status}
+                    <Badge
+                      variant={
+                        pkg.status === "active" ? "default" : "secondary"
+                      }
+                      className={
+                        pkg.status === "active"
+                          ? "bg-emerald-500 hover:bg-emerald-600 text-white"
+                          : ""
+                      }
+                    >
+                      {pkg.status === "active" ? "Active" : "Inactive"}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex items-center justify-end gap-2">
                       <Switch
-                        checked={pkg.status === 'active'}
-                        onCheckedChange={() => toggleStatusMutation.mutate(pkg.id)}
+                        checked={pkg.status === "active"}
+                        onCheckedChange={() =>
+                          toggleStatusMutation.mutate(pkg.id)
+                        }
                         disabled={toggleStatusMutation.isPending}
+                        title={
+                          pkg.status === "active" ? "Deactivate" : "Activate"
+                        }
                       />
                       <Button
                         variant="ghost"
                         size="icon"
                         onClick={() => handleEdit(pkg)}
+                        className="h-8 w-8"
+                        title="Edit package"
                       >
                         <Pencil className="h-4 w-4" />
                       </Button>
@@ -154,6 +198,8 @@ export default function PackageManagement() {
                         size="icon"
                         onClick={() => setDeletePackageId(pkg.id)}
                         disabled={deletePackageMutation.isPending}
+                        className="h-8 w-8 hover:bg-red-50 dark:hover:bg-red-950/30"
+                        title="Delete package"
                       >
                         <Trash2 className="h-4 w-4 text-destructive" />
                       </Button>
@@ -172,21 +218,30 @@ export default function PackageManagement() {
         package={editingPackage}
       />
 
-      <AlertDialog open={!!deletePackageId} onOpenChange={() => setDeletePackageId(null)}>
+      <AlertDialog
+        open={!!deletePackageId}
+        onOpenChange={() => setDeletePackageId(null)}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Delete Package?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the package.
+              This action cannot be undone. This will permanently delete the
+              package and may affect users who have purchased it.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
-              onClick={() => deletePackageId && deletePackageMutation.mutate(deletePackageId)}
+              onClick={() =>
+                deletePackageId && deletePackageMutation.mutate(deletePackageId)
+              }
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              disabled={deletePackageMutation.isPending}
             >
-              Delete
+              {deletePackageMutation.isPending
+                ? "Deleting..."
+                : "Delete Package"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -1,8 +1,9 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useInternetIdentity } from '../hooks/useInternetIdentity';
-import { useActor } from '../hooks/useActor';
-import { useQueryClient } from '@tanstack/react-query';
-import type { UserProfile } from '../backend';
+import { useQueryClient } from "@tanstack/react-query";
+import type React from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import type { UserProfile } from "../backend";
+import { useActor } from "../hooks/useActor";
+import { useInternetIdentity } from "../hooks/useInternetIdentity";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -17,7 +18,12 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const { login: iiLogin, clear, identity, isInitializing: iiInitializing } = useInternetIdentity();
+  const {
+    login: iiLogin,
+    clear,
+    identity,
+    isInitializing: iiInitializing,
+  } = useInternetIdentity();
   const { actor, isFetching: actorFetching } = useActor();
   const queryClient = useQueryClient();
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -43,7 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUserProfile(profile);
       setIsAdmin(adminStatus);
     } catch (error) {
-      console.error('Error fetching profile:', error);
+      console.error("Error fetching profile:", error);
       setUserProfile(null);
       setIsAdmin(false);
     } finally {
@@ -51,6 +57,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: refreshProfile is intentionally omitted to prevent infinite loop
   useEffect(() => {
     if (isAuthenticated && actor && !actorFetching) {
       refreshProfile();
@@ -64,8 +71,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await iiLogin();
     } catch (error: any) {
-      console.error('Login error:', error);
-      if (error.message === 'User is already authenticated') {
+      console.error("Login error:", error);
+      if (error.message === "User is already authenticated") {
         await clear();
         setTimeout(() => iiLogin(), 300);
       }
@@ -100,7 +107,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }

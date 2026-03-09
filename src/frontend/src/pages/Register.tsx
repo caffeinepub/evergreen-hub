@@ -1,14 +1,20 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, Link } from '@tanstack/react-router';
-import { useAuth } from '../contexts/AuthContext';
-import { useActor } from '../hooks/useActor';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { toast } from 'sonner';
-import { Principal } from '@dfinity/principal';
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Principal } from "@dfinity/principal";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { useAuth } from "../contexts/AuthContext";
+import { useActor } from "../hooks/useActor";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -17,11 +23,11 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [referrerId, setReferrerId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: '',
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
     acceptTerms: false,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -29,10 +35,10 @@ export default function Register() {
   // Extract referral parameter from URL
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const refParam = urlParams.get('ref');
+    const refParam = urlParams.get("ref");
     if (refParam) {
       setReferrerId(refParam);
-      toast.info('You are registering via a referral link!');
+      toast.info("You are registering via a referral link!");
     }
   }, []);
 
@@ -40,33 +46,33 @@ export default function Register() {
     const newErrors: Record<string, string> = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Full name is required';
+      newErrors.name = "Full name is required";
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Invalid email format';
+      newErrors.email = "Invalid email format";
     }
 
     if (!formData.phone.trim()) {
-      newErrors.phone = 'Phone number is required';
-    } else if (!/^\d{10}$/.test(formData.phone.replace(/\D/g, ''))) {
-      newErrors.phone = 'Phone number must be 10 digits';
+      newErrors.phone = "Phone number is required";
+    } else if (!/^\d{10}$/.test(formData.phone.replace(/\D/g, ""))) {
+      newErrors.phone = "Phone number must be 10 digits";
     }
 
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = "Password is required";
     } else if (formData.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters';
+      newErrors.password = "Password must be at least 8 characters";
     }
 
     if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+      newErrors.confirmPassword = "Passwords do not match";
     }
 
     if (!formData.acceptTerms) {
-      newErrors.acceptTerms = 'You must accept the terms and conditions';
+      newErrors.acceptTerms = "You must accept the terms and conditions";
     }
 
     setErrors(newErrors);
@@ -87,10 +93,10 @@ export default function Register() {
       await login();
 
       // Wait a moment for actor to be ready
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       if (!actor) {
-        throw new Error('Failed to initialize actor');
+        throw new Error("Failed to initialize actor");
       }
 
       // Convert referrerId to Principal if it exists
@@ -99,8 +105,8 @@ export default function Register() {
         try {
           referrerPrincipal = Principal.fromText(referrerId);
         } catch (error) {
-          console.error('Invalid referrer ID:', error);
-          toast.error('Invalid referral link');
+          console.error("Invalid referrer ID:", error);
+          toast.error("Invalid referral link");
         }
       }
 
@@ -109,17 +115,17 @@ export default function Register() {
         formData.name,
         formData.email,
         formData.phone,
-        referrerPrincipal
+        referrerPrincipal,
       );
 
-      toast.success('Registration successful!');
-      navigate({ to: '/dashboard' });
+      toast.success("Registration successful!");
+      navigate({ to: "/dashboard" });
     } catch (error: any) {
-      console.error('Registration error:', error);
-      if (error.message?.includes('already registered')) {
-        toast.error('This account is already registered');
+      console.error("Registration error:", error);
+      if (error.message?.includes("already registered")) {
+        toast.error("This account is already registered");
       } else {
-        toast.error('Registration failed. Please try again.');
+        toast.error("Registration failed. Please try again.");
       }
     } finally {
       setLoading(false);
@@ -130,7 +136,7 @@ export default function Register() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
@@ -138,7 +144,9 @@ export default function Register() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-white to-emerald-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 p-4">
       <Card className="w-full max-w-md bg-white dark:bg-slate-800">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Create Account</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">
+            Create Account
+          </CardTitle>
           <CardDescription className="text-center">
             Enter your details to register
           </CardDescription>
@@ -161,9 +169,11 @@ export default function Register() {
                 placeholder="John Doe"
                 value={formData.name}
                 onChange={handleChange}
-                className={errors.name ? 'border-red-500' : ''}
+                className={errors.name ? "border-red-500" : ""}
               />
-              {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
+              {errors.name && (
+                <p className="text-sm text-red-500">{errors.name}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -175,9 +185,11 @@ export default function Register() {
                 placeholder="john@example.com"
                 value={formData.email}
                 onChange={handleChange}
-                className={errors.email ? 'border-red-500' : ''}
+                className={errors.email ? "border-red-500" : ""}
               />
-              {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+              {errors.email && (
+                <p className="text-sm text-red-500">{errors.email}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -189,9 +201,11 @@ export default function Register() {
                 placeholder="9876543210"
                 value={formData.phone}
                 onChange={handleChange}
-                className={errors.phone ? 'border-red-500' : ''}
+                className={errors.phone ? "border-red-500" : ""}
               />
-              {errors.phone && <p className="text-sm text-red-500">{errors.phone}</p>}
+              {errors.phone && (
+                <p className="text-sm text-red-500">{errors.phone}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -203,9 +217,11 @@ export default function Register() {
                 placeholder="••••••••"
                 value={formData.password}
                 onChange={handleChange}
-                className={errors.password ? 'border-red-500' : ''}
+                className={errors.password ? "border-red-500" : ""}
               />
-              {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
+              {errors.password && (
+                <p className="text-sm text-red-500">{errors.password}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -217,7 +233,7 @@ export default function Register() {
                 placeholder="••••••••"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className={errors.confirmPassword ? 'border-red-500' : ''}
+                className={errors.confirmPassword ? "border-red-500" : ""}
               />
               {errors.confirmPassword && (
                 <p className="text-sm text-red-500">{errors.confirmPassword}</p>
@@ -229,9 +245,12 @@ export default function Register() {
                 id="terms"
                 checked={formData.acceptTerms}
                 onCheckedChange={(checked) => {
-                  setFormData((prev) => ({ ...prev, acceptTerms: checked as boolean }));
+                  setFormData((prev) => ({
+                    ...prev,
+                    acceptTerms: checked as boolean,
+                  }));
                   if (errors.acceptTerms) {
-                    setErrors((prev) => ({ ...prev, acceptTerms: '' }));
+                    setErrors((prev) => ({ ...prev, acceptTerms: "" }));
                   }
                 }}
               />
@@ -239,8 +258,11 @@ export default function Register() {
                 htmlFor="terms"
                 className="text-sm font-normal cursor-pointer"
               >
-                I accept the{' '}
-                <Link to="/terms-of-service" className="text-emerald-600 hover:underline">
+                I accept the{" "}
+                <Link
+                  to="/terms-of-service"
+                  className="text-emerald-600 hover:underline"
+                >
                   terms and conditions
                 </Link>
               </Label>
@@ -254,12 +276,15 @@ export default function Register() {
               className="w-full bg-emerald-600 hover:bg-emerald-700"
               disabled={loading}
             >
-              {loading ? 'Creating Account...' : 'Register'}
+              {loading ? "Creating Account..." : "Register"}
             </Button>
 
             <p className="text-center text-sm text-muted-foreground">
-              Already have an account?{' '}
-              <Link to="/login" className="text-emerald-600 hover:underline font-medium">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="text-emerald-600 hover:underline font-medium"
+              >
                 Login
               </Link>
             </p>

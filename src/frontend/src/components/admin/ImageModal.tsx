@@ -3,7 +3,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 
 interface ImageModalProps {
   imageUrl: string;
@@ -15,7 +15,9 @@ export default function ImageModal({ imageUrl, onClose }: ImageModalProps) {
     <Dialog open={!!imageUrl} onOpenChange={onClose}>
       <DialogContent className="max-w-3xl bg-white dark:bg-slate-900 border-gray-300 dark:border-slate-700">
         <DialogHeader>
-          <DialogTitle className="text-gray-900 dark:text-gray-100">Payment Screenshot</DialogTitle>
+          <DialogTitle className="text-gray-900 dark:text-gray-100">
+            Payment Screenshot
+          </DialogTitle>
         </DialogHeader>
         <div className="flex items-center justify-center bg-gray-50 dark:bg-slate-800 p-4 rounded-lg">
           <img

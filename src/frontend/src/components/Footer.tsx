@@ -1,10 +1,8 @@
-import { Link } from '@tanstack/react-router';
-import { Heart } from 'lucide-react';
-import { SiFacebook, SiInstagram, SiYoutube } from 'react-icons/si';
+import { Link } from "@tanstack/react-router";
+import { SiFacebook, SiInstagram, SiYoutube } from "react-icons/si";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  const appIdentifier = typeof window !== 'undefined' ? window.location.hostname : 'evergreen-hub';
 
   return (
     <footer className="bg-secondary text-foreground">
@@ -12,15 +10,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Brand Section */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-bold text-primary">
-              Evergreen Hub
-            </h3>
+            <h3 className="text-2xl font-bold text-primary">Evergreen Hub</h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Your trusted partner in affiliate marketing education. Learn, grow, and succeed with our comprehensive courses.
+              Your trusted partner in affiliate marketing education. Learn,
+              grow, and succeed with our comprehensive courses.
             </p>
             <div className="flex gap-4">
               <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/share/1AWvNBtfuD/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-background flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300"
@@ -28,7 +25,7 @@ export default function Footer() {
                 <SiFacebook className="h-5 w-5" />
               </a>
               <a
-                href="https://instagram.com/rajput.rudra_s"
+                href="https://www.instagram.com/evergreenhub2026?igsh=bm1icXo1bWxrNTMw"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-background flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300"
@@ -36,7 +33,7 @@ export default function Footer() {
                 <SiInstagram className="h-5 w-5" />
               </a>
               <a
-                href="https://youtube.com"
+                href="https://youtube.com/@evergreengamerz?si=2Bqwy16GG-4GhUj-"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-background flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300"
@@ -48,7 +45,9 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold text-foreground">Quick Links</h4>
+            <h4 className="text-lg font-semibold text-foreground">
+              Quick Links
+            </h4>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -60,7 +59,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  to="/about-us"
+                  to="/about"
                   className="text-muted-foreground hover:text-primary transition-colors duration-200 text-sm"
                 >
                   About Us
@@ -125,16 +124,8 @@ export default function Footer() {
             <p className="text-muted-foreground text-sm text-center md:text-left">
               © {currentYear} Evergreen Hub. All rights reserved.
             </p>
-            <p className="text-muted-foreground text-sm flex items-center gap-1">
-              Built with <Heart className="h-4 w-4 text-red-500 fill-red-500" /> using{' '}
-              <a
-                href={`https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(appIdentifier)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:text-primary/80 transition-colors font-medium"
-              >
-                caffeine.ai
-              </a>
+            <p className="text-muted-foreground text-sm">
+              Built by Rudra in Bihar with ❤️
             </p>
           </div>
         </div>

@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Upload, CheckCircle, AlertCircle } from 'lucide-react';
-import { ExternalBlob } from '../backend';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { AlertCircle, CheckCircle, Upload } from "lucide-react";
+import { useState } from "react";
+import { ExternalBlob } from "../backend";
 
 interface PaymentProofFormProps {
   packageId: bigint;
@@ -12,62 +12,70 @@ interface PaymentProofFormProps {
   onSubmit: (transactionId: string, screenshot: ExternalBlob) => Promise<void>;
 }
 
-export default function PaymentProofForm({ packageId, onSuccess, onSubmit }: PaymentProofFormProps) {
-  const [transactionId, setTransactionId] = useState('');
+export default function PaymentProofForm({
+  packageId,
+  onSuccess,
+  onSubmit,
+}: PaymentProofFormProps) {
+  const [transactionId, setTransactionId] = useState("");
   const [screenshot, setScreenshot] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
-  const phoneNumber = '9263989760';
-  const maskedNumber = '********60';
-  const message = encodeURIComponent(`Hello! I need help with payment proof submission for package ID: ${packageId}`);
+  const [error, setError] = useState("");
+  const phoneNumber = "9263989760";
+  const maskedNumber = "********60";
+  const message = encodeURIComponent(
+    `Hello! I need help with payment proof submission for package ID: ${packageId}`,
+  );
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
-        setError('File size must be less than 5MB');
+        setError("File size must be less than 5MB");
         return;
       }
       setScreenshot(file);
-      setError('');
+      setError("");
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!transactionId.trim()) {
-      setError('Please enter transaction ID');
+      setError("Please enter transaction ID");
       return;
     }
 
     if (!screenshot) {
-      setError('Please upload payment screenshot');
+      setError("Please upload payment screenshot");
       return;
     }
 
     setUploading(true);
-    setError('');
+    setError("");
     setUploadProgress(0);
 
     try {
       const arrayBuffer = await screenshot.arrayBuffer();
       const uint8Array = new Uint8Array(arrayBuffer);
-      const blob = ExternalBlob.fromBytes(uint8Array).withUploadProgress((percentage) => {
-        setUploadProgress(percentage);
-      });
+      const blob = ExternalBlob.fromBytes(uint8Array).withUploadProgress(
+        (percentage) => {
+          setUploadProgress(percentage);
+        },
+      );
 
       await onSubmit(transactionId, blob);
-      
+
       setSuccess(true);
-      setTransactionId('');
+      setTransactionId("");
       setScreenshot(null);
       onSuccess();
     } catch (err: any) {
-      setError(err.message || 'Failed to submit payment proof');
+      setError(err.message || "Failed to submit payment proof");
     } finally {
       setUploading(false);
       setUploadProgress(0);
@@ -144,11 +152,7 @@ export default function PaymentProofForm({ packageId, onSuccess, onSubmit }: Pay
       )}
 
       <div className="flex flex-col sm:flex-row gap-3">
-        <Button
-          type="submit"
-          disabled={uploading}
-          className="flex-1"
-        >
+        <Button type="submit" disabled={uploading} className="flex-1">
           {uploading ? (
             <>
               <Upload className="mr-2 h-4 w-4 animate-spin" />
@@ -162,7 +166,12 @@ export default function PaymentProofForm({ packageId, onSuccess, onSubmit }: Pay
           )}
         </Button>
 
-        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex-1">
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-1"
+        >
           <Button
             type="button"
             variant="outline"

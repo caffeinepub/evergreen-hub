@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function ScrollToTopButton() {
   const [isVisible, setIsVisible] = useState(false);
@@ -13,25 +13,26 @@ export default function ScrollToTopButton() {
       }
     };
 
-    window.addEventListener('scroll', toggleVisibility);
+    window.addEventListener("scroll", toggleVisibility);
 
     return () => {
-      window.removeEventListener('scroll', toggleVisibility);
+      window.removeEventListener("scroll", toggleVisibility);
     };
   }, []);
 
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   };
 
   return (
     <button
+      type="button"
       onClick={scrollToTop}
       className={`fixed bottom-24 right-4 z-40 p-3 rounded-full bg-red-600 hover:bg-red-700 text-white shadow-lg transition-all duration-300 ${
-        isVisible ? 'opacity-100 visible' : 'opacity-0 invisible'
+        isVisible ? "opacity-100 visible" : "opacity-0 invisible"
       }`}
       aria-label="Scroll to top"
     >

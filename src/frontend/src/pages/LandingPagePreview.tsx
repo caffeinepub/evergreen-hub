@@ -1,29 +1,46 @@
-import { useParams } from '@tanstack/react-router';
-import { useGetLandingPageById, useIncrementLandingPageVisit } from '../hooks/useQueries';
-import { useEffect } from 'react';
-import { Loader2 } from 'lucide-react';
+import { useParams } from "@tanstack/react-router";
+import { Loader2 } from "lucide-react";
+import { useEffect } from "react";
+import {
+  useGetLandingPageById,
+  useIncrementLandingPageVisit,
+} from "../hooks/useQueries";
 
 export default function LandingPagePreview() {
   const { pageId } = useParams({ strict: false }) as { pageId: string };
-  const { data: landingPage, isLoading, error } = useGetLandingPageById(pageId);
+
+  // Convert string pageId to bigint for the hook
+  const pageIdBigInt = pageId ? BigInt(pageId) : null;
+
+  const {
+    data: landingPage,
+    isLoading,
+    error,
+  } = useGetLandingPageById(pageIdBigInt);
   const incrementVisit = useIncrementLandingPageVisit();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: fire once when page loads
   useEffect(() => {
-    if (landingPage && pageId) {
-      incrementVisit.mutate(BigInt(pageId));
+    if (landingPage && pageIdBigInt) {
+      incrementVisit.mutate(pageIdBigInt);
     }
-  }, [landingPage, pageId]);
+  }, [landingPage?.id]);
 
   useEffect(() => {
     if (landingPage) {
-      document.title = landingPage.title || 'Landing Page';
-      
-      const metaDescription = document.querySelector('meta[name="description"]');
+      document.title = landingPage.title || "Landing Page";
+
+      const metaDescription = document.querySelector(
+        'meta[name="description"]',
+      );
       if (metaDescription) {
-        metaDescription.setAttribute('content', landingPage.content.substring(0, 160));
+        metaDescription.setAttribute(
+          "content",
+          landingPage.content.substring(0, 160),
+        );
       } else {
-        const meta = document.createElement('meta');
-        meta.name = 'description';
+        const meta = document.createElement("meta");
+        meta.name = "description";
         meta.content = landingPage.content.substring(0, 160);
         document.head.appendChild(meta);
       }
@@ -48,7 +65,8 @@ export default function LandingPagePreview() {
           <h1 className="text-4xl font-bold text-red-500 mb-4">404</h1>
           <p className="text-xl font-semibold mb-2">Landing Page Not Found</p>
           <p className="text-muted-foreground">
-            The landing page you're looking for doesn't exist or has been removed.
+            The landing page you're looking for doesn't exist or has been
+            removed.
           </p>
         </div>
       </div>
@@ -72,8 +90,9 @@ export default function LandingPagePreview() {
             </div>
           </header>
 
-          <div 
+          <div
             className="prose prose-lg dark:prose-invert max-w-none"
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: user-created content
             dangerouslySetInnerHTML={{ __html: landingPage.content }}
           />
         </article>

@@ -1,18 +1,34 @@
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Check, Sparkles, Loader2 } from 'lucide-react';
-import { useGetActivePackages } from '../hooks/useQueries';
-import { useState } from 'react';
-import PaymentModal from './PaymentModal';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Check, Loader2, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { useGetActivePackages } from "../hooks/useQueries";
+import PaymentModal from "./PaymentModal";
 
 interface CoursePackagesModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function CoursePackagesModal({ isOpen, onClose }: CoursePackagesModalProps) {
+export default function CoursePackagesModal({
+  isOpen,
+  onClose,
+}: CoursePackagesModalProps) {
   const { data: packages, isLoading } = useGetActivePackages();
   const [selectedPackage, setSelectedPackage] = useState<{
     id: bigint;
@@ -24,7 +40,7 @@ export default function CoursePackagesModal({ isOpen, onClose }: CoursePackagesM
     setSelectedPackage({
       id: pkg.id,
       name: pkg.name,
-      price: `₹${Number(pkg.price).toLocaleString('en-IN')}`,
+      price: `₹${Number(pkg.price).toLocaleString("en-IN")}`,
     });
   };
 
@@ -52,14 +68,14 @@ export default function CoursePackagesModal({ isOpen, onClose }: CoursePackagesM
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
               {packages?.map((pkg) => {
-                const courseList = pkg.courses.split(',').map((c) => c.trim());
-                const isDiamond = pkg.name.toLowerCase().includes('diamond');
+                const courseList = pkg.courses.split(",").map((c) => c.trim());
+                const isDiamond = pkg.name.toLowerCase().includes("diamond");
 
                 return (
                   <Card
                     key={Number(pkg.id)}
                     className={`relative overflow-hidden transition-all duration-300 hover:shadow-xl bg-white dark:bg-slate-800 border-gray-300 dark:border-slate-700 ${
-                      isDiamond ? 'ring-2 ring-primary' : ''
+                      isDiamond ? "ring-2 ring-primary" : ""
                     }`}
                   >
                     {isDiamond && (
@@ -72,18 +88,23 @@ export default function CoursePackagesModal({ isOpen, onClose }: CoursePackagesM
                     )}
 
                     <CardHeader>
-                      <CardTitle className="text-2xl text-gray-900 dark:text-gray-100">{pkg.name}</CardTitle>
+                      <CardTitle className="text-2xl text-gray-900 dark:text-gray-100">
+                        {pkg.name}
+                      </CardTitle>
                       <CardDescription className="text-gray-700 dark:text-gray-300">
                         <span className="text-3xl font-bold text-primary">
-                          ₹{Number(pkg.price).toLocaleString('en-IN')}
+                          ₹{Number(pkg.price).toLocaleString("en-IN")}
                         </span>
                       </CardDescription>
                     </CardHeader>
 
                     <CardContent>
                       <ul className="space-y-2">
-                        {courseList.map((course, index) => (
-                          <li key={index} className="flex items-start gap-2 text-gray-900 dark:text-gray-100">
+                        {courseList.map((course) => (
+                          <li
+                            key={course}
+                            className="flex items-start gap-2 text-gray-900 dark:text-gray-100"
+                          >
                             <Check className="h-5 w-5 text-emerald-500 flex-shrink-0 mt-0.5" />
                             <span className="text-sm">{course}</span>
                           </li>

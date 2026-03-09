@@ -1,10 +1,16 @@
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Copy, Check, Share2 } from 'lucide-react';
-import { useInternetIdentity } from '../hooks/useInternetIdentity';
-import { toast } from 'sonner';
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Check, Copy, Share2 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import { useInternetIdentity } from "../hooks/useInternetIdentity";
 
 export default function MyReferralLink() {
   const { identity } = useInternetIdentity();
@@ -12,7 +18,7 @@ export default function MyReferralLink() {
 
   const referralLink = identity
     ? `${window.location.origin}/register?ref=${encodeURIComponent(identity.getPrincipal().toString())}`
-    : '';
+    : "";
 
   const handleCopy = async () => {
     if (!referralLink) return;
@@ -20,10 +26,10 @@ export default function MyReferralLink() {
     try {
       await navigator.clipboard.writeText(referralLink);
       setCopied(true);
-      toast.success('Referral link copied to clipboard!');
+      toast.success("Referral link copied to clipboard!");
       setTimeout(() => setCopied(false), 2000);
-    } catch (error) {
-      toast.error('Failed to copy link');
+    } catch (_error) {
+      toast.error("Failed to copy link");
     }
   };
 
@@ -38,7 +44,10 @@ export default function MyReferralLink() {
           <Share2 className="h-5 w-5 text-yellow-500" />
           Your Referral Link
         </CardTitle>
-        <CardDescription>Share this link to earn commissions when users register and purchase packages</CardDescription>
+        <CardDescription>
+          Share this link to earn commissions when users register and purchase
+          packages
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex gap-2">
@@ -62,7 +71,8 @@ export default function MyReferralLink() {
         </div>
         <div className="p-3 bg-yellow-50 dark:bg-yellow-950/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
           <p className="text-sm text-yellow-800 dark:text-yellow-200">
-            💡 <strong>Tip:</strong> Share this link on social media, WhatsApp, or with friends to start earning commissions!
+            💡 <strong>Tip:</strong> Share this link on social media, WhatsApp,
+            or with friends to start earning commissions!
           </p>
         </div>
       </CardContent>
