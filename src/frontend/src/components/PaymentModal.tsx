@@ -33,12 +33,19 @@ export default function PaymentModal({
   packageId,
   packageName,
   packagePrice,
-  isVideoEditing = false,
+  isVideoEditing: _isVideoEditing = false,
 }: PaymentModalProps) {
   const { actor } = useActor();
   const { userProfile } = useAuth();
   const queryClient = useQueryClient();
   const [showCongrats, setShowCongrats] = useState(false);
+  const [_discountedAmount, setDiscountedAmount] = useState<
+    number | undefined
+  >();
+
+  // Parse numeric amount from price string like "₹1,499" or "1499"
+  const numericAmount =
+    Number.parseInt(packagePrice.replace(/[^0-9]/g, ""), 10) || undefined;
 
   const submitProofMutation = useMutation({
     mutationFn: async ({
@@ -67,9 +74,7 @@ export default function PaymentModal({
     await submitProofMutation.mutateAsync({ transactionId, screenshot });
   };
 
-  const handleSuccess = () => {
-    // Congrats modal will handle the success state
-  };
+  const handleSuccess = () => {};
 
   const handleCongratsClose = () => {
     setShowCongrats(false);
@@ -79,7 +84,7 @@ export default function PaymentModal({
   return (
     <>
       <Dialog open={isOpen && !showCongrats} onOpenChange={onClose}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-900 border-gray-300 dark:border-slate-700">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-900 border-gray-300 dark:border-slate-700">
           <DialogHeader>
             <DialogTitle className="text-2xl text-gray-900 dark:text-gray-100">
               Complete Your Purchase
@@ -88,35 +93,24 @@ export default function PaymentModal({
               You're purchasing:{" "}
               <span className="font-semibold text-gray-900 dark:text-gray-100">
                 {packageName}
-              </span>{" "}
-              for{" "}
-              <span className="font-semibold text-emerald-600 dark:text-emerald-400">
-                {packagePrice}
               </span>
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-6 mt-4">
+          <div className="space-y-6 mt-2">
             <Alert className="border-emerald-500/30 bg-emerald-50 dark:bg-emerald-950/20">
               <AlertCircle className="h-4 w-4 text-emerald-600 dark:text-emerald-500" />
-              <AlertDescription className="text-gray-900 dark:text-gray-100">
-                {isVideoEditing ? (
-                  <>
-                    Scan the QR code to make payment of ₹500 via PhonePe, or use
-                    bank transfer. Submit your payment proof below for
-                    verification within 24 hours.
-                  </>
-                ) : (
-                  <>
-                    Scan the QR code to make payment via PhonePe, or use bank
-                    transfer. Submit your payment proof below for verification
-                    within 24 hours.
-                  </>
-                )}
+              <AlertDescription className="text-gray-900 dark:text-gray-100 text-sm">
+                Add to cart, apply coupon (optional), then choose your payment
+                method.
               </AlertDescription>
             </Alert>
 
-            <PaymentGateway />
+            <PaymentGateway
+              packageName={packageName}
+              amount={numericAmount}
+              onDiscountedAmount={setDiscountedAmount}
+            />
 
             <Separator className="bg-gray-300 dark:bg-slate-700" />
 
