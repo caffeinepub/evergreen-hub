@@ -17,6 +17,7 @@ import AdminDashboardLayout from "./layouts/AdminDashboardLayout";
 // Layouts
 import UserDashboardLayout from "./layouts/UserDashboardLayout";
 
+import AppDownloadSection from "./components/AppDownloadSection";
 import BottomCTASection from "./components/BottomCTASection";
 import ContactFormSection from "./components/ContactFormSection";
 import FAQSection from "./components/FAQSection";
@@ -109,6 +110,7 @@ function LandingPage() {
       <ContactFormSection />
       <FAQSection />
       <BottomCTASection />
+      <AppDownloadSection />
       <Footer />
       <FloatingWhatsAppButton />
       <ScrollToTopButton />
