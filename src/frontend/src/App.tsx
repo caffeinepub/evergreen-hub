@@ -42,6 +42,7 @@ import YouTubeSection from "./components/YouTubeSection";
 // Public Pages (lazy)
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
+const Signup = lazy(() => import("./pages/Signup"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -142,6 +143,16 @@ const loginRoute = createRoute({
   component: () => (
     <Suspense fallback={<PageLoader />}>
       <Login />
+    </Suspense>
+  ),
+});
+
+const signupRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/signup",
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <Signup />
     </Suspense>
   ),
 });
@@ -424,6 +435,7 @@ const routeTree = rootRoute.addChildren([
   indexRoute,
   loginRoute,
   registerRoute,
+  signupRoute,
   adminLoginRoute,
   aboutRoute,
   aboutUsRoute,

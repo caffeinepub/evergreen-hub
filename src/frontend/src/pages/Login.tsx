@@ -1,29 +1,11 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { motion } from "motion/react";
 import { useEffect, useState } from "react";
+import { SiDiscord, SiGithub, SiGoogle } from "react-icons/si";
 import { toast } from "sonner";
 import { useAuth } from "../contexts/AuthContext";
 
-const STARS = [
-  "s0",
-  "s1",
-  "s2",
-  "s3",
-  "s4",
-  "s5",
-  "s6",
-  "s7",
-  "s8",
-  "s9",
-  "s10",
-  "s11",
-  "s12",
-  "s13",
-  "s14",
-  "s15",
-  "s16",
-  "s17",
-];
 export default function Login() {
   const navigate = useNavigate();
   const { login, isAuthenticated, isInitializing } = useAuth();
@@ -32,8 +14,6 @@ export default function Login() {
   >("idle");
   const [showPassword, setShowPassword] = useState(false);
   const [shake, setShake] = useState(false);
-  const [emailFocus, setEmailFocus] = useState(false);
-  const [passwordFocus, setPasswordFocus] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated && !isInitializing) {
@@ -46,7 +26,7 @@ export default function Login() {
     try {
       await login();
       setLoginState("success");
-      toast.success("Login successful!");
+      toast.success("Welcome back to Evergreen Hub! 🌿");
       setTimeout(() => navigate({ to: "/dashboard" }), 800);
     } catch (error: any) {
       console.error("Login error:", error);
@@ -55,13 +35,18 @@ export default function Login() {
       setTimeout(() => setShake(false), 600);
       setTimeout(() => setLoginState("idle"), 1500);
       toast.error("Login failed. Please try again.");
-    } finally {
     }
   };
 
   const handleForgotPassword = () => {
     toast.info(
-      "Password reset is managed through Internet Identity. Please use the Internet Identity recovery options.",
+      "Password reset is handled through Internet Identity. Use the recovery options there.",
+    );
+  };
+
+  const handleSocial = (provider: string) => {
+    toast.info(
+      `Sign in with Internet Identity for secure access — ${provider} social login coming soon!`,
     );
   };
 
@@ -74,30 +59,19 @@ export default function Login() {
           alignItems: "center",
           justifyContent: "center",
           background:
-            "linear-gradient(135deg, #1e3a8a 0%, #7c3aed 50%, #4f46e5 100%)",
+            "linear-gradient(145deg, #d1fae5 0%, #a7f3d0 20%, #6ee7b7 45%, #5eead4 70%, #99f6e4 90%, #d1fae5 100%)",
         }}
       >
-        <div style={{ textAlign: "center" }}>
-          <div
-            style={{
-              width: 40,
-              height: 40,
-              border: "3px solid rgba(255,255,255,0.3)",
-              borderTopColor: "white",
-              borderRadius: "50%",
-              animation: "spin 0.8s linear infinite",
-              margin: "0 auto 16px",
-            }}
-          />
-          <p
-            style={{
-              color: "rgba(255,255,255,0.8)",
-              fontFamily: "Poppins, sans-serif",
-            }}
-          >
-            Loading...
-          </p>
-        </div>
+        <div
+          style={{
+            width: 36,
+            height: 36,
+            border: "3px solid rgba(5,150,105,0.3)",
+            borderTopColor: "#059669",
+            borderRadius: "50%",
+            animation: "spin 0.8s linear infinite",
+          }}
+        />
       </div>
     );
   }
@@ -107,94 +81,53 @@ export default function Login() {
       ? "linear-gradient(135deg, #10b981, #059669)"
       : loginState === "error"
         ? "linear-gradient(135deg, #ef4444, #dc2626)"
-        : "linear-gradient(135deg, #6366f1, #7c3aed, #4f46e5)";
+        : "linear-gradient(135deg, #059669 0%, #0d9488 100%)";
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
         * { box-sizing: border-box; }
-
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(40px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          33%       { transform: translateY(-10px) rotate(2deg); }
-          66%       { transform: translateY(-5px) rotate(-1deg); }
-        }
-        @keyframes floatBody {
-          0%, 100% { transform: translateY(0px); }
-          50%       { transform: translateY(-6px); }
-        }
-        @keyframes visorShimmer {
-          0%, 100% { opacity: 0.3; transform: translateX(0); }
-          50%       { opacity: 0.7; transform: translateX(3px); }
-        }
-        @keyframes orbFloat1 {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50%       { transform: translate(30px, -40px) scale(1.1); }
-        }
-        @keyframes orbFloat2 {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50%       { transform: translate(-20px, 30px) scale(0.9); }
-        }
-        @keyframes orbFloat3 {
-          0%, 100% { transform: translate(0, 0); }
-          50%       { transform: translate(15px, -25px); }
-        }
-        @keyframes shake {
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes shakeFx {
           0%, 100% { transform: translateX(0); }
-          15%       { transform: translateX(-10px); }
-          30%       { transform: translateX(10px); }
-          45%       { transform: translateX(-8px); }
-          60%       { transform: translateX(8px); }
-          75%       { transform: translateX(-4px); }
-          90%       { transform: translateX(4px); }
+          15% { transform: translateX(-10px); }
+          30% { transform: translateX(10px); }
+          45% { transform: translateX(-8px); }
+          60% { transform: translateX(8px); }
+          75% { transform: translateX(-4px); }
+          90% { transform: translateX(4px); }
         }
         @keyframes successPulse {
-          0%   { box-shadow: 0 0 0 0 rgba(16,185,129,0.6); }
-          70%  { box-shadow: 0 0 0 14px rgba(16,185,129,0); }
+          0% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); }
+          70% { box-shadow: 0 0 0 14px rgba(16,185,129,0); }
           100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
         }
-        @keyframes starTwinkle {
-          0%, 100% { opacity: 0.2; transform: scale(1); }
-          50%       { opacity: 1; transform: scale(1.3); }
+        @keyframes leaf-drift {
+          0%, 100% { transform: translate(0,0) rotate(0deg); }
+          33% { transform: translate(20px,-30px) rotate(8deg); }
+          66% { transform: translate(-15px,-15px) rotate(-5deg); }
         }
-
-        .login-card {
-          animation: fadeInUp 0.6s ease forwards;
-        }
-        .login-card.shake {
-          animation: shake 0.6s ease;
-        }
-
-        .styled-input {
+        .eg-card-shake { animation: shakeFx 0.6s ease; }
+        .eg-input {
           width: 100%;
-          background: rgba(255,255,255,0.1);
-          border: 1px solid rgba(255,255,255,0.25);
+          background: rgba(255,255,255,0.12);
+          border: 1.5px solid rgba(255,255,255,0.3);
           border-radius: 12px;
-          padding: 14px 16px 14px 44px;
-          color: white;
+          padding: 13px 16px 13px 44px;
+          color: #1a3a2a;
           font-family: Poppins, sans-serif;
           font-size: 14px;
           outline: none;
-          transition: border-color 0.3s, box-shadow 0.3s;
+          transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
         }
-        .styled-input::placeholder {
-          color: rgba(255,255,255,0.5);
+        .eg-input::placeholder { color: rgba(30,80,50,0.45); }
+        .eg-input:focus {
+          border-color: rgba(16,185,129,0.7);
+          background: rgba(255,255,255,0.22);
+          box-shadow: 0 0 0 3px rgba(16,185,129,0.18);
         }
-        .styled-input:focus {
-          border-color: rgba(255,255,255,0.8);
-          box-shadow: 0 0 20px rgba(139,92,246,0.45);
-        }
-
-        .login-btn {
+        .eg-login-btn {
           width: 100%;
           padding: 14px;
           border: none;
@@ -202,40 +135,43 @@ export default function Login() {
           color: white;
           font-family: Poppins, sans-serif;
           font-size: 15px;
-          font-weight: 600;
+          font-weight: 700;
           cursor: pointer;
-          transition: transform 0.2s, box-shadow 0.2s;
+          letter-spacing: 0.3px;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 8px;
-          letter-spacing: 0.3px;
+          transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+          box-shadow: 0 4px 20px rgba(5,150,105,0.35);
         }
-        .login-btn:not(:disabled):hover {
-          transform: scale(1.04);
-          box-shadow: 0 8px 30px rgba(99,102,241,0.5);
+        .eg-login-btn:not(:disabled):hover {
+          transform: translateY(-2px) scale(1.02);
+          box-shadow: 0 8px 30px rgba(5,150,105,0.55);
         }
-        .login-btn:not(:disabled):active {
-          transform: scale(0.97);
+        .eg-login-btn.success-state { animation: successPulse 0.8s ease; }
+        .eg-login-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+        .social-btn {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 11px 8px;
+          background: rgba(255,255,255,0.18);
+          border: 1.5px solid rgba(255,255,255,0.3);
+          border-radius: 12px;
+          font-family: Poppins, sans-serif;
+          font-size: 13px;
+          font-weight: 600;
+          color: #1a4a30;
+          cursor: pointer;
+          transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
         }
-        .login-btn.success-state {
-          animation: successPulse 0.8s ease;
-        }
-
-        .orb {
-          position: absolute;
-          border-radius: 50%;
-          filter: blur(60px);
-          pointer-events: none;
-        }
-
-        .star {
-          position: absolute;
-          width: 3px;
-          height: 3px;
-          background: white;
-          border-radius: 50%;
-          pointer-events: none;
+        .social-btn:hover {
+          background: rgba(255,255,255,0.35);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 16px rgba(5,150,105,0.2);
         }
       `}</style>
 
@@ -243,313 +179,170 @@ export default function Login() {
         style={{
           minHeight: "100vh",
           background:
-            "linear-gradient(135deg, #0f172a 0%, #1e1b4b 30%, #3730a3 60%, #1e3a8a 100%)",
+            "linear-gradient(145deg, #d1fae5 0%, #a7f3d0 20%, #6ee7b7 45%, #5eead4 70%, #99f6e4 90%, #d1fae5 100%)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          padding: 24,
+          padding: "24px 16px",
           position: "relative",
           overflow: "hidden",
           fontFamily: "Poppins, sans-serif",
         }}
       >
-        {/* Animated background orbs */}
-        <div
-          className="orb"
-          style={{
-            width: 400,
-            height: 400,
-            background: "rgba(99,102,241,0.25)",
-            top: "-100px",
-            left: "-100px",
-            animation: "orbFloat1 8s ease-in-out infinite",
-          }}
-        />
-        <div
-          className="orb"
-          style={{
-            width: 350,
-            height: 350,
-            background: "rgba(139,92,246,0.2)",
-            bottom: "-80px",
-            right: "-80px",
-            animation: "orbFloat2 10s ease-in-out infinite",
-          }}
-        />
-        <div
-          className="orb"
-          style={{
-            width: 250,
-            height: 250,
-            background: "rgba(79,70,229,0.3)",
-            top: "40%",
-            right: "10%",
-            animation: "orbFloat3 7s ease-in-out infinite",
-          }}
-        />
-        <div
-          className="orb"
-          style={{
-            width: 200,
-            height: 200,
-            background: "rgba(167,139,250,0.15)",
-            bottom: "20%",
-            left: "5%",
-            animation: "orbFloat1 12s ease-in-out infinite reverse",
-          }}
-        />
-
-        {/* Twinkling stars */}
-        {STARS.map((id, i) => (
+        {/* Floating orbs */}
+        {[
+          {
+            id: "orb1",
+            s: 360,
+            bg: "rgba(5,150,105,0.18)",
+            t: "-80px",
+            l: "-80px",
+            dur: "10s",
+            delay: 0,
+          },
+          {
+            id: "orb2",
+            s: 280,
+            bg: "rgba(13,148,136,0.15)",
+            b: "-60px",
+            r: "-60px",
+            dur: "13s",
+            delay: 1.5,
+          },
+          {
+            id: "orb3",
+            s: 200,
+            bg: "rgba(52,211,153,0.2)",
+            t: "40%",
+            r: "8%",
+            dur: "8s",
+            delay: 3,
+          },
+          {
+            id: "orb4",
+            s: 150,
+            bg: "rgba(16,185,129,0.12)",
+            b: "25%",
+            l: "4%",
+            dur: "11s",
+            delay: 4.5,
+          },
+        ].map((o) => (
           <div
-            key={id}
-            className="star"
+            key={o.id}
             style={{
-              top: `${Math.sin(i * 2.3) * 40 + 50}%`,
-              left: `${(i * 5.7) % 100}%`,
-              animationDelay: `${i * 0.4}s`,
-              animationDuration: `${2 + (i % 3)}s`,
-              animation: `starTwinkle ${2 + (i % 3)}s ease-in-out ${i * 0.4}s infinite`,
-              opacity: 0.3,
+              position: "absolute",
+              width: o.s,
+              height: o.s,
+              borderRadius: "50%",
+              background: o.bg,
+              filter: "blur(60px)",
+              pointerEvents: "none",
+              top: (o as any).t,
+              left: (o as any).l,
+              bottom: (o as any).b,
+              right: (o as any).r,
+              animation: `leaf-drift ${o.dur} ease-in-out ${o.delay}s infinite`,
             }}
           />
         ))}
 
-        <div style={{ width: "100%", maxWidth: 420 }}>
-          {/* CSS Astronaut Character */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: 24,
-              animation: "float 4s ease-in-out infinite",
-            }}
-          >
-            <div style={{ position: "relative", width: 80, height: 100 }}>
-              {/* Helmet */}
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  width: 52,
-                  height: 52,
-                  borderRadius: "50%",
-                  background: "linear-gradient(135deg, #e2e8f0, #94a3b8)",
-                  boxShadow:
-                    "0 4px 20px rgba(0,0,0,0.4), inset 0 2px 8px rgba(255,255,255,0.5)",
-                }}
-              >
-                {/* Visor */}
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 10,
-                    left: 8,
-                    width: 36,
-                    height: 24,
-                    borderRadius: 12,
-                    background:
-                      "linear-gradient(135deg, #60a5fa, #818cf8, #a78bfa)",
-                    boxShadow: "inset 0 2px 6px rgba(0,0,0,0.3)",
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 4,
-                      left: 6,
-                      width: 10,
-                      height: 6,
-                      borderRadius: 4,
-                      background: "rgba(255,255,255,0.7)",
-                      animation: "visorShimmer 3s ease-in-out infinite",
-                    }}
-                  />
-                </div>
-                {/* Antenna */}
-                <div
-                  style={{
-                    position: "absolute",
-                    top: -12,
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    width: 3,
-                    height: 12,
-                    background: "#94a3b8",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 7,
-                      height: 7,
-                      borderRadius: "50%",
-                      background: "#f59e0b",
-                      position: "absolute",
-                      top: -4,
-                      left: -2,
-                    }}
-                  />
-                </div>
-              </div>
-              {/* Body */}
-              <div
-                style={{
-                  position: "absolute",
-                  top: 48,
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  width: 44,
-                  height: 38,
-                  borderRadius: "16px 16px 12px 12px",
-                  background: "linear-gradient(180deg, #e2e8f0, #cbd5e1)",
-                  boxShadow: "0 4px 15px rgba(0,0,0,0.3)",
-                  animation: "floatBody 4s ease-in-out infinite",
-                }}
-              >
-                {/* Chest control */}
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 8,
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    display: "flex",
-                    gap: 4,
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 6,
-                      height: 6,
-                      borderRadius: 2,
-                      background: "#f59e0b",
-                    }}
-                  />
-                  <div
-                    style={{
-                      width: 6,
-                      height: 6,
-                      borderRadius: 2,
-                      background: "#10b981",
-                    }}
-                  />
-                  <div
-                    style={{
-                      width: 6,
-                      height: 6,
-                      borderRadius: 2,
-                      background: "#ef4444",
-                    }}
-                  />
-                </div>
-              </div>
-              {/* Arms */}
-              <div
-                style={{
-                  position: "absolute",
-                  top: 52,
-                  left: 0,
-                  width: 12,
-                  height: 28,
-                  borderRadius: "8px 4px 8px 8px",
-                  background: "linear-gradient(180deg, #e2e8f0, #cbd5e1)",
-                  transform: "rotate(-15deg)",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
-                }}
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  top: 52,
-                  right: 0,
-                  width: 12,
-                  height: 28,
-                  borderRadius: "4px 8px 8px 8px",
-                  background: "linear-gradient(180deg, #e2e8f0, #cbd5e1)",
-                  transform: "rotate(15deg)",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
-                }}
-              />
-              {/* Legs */}
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  left: 14,
-                  width: 12,
-                  height: 16,
-                  borderRadius: "4px 4px 8px 8px",
-                  background: "linear-gradient(180deg, #94a3b8, #64748b)",
-                  boxShadow: "0 2px 6px rgba(0,0,0,0.25)",
-                }}
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  right: 14,
-                  width: 12,
-                  height: 16,
-                  borderRadius: "4px 4px 8px 8px",
-                  background: "linear-gradient(180deg, #94a3b8, #64748b)",
-                  boxShadow: "0 2px 6px rgba(0,0,0,0.25)",
-                }}
-              />
-            </div>
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          style={{ width: "100%", maxWidth: 420 }}
+        >
+          {/* Logo + branding */}
+          <div style={{ textAlign: "center", marginBottom: 28 }}>
+            <motion.img
+              src="/logo.png"
+              alt="Evergreen Hub"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              style={{
+                width: 80,
+                height: 80,
+                objectFit: "contain",
+                borderRadius: 20,
+                marginBottom: 12,
+                filter: "drop-shadow(0 4px 16px rgba(5,150,105,0.35))",
+              }}
+            />
+            <h1
+              style={{
+                color: "#064e3b",
+                fontSize: 26,
+                fontWeight: 800,
+                margin: 0,
+                letterSpacing: "-0.5px",
+              }}
+            >
+              Evergreen Hub
+            </h1>
+            <p
+              style={{
+                color: "#065f46",
+                fontSize: 13,
+                marginTop: 6,
+                marginBottom: 0,
+                fontWeight: 500,
+                letterSpacing: "0.8px",
+                textTransform: "uppercase",
+                opacity: 0.75,
+              }}
+            >
+              Grow, Create, Connect
+            </p>
           </div>
 
-          {/* Login Card */}
+          {/* Card */}
           <div
-            className={`login-card${shake ? " shake" : ""}`}
+            className={shake ? "eg-card-shake" : ""}
             style={{
-              background: "rgba(255,255,255,0.08)",
-              backdropFilter: "blur(24px)",
-              WebkitBackdropFilter: "blur(24px)",
-              border: "1px solid rgba(255,255,255,0.18)",
+              background: "rgba(255,255,255,0.52)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              border: "1.5px solid rgba(255,255,255,0.65)",
               borderRadius: 28,
-              padding: "40px 36px",
+              padding: "36px 32px 32px",
               boxShadow:
-                "0 24px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15)",
+                "0 20px 60px rgba(5,150,105,0.18), 0 4px 16px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)",
             }}
           >
-            <div style={{ textAlign: "center", marginBottom: 32 }}>
-              <h1
-                style={{
-                  color: "white",
-                  fontSize: 26,
-                  fontWeight: 700,
-                  margin: 0,
-                  letterSpacing: "-0.3px",
-                }}
-              >
-                Welcome Back 👋
-              </h1>
-              <p
-                style={{
-                  color: "rgba(255,255,255,0.6)",
-                  fontSize: 14,
-                  marginTop: 8,
-                  marginBottom: 0,
-                }}
-              >
-                Sign in to your Evergreen Hub account
-              </p>
-            </div>
+            <h2
+              style={{
+                color: "#064e3b",
+                fontSize: 20,
+                fontWeight: 700,
+                margin: "0 0 6px",
+                textAlign: "center",
+              }}
+            >
+              Welcome back 👋
+            </h2>
+            <p
+              style={{
+                color: "#065f46",
+                opacity: 0.65,
+                fontSize: 13,
+                textAlign: "center",
+                margin: "0 0 24px",
+              }}
+            >
+              Sign in to your Evergreen Hub account
+            </p>
 
-            {/* Email input */}
-            <div style={{ marginBottom: 16, position: "relative" }}>
+            {/* Email */}
+            <div style={{ marginBottom: 14, position: "relative" }}>
               <div
                 style={{
                   position: "absolute",
                   left: 14,
                   top: "50%",
                   transform: "translateY(-50%)",
-                  color: emailFocus
-                    ? "rgba(167,139,250,0.9)"
-                    : "rgba(255,255,255,0.5)",
-                  transition: "color 0.3s",
+                  color: "rgba(5,150,105,0.7)",
                   pointerEvents: "none",
                   display: "flex",
                 }}
@@ -558,26 +351,21 @@ export default function Login() {
               </div>
               <input
                 type="email"
-                placeholder="Email or Username"
-                className="styled-input"
-                onFocus={() => setEmailFocus(true)}
-                onBlur={() => setEmailFocus(false)}
+                placeholder="Email Address"
+                className="eg-input"
                 data-ocid="login.input"
               />
             </div>
 
-            {/* Password input */}
-            <div style={{ marginBottom: 12, position: "relative" }}>
+            {/* Password */}
+            <div style={{ marginBottom: 10, position: "relative" }}>
               <div
                 style={{
                   position: "absolute",
                   left: 14,
                   top: "50%",
                   transform: "translateY(-50%)",
-                  color: passwordFocus
-                    ? "rgba(167,139,250,0.9)"
-                    : "rgba(255,255,255,0.5)",
-                  transition: "color 0.3s",
+                  color: "rgba(5,150,105,0.7)",
                   pointerEvents: "none",
                   display: "flex",
                 }}
@@ -587,10 +375,8 @@ export default function Login() {
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
-                className="styled-input"
+                className="eg-input"
                 style={{ paddingRight: 44 }}
-                onFocus={() => setPasswordFocus(true)}
-                onBlur={() => setPasswordFocus(false)}
                 data-ocid="login.input"
               />
               <button
@@ -604,7 +390,7 @@ export default function Login() {
                   background: "none",
                   border: "none",
                   cursor: "pointer",
-                  color: "rgba(255,255,255,0.5)",
+                  color: "rgba(5,150,105,0.6)",
                   display: "flex",
                   padding: 0,
                 }}
@@ -615,7 +401,7 @@ export default function Login() {
             </div>
 
             {/* Forgot password */}
-            <div style={{ textAlign: "right", marginBottom: 28 }}>
+            <div style={{ textAlign: "right", marginBottom: 22 }}>
               <button
                 type="button"
                 onClick={handleForgotPassword}
@@ -623,11 +409,13 @@ export default function Login() {
                   background: "none",
                   border: "none",
                   cursor: "pointer",
-                  color: "rgba(167,139,250,0.9)",
+                  color: "#059669",
                   fontSize: 13,
+                  fontWeight: 600,
                   fontFamily: "Poppins, sans-serif",
                   padding: 0,
                 }}
+                data-ocid="login.button"
               >
                 Forgot Password?
               </button>
@@ -636,32 +424,29 @@ export default function Login() {
             {/* Login button */}
             <button
               type="button"
-              className={`login-btn${loginState === "success" ? " success-state" : ""}`}
+              className={`eg-login-btn${loginState === "success" ? " success-state" : ""}`}
               onClick={handleLogin}
               disabled={loginState === "loading" || loginState === "success"}
-              style={{
-                background: btnBg,
-                marginBottom: 20,
-                opacity: loginState === "loading" ? 0.9 : 1,
-              }}
+              style={{ background: btnBg, marginBottom: 20 }}
               data-ocid="login.submit_button"
             >
               {loginState === "loading" && (
-                <div
+                <span
                   style={{
-                    width: 18,
-                    height: 18,
-                    border: "2px solid rgba(255,255,255,0.4)",
+                    width: 17,
+                    height: 17,
+                    border: "2px solid rgba(255,255,255,0.35)",
                     borderTopColor: "white",
                     borderRadius: "50%",
                     animation: "spin 0.7s linear infinite",
+                    display: "inline-block",
                   }}
                 />
               )}
               {loginState === "loading" && "Signing In..."}
-              {loginState === "success" && "✓ Logged In!"}
+              {loginState === "success" && "✓ Signed In!"}
               {loginState === "error" && "✗ Try Again"}
-              {loginState === "idle" && "Sign In with Internet Identity"}
+              {loginState === "idle" && "Sign In 🌿"}
             </button>
 
             {/* Divider */}
@@ -670,49 +455,79 @@ export default function Login() {
                 display: "flex",
                 alignItems: "center",
                 gap: 12,
-                marginBottom: 20,
+                marginBottom: 16,
               }}
             >
               <div
                 style={{
                   flex: 1,
                   height: 1,
-                  background: "rgba(255,255,255,0.15)",
+                  background: "rgba(5,150,105,0.2)",
                 }}
               />
               <span
                 style={{
-                  color: "rgba(255,255,255,0.4)",
+                  color: "rgba(6,78,59,0.5)",
                   fontSize: 12,
-                  fontFamily: "Poppins, sans-serif",
+                  fontWeight: 500,
                 }}
               >
-                or
+                or continue with
               </span>
               <div
                 style={{
                   flex: 1,
                   height: 1,
-                  background: "rgba(255,255,255,0.15)",
+                  background: "rgba(5,150,105,0.2)",
                 }}
               />
             </div>
 
-            {/* Sign up link */}
+            {/* Social buttons */}
+            <div style={{ display: "flex", gap: 10, marginBottom: 22 }}>
+              <button
+                type="button"
+                className="social-btn"
+                onClick={() => handleSocial("Google")}
+                data-ocid="login.button"
+              >
+                <SiGoogle size={16} color="#EA4335" />
+                Google
+              </button>
+              <button
+                type="button"
+                className="social-btn"
+                onClick={() => handleSocial("Discord")}
+                data-ocid="login.button"
+              >
+                <SiDiscord size={16} color="#5865F2" />
+                Discord
+              </button>
+              <button
+                type="button"
+                className="social-btn"
+                onClick={() => handleSocial("GitHub")}
+                data-ocid="login.button"
+              >
+                <SiGithub size={16} color="#24292e" />
+                GitHub
+              </button>
+            </div>
+
             <p
               style={{
                 textAlign: "center",
-                color: "rgba(255,255,255,0.55)",
-                fontSize: 14,
+                color: "rgba(6,78,59,0.65)",
+                fontSize: 13,
                 margin: 0,
               }}
             >
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link
-                to="/register"
+                to="/signup"
                 style={{
-                  color: "rgba(167,139,250,1)",
-                  fontWeight: 600,
+                  color: "#059669",
+                  fontWeight: 700,
                   textDecoration: "none",
                 }}
                 data-ocid="login.link"
@@ -722,18 +537,17 @@ export default function Login() {
             </p>
           </div>
 
-          {/* Footer */}
           <p
             style={{
               textAlign: "center",
-              color: "rgba(255,255,255,0.3)",
+              color: "rgba(6,78,59,0.45)",
               fontSize: 12,
-              marginTop: 24,
+              marginTop: 20,
             }}
           >
             © {new Date().getFullYear()} Built by Rudra in Bihar with ❤️
           </p>
-        </div>
+        </motion.div>
       </div>
     </>
   );
