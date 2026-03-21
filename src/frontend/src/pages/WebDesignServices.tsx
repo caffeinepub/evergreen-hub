@@ -8,6 +8,7 @@ import {
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
 import FounderSection from "../components/FounderSection";
+import Header from "../components/Header";
 import WebDesignPaymentModal from "../components/WebDesignPaymentModal";
 
 interface Package {
@@ -197,7 +198,9 @@ function AnimatedSection({
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"} ${className}`}
+      className={`transition-all duration-700 ${
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+      } ${className}`}
     >
       {children}
     </div>
@@ -220,33 +223,11 @@ export default function WebDesignServices() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
-      {/* Sticky Header */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <img
-              src="/assets/CC_20260226_043346-1.png"
-              alt="Evergreen Hub"
-              className="w-9 h-9 object-cover rounded-full"
-            />
-            <span className="font-bold text-gray-900 text-lg">
-              Evergreen Hub
-            </span>
-          </div>
-          <a
-            href="https://wa.me/919263989760?text=Hi%2C%20I%20want%20to%20know%20more%20about%20Web%20Design%20Services"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full text-sm font-semibold transition-colors"
-          >
-            <MessageCircle className="w-4 h-4" />
-            WhatsApp Us
-          </a>
-        </div>
-      </header>
+      {/* Main site navbar — full access to all pages */}
+      <Header />
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white py-20 px-4">
+      {/* Hero Section — push down below fixed header */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white py-20 px-4 pt-28">
         <div className="absolute inset-0 opacity-10">
           <img
             src="/assets/generated/web-design-hero.dim_1440x600.png"
@@ -361,7 +342,7 @@ export default function WebDesignServices() {
         </AnimatedSection>
       </section>
 
-      {/* Packages — shown FIRST before Founder */}
+      {/* Packages */}
       <section id="packages" className="py-16 px-4 bg-white">
         <AnimatedSection className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
@@ -457,7 +438,7 @@ export default function WebDesignServices() {
         </AnimatedSection>
       </section>
 
-      {/* Our Founder — shown AFTER packages, BEFORE testimonials */}
+      {/* Our Founder */}
       <FounderSection compact />
 
       {/* Testimonials */}

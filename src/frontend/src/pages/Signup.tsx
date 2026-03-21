@@ -11,9 +11,12 @@ export default function Signup() {
   const navigate = useNavigate();
   const { login } = useAuth();
   const { actor } = useActor();
-  const [loading, setLoading] = useState(false);
+  const [signupState, setSignupState] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [shake, setShake] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -39,8 +42,12 @@ export default function Signup() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
-    setLoading(true);
+    if (!validate()) {
+      setShake(true);
+      setTimeout(() => setShake(false), 600);
+      return;
+    }
+    setSignupState("loading");
     try {
       await login();
       await new Promise((r) => setTimeout(r, 800));
@@ -64,16 +71,19 @@ export default function Signup() {
           referrerPrincipal,
         );
       }
+      setSignupState("success");
       toast.success("Account created! Welcome to Evergreen Hub 🌿");
-      navigate({ to: "/dashboard" });
+      setTimeout(() => navigate({ to: "/dashboard" }), 800);
     } catch (err: any) {
+      setSignupState("error");
+      setShake(true);
+      setTimeout(() => setShake(false), 600);
+      setTimeout(() => setSignupState("idle"), 1500);
       if (err?.message?.includes("already registered")) {
         toast.error("Account already exists. Try signing in.");
       } else {
         toast.error("Registration failed. Please try again.");
       }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -83,21 +93,78 @@ export default function Signup() {
     if (errors[name]) setErrors((p) => ({ ...p, [name]: "" }));
   };
 
-  const handleSocial = (provider: string) => {
-    toast.info(
-      `Sign up with Internet Identity for secure access — ${provider} social login coming soon!`,
-    );
+  const handleSocial = async (_provider: string) => {
+    setSignupState("loading");
+    try {
+      await login();
+      if (actor) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const refParam = urlParams.get("ref");
+        let referrerPrincipal: import("@dfinity/principal").Principal | null =
+          null;
+        if (refParam) {
+          try {
+            const { Principal } = await import("@dfinity/principal");
+            referrerPrincipal = Principal.fromText(refParam);
+          } catch {
+            /* ignore */
+          }
+        }
+        try {
+          await actor.registerUser("User", "", "", referrerPrincipal);
+        } catch {
+          /* already registered */
+        }
+      }
+      setSignupState("success");
+      toast.success("Welcome to Evergreen Hub 🌿");
+      setTimeout(() => navigate({ to: "/dashboard" }), 800);
+    } catch {
+      setSignupState("error");
+      setShake(true);
+      setTimeout(() => setShake(false), 600);
+      setTimeout(() => setSignupState("idle"), 1500);
+      toast.error("Sign up failed. Please try again.");
+    }
   };
+
+  const btnBg =
+    signupState === "success"
+      ? "linear-gradient(135deg, #10b981, #059669)"
+      : signupState === "error"
+        ? "linear-gradient(135deg, #ef4444, #dc2626)"
+        : "linear-gradient(135deg, #059669 0%, #0d9488 100%)";
 
   return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
         * { box-sizing: border-box; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes shakeFx {
+          0%, 100% { transform: translateX(0); }
+          15% { transform: translateX(-10px); }
+          30% { transform: translateX(10px); }
+          45% { transform: translateX(-8px); }
+          60% { transform: translateX(8px); }
+          75% { transform: translateX(-4px); }
+          90% { transform: translateX(4px); }
+        }
+        @keyframes successPulse {
+          0% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); }
+          70% { box-shadow: 0 0 0 14px rgba(16,185,129,0); }
+          100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+        }
+        @keyframes leaf-drift {
+          0%, 100% { transform: translate(0,0) rotate(0deg); }
+          33% { transform: translate(20px,-30px) rotate(8deg); }
+          66% { transform: translate(-15px,-15px) rotate(-5deg); }
+        }
+        .eg-card-shake { animation: shakeFx 0.6s ease; }
         .eg-input {
           width: 100%;
           background: rgba(255,255,255,0.12);
-          border: 1.5px solid rgba(255,255,255,0.25);
+          border: 1.5px solid rgba(255,255,255,0.3);
           border-radius: 12px;
           padding: 13px 16px 13px 44px;
           color: #1a3a2a;
@@ -118,21 +185,24 @@ export default function Signup() {
           padding: 14px;
           border: none;
           border-radius: 12px;
-          background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
           color: white;
           font-family: Poppins, sans-serif;
           font-size: 15px;
           font-weight: 700;
           cursor: pointer;
           letter-spacing: 0.3px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
           transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
-          box-shadow: 0 4px 20px rgba(5,150,105,0.4);
+          box-shadow: 0 4px 20px rgba(5,150,105,0.35);
         }
-        .eg-btn:hover:not(:disabled) {
+        .eg-btn:not(:disabled):hover {
           transform: translateY(-2px) scale(1.02);
           box-shadow: 0 8px 30px rgba(5,150,105,0.55);
         }
-        .eg-btn:active:not(:disabled) { transform: scale(0.97); }
+        .eg-btn.success-state { animation: successPulse 0.8s ease; }
         .eg-btn:disabled { opacity: 0.7; cursor: not-allowed; }
         .social-btn {
           flex: 1;
@@ -155,12 +225,6 @@ export default function Signup() {
           background: rgba(255,255,255,0.35);
           transform: translateY(-2px);
           box-shadow: 0 4px 16px rgba(5,150,105,0.2);
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes leaf-drift {
-          0%, 100% { transform: translate(0,0) rotate(0deg); }
-          33% { transform: translate(20px,-30px) rotate(8deg); }
-          66% { transform: translate(-15px,-15px) rotate(-5deg); }
         }
       `}</style>
 
@@ -227,8 +291,8 @@ export default function Signup() {
               background: o.bg,
               filter: "blur(60px)",
               pointerEvents: "none",
-              top: o.t,
-              left: o.l,
+              top: (o as any).t,
+              left: (o as any).l,
               bottom: (o as any).b,
               right: (o as any).r,
               animation: `leaf-drift ${o.dur} ease-in-out ${o.delay}s infinite`,
@@ -250,9 +314,13 @@ export default function Signup() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.1 }}
+              onError={(e) => {
+                (e.target as HTMLImageElement).src =
+                  "/assets/CC_20260226_043346-1.png";
+              }}
               style={{
-                width: 80,
-                height: 80,
+                width: 90,
+                height: 90,
                 objectFit: "contain",
                 borderRadius: 20,
                 marginBottom: 12,
@@ -288,6 +356,7 @@ export default function Signup() {
 
           {/* Card */}
           <div
+            className={shake ? "eg-card-shake" : ""}
             style={{
               background: "rgba(255,255,255,0.52)",
               backdropFilter: "blur(20px)",
@@ -308,7 +377,7 @@ export default function Signup() {
                 textAlign: "center",
               }}
             >
-              Create your account
+              Create your account ✨
             </h2>
             <p
               style={{
@@ -521,35 +590,30 @@ export default function Signup() {
 
               <button
                 type="submit"
-                className="eg-btn"
-                disabled={loading}
+                className={`eg-btn${signupState === "success" ? " success-state" : ""}`}
+                disabled={
+                  signupState === "loading" || signupState === "success"
+                }
+                style={{ background: btnBg, marginBottom: 20 }}
                 data-ocid="signup.submit_button"
               >
-                {loading ? (
+                {signupState === "loading" && (
                   <span
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: 8,
+                      width: 17,
+                      height: 17,
+                      border: "2px solid rgba(255,255,255,0.35)",
+                      borderTopColor: "white",
+                      borderRadius: "50%",
+                      animation: "spin 0.7s linear infinite",
+                      display: "inline-block",
                     }}
-                  >
-                    <span
-                      style={{
-                        width: 16,
-                        height: 16,
-                        border: "2px solid rgba(255,255,255,0.35)",
-                        borderTopColor: "white",
-                        borderRadius: "50%",
-                        animation: "spin 0.7s linear infinite",
-                        display: "inline-block",
-                      }}
-                    />
-                    Creating account...
-                  </span>
-                ) : (
-                  "Create Account 🌿"
+                  />
                 )}
+                {signupState === "loading" && "Creating Account..."}
+                {signupState === "success" && "✓ Account Created!"}
+                {signupState === "error" && "✗ Try Again"}
+                {signupState === "idle" && "Create Account 🌿"}
               </button>
             </form>
 
@@ -559,7 +623,7 @@ export default function Signup() {
                 display: "flex",
                 alignItems: "center",
                 gap: 12,
-                margin: "20px 0",
+                marginBottom: 16,
               }}
             >
               <div
@@ -595,8 +659,7 @@ export default function Signup() {
                 onClick={() => handleSocial("Google")}
                 data-ocid="signup.button"
               >
-                <SiGoogle size={16} color="#EA4335" />
-                Google
+                <SiGoogle size={16} color="#EA4335" /> Google
               </button>
               <button
                 type="button"
@@ -604,8 +667,7 @@ export default function Signup() {
                 onClick={() => handleSocial("Discord")}
                 data-ocid="signup.button"
               >
-                <SiDiscord size={16} color="#5865F2" />
-                Discord
+                <SiDiscord size={16} color="#5865F2" /> Discord
               </button>
               <button
                 type="button"
@@ -613,8 +675,7 @@ export default function Signup() {
                 onClick={() => handleSocial("GitHub")}
                 data-ocid="signup.button"
               >
-                <SiGithub size={16} color="#24292e" />
-                GitHub
+                <SiGithub size={16} color="#24292e" /> GitHub
               </button>
             </div>
 

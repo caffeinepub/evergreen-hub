@@ -40,13 +40,7 @@ export default function Login() {
 
   const handleForgotPassword = () => {
     toast.info(
-      "Password reset is handled through Internet Identity. Use the recovery options there.",
-    );
-  };
-
-  const handleSocial = (provider: string) => {
-    toast.info(
-      `Sign in with Internet Identity for secure access — ${provider} social login coming soon!`,
+      "Password reset ke liye apne dashboard mein 'Change Password' option use karein.",
     );
   };
 
@@ -261,9 +255,13 @@ export default function Login() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.1 }}
+              onError={(e) => {
+                (e.target as HTMLImageElement).src =
+                  "/assets/CC_20260226_043346-1.png";
+              }}
               style={{
-                width: 80,
-                height: 80,
+                width: 90,
+                height: 90,
                 objectFit: "contain",
                 borderRadius: 20,
                 marginBottom: 12,
@@ -483,12 +481,12 @@ export default function Login() {
               />
             </div>
 
-            {/* Social buttons */}
+            {/* Social buttons — all connect to Internet Identity login */}
             <div style={{ display: "flex", gap: 10, marginBottom: 22 }}>
               <button
                 type="button"
                 className="social-btn"
-                onClick={() => handleSocial("Google")}
+                onClick={handleLogin}
                 data-ocid="login.button"
               >
                 <SiGoogle size={16} color="#EA4335" />
@@ -497,7 +495,7 @@ export default function Login() {
               <button
                 type="button"
                 className="social-btn"
-                onClick={() => handleSocial("Discord")}
+                onClick={handleLogin}
                 data-ocid="login.button"
               >
                 <SiDiscord size={16} color="#5865F2" />
@@ -506,7 +504,7 @@ export default function Login() {
               <button
                 type="button"
                 className="social-btn"
-                onClick={() => handleSocial("GitHub")}
+                onClick={handleLogin}
                 data-ocid="login.button"
               >
                 <SiGithub size={16} color="#24292e" />
