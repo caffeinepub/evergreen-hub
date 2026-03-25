@@ -2,8 +2,12 @@ import {
   CheckCircle,
   ChevronDown,
   ChevronUp,
+  FileText,
+  GraduationCap,
+  MapPin,
   MessageCircle,
   Star,
+  TrendingUp,
 } from "lucide-react";
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
@@ -121,6 +125,57 @@ const packages: Package[] = [
   },
 ];
 
+const websiteTypes = [
+  {
+    id: "affiliate",
+    icon: TrendingUp,
+    title: "Affiliate Marketing Website",
+    description: "Promote products & earn commissions online",
+    color: "from-green-500 to-emerald-600",
+    bg: "bg-green-50",
+    border: "border-green-200",
+    selectedBorder: "border-green-500",
+    selectedBg: "bg-green-50",
+    textColor: "text-green-700",
+  },
+  {
+    id: "coaching",
+    icon: GraduationCap,
+    title: "Coaching Centre Website",
+    description: "Online/offline coaching with course listings & enrollment",
+    color: "from-blue-500 to-indigo-600",
+    bg: "bg-blue-50",
+    border: "border-blue-200",
+    selectedBorder: "border-blue-500",
+    selectedBg: "bg-blue-50",
+    textColor: "text-blue-700",
+  },
+  {
+    id: "local-business",
+    icon: MapPin,
+    title: "Local Business Website",
+    description: "Showcase your shop, services & get customer calls",
+    color: "from-orange-500 to-red-500",
+    bg: "bg-orange-50",
+    border: "border-orange-200",
+    selectedBorder: "border-orange-500",
+    selectedBg: "bg-orange-50",
+    textColor: "text-orange-700",
+  },
+  {
+    id: "blogger",
+    icon: FileText,
+    title: "Blogger / Portfolio Website",
+    description: "Share your content, build your brand online",
+    color: "from-purple-500 to-pink-500",
+    bg: "bg-purple-50",
+    border: "border-purple-200",
+    selectedBorder: "border-purple-500",
+    selectedBg: "bg-purple-50",
+    textColor: "text-purple-700",
+  },
+];
+
 const testimonials = [
   {
     name: "Rahul Sharma",
@@ -211,6 +266,9 @@ export default function WebDesignServices() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
   const [paymentOpen, setPaymentOpen] = useState(false);
+  const [selectedWebsiteType, setSelectedWebsiteType] = useState<string | null>(
+    null,
+  );
 
   useEffect(() => {
     document.title = "Web Design Services | Evergreen Hub";
@@ -223,10 +281,9 @@ export default function WebDesignServices() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
-      {/* Main site navbar — full access to all pages */}
       <Header />
 
-      {/* Hero Section — push down below fixed header */}
+      {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white py-20 px-4 pt-28">
         <div className="absolute inset-0 opacity-10">
           <img
@@ -253,7 +310,7 @@ export default function WebDesignServices() {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <a
-              href="#packages"
+              href="#website-type"
               className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-300 hover:to-orange-400 text-gray-900 font-bold px-8 py-4 rounded-full transition-all shadow-lg text-lg"
             >
               Packages Dekho
@@ -342,8 +399,86 @@ export default function WebDesignServices() {
         </AnimatedSection>
       </section>
 
+      {/* Website Type Selector */}
+      <section id="website-type" className="py-16 px-4 bg-white">
+        <AnimatedSection className="max-w-5xl mx-auto">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
+              🌐 Find Your Perfect Website
+            </div>
+            <h2 className="text-3xl font-extrabold text-gray-900 mb-3">
+              What Type of Website{" "}
+              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                Do You Need?
+              </span>
+            </h2>
+            <p className="text-gray-500 max-w-xl mx-auto">
+              Select your business type to find the package that fits you best
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {websiteTypes.map((type) => {
+              const Icon = type.icon;
+              const isSelected = selectedWebsiteType === type.id;
+              return (
+                <button
+                  type="button"
+                  key={type.id}
+                  data-ocid={`web_design.website_type.${type.id}.toggle`}
+                  onClick={() =>
+                    setSelectedWebsiteType(isSelected ? null : type.id)
+                  }
+                  className={`relative text-left rounded-2xl border-2 p-5 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 ${
+                    isSelected
+                      ? `${type.selectedBorder} ${type.selectedBg} shadow-md ring-2 ring-offset-1 ring-current`
+                      : `${type.border} bg-white hover:${type.selectedBorder}`
+                  }`}
+                >
+                  {isSelected && (
+                    <span className="absolute top-3 right-3 w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
+                      <CheckCircle className="w-3.5 h-3.5 text-white" />
+                    </span>
+                  )}
+                  <div
+                    className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${type.color} flex items-center justify-center mb-3 shadow`}
+                  >
+                    <Icon className="w-6 h-6 text-white" />
+                  </div>
+                  <h3
+                    className={`font-bold text-sm mb-1 ${
+                      isSelected ? type.textColor : "text-gray-900"
+                    }`}
+                  >
+                    {type.title}
+                  </h3>
+                  <p className="text-xs text-gray-500 leading-relaxed">
+                    {type.description}
+                  </p>
+                </button>
+              );
+            })}
+          </div>
+
+          {selectedWebsiteType && (
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-500">
+                Great choice! Scroll down to pick a package that matches your
+                needs.
+              </p>
+              <a
+                href="#packages"
+                className="inline-block mt-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold px-6 py-2.5 rounded-full text-sm hover:opacity-90 transition-opacity"
+              >
+                See Packages →
+              </a>
+            </div>
+          )}
+        </AnimatedSection>
+      </section>
+
       {/* Packages */}
-      <section id="packages" className="py-16 px-4 bg-white">
+      <section id="packages" className="py-16 px-4 bg-gray-50">
         <AnimatedSection className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
@@ -423,6 +558,7 @@ export default function WebDesignServices() {
                 </ul>
                 <button
                   type="button"
+                  data-ocid={`web_design.package.${pkg.name.toLowerCase().replace(/\s+/g, "_")}.primary_button`}
                   onClick={() => handleOrder(pkg)}
                   className={`w-full py-3 rounded-xl font-bold text-sm transition-all ${
                     pkg.highlight
@@ -501,6 +637,7 @@ export default function WebDesignServices() {
               >
                 <button
                   type="button"
+                  data-ocid={`web_design.faq.item.${i + 1}`}
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full flex items-center justify-between px-6 py-4 text-left font-semibold text-gray-900 hover:bg-gray-50 transition-colors"
                 >

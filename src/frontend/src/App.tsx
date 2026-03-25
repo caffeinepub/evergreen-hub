@@ -29,6 +29,7 @@ import Header from "./components/Header";
 // Landing page components (inlined — no separate LandingPage file)
 import HeroSection from "./components/HeroSection";
 import InstagramSection from "./components/InstagramSection";
+import PhotoEditingSection from "./components/PhotoEditingSection";
 import PricingSection from "./components/PricingSection";
 import ScrollToTopButton from "./components/ScrollToTopButton";
 import TestimonialsSection from "./components/TestimonialsSection";
@@ -102,11 +103,12 @@ function LandingPage() {
       <TrustBadgesSection />
       <WebDesignServicesPromo />
       <PricingSection />
+      <VideoEditingSection />
+      <PhotoEditingSection />
       <WhyChooseUsSection />
       <YouTubeSection />
       <InstagramSection />
       <FounderSection />
-      <VideoEditingSection />
       <TestimonialsSection />
       <ContactFormSection />
       <FAQSection />
@@ -129,7 +131,7 @@ const rootRoute = createRootRoute({
   ),
 });
 
-// ─── Public Routes ────────────────────────────────────────────────────────────
+// ─── Public Routes ────────────────────────────────────────────────────────────────────────────
 
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -257,7 +259,7 @@ const webDesignRoute = createRoute({
   ),
 });
 
-// ─── User Dashboard Routes (nested under UserDashboardLayout) ─────────────────
+// ─── User Dashboard Routes (nested under UserDashboardLayout) ─────────────────────────────────
 
 const dashboardRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -335,7 +337,7 @@ const dashboardMyLandingPagesRoute = createRoute({
   ),
 });
 
-// ─── Admin Routes (nested under AdminDashboardLayout) ─────────────────────────
+// ─── Admin Routes (nested under AdminDashboardLayout) ─────────────────────────────────────────
 
 const adminDashboardRoute = createRoute({
   getParentRoute: () => rootRoute,

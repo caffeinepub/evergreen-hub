@@ -26,9 +26,9 @@ import { useState } from "react";
 const HARDCODED_UPI_ID = "7970705775@ybl";
 
 const COUPONS: Record<string, { type: "percent" | "flat"; value: number }> = {
-  EVERGREEN10: { type: "percent", value: 10 },
-  HUB25: { type: "percent", value: 25 },
   WELCOME50: { type: "flat", value: 100 },
+  EVERGREEN: { type: "flat", value: 50 },
+  HUB150: { type: "flat", value: 150 },
 };
 
 interface WebDesignPaymentModalProps {
@@ -53,6 +53,7 @@ export default function WebDesignPaymentModal({
     discount: number;
   } | null>(null);
   const [couponError, setCouponError] = useState("");
+  const [couponSuccess, setCouponSuccess] = useState("");
   const [transactionId, setTransactionId] = useState("");
   const [screenshotFile, setScreenshotFile] = useState<File | null>(null);
 
@@ -66,15 +67,16 @@ export default function WebDesignPaymentModal({
   const handleApplyCoupon = () => {
     const code = couponCode.trim().toUpperCase();
     setCouponError("");
+    setCouponSuccess("");
     if (!code) return;
-    const coupon = COUPONS[code];
-    if (!coupon) {
-      setCouponError("Invalid coupon code. Please try again.");
-      setAppliedCoupon(null);
+    if (appliedCoupon) {
+      setCouponError("Only 1 coupon allowed per order.");
       return;
     }
-    if (appliedCoupon?.code === code) {
-      setCouponError("Coupon already applied.");
+    const coupon = COUPONS[code];
+    if (!coupon) {
+      setCouponError("Invalid Coupon Code");
+      setAppliedCoupon(null);
       return;
     }
     const discount =
@@ -82,12 +84,13 @@ export default function WebDesignPaymentModal({
         ? Math.round((packagePrice * coupon.value) / 100)
         : coupon.value;
     setAppliedCoupon({ code, discount });
+    setCouponSuccess("Coupon applied successfully 🎉");
     setCouponError("");
   };
 
   const handleSendToWhatsApp = () => {
     const msg = encodeURIComponent(
-      `🎉 Payment Proof for Web Design Package\n\n📦 Package: ${packageName}\n💰 Amount: ₹${finalAmount.toLocaleString("en-IN")}${appliedCoupon ? ` (Coupon: ${appliedCoupon.code})` : ""}\n🔖 Transaction ID: ${transactionId || "Not provided"}\n📸 Screenshot: ${screenshotFile ? screenshotFile.name : "Not attached"}\n\nPlease verify my payment. Thank you!`,
+      `🎉 Payment Proof for Web Design Package\n\n📦 Package: ${packageName}\n💰 Amount: ₹${finalAmount.toLocaleString("en-IN")}${appliedCoupon ? ` (Coupon: ${appliedCoupon.code}, Discount: -₹${appliedCoupon.discount})` : ""}\n🔖 Transaction ID: ${transactionId || "Not provided"}\n📸 Screenshot: ${screenshotFile ? screenshotFile.name : "Not attached"}\n\nPlease verify my payment. Thank you!`,
     );
     window.open(`https://wa.me/919263989760?text=${msg}`, "_blank");
     setStep("submitted");
@@ -98,6 +101,7 @@ export default function WebDesignPaymentModal({
     setCouponCode("");
     setAppliedCoupon(null);
     setCouponError("");
+    setCouponSuccess("");
     setTransactionId("");
     setScreenshotFile(null);
     onClose();
@@ -126,7 +130,7 @@ export default function WebDesignPaymentModal({
                       ₹{finalAmount.toLocaleString("en-IN")}
                     </span>
                     <span className="bg-green-400/20 text-green-200 px-2 py-0.5 rounded-full text-xs">
-                      -{appliedCoupon.code}
+                      -{appliedCoupon.discount}
                     </span>
                   </>
                 ) : (
@@ -185,10 +189,41 @@ export default function WebDesignPaymentModal({
                   <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     {packageName}
                   </p>
-                  <p className="font-bold text-emerald-600 dark:text-emerald-400">
-                    ₹{finalAmount.toLocaleString("en-IN")}
-                  </p>
+                  <div className="text-right">
+                    {appliedCoupon ? (
+                      <>
+                        <p className="text-sm line-through text-gray-400">
+                          ₹{packagePrice.toLocaleString("en-IN")}
+                        </p>
+                        <p className="font-bold text-green-600 dark:text-green-400">
+                          ₹{finalAmount.toLocaleString("en-IN")}
+                        </p>
+                      </>
+                    ) : (
+                      <p className="font-bold text-emerald-600 dark:text-emerald-400">
+                        ₹{packagePrice.toLocaleString("en-IN")}
+                      </p>
+                    )}
+                  </div>
                 </div>
+
+                {/* Price breakdown */}
+                {appliedCoupon && (
+                  <div className="mt-3 pt-3 border-t border-emerald-200 dark:border-emerald-700 space-y-1">
+                    <div className="flex justify-between text-xs text-gray-500">
+                      <span>Original Price</span>
+                      <span>₹{packagePrice.toLocaleString("en-IN")}</span>
+                    </div>
+                    <div className="flex justify-between text-xs text-red-500 font-medium">
+                      <span>Discount Applied: -{appliedCoupon.code}</span>
+                      <span>-₹{appliedCoupon.discount}</span>
+                    </div>
+                    <div className="flex justify-between text-sm font-bold text-green-600 dark:text-green-400 pt-1 border-t border-emerald-200 dark:border-emerald-700">
+                      <span>Final Price</span>
+                      <span>₹{finalAmount.toLocaleString("en-IN")}</span>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Coupon */}
@@ -208,7 +243,7 @@ export default function WebDesignPaymentModal({
                           {appliedCoupon.code} applied!
                         </p>
                         <p className="text-xs text-green-600">
-                          Save ₹{appliedCoupon.discount}
+                          Discount Applied: -₹{appliedCoupon.discount}
                         </p>
                       </div>
                     </div>
@@ -217,6 +252,7 @@ export default function WebDesignPaymentModal({
                       onClick={() => {
                         setAppliedCoupon(null);
                         setCouponCode("");
+                        setCouponSuccess("");
                       }}
                       className="text-xs text-red-500 hover:text-red-700 underline"
                     >
@@ -231,6 +267,7 @@ export default function WebDesignPaymentModal({
                       onChange={(e) => {
                         setCouponCode(e.target.value);
                         setCouponError("");
+                        setCouponSuccess("");
                       }}
                       onKeyDown={(e) =>
                         e.key === "Enter" && handleApplyCoupon()
@@ -243,6 +280,14 @@ export default function WebDesignPaymentModal({
                     >
                       Apply
                     </Button>
+                  </div>
+                )}
+                {couponSuccess && (
+                  <div className="flex items-center gap-1 mt-2">
+                    <CheckCircle className="w-3.5 h-3.5 text-green-500" />
+                    <p className="text-xs text-green-600 font-semibold">
+                      {couponSuccess}
+                    </p>
                   </div>
                 )}
                 {couponError && (
@@ -268,6 +313,24 @@ export default function WebDesignPaymentModal({
           {/* ── PAYMENT STEP ── */}
           {step === "payment" && (
             <>
+              {/* Final Amount Summary */}
+              {appliedCoupon && (
+                <div className="bg-green-50 dark:bg-green-900/20 rounded-xl p-3 border border-green-200 dark:border-green-800">
+                  <div className="flex justify-between text-xs text-gray-500 mb-1">
+                    <span>Original Price</span>
+                    <span>₹{packagePrice.toLocaleString("en-IN")}</span>
+                  </div>
+                  <div className="flex justify-between text-xs text-red-500 font-medium mb-1">
+                    <span>Discount Applied: -{appliedCoupon.code}</span>
+                    <span>-₹{appliedCoupon.discount}</span>
+                  </div>
+                  <div className="flex justify-between text-base font-bold text-green-600 dark:text-green-400 pt-1 border-t border-green-200 dark:border-green-700">
+                    <span>Final Price</span>
+                    <span>₹{finalAmount.toLocaleString("en-IN")}</span>
+                  </div>
+                </div>
+              )}
+
               {/* ─ LOCAL / NATIONAL PAYMENT ─ */}
               <div className="rounded-2xl overflow-hidden border border-orange-200 dark:border-orange-800">
                 <div className="bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-2.5">

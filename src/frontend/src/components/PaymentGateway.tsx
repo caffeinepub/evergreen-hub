@@ -17,10 +17,13 @@ import { useGetPersistentSiteContent } from "../hooks/useQueries";
 
 const HARDCODED_UPI_ID = "7970705775@ybl";
 
-const COUPONS: Record<string, { type: "percent" | "flat"; value: number }> = {
-  EVERGREEN10: { type: "percent", value: 10 },
-  HUB25: { type: "percent", value: 25 },
-  WELCOME50: { type: "flat", value: 100 },
+const COUPONS: Record<
+  string,
+  { type: "percent" | "flat"; value: number; label: string }
+> = {
+  WELCOME50: { type: "flat", value: 100, label: "₹100 OFF" },
+  EVERGREEN: { type: "flat", value: 50, label: "₹50 OFF" },
+  HUB150: { type: "flat", value: 150, label: "₹150 OFF" },
 };
 
 interface PaymentGatewayProps {
@@ -44,19 +47,21 @@ export default function PaymentGateway({
     discount: number;
   } | null>(null);
   const [couponError, setCouponError] = useState("");
+  const [couponSuccess, setCouponSuccess] = useState("");
 
   const handleApplyCoupon = () => {
     const code = couponCode.trim().toUpperCase();
     setCouponError("");
+    setCouponSuccess("");
     if (!code) return;
-    const coupon = COUPONS[code];
-    if (!coupon) {
-      setCouponError("Invalid coupon code. Please try again.");
-      setAppliedCoupon(null);
+    if (appliedCoupon) {
+      setCouponError("Only 1 coupon allowed per order.");
       return;
     }
-    if (appliedCoupon?.code === code) {
-      setCouponError("Coupon already applied.");
+    const coupon = COUPONS[code];
+    if (!coupon) {
+      setCouponError("Invalid Coupon Code");
+      setAppliedCoupon(null);
       return;
     }
     const baseAmount = amount || 0;
@@ -64,16 +69,18 @@ export default function PaymentGateway({
       coupon.type === "percent"
         ? Math.round((baseAmount * coupon.value) / 100)
         : coupon.value;
+    const finalAmt = Math.max(0, baseAmount - discount);
     setAppliedCoupon({ code, discount });
+    setCouponSuccess("Coupon applied successfully 🎉");
     setCouponError("");
-    if (onDiscountedAmount)
-      onDiscountedAmount(Math.max(0, baseAmount - discount));
+    if (onDiscountedAmount) onDiscountedAmount(finalAmt);
   };
 
   const handleRemoveCoupon = () => {
     setAppliedCoupon(null);
     setCouponCode("");
     setCouponError("");
+    setCouponSuccess("");
     if (onDiscountedAmount && amount) onDiscountedAmount(amount);
   };
 
@@ -138,11 +145,11 @@ export default function PaymentGateway({
                   <p className="text-sm line-through text-gray-400">
                     ₹{amount?.toLocaleString("en-IN")}
                   </p>
-                  <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+                  <p className="text-2xl font-bold text-green-600 dark:text-green-400">
                     ₹{finalAmount?.toLocaleString("en-IN")}
                   </p>
                   <p className="text-xs text-green-600 font-semibold">
-                    Saved ₹{appliedCoupon.discount}
+                    Discount Applied: -₹{appliedCoupon.discount}
                   </p>
                 </>
               ) : (
@@ -152,6 +159,24 @@ export default function PaymentGateway({
               )}
             </div>
           </div>
+
+          {/* Price breakdown when coupon applied */}
+          {appliedCoupon && (
+            <div className="mt-4 pt-4 border-t border-emerald-200 dark:border-emerald-700 space-y-1">
+              <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                <span>Original Price</span>
+                <span>₹{amount?.toLocaleString("en-IN")}</span>
+              </div>
+              <div className="flex justify-between text-sm text-red-500 font-medium">
+                <span>Discount Applied: -{appliedCoupon.code}</span>
+                <span>-₹{appliedCoupon.discount}</span>
+              </div>
+              <div className="flex justify-between text-base font-bold text-green-600 dark:text-green-400 pt-1 border-t border-emerald-200 dark:border-emerald-700">
+                <span>Final Price</span>
+                <span>₹{finalAmount?.toLocaleString("en-IN")}</span>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Coupon Section */}
@@ -172,7 +197,7 @@ export default function PaymentGateway({
                     {appliedCoupon.code} applied!
                   </p>
                   <p className="text-xs text-green-600">
-                    Discount: ₹{appliedCoupon.discount} off
+                    Discount: -₹{appliedCoupon.discount} off
                   </p>
                 </div>
               </div>
@@ -193,6 +218,7 @@ export default function PaymentGateway({
                 onChange={(e) => {
                   setCouponCode(e.target.value);
                   setCouponError("");
+                  setCouponSuccess("");
                 }}
                 onKeyDown={(e) => e.key === "Enter" && handleApplyCoupon()}
                 className="flex-1 uppercase text-sm"
@@ -205,6 +231,15 @@ export default function PaymentGateway({
               >
                 Apply
               </Button>
+            </div>
+          )}
+
+          {couponSuccess && (
+            <div className="flex items-center gap-1 mt-2">
+              <CheckCircle className="w-4 h-4 text-green-500" />
+              <p className="text-xs text-green-600 font-semibold">
+                {couponSuccess}
+              </p>
             </div>
           )}
 
@@ -240,28 +275,39 @@ export default function PaymentGateway({
   return (
     <div className="space-y-6">
       {/* Amount Summary */}
-      <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-xl p-4 flex items-center justify-between border border-emerald-200 dark:border-emerald-800">
-        <div>
-          <p className="text-xs text-gray-500 dark:text-gray-400">Paying for</p>
-          <p className="font-semibold text-gray-800 dark:text-gray-100 text-sm">
-            {packageName || "Selected Package"}
-          </p>
-          {appliedCoupon && (
-            <p className="text-xs text-green-600 font-medium">
-              Coupon {appliedCoupon.code} applied
+      <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-xl p-4 border border-emerald-200 dark:border-emerald-800">
+        <div className="flex items-center justify-between mb-2">
+          <div>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              Paying for
             </p>
-          )}
-        </div>
-        <div className="text-right">
-          {appliedCoupon && (
-            <p className="text-xs line-through text-gray-400">
-              ₹{amount?.toLocaleString("en-IN")}
+            <p className="font-semibold text-gray-800 dark:text-gray-100 text-sm">
+              {packageName || "Selected Package"}
             </p>
-          )}
-          <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400">
-            {finalAmount ? `₹${finalAmount.toLocaleString("en-IN")}` : ""}
-          </p>
+          </div>
+          <div className="text-right">
+            {appliedCoupon && (
+              <p className="text-xs line-through text-gray-400">
+                ₹{amount?.toLocaleString("en-IN")}
+              </p>
+            )}
+            <p className="text-xl font-bold text-green-600 dark:text-green-400">
+              {finalAmount ? `₹${finalAmount.toLocaleString("en-IN")}` : ""}
+            </p>
+          </div>
         </div>
+        {appliedCoupon && (
+          <div className="pt-2 border-t border-emerald-200 dark:border-emerald-700 space-y-0.5">
+            <div className="flex justify-between text-xs text-red-500 font-medium">
+              <span>Discount Applied: -{appliedCoupon.code}</span>
+              <span>-₹{appliedCoupon.discount}</span>
+            </div>
+            <div className="flex justify-between text-sm font-bold text-green-600 dark:text-green-400">
+              <span>Final Price</span>
+              <span>₹{finalAmount?.toLocaleString("en-IN")}</span>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* ── LOCAL / NATIONAL PAYMENT (UPI / PhonePe) ── */}

@@ -1,22 +1,35 @@
-# Evergreen Hub - Sign-Up & Login Pages
+# Evergreen Hub
 
 ## Current State
-Existing app has a login page at `/login` with glassmorphism design. No dedicated sign-up page exists as a standalone styled page.
+- PhotoEditingSection.tsx exists with Basic (₹149) and Advanced (₹299) cards
+- Layout uses unicode escape sequences for ₹ symbols (\u20b9) in some places
+- Card design is functional but needs visual polish
+- WebDesignServices.tsx has packages but no website-type selection section
 
 ## Requested Changes (Diff)
 
 ### Add
-- Dedicated `/signup` page with green/teal gradient background, card-style form (Full Name, Email, Password, Confirm Password), social sign-up buttons (Google, Discord, GitHub), tagline 'Grow, Create, Connect', fade-in animations, hover effects, fully responsive
-- Updated `/login` page matching same green/teal theme, with Email + Password fields, Forgot Password link, Sign In CTA, social login buttons, link to sign-up
+- Website type selection section in WebDesignServices.tsx: show 4 options (Affiliate Marketing Website, Coaching Centre Website, Local Business Website, Blogger/Portfolio Website) as clickable cards that visually highlight when selected, helping user understand what kind of website they want
+- Each website type card should show a brief description and icon
 
 ### Modify
-- Login page visual theme: change from blue/purple gradient to green/teal to match Evergreen Hub branding
+- PhotoEditingSection.tsx: full redesign with:
+  - Fix all \u20b9 to actual ₹ symbol
+  - Proper psychological pricing: show original price struck through, bold discounted price, '50% OFF' badge
+  - Basic: ₹299 → ₹149, Advanced: ₹599 → ₹299
+  - Card hierarchy: Title → Description → Price (struck original + final + badge) → Features with checkmark icons → CTA
+  - Advanced card has gradient border or prominent 'Most Popular' banner at top
+  - Blue/purple gradient theme, light card backgrounds, subtle shadows, rounded corners
+  - Mobile responsive, minimal premium look
+  - CTA button: 'Order Now'
+  - After order modal: ask user to upload images or share Drive link
+  - WhatsApp message template in modal
+  - Order status: Image Received → Editing in Progress → Delivered
+  - Coupon codes still work (WELCOME50, EVERGREEN, HUB150, EVERGREEN10, HUB25)
 
 ### Remove
-- Nothing removed
+- Nothing removed, only improvements
 
 ## Implementation Plan
-1. Create `src/frontend/src/pages/SignUp.tsx` with full design
-2. Update `src/frontend/src/pages/Login.tsx` to match green/teal theme
-3. Add route for `/signup` in App.tsx
-4. Use Evergreen Hub logo, Poppins font, smooth animations
+1. Rewrite PhotoEditingSection.tsx with redesigned cards and proper ₹ symbols
+2. Add WebsiteTypeSelector section in WebDesignServices.tsx near the top/intro area

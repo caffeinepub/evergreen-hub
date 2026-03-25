@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
@@ -18,6 +17,10 @@ const packages = [
     id: 1n,
     name: "E-LITE PACKAGE",
     price: "₹699",
+    originalPrice: "₹1398",
+    earningPotential: "Basic earning potential (Low returns)",
+    badge: null,
+    badgeSubtext: null,
     image: "/assets/1736790168_99817e5b501599cb1a32.webp",
     courses: ["Ms Excel", "Time Management"],
     totalCourses: "Total 2 courses",
@@ -26,6 +29,10 @@ const packages = [
     id: 2n,
     name: "SILVER PACKAGE",
     price: "₹1499",
+    originalPrice: "₹2998",
+    earningPotential: "Starter earning potential",
+    badge: null,
+    badgeSubtext: null,
     image: "/assets/1736790180_92ef8bcb1e432a9a949a.webp",
     courses: [
       "Canva mastery",
@@ -39,6 +46,10 @@ const packages = [
     id: 3n,
     name: "GOLD PACKAGE",
     price: "₹2999",
+    originalPrice: "₹5998",
+    earningPotential: "Moderate earning potential",
+    badge: null,
+    badgeSubtext: null,
     image: "/assets/1736790230_c5566f358eb6ca101c0d.webp",
     courses: [
       "YouTube growth",
@@ -53,6 +64,10 @@ const packages = [
     id: 4n,
     name: "DIAMOND PACKAGE",
     price: "₹4999",
+    originalPrice: "₹9998",
+    earningPotential: "High earning potential (Recommended)",
+    badge: "Recommended ⭐",
+    badgeSubtext: null,
     popular: true,
     image: "/assets/1736790264_f670ec31ba7738d0be77.webp",
     courses: [
@@ -69,6 +84,10 @@ const packages = [
     id: 5n,
     name: "PLATINUM PACKAGE",
     price: "₹9999",
+    originalPrice: "₹19998",
+    earningPotential: "Very high earning potential (Best Seller)",
+    badge: "Best Seller 🔥",
+    badgeSubtext: "Most users choose this for higher income results",
     image: "/assets/1736790287_1899f7fdfeac4fa91418.webp",
     courses: [
       "Stock Market",
@@ -85,6 +104,10 @@ const packages = [
     id: 6n,
     name: "ULTRA PRO PACKAGE",
     price: "₹14999",
+    originalPrice: "₹29998",
+    earningPotential: "Maximum earning potential (Highest returns)",
+    badge: null,
+    badgeSubtext: null,
     image: "/assets/1736790311_3efed5100955914f22fb.webp",
     courses: [
       "Website development",
@@ -220,10 +243,17 @@ export default function PricingSection() {
                     pkg.popular ? "border-2 border-primary" : ""
                   } ${isExpanded ? "md:col-span-2 lg:col-span-3" : ""}`}
                 >
-                  {pkg.popular && (
-                    <Badge className="absolute top-4 right-4 bg-accent text-accent-foreground z-10">
-                      Best Value
-                    </Badge>
+                  {/* Highlight Badge Banner - Full Width at Top */}
+                  {pkg.badge && (
+                    <div
+                      className={`w-full text-center py-3 text-base font-bold tracking-wide ${
+                        pkg.name === "PLATINUM PACKAGE"
+                          ? "bg-gradient-to-r from-orange-500 to-red-500 text-white"
+                          : "bg-gradient-to-r from-blue-500 to-indigo-600 text-white"
+                      }`}
+                    >
+                      {pkg.badge}
+                    </div>
                   )}
 
                   {/* Clickable Header Section */}
@@ -253,13 +283,34 @@ export default function PricingSection() {
                         )}
                       </div>
                     </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="text-4xl font-bold text-primary">
-                        {pkg.price}
+                    <CardContent className="space-y-2">
+                      {/* Pricing with original price and discount */}
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm text-muted-foreground line-through">
+                            {pkg.originalPrice}
+                          </span>
+                          <span className="text-xs font-bold text-red-500 bg-red-100 dark:bg-red-900/30 px-2 py-0.5 rounded-full">
+                            50% OFF
+                          </span>
+                        </div>
+                        <div className="text-4xl font-bold text-primary">
+                          {pkg.price}
+                        </div>
                       </div>
                       <p className="text-sm text-muted-foreground font-medium">
                         {pkg.totalCourses}
                       </p>
+                      {/* Earning Potential */}
+                      <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                        📈 {pkg.earningPotential}
+                      </p>
+                      {/* Subtext for Platinum */}
+                      {pkg.badgeSubtext && (
+                        <p className="text-xs text-muted-foreground italic">
+                          {pkg.badgeSubtext}
+                        </p>
+                      )}
                     </CardContent>
                   </div>
 
