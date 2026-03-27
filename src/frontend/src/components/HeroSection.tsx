@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen } from "lucide-react";
+import { ArrowRight, Globe } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 
 export default function HeroSection() {
@@ -11,10 +11,9 @@ export default function HeroSection() {
   }, []);
 
   const handleExplore = () => {
-    // Try the pricing section id first, then fallback to courses-section
-    const pricingEl = document.getElementById("pricing-section");
-    const coursesEl = document.getElementById("courses-section");
-    const target = pricingEl || coursesEl;
+    const target =
+      document.getElementById("web-design-promo") ||
+      document.getElementById("video-editing-section");
     if (target) {
       target.scrollIntoView({ behavior: "smooth", block: "start" });
     }
@@ -55,8 +54,8 @@ export default function HeroSection() {
       >
         {/* Badge */}
         <div className="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/30 rounded-full px-4 py-1.5 text-emerald-300 text-sm font-medium mb-6">
-          <BookOpen className="w-4 h-4" />
-          Digital Skills & Affiliate Marketing
+          <Globe className="w-4 h-4" />
+          Professional Digital Services
         </div>
 
         {/* Headline */}
@@ -70,15 +69,15 @@ export default function HeroSection() {
               backgroundClip: "text",
             }}
           >
-            Digital Journey
+            Online Presence
           </span>{" "}
-          Shuru Karo
+          Banao
         </h1>
 
         {/* Subheadline */}
         <p className="text-lg md:text-xl text-emerald-100/80 mb-10 max-w-2xl mx-auto leading-relaxed">
-          Learn affiliate marketing, digital skills, aur online income
-          strategies. Expert guidance ke saath apna future secure karo.
+          Professional web design, video editing, aur photo editing services.
+          Expert team ke saath apna business online badao.
         </p>
 
         {/* CTA Buttons */}
@@ -89,10 +88,10 @@ export default function HeroSection() {
             className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-105 active:scale-95 shadow-lg"
             style={{ boxShadow: "0 0 30px rgba(249,115,22,0.3)" }}
           >
-            Explore Courses <ArrowRight className="w-5 h-5" />
+            Our Services <ArrowRight className="w-5 h-5" />
           </button>
           <a
-            href="https://wa.me/919263989760?text=Hi%2C%20I%20want%20to%20know%20more%20about%20Evergreen%20Hub%20courses"
+            href="https://wa.me/919263989760?text=Hi%2C%20I%20want%20to%20know%20more%20about%20Evergreen%20Hub%20services"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/30 text-white px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-105"

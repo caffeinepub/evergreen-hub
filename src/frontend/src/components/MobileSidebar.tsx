@@ -34,15 +34,6 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
   const [showContactForm, setShowContactForm] = useState(false);
   const navigate = useNavigate();
 
-  const packages = [
-    "E-LITE Package",
-    "SILVER Package",
-    "GOLD Package",
-    "DIAMOND Package",
-    "PLATINUM Package",
-    "ULTRA PRO Package",
-  ];
-
   const scrollToSection = (sectionId: string) => {
     onClose();
     if (window.location.pathname !== "/") {
@@ -55,10 +46,6 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
         element.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }, 300);
-  };
-
-  const handleAllPackagesClick = () => {
-    scrollToSection("pricing-section");
   };
 
   const handleWebDesignClick = () => {
@@ -148,41 +135,14 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
 
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem
-                value="courses"
+                value="services"
                 className="border-gray-300 dark:border-slate-700"
               >
                 <AccordionTrigger className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-900 dark:text-gray-100 hover:text-primary hover:bg-gray-100 dark:hover:bg-slate-800 transition-all duration-200 hover:no-underline">
                   <BookOpen className="h-5 w-5" />
-                  <span className="font-medium">Our Courses</span>
+                  <span className="font-medium">Our Services</span>
                 </AccordionTrigger>
                 <AccordionContent className="pl-8 pr-4 space-y-3 mt-2">
-                  <div className="space-y-2">
-                    <div
-                      onClick={handleAllPackagesClick}
-                      onKeyDown={(e) =>
-                        e.key === "Enter" && handleAllPackagesClick()
-                      }
-                      className="font-semibold text-gray-900 dark:text-gray-100 text-sm hover:text-primary transition-colors cursor-pointer"
-                    >
-                      1. All Packages
-                    </div>
-                    <div className="pl-4 space-y-2">
-                      {packages.map((pkg) => (
-                        <div
-                          key={pkg}
-                          onClick={() => scrollToSection("pricing-section")}
-                          onKeyDown={(e) =>
-                            e.key === "Enter" &&
-                            scrollToSection("pricing-section")
-                          }
-                          className="py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-primary transition-colors cursor-pointer"
-                        >
-                          {pkg}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
                   <div
                     onClick={() => scrollToSection("video-editing-section")}
                     onKeyDown={(e) =>
@@ -191,7 +151,7 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
                     }
                     className="py-2 font-semibold text-gray-900 dark:text-gray-100 hover:text-primary transition-colors cursor-pointer text-sm"
                   >
-                    2. Video Editing Charge
+                    1. Video Editing
                   </div>
 
                   <div
@@ -202,7 +162,7 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
                     className="py-2 font-semibold text-gray-900 dark:text-gray-100 hover:text-primary transition-colors cursor-pointer text-sm flex items-center gap-2"
                   >
                     <Globe className="h-4 w-4 text-blue-500" />
-                    3. Web Design Services
+                    2. Web Design Services
                   </div>
                 </AccordionContent>
               </AccordionItem>

@@ -48,10 +48,9 @@ export default function MyLandingPages() {
     window.open(`/landing/${pageId}`, "_blank");
   };
 
-  const handleEdit = (pageId: bigint) => {
+  const handleEdit = (_pageId: bigint) => {
     navigate({
-      to: "/dashboard/landing-page-builder",
-      search: { edit: pageId.toString() },
+      to: "/dashboard",
     });
   };
 
@@ -106,7 +105,7 @@ export default function MyLandingPages() {
           </p>
         </div>
         <Button
-          onClick={() => navigate({ to: "/dashboard/landing-page-builder" })}
+          onClick={() => navigate({ to: "/dashboard" })}
           className="bg-yellow-500 hover:bg-yellow-600 text-black"
         >
           Create New Page
@@ -128,9 +127,7 @@ export default function MyLandingPages() {
                 You haven't created any landing pages yet.
               </p>
               <Button
-                onClick={() =>
-                  navigate({ to: "/dashboard/landing-page-builder" })
-                }
+                onClick={() => navigate({ to: "/dashboard" })}
                 className="bg-green-600 hover:bg-green-700 text-white"
               >
                 Create Your First Landing Page

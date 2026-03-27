@@ -2,18 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
-import {
-  DollarSign,
-  FileText,
-  Home,
-  LayoutDashboard,
-  LayoutGrid,
-  Lock,
-  LogOut,
-  Menu,
-  Package,
-  User,
-} from "lucide-react";
+import { Home, LayoutDashboard, Lock, LogOut, Menu, User } from "lucide-react";
 import { useState } from "react";
 import { ExternalBlob } from "../backend";
 import ProtectedRoute from "../components/ProtectedRoute";
@@ -22,22 +11,6 @@ import { useAuth } from "../contexts/AuthContext";
 const navigation = [
   { name: "Home", href: "/", icon: Home },
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { name: "My Packages", href: "/dashboard/packages", icon: Package },
-  {
-    name: "Withdrawal Request",
-    href: "/dashboard/withdrawal-requests",
-    icon: DollarSign,
-  },
-  {
-    name: "Landing Page Builder",
-    href: "/dashboard/landing-page-builder",
-    icon: FileText,
-  },
-  {
-    name: "My Landing Pages",
-    href: "/dashboard/my-landing-pages",
-    icon: LayoutGrid,
-  },
   { name: "Profile Settings", href: "/dashboard/profile", icon: User },
   { name: "Change Password", href: "/dashboard/change-password", icon: Lock },
 ];

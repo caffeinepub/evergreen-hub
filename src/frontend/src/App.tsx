@@ -20,7 +20,6 @@ import UserDashboardLayout from "./layouts/UserDashboardLayout";
 import AppDownloadSection from "./components/AppDownloadSection";
 import BottomCTASection from "./components/BottomCTASection";
 import ContactFormSection from "./components/ContactFormSection";
-import FAQSection from "./components/FAQSection";
 import FloatingWhatsAppButton from "./components/FloatingWhatsAppButton";
 import Footer from "./components/Footer";
 import FounderSection from "./components/FounderSection";
@@ -30,7 +29,6 @@ import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
 import InstagramSection from "./components/InstagramSection";
 import PhotoEditingSection from "./components/PhotoEditingSection";
-import PricingSection from "./components/PricingSection";
 import ScrollToTopButton from "./components/ScrollToTopButton";
 import TestimonialsSection from "./components/TestimonialsSection";
 import TrustBadgesSection from "./components/TrustBadgesSection";
@@ -55,16 +53,8 @@ const WebDesignServices = lazy(() => import("./pages/WebDesignServices"));
 
 // User Dashboard Pages (lazy)
 const DashboardOverview = lazy(() => import("./pages/user/DashboardOverview"));
-const MyPackages = lazy(() => import("./pages/user/MyPackages"));
 const ProfileSettings = lazy(() => import("./pages/user/ProfileSettings"));
 const ChangePassword = lazy(() => import("./pages/user/ChangePassword"));
-const WithdrawalRequests = lazy(
-  () => import("./pages/user/WithdrawalRequests"),
-);
-const LandingPageBuilder = lazy(
-  () => import("./pages/user/LandingPageBuilder"),
-);
-const MyLandingPages = lazy(() => import("./pages/user/MyLandingPages"));
 
 // Admin Pages (lazy)
 const AdminStats = lazy(() => import("./pages/admin/AdminStats"));
@@ -102,7 +92,6 @@ function LandingPage() {
       <HeroSection />
       <TrustBadgesSection />
       <WebDesignServicesPromo />
-      <PricingSection />
       <VideoEditingSection />
       <PhotoEditingSection />
       <WhyChooseUsSection />
@@ -111,7 +100,6 @@ function LandingPage() {
       <FounderSection />
       <TestimonialsSection />
       <ContactFormSection />
-      <FAQSection />
       <BottomCTASection />
       <AppDownloadSection />
       <Footer />
@@ -277,16 +265,6 @@ const dashboardIndexRoute = createRoute({
   ),
 });
 
-const dashboardPackagesRoute = createRoute({
-  getParentRoute: () => dashboardRoute,
-  path: "/packages",
-  component: () => (
-    <Suspense fallback={<PageLoader />}>
-      <MyPackages />
-    </Suspense>
-  ),
-});
-
 const dashboardProfileRoute = createRoute({
   getParentRoute: () => dashboardRoute,
   path: "/profile",
@@ -303,36 +281,6 @@ const dashboardPasswordRoute = createRoute({
   component: () => (
     <Suspense fallback={<PageLoader />}>
       <ChangePassword />
-    </Suspense>
-  ),
-});
-
-const dashboardWithdrawalRoute = createRoute({
-  getParentRoute: () => dashboardRoute,
-  path: "/withdrawal-requests",
-  component: () => (
-    <Suspense fallback={<PageLoader />}>
-      <WithdrawalRequests />
-    </Suspense>
-  ),
-});
-
-const dashboardLandingPageRoute = createRoute({
-  getParentRoute: () => dashboardRoute,
-  path: "/landing-page-builder",
-  component: () => (
-    <Suspense fallback={<PageLoader />}>
-      <LandingPageBuilder />
-    </Suspense>
-  ),
-});
-
-const dashboardMyLandingPagesRoute = createRoute({
-  getParentRoute: () => dashboardRoute,
-  path: "/my-landing-pages",
-  component: () => (
-    <Suspense fallback={<PageLoader />}>
-      <MyLandingPages />
     </Suspense>
   ),
 });
@@ -449,12 +397,8 @@ const routeTree = rootRoute.addChildren([
   webDesignRoute,
   dashboardRoute.addChildren([
     dashboardIndexRoute,
-    dashboardPackagesRoute,
     dashboardProfileRoute,
     dashboardPasswordRoute,
-    dashboardWithdrawalRoute,
-    dashboardLandingPageRoute,
-    dashboardMyLandingPagesRoute,
   ]),
   adminDashboardRoute,
   adminRoute.addChildren([
