@@ -11,6 +11,7 @@ import {
 import { ThemeProvider } from "next-themes";
 import React, { Suspense, lazy } from "react";
 import { AuthProvider } from "./contexts/AuthContext";
+import { CartProvider } from "./contexts/CartContext";
 import { ThemeProvider as CustomThemeProvider } from "./contexts/ThemeContext";
 
 import AdminDashboardLayout from "./layouts/AdminDashboardLayout";
@@ -20,6 +21,7 @@ import UserDashboardLayout from "./layouts/UserDashboardLayout";
 import AppDownloadSection from "./components/AppDownloadSection";
 import BottomCTASection from "./components/BottomCTASection";
 import ContactFormSection from "./components/ContactFormSection";
+import FAQSection from "./components/FAQSection";
 import FloatingWhatsAppButton from "./components/FloatingWhatsAppButton";
 import Footer from "./components/Footer";
 import FounderSection from "./components/FounderSection";
@@ -99,6 +101,7 @@ function LandingPage() {
       <InstagramSection />
       <FounderSection />
       <TestimonialsSection />
+      <FAQSection />
       <ContactFormSection />
       <BottomCTASection />
       <AppDownloadSection />
@@ -427,8 +430,10 @@ export default function App() {
       <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
         <CustomThemeProvider>
           <AuthProvider>
-            <RouterProvider router={router} />
-            <Toaster />
+            <CartProvider>
+              <RouterProvider router={router} />
+              <Toaster />
+            </CartProvider>
           </AuthProvider>
         </CustomThemeProvider>
       </ThemeProvider>

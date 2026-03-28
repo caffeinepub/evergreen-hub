@@ -1,6 +1,18 @@
-import { BookOpen, Eye, Heart, Shield, Target, Users } from "lucide-react";
+import {
+  Camera,
+  Globe,
+  Heart,
+  Shield,
+  Target,
+  Users,
+  Video,
+} from "lucide-react";
 import type React from "react";
 import { useEffect } from "react";
+import FloatingWhatsAppButton from "../components/FloatingWhatsAppButton";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import ScrollToTopButton from "../components/ScrollToTopButton";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 
 function AnimatedSection({
@@ -11,7 +23,9 @@ function AnimatedSection({
   return (
     <div
       ref={ref as React.RefObject<HTMLDivElement>}
-      className={`transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"} ${className}`}
+      className={`transition-all duration-700 ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+      } ${className}`}
     >
       {children}
     </div>
@@ -20,13 +34,23 @@ function AnimatedSection({
 
 export default function AboutUs() {
   useEffect(() => {
-    document.title = "About Us | Evergreen Hub";
+    document.title =
+      "About Us | Evergreen Hub - Professional Web Design, Video & Photo Editing";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute(
+        "content",
+        "Evergreen Hub provides professional web design, video editing, and photo editing services to coaching institutes, local businesses, bloggers, and affiliate marketers across India.",
+      );
+    }
   }, []);
 
   return (
     <main className="min-h-screen bg-background text-foreground">
+      <Header />
+
       {/* Hero */}
-      <section className="py-20 px-4 bg-gradient-to-br from-emerald-950 via-emerald-900 to-slate-900 text-white text-center">
+      <section className="pt-28 pb-20 px-4 bg-gradient-to-br from-emerald-950 via-emerald-900 to-slate-900 text-white text-center">
         <AnimatedSection>
           <div className="max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/30 rounded-full px-4 py-1.5 text-emerald-300 text-sm font-medium mb-6">
@@ -34,156 +58,119 @@ export default function AboutUs() {
               About Evergreen Hub
             </div>
             <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
-              Empowering Digital{" "}
-              <span className="text-emerald-400">Entrepreneurs</span>
+              Professional Digital{" "}
+              <span className="text-emerald-400">Services</span>
             </h1>
             <p className="text-emerald-100/80 text-lg leading-relaxed">
-              We are on a mission to make digital skills and online income
-              accessible to everyone in India.
+              We help businesses and creators grow online with expert web
+              design, video editing, and photo editing services.
             </p>
           </div>
         </AnimatedSection>
       </section>
 
-      {/* Introduction */}
+      {/* Who We Are */}
       <section className="py-16 px-4 bg-background">
         <div className="max-w-4xl mx-auto">
           <AnimatedSection>
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 rounded-lg bg-emerald-100 dark:bg-emerald-900/30">
-                <BookOpen className="w-6 h-6 text-emerald-600" />
+                <Globe className="w-6 h-6 text-emerald-600" />
               </div>
               <h2 className="text-2xl font-bold text-foreground">Who We Are</h2>
             </div>
             <p className="text-muted-foreground leading-relaxed text-lg mb-4">
-              Evergreen Hub is a digital education platform dedicated to helping
-              individuals across India build sustainable online income streams
-              through affiliate marketing, digital skills, and entrepreneurship.
+              Evergreen Hub is a professional services platform founded by Rudra
+              Pratap Singh from Bihar. We specialize in delivering high-quality
+              web design, video editing, and photo editing services to clients
+              across India and beyond.
             </p>
-            <p className="text-muted-foreground leading-relaxed">
-              Founded with a vision to bridge the gap between traditional
-              education and the digital economy, we provide practical,
-              actionable courses that deliver real results.
+            <p className="text-muted-foreground leading-relaxed text-lg">
+              Our mission is simple: help coaching institutes, local businesses,
+              bloggers, and affiliate marketers build a powerful online presence
+              without the complexity or high costs typically associated with
+              digital services.
             </p>
           </AnimatedSection>
         </div>
       </section>
 
-      {/* Mission */}
+      {/* Our Services */}
       <section className="py-16 px-4 bg-muted/30">
         <div className="max-w-4xl mx-auto">
           <AnimatedSection>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 rounded-lg bg-orange-100 dark:bg-orange-900/30">
-                <Target className="w-6 h-6 text-orange-600" />
-              </div>
-              <h2 className="text-2xl font-bold text-foreground">
-                Our Mission
-              </h2>
-            </div>
-            <p className="text-muted-foreground leading-relaxed text-lg mb-4">
-              To democratize digital education and make online income
-              opportunities accessible to every aspiring entrepreneur in India,
-              regardless of their background or prior experience.
-            </p>
-            <p className="text-muted-foreground leading-relaxed">
-              We believe that with the right knowledge, tools, and community
-              support, anyone can build a successful online business and achieve
-              financial freedom.
-            </p>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* What We Offer */}
-      <section className="py-16 px-4 bg-background">
-        <div className="max-w-5xl mx-auto">
-          <AnimatedSection>
-            <h2 className="text-2xl font-bold text-foreground mb-8">
+            <h2 className="text-3xl font-bold text-foreground text-center mb-12">
               What We Offer
             </h2>
-          </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                icon: BookOpen,
-                title: "Comprehensive Courses",
-                desc: "From beginner to advanced, our courses cover affiliate marketing, social media, SEO, and more.",
-                color: "emerald",
-              },
-              {
-                icon: Users,
-                title: "Community Support",
-                desc: "Join a vibrant community of learners and entrepreneurs who support each other's growth.",
-                color: "blue",
-              },
-              {
-                icon: Shield,
-                title: "Proven Strategies",
-                desc: "Learn battle-tested strategies that have helped real people build real online income.",
-                color: "orange",
-              },
-            ].map((item) => (
-              <AnimatedSection key={item.color}>
-                <div className="bg-card border border-border rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
-                  <div
-                    className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${
-                      item.color === "emerald"
-                        ? "bg-emerald-100 dark:bg-emerald-900/30"
-                        : item.color === "blue"
-                          ? "bg-blue-100 dark:bg-blue-900/30"
-                          : "bg-orange-100 dark:bg-orange-900/30"
-                    }`}
-                  >
-                    <item.icon
-                      className={`w-6 h-6 ${
-                        item.color === "emerald"
-                          ? "text-emerald-600"
-                          : item.color === "blue"
-                            ? "text-blue-600"
-                            : "text-orange-600"
-                      }`}
-                    />
-                  </div>
-                  <h3 className="font-bold text-foreground mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {item.desc}
-                  </p>
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="text-center p-6 rounded-xl bg-card border border-border hover:border-primary/40 transition-colors">
+                <div className="w-14 h-14 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Globe className="w-7 h-7 text-blue-600" />
                 </div>
-              </AnimatedSection>
-            ))}
-          </div>
+                <h3 className="font-bold text-foreground mb-2">Web Design</h3>
+                <p className="text-muted-foreground text-sm">
+                  From a simple landing page to a full multi-page website —
+                  clean, fast, and mobile-first designs tailored for your
+                  business.
+                </p>
+              </div>
+              <div className="text-center p-6 rounded-xl bg-card border border-border hover:border-primary/40 transition-colors">
+                <div className="w-14 h-14 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Video className="w-7 h-7 text-purple-600" />
+                </div>
+                <h3 className="font-bold text-foreground mb-2">
+                  Video Editing
+                </h3>
+                <p className="text-muted-foreground text-sm">
+                  Professional video editing for YouTube, Instagram Reels, and
+                  long-form content — with add-ons like thumbnails, color
+                  grading, and motion graphics.
+                </p>
+              </div>
+              <div className="text-center p-6 rounded-xl bg-card border border-border hover:border-primary/40 transition-colors">
+                <div className="w-14 h-14 bg-pink-100 dark:bg-pink-900/30 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Camera className="w-7 h-7 text-pink-600" />
+                </div>
+                <h3 className="font-bold text-foreground mb-2">
+                  Photo Editing
+                </h3>
+                <p className="text-muted-foreground text-sm">
+                  From basic color correction to advanced skin retouching and
+                  background removal — delivering studio-quality results.
+                </p>
+              </div>
+            </div>
+          </AnimatedSection>
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="py-16 px-4 bg-muted/30">
+      {/* Who We Serve */}
+      <section className="py-16 px-4 bg-background">
         <div className="max-w-4xl mx-auto">
           <AnimatedSection>
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/30">
-                <Shield className="w-6 h-6 text-blue-600" />
+                <Users className="w-6 h-6 text-blue-600" />
               </div>
               <h2 className="text-2xl font-bold text-foreground">
-                Why Choose Us
+                Who We Serve
               </h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 gap-4">
               {[
-                "Expert instructors with real-world experience",
-                "Practical, hands-on learning approach",
-                "Lifetime access to course materials",
-                "Active community and peer support",
-                "Regular content updates",
-                "Dedicated WhatsApp support",
-              ].map((point) => (
-                <div key={point} className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-white text-xs font-bold">✓</span>
-                  </div>
-                  <p className="text-muted-foreground">{point}</p>
+                "Coaching Institutes looking for a professional website",
+                "Local businesses needing an online presence",
+                "Bloggers and content creators wanting a portfolio",
+                "Affiliate marketers building high-converting landing pages",
+                "YouTube creators needing consistent video editing",
+                "Businesses wanting high-quality photo editing at scale",
+              ].map((item) => (
+                <div
+                  key={item}
+                  className="flex items-start gap-3 p-4 rounded-lg bg-muted/40"
+                >
+                  <Shield className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                  <span className="text-muted-foreground text-sm">{item}</span>
                 </div>
               ))}
             </div>
@@ -191,55 +178,33 @@ export default function AboutUs() {
         </div>
       </section>
 
-      {/* Vision */}
-      <section className="py-16 px-4 bg-background">
+      {/* Our Mission */}
+      <section className="py-16 px-4 bg-gradient-to-br from-emerald-50 to-blue-50 dark:from-emerald-950/30 dark:to-blue-950/30">
         <div className="max-w-4xl mx-auto">
           <AnimatedSection>
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 rounded-lg bg-purple-100 dark:bg-purple-900/30">
-                <Eye className="w-6 h-6 text-purple-600" />
+              <div className="p-2 rounded-lg bg-emerald-100 dark:bg-emerald-900/30">
+                <Target className="w-6 h-6 text-emerald-600" />
               </div>
-              <h2 className="text-2xl font-bold text-foreground">Our Vision</h2>
+              <h2 className="text-2xl font-bold text-foreground">
+                Our Mission
+              </h2>
             </div>
-            <p className="text-muted-foreground leading-relaxed text-lg mb-4">
-              To become India's most trusted digital education platform,
-              empowering millions of individuals to achieve financial
-              independence through digital skills and online entrepreneurship.
-            </p>
-            <p className="text-muted-foreground leading-relaxed">
-              We envision a future where geography and background are no
-              barriers to success in the digital economy.
+            <p className="text-muted-foreground leading-relaxed text-lg">
+              At Evergreen Hub, our mission is to combine modern design, smart
+              functionality, and high-quality creative work to deliver solutions
+              that not only look professional but also drive real results.
+              Whether you're starting your first website, boosting your online
+              presence, or creating engaging marketing content, we make sure
+              your business stands out in the digital world.
             </p>
           </AnimatedSection>
         </div>
       </section>
 
-      {/* Commitment to Transparency */}
-      <section className="py-16 px-4 bg-muted/30">
-        <div className="max-w-4xl mx-auto">
-          <AnimatedSection>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 rounded-lg bg-emerald-100 dark:bg-emerald-900/30">
-                <Shield className="w-6 h-6 text-emerald-600" />
-              </div>
-              <h2 className="text-2xl font-bold text-foreground">
-                Commitment to Transparency
-              </h2>
-            </div>
-            <p className="text-muted-foreground leading-relaxed text-lg mb-4">
-              We believe in complete transparency with our students. Our courses
-              clearly outline what you will learn, what results are realistic,
-              and what effort is required.
-            </p>
-            <p className="text-muted-foreground leading-relaxed">
-              We do not make unrealistic income promises. Success in digital
-              marketing requires dedication, consistent effort, and continuous
-              learning. We provide the tools and knowledge — your success
-              depends on your commitment.
-            </p>
-          </AnimatedSection>
-        </div>
-      </section>
+      <Footer />
+      <FloatingWhatsAppButton />
+      <ScrollToTopButton />
     </main>
   );
 }

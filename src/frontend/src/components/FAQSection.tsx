@@ -8,29 +8,44 @@ import { useScrollAnimation } from "../hooks/useScrollAnimation";
 
 const faqs = [
   {
-    question: "What is affiliate marketing?",
+    question: "What web design services do you offer?",
     answer:
-      "Affiliate marketing is a performance-based business model where you earn commissions by promoting other companies' products or services. When someone makes a purchase through your unique affiliate link, you earn a percentage of the sale.",
+      "We offer a range of packages starting from a Basic Landing Page (₹2,999) to an Ultra Premium multi-page website (₹24,999). All packages include mobile-friendly design, WhatsApp/Call button, Contact Form, and demo availability. You can choose from Coaching Centre, Local Business, Blogger/Portfolio, or Affiliate Marketing website types.",
   },
   {
-    question: "Do I need any prior experience to start?",
+    question: "How long does it take to deliver a website?",
     answer:
-      "No prior experience is required! Our courses are designed specifically for beginners. We start from the basics and guide you step-by-step through the entire process of building a successful affiliate marketing business.",
+      "Delivery time depends on the package: Basic Package takes 2–3 days, Starter Package takes 5 days, Growth Package takes 7–10 days, Authority Package takes 10–15 days, and Ultra Premium Package takes 15–20 days. Timelines start after we receive all required content and information from you.",
   },
   {
-    question: "How long does it take to see results?",
+    question: "Do you offer demo or preview before final delivery?",
     answer:
-      "Results vary depending on your effort and consistency. Some students see their first commission within 2-4 weeks, while others may take 2-3 months. The key is to follow the training consistently and implement what you learn.",
+      "Yes! All our web design packages include demo availability so you can review and request changes before the final site goes live.",
   },
   {
-    question: "What kind of support do I get?",
+    question: "What types of videos do you edit?",
     answer:
-      "All our packages include lifetime access to course materials. Depending on your package, you'll get email support, WhatsApp support, live Q&A sessions, or even one-on-one mentorship. We're committed to helping you succeed!",
+      "We edit all types of videos including Instagram Reels/Shorts (up to 60 sec), YouTube vlogs and tutorials (up to 5 min), YouTube Pro content (up to 10 min), and Long-form videos (up to 30 min). We also offer add-ons like thumbnails, color grading, motion graphics, and sound effects.",
   },
   {
-    question: "Can I really earn money from home?",
+    question: "How much does video editing cost?",
     answer:
-      "Absolutely! Affiliate marketing is a legitimate way to earn money online from anywhere. Many of our students are earning consistent income from home. Success depends on learning the right strategies and taking consistent action.",
+      "Our video editing prices start at ₹799 for Shorts/Reels. YouTube Basic (5 min) is ₹1,999, YouTube Pro (10 min) is ₹3,999, and Long Video (30 min) is ₹7,999. We also have bulk deals — 10 Reels Pack for ₹5,999 and monthly creator plans.",
+  },
+  {
+    question: "How do I submit my video/photos for editing?",
+    answer:
+      "After placing your order, you can upload your files directly or share a Google Drive link. Our team will start editing and deliver via WhatsApp or Drive link within the promised timeframe.",
+  },
+  {
+    question: "What is included in photo editing?",
+    answer:
+      "Basic Photo Editing (₹149) includes color correction, brightness/contrast adjustment, and basic retouch — delivered in 12–24 hours. Advanced Photo Editing (₹299) includes skin retouching, background removal, color grading, and high-end finish — delivered in 24–48 hours. We also offer a 5 Photos Pack for ₹499.",
+  },
+  {
+    question: "What payment methods do you accept?",
+    answer:
+      "We accept UPI/PhonePe for local/national payments and PayPal for international payments. You can also pay via bank transfer. After payment, share your transaction ID and we\u2019ll confirm your order immediately.",
   },
 ];
 
@@ -46,7 +61,7 @@ export default function FAQSection() {
               Frequently Asked Questions
             </h2>
             <p className="text-xl text-muted-foreground">
-              Everything you need to know about affiliate marketing
+              Everything you need to know about our services
             </p>
           </div>
 
@@ -59,6 +74,7 @@ export default function FAQSection() {
                 <AccordionItem
                   key={faq.question}
                   value={`item-${index}`}
+                  data-ocid={`faq.item.${index + 1}`}
                   className="border border-border rounded-lg px-6 hover:border-emerald-500/50 transition-colors"
                 >
                   <AccordionTrigger className="text-left font-semibold text-foreground hover:text-emerald-500 hover:no-underline">

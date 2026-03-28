@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { User } from "lucide-react";
+import { ShoppingBag, User } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 
 // Bubble configuration
@@ -113,35 +113,83 @@ function RisingBubbles() {
       ))}
       <style>{`
         @keyframes riseBubble {
-          0% {
-            transform: translateY(0) scale(1);
-            opacity: 0;
-          }
-          10% {
-            opacity: 1;
-          }
-          80% {
-            opacity: 0.6;
-          }
-          100% {
-            transform: translateY(-100vh) scale(0.6);
-            opacity: 0;
-          }
+          0% { transform: translateY(0) scale(1); opacity: 0; }
+          10% { opacity: 1; }
+          80% { opacity: 0.6; }
+          100% { transform: translateY(-100vh) scale(0.6); opacity: 0; }
         }
       `}</style>
     </div>
   );
 }
 
+const STATUS_COLORS: Record<string, string> = {
+  Delivered:
+    "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
+  "In Progress":
+    "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
+  "Image Received":
+    "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
+  "Editing in Progress":
+    "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200",
+};
+
+const CATEGORY_COLORS: Record<string, string> = {
+  "Web Design":
+    "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
+  "Video Editing":
+    "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
+  "Photo Editing":
+    "bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300",
+};
+
+const SAMPLE_ORDERS = [
+  {
+    id: "ORD-001",
+    service: "Basic Web Design Package",
+    category: "Web Design",
+    price: 2999,
+    status: "In Progress",
+    date: "2026-03-20",
+  },
+  {
+    id: "ORD-002",
+    service: "YouTube Pro Video Editing",
+    category: "Video Editing",
+    price: 3999,
+    status: "Delivered",
+    date: "2026-03-18",
+  },
+  {
+    id: "ORD-003",
+    service: "Advanced Photo Editing",
+    category: "Photo Editing",
+    price: 299,
+    status: "Image Received",
+    date: "2026-03-22",
+  },
+];
+
 export default function DashboardOverview() {
   const { userProfile } = useAuth();
 
+  const orders = (() => {
+    try {
+      const stored = localStorage.getItem("evergreenhub_orders");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {
+      /* empty */
+    }
+    return SAMPLE_ORDERS;
+  })();
+
   return (
     <div className="relative min-h-screen p-6 space-y-6 overflow-hidden">
-      {/* Rising bubbles background animation */}
       <RisingBubbles />
 
-      {/* All content above bubbles */}
       <div className="relative z-10 space-y-6">
         {/* Welcome Header */}
         <div>
@@ -213,6 +261,65 @@ export default function DashboardOverview() {
                 </div>
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* My Orders */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <ShoppingBag className="h-5 w-5 text-primary" />
+              My Orders
+            </CardTitle>
+            <CardDescription>Your recent service orders</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {orders.length === 0 ? (
+              <div
+                data-ocid="orders.empty_state"
+                className="text-center py-8 text-muted-foreground"
+              >
+                <ShoppingBag className="h-10 w-10 mx-auto mb-3 opacity-30" />
+                <p>No orders yet. Browse our services to get started!</p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {orders.map((order, idx) => (
+                  <div
+                    key={order.id}
+                    data-ocid={`orders.item.${idx + 1}`}
+                    className="flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-lg border bg-card/50 gap-2"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <p className="font-medium text-sm text-foreground">
+                          {order.service}
+                        </p>
+                        <Badge
+                          variant="outline"
+                          className={`text-xs ${CATEGORY_COLORS[order.category] || ""}`}
+                        >
+                          {order.category}
+                        </Badge>
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Order #{order.id} · {order.date}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-3 shrink-0">
+                      <span className="font-bold text-primary text-sm">
+                        ₹{order.price.toLocaleString("en-IN")}
+                      </span>
+                      <Badge
+                        className={`text-xs ${STATUS_COLORS[order.status] || "bg-gray-100 text-gray-700"}`}
+                      >
+                        {order.status}
+                      </Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

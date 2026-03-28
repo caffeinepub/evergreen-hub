@@ -75,6 +75,7 @@ export default function PhotoEditingSection() {
   return (
     <>
       <section
+        id="photo-editing"
         ref={ref}
         className="py-20 bg-gradient-to-br from-purple-50 via-white to-cyan-50"
       >

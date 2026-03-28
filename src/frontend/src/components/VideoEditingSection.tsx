@@ -100,6 +100,7 @@ export default function VideoEditingSection() {
   return (
     <>
       <section
+        id="video-editing"
         ref={ref}
         className="py-20 bg-gradient-to-br from-background via-primary/5 to-background"
       >

@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -6,17 +7,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Link, useNavigate } from "@tanstack/react-router";
-import { Menu } from "lucide-react";
+import { Link, useNavigate, useRouter } from "@tanstack/react-router";
+import { Menu, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
+import { useCart } from "../contexts/CartContext";
+import CartDrawer from "./CartDrawer";
 import MobileSidebar from "./MobileSidebar";
 
 export default function Header() {
   const { isAuthenticated, isAdmin, logout } = useAuth();
+  const { cartCount } = useCart();
   const navigate = useNavigate();
+  const router = useRouter();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,6 +37,20 @@ export default function Header() {
       navigate({ to: "/admin/stats" });
     } else {
       navigate({ to: "/dashboard" });
+    }
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    const currentPath = router.state.location.pathname;
+    if (currentPath === "/") {
+      const el = document.getElementById(sectionId);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      navigate({ to: "/" });
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 500);
     }
   };
 
@@ -62,31 +82,67 @@ export default function Header() {
               <Link
                 to="/"
                 className="text-foreground hover:text-primary transition-colors font-medium"
+                data-ocid="nav.link"
               >
                 Home
               </Link>
               <Link
                 to="/about"
                 className="text-foreground hover:text-primary transition-colors font-medium"
+                data-ocid="nav.link"
               >
                 About
               </Link>
               <Link
                 to="/web-design-services"
                 className="text-foreground hover:text-primary transition-colors font-medium"
+                data-ocid="nav.link"
               >
                 Web Design
               </Link>
+              <button
+                type="button"
+                onClick={() => scrollToSection("video-editing")}
+                className="text-foreground hover:text-primary transition-colors font-medium"
+                data-ocid="nav.link"
+              >
+                Video Editing
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToSection("photo-editing")}
+                className="text-foreground hover:text-primary transition-colors font-medium"
+                data-ocid="nav.link"
+              >
+                Photo Editing
+              </button>
               <Link
                 to="/contact"
                 className="text-foreground hover:text-primary transition-colors font-medium"
+                data-ocid="nav.link"
               >
                 Contact
               </Link>
             </nav>
 
-            {/* Desktop Auth */}
-            <div className="hidden md:flex items-center gap-4">
+            {/* Desktop Auth + Cart */}
+            <div className="hidden md:flex items-center gap-3">
+              {/* Cart Button */}
+              <button
+                type="button"
+                data-ocid="cart.open_modal_button"
+                onClick={() => setIsCartOpen(true)}
+                className="relative p-2 rounded-lg text-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                aria-label="Open cart"
+              >
+                <ShoppingCart className="h-5 w-5" />
+                {cartCount > 0 && (
+                  <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs bg-primary text-white rounded-full">
+                    {cartCount}
+                  </Badge>
+                )}
+              </button>
+
               {!isAuthenticated ? (
                 <>
                   <Button
@@ -124,15 +180,31 @@ export default function Header() {
               )}
             </div>
 
-            {/* Mobile Menu Button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden text-foreground"
-              onClick={() => setIsMobileSidebarOpen(true)}
-            >
-              <Menu className="h-6 w-6" />
-            </Button>
+            {/* Mobile: Cart + Menu */}
+            <div className="flex items-center gap-2 md:hidden">
+              <button
+                type="button"
+                data-ocid="cart.open_modal_button"
+                onClick={() => setIsCartOpen(true)}
+                className="relative p-2 rounded-lg text-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                aria-label="Open cart"
+              >
+                <ShoppingCart className="h-5 w-5" />
+                {cartCount > 0 && (
+                  <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs bg-primary text-white rounded-full">
+                    {cartCount}
+                  </Badge>
+                )}
+              </button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-foreground"
+                onClick={() => setIsMobileSidebarOpen(true)}
+              >
+                <Menu className="h-6 w-6" />
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -141,6 +213,7 @@ export default function Header() {
         isOpen={isMobileSidebarOpen}
         onClose={() => setIsMobileSidebarOpen(false)}
       />
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </>
   );
 }
