@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import {
   CheckCircle,
   Clock,
+  ShoppingCart,
   Sparkles,
   Star,
   Trophy,
@@ -10,6 +11,7 @@ import {
   Zap,
 } from "lucide-react";
 import { useState } from "react";
+import { useCart } from "../contexts/CartContext";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import PaymentModal from "./PaymentModal";
 
@@ -88,6 +90,19 @@ export default function VideoEditingSection() {
     price: string;
   } | null>(null);
   const { ref, isVisible } = useScrollAnimation();
+  const { addToCart } = useCart();
+  const [cartAdded, setCartAdded] = useState<string | null>(null);
+
+  const handleAddToCart = (plan: (typeof plans)[0]) => {
+    addToCart({
+      id: `video-${plan.id}`,
+      name: `Video Editing - ${plan.title}`,
+      price: plan.finalPrice,
+      category: "video-editing",
+    });
+    setCartAdded(plan.id);
+    setTimeout(() => setCartAdded(null), 2000);
+  };
 
   const handleOrder = (plan: (typeof plans)[0]) => {
     setSelectedPlan({
@@ -221,15 +236,27 @@ export default function VideoEditingSection() {
                       ))}
                     </ul>
 
-                    {/* CTA Button */}
-                    <Button
-                      onClick={() => handleOrder(plan)}
-                      className={`w-full font-bold text-white bg-gradient-to-r ${
-                        plan.color
-                      } hover:opacity-90 transition-opacity`}
-                    >
-                      Order Now
-                    </Button>
+                    {/* CTA Buttons */}
+                    <div className="flex flex-col gap-2">
+                      <Button
+                        onClick={() => handleOrder(plan)}
+                        className={`w-full font-bold text-white bg-gradient-to-r ${
+                          plan.color
+                        } hover:opacity-90 transition-opacity`}
+                      >
+                        Order Now
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => handleAddToCart(plan)}
+                        className={`w-full font-semibold border-2 transition-all ${cartAdded === plan.id ? "bg-green-50 border-green-500 text-green-700" : "hover:bg-gray-50"}`}
+                      >
+                        <ShoppingCart className="w-4 h-4 mr-2" />
+                        {cartAdded === plan.id
+                          ? "Added to Cart ✓"
+                          : "Add to Cart"}
+                      </Button>
+                    </div>
                   </div>
                 </div>
               );

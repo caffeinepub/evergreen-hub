@@ -12,9 +12,26 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-2xl font-bold text-primary">Evergreen Hub</h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Your trusted partner in affiliate marketing education. Learn,
-              grow, and succeed with our comprehensive courses.
+              Your trusted partner for professional Website Development, Video
+              Editing, and Photo Editing services. We help businesses grow
+              online with quality digital solutions.
             </p>
+            <div className="space-y-1">
+              <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wide">
+                Our Services
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                  🌐 Website Development
+                </span>
+                <span className="text-xs bg-orange-100 text-orange-600 px-2 py-0.5 rounded-full">
+                  🎬 Video Editing
+                </span>
+                <span className="text-xs bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full">
+                  📸 Photo Editing
+                </span>
+              </div>
+            </div>
             <div className="flex gap-4">
               <a
                 href="https://www.facebook.com/share/1AWvNBtfuD/"
@@ -63,6 +80,14 @@ export default function Footer() {
                   className="text-muted-foreground hover:text-primary transition-colors duration-200 text-sm"
                 >
                   About Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/web-design-services"
+                  className="text-muted-foreground hover:text-primary transition-colors duration-200 text-sm"
+                >
+                  Web Design Services
                 </Link>
               </li>
               <li>

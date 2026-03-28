@@ -424,6 +424,8 @@ declare module "@tanstack/react-router" {
   }
 }
 
+import EvergreenAIChatbot from "./components/EvergreenAIChatbot";
+
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
@@ -432,6 +434,7 @@ export default function App() {
           <AuthProvider>
             <CartProvider>
               <RouterProvider router={router} />
+              <EvergreenAIChatbot />
               <Toaster />
             </CartProvider>
           </AuthProvider>

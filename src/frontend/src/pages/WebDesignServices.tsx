@@ -6,14 +6,15 @@ import {
   GraduationCap,
   MapPin,
   MessageCircle,
+  ShoppingCart,
   Star,
   TrendingUp,
 } from "lucide-react";
-import type React from "react";
 import { useEffect, useRef, useState } from "react";
 import FounderSection from "../components/FounderSection";
 import Header from "../components/Header";
 import WebDesignPaymentModal from "../components/WebDesignPaymentModal";
+import { useCart } from "../contexts/CartContext";
 
 interface Package {
   name: string;
@@ -248,7 +249,7 @@ function useScrollFadeIn() {
 function AnimatedSection({
   children,
   className = "",
-}: { children: React.ReactNode; className?: string }) {
+}: { children: import("react").ReactNode; className?: string }) {
   const { ref, visible } = useScrollFadeIn();
   return (
     <div
@@ -273,6 +274,20 @@ export default function WebDesignServices() {
   useEffect(() => {
     document.title = "Web Design Services | Evergreen Hub";
   }, []);
+
+  const { addToCart } = useCart();
+  const [cartAdded, setCartAdded] = useState<string | null>(null);
+
+  const handleAddToCart = (pkg: Package) => {
+    addToCart({
+      id: `web-${pkg.name.toLowerCase().replace(/\s+/g, "-")}`,
+      name: `Web Design - ${pkg.name}`,
+      price: pkg.priceNum,
+      category: "web-design",
+    });
+    setCartAdded(pkg.name);
+    setTimeout(() => setCartAdded(null), 2000);
+  };
 
   const handleOrder = (pkg: Package) => {
     setSelectedPackage(pkg);
@@ -556,18 +571,32 @@ export default function WebDesignServices() {
                     </li>
                   ))}
                 </ul>
-                <button
-                  type="button"
-                  data-ocid={`web_design.package.${pkg.name.toLowerCase().replace(/\s+/g, "_")}.primary_button`}
-                  onClick={() => handleOrder(pkg)}
-                  className={`w-full py-3 rounded-xl font-bold text-sm transition-all ${
-                    pkg.highlight
-                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md"
-                      : "bg-gray-900 hover:bg-gray-700 text-white"
-                  }`}
-                >
-                  Order Now — {pkg.price}
-                </button>
+                <div className="flex flex-col gap-2">
+                  <button
+                    type="button"
+                    data-ocid={`web_design.package.${pkg.name.toLowerCase().replace(/\s+/g, "_")}.primary_button`}
+                    onClick={() => handleOrder(pkg)}
+                    className={`w-full py-3 rounded-xl font-bold text-sm transition-all ${
+                      pkg.highlight
+                        ? "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md"
+                        : "bg-gray-900 hover:bg-gray-700 text-white"
+                    }`}
+                  >
+                    Order Now — {pkg.price}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleAddToCart(pkg)}
+                    className={`w-full py-2.5 rounded-xl font-semibold text-sm border-2 transition-all flex items-center justify-center gap-2 ${
+                      cartAdded === pkg.name
+                        ? "bg-green-50 border-green-500 text-green-700"
+                        : "border-gray-300 hover:border-blue-400 hover:bg-blue-50 text-gray-700"
+                    }`}
+                  >
+                    <ShoppingCart className="w-4 h-4" />
+                    {cartAdded === pkg.name ? "Added to Cart ✓" : "Add to Cart"}
+                  </button>
+                </div>
               </div>
             ))}
           </div>

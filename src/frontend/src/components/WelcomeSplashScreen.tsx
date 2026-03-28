@@ -137,10 +137,23 @@ export default function WelcomeSplashScreen() {
           Evergreen Hub
         </h1>
 
-        <p className="text-emerald-100/70 text-sm mb-8 leading-relaxed">
-          Your gateway to digital skills, affiliate marketing & online income
-          opportunities.
+        <p className="text-emerald-100/70 text-sm mb-4 leading-relaxed">
+          Professional Website Development, Video Editing &amp; Photo Editing
+          services — crafted to grow your brand online.
         </p>
+
+        {/* Services mini badges */}
+        <div className="flex flex-wrap justify-center gap-2 mb-8">
+          <span className="bg-emerald-900/60 text-emerald-300 text-xs px-3 py-1 rounded-full border border-emerald-500/30">
+            🌐 Website Development
+          </span>
+          <span className="bg-orange-900/60 text-orange-300 text-xs px-3 py-1 rounded-full border border-orange-500/30">
+            🎬 Video Editing
+          </span>
+          <span className="bg-blue-900/60 text-blue-300 text-xs px-3 py-1 rounded-full border border-blue-500/30">
+            📸 Photo Editing
+          </span>
+        </div>
 
         {/* CTA Button */}
         <button
