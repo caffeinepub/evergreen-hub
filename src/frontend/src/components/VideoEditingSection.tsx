@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "@tanstack/react-router";
 import {
   CheckCircle,
   Clock,
@@ -91,6 +92,7 @@ export default function VideoEditingSection() {
   } | null>(null);
   const { ref, isVisible } = useScrollAnimation();
   const { addToCart } = useCart();
+  const navigate = useNavigate();
   const [cartAdded, setCartAdded] = useState<string | null>(null);
 
   const handleAddToCart = (plan: (typeof plans)[0]) => {
@@ -256,6 +258,15 @@ export default function VideoEditingSection() {
                           ? "Added to Cart ✓"
                           : "Add to Cart"}
                       </Button>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          navigate({ to: `/service/video-${plan.id}` })
+                        }
+                        className="w-full text-xs text-center text-blue-500 hover:text-blue-700 mt-1 underline transition-colors"
+                      >
+                        View Full Details 2192
+                      </button>
                     </div>
                   </div>
                 </div>

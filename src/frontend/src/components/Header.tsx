@@ -8,8 +8,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Link, useNavigate, useRouter } from "@tanstack/react-router";
-import { Menu, ShoppingCart } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Menu, MessageCircle, ShoppingCart } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useCart } from "../contexts/CartContext";
 import CartDrawer from "./CartDrawer";
@@ -23,6 +23,8 @@ export default function Header() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartBounce, setCartBounce] = useState(false);
+  const prevCartCount = useRef(cartCount);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,6 +33,14 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (cartCount > prevCartCount.current) {
+      setCartBounce(true);
+      setTimeout(() => setCartBounce(false), 600);
+    }
+    prevCartCount.current = cartCount;
+  }, [cartCount]);
 
   const handleDashboardClick = () => {
     if (isAdmin) {
@@ -52,6 +62,10 @@ export default function Header() {
         if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 500);
     }
+  };
+
+  const toggleAI = () => {
+    window.dispatchEvent(new CustomEvent("toggle-evergreen-ai"));
   };
 
   return (
@@ -127,6 +141,22 @@ export default function Header() {
 
             {/* Desktop Auth + Cart */}
             <div className="hidden md:flex items-center gap-3">
+              {/* AI Chat Button */}
+              <button
+                type="button"
+                data-ocid="ai_chat.open_modal_button"
+                onClick={toggleAI}
+                className="relative p-2 rounded-lg transition-colors"
+                style={{
+                  background: "linear-gradient(135deg, #10b981, #3b82f6)",
+                  borderRadius: "10px",
+                }}
+                aria-label="Open AI Chat"
+                title="Chat with Evergreen AI"
+              >
+                <MessageCircle className="h-5 w-5 text-white" />
+              </button>
+
               {/* Cart Button */}
               <button
                 type="button"
@@ -137,7 +167,15 @@ export default function Header() {
               >
                 <ShoppingCart className="h-5 w-5" />
                 {cartCount > 0 && (
-                  <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs bg-primary text-white rounded-full">
+                  <Badge
+                    className={`absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs bg-primary text-white rounded-full transition-transform ${
+                      cartBounce ? "scale-150" : "scale-100"
+                    }`}
+                    style={{
+                      transition:
+                        "transform 0.3s cubic-bezier(0.34,1.56,0.64,1)",
+                    }}
+                  >
                     {cartCount}
                   </Badge>
                 )}
@@ -180,8 +218,24 @@ export default function Header() {
               )}
             </div>
 
-            {/* Mobile: Cart + Menu */}
+            {/* Mobile: AI + Cart + Menu */}
             <div className="flex items-center gap-2 md:hidden">
+              {/* AI Chat Button */}
+              <button
+                type="button"
+                data-ocid="ai_chat.open_modal_button"
+                onClick={toggleAI}
+                className="relative p-2 rounded-lg transition-colors"
+                style={{
+                  background: "linear-gradient(135deg, #10b981, #3b82f6)",
+                  borderRadius: "10px",
+                }}
+                aria-label="Open AI Chat"
+                title="Chat with Evergreen AI"
+              >
+                <MessageCircle className="h-4 w-4 text-white" />
+              </button>
+
               <button
                 type="button"
                 data-ocid="cart.open_modal_button"
@@ -191,7 +245,15 @@ export default function Header() {
               >
                 <ShoppingCart className="h-5 w-5" />
                 {cartCount > 0 && (
-                  <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs bg-primary text-white rounded-full">
+                  <Badge
+                    className={`absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs bg-primary text-white rounded-full transition-transform ${
+                      cartBounce ? "scale-150" : "scale-100"
+                    }`}
+                    style={{
+                      transition:
+                        "transform 0.3s cubic-bezier(0.34,1.56,0.64,1)",
+                    }}
+                  >
                     {cartCount}
                   </Badge>
                 )}

@@ -33,6 +33,7 @@ import InstagramSection from "./components/InstagramSection";
 import PhotoEditingSection from "./components/PhotoEditingSection";
 import ScrollToTopButton from "./components/ScrollToTopButton";
 import TestimonialsSection from "./components/TestimonialsSection";
+import ThumbnailDesignSection from "./components/ThumbnailDesignSection";
 import TrustBadgesSection from "./components/TrustBadgesSection";
 import VideoEditingSection from "./components/VideoEditingSection";
 import WebDesignServicesPromo from "./components/WebDesignServicesPromo";
@@ -52,6 +53,7 @@ const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 const RefundPolicy = lazy(() => import("./pages/RefundPolicy"));
 const LandingPagePreview = lazy(() => import("./pages/LandingPagePreview"));
 const WebDesignServices = lazy(() => import("./pages/WebDesignServices"));
+const ServiceDetailPage = lazy(() => import("./pages/ServiceDetailPage"));
 
 // User Dashboard Pages (lazy)
 const DashboardOverview = lazy(() => import("./pages/user/DashboardOverview"));
@@ -96,6 +98,7 @@ function LandingPage() {
       <WebDesignServicesPromo />
       <VideoEditingSection />
       <PhotoEditingSection />
+      <ThumbnailDesignSection />
       <WhyChooseUsSection />
       <YouTubeSection />
       <InstagramSection />
@@ -250,6 +253,16 @@ const webDesignRoute = createRoute({
   ),
 });
 
+const serviceDetailRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/service/$serviceId",
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <ServiceDetailPage />
+    </Suspense>
+  ),
+});
+
 // ─── User Dashboard Routes (nested under UserDashboardLayout) ─────────────────────────────────
 
 const dashboardRoute = createRoute({
@@ -398,6 +411,7 @@ const routeTree = rootRoute.addChildren([
   refundRoute,
   landingPagePreviewRoute,
   webDesignRoute,
+  serviceDetailRoute,
   dashboardRoute.addChildren([
     dashboardIndexRoute,
     dashboardProfileRoute,

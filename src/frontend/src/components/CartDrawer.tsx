@@ -38,37 +38,40 @@ const CATEGORY_GRADIENT: Record<string, string> = {
   "web-design": "from-blue-500 to-indigo-600",
   "video-editing": "from-purple-500 to-violet-600",
   "photo-editing": "from-pink-500 to-rose-500",
+  "thumbnail-design": "from-yellow-500 to-orange-500",
 };
 
 const CATEGORY_ICON: Record<string, string> = {
   "web-design": "🌐",
   "video-editing": "🎬",
   "photo-editing": "📸",
+  "thumbnail-design": "🖼️",
 };
 
 const CATEGORY_LABELS: Record<string, string> = {
   "web-design": "Web Design",
   "video-editing": "Video Editing",
   "photo-editing": "Photo Editing",
+  "thumbnail-design": "Thumbnail Design",
 };
 
 const STATUS_CONFIG = {
   Pending: {
     icon: Clock,
     color: "text-amber-500",
-    bg: "bg-amber-50 dark:bg-amber-950/30",
+    bg: "bg-amber-50",
     progress: 10,
   },
   "In Progress": {
     icon: Loader2,
     color: "text-blue-500",
-    bg: "bg-blue-50 dark:bg-blue-950/30",
+    bg: "bg-blue-50",
     progress: 55,
   },
   Completed: {
     icon: CheckCircle2,
     color: "text-green-500",
-    bg: "bg-green-50 dark:bg-green-950/30",
+    bg: "bg-green-50",
     progress: 100,
   },
 };
@@ -103,6 +106,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
       : Math.min(appliedCoupon.value, cartTotal)
     : 0;
   const finalTotal = Math.max(0, cartTotal - discount);
+  const totalItems = items.reduce((s, i) => s + i.quantity, 0);
 
   const handleApplyCoupon = () => {
     const code = couponCode.trim().toUpperCase();
@@ -128,26 +132,43 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         <SheetContent
           side="right"
           className="w-full sm:w-[440px] flex flex-col p-0 overflow-hidden"
+          style={{
+            background: "linear-gradient(135deg, #f0fdf4 0%, #eff6ff 100%)",
+          }}
         >
-          {/* Gradient Header */}
-          <SheetHeader className="px-6 py-4 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 text-white">
+          {/* Colorful Rainbow Gradient Header */}
+          <SheetHeader
+            className="px-6 py-4 text-white"
+            style={{
+              background:
+                "linear-gradient(135deg, #10b981 0%, #3b82f6 50%, #8b5cf6 100%)",
+            }}
+          >
             <SheetTitle className="flex items-center gap-2 text-white text-xl font-bold">
               <ShoppingCart className="h-6 w-6" />
               Evergreen Cart
               {items.length > 0 && (
-                <span className="ml-1 bg-white text-green-600 text-xs font-bold px-2 py-0.5 rounded-full">
-                  {items.reduce((s, i) => s + i.quantity, 0)}
+                <span className="ml-1 bg-white text-purple-600 text-xs font-bold px-2 py-0.5 rounded-full">
+                  {totalItems}
                 </span>
               )}
             </SheetTitle>
+            {/* Service count summary */}
+            {activeTab === "cart" && items.length > 0 && (
+              <div className="mt-1 px-1 py-1.5 bg-white/15 rounded-xl text-white text-xs font-semibold text-center">
+                🛍️ {totalItems} service{totalItems !== 1 ? "s" : ""} in cart —
+                Total: ₹{cartTotal.toLocaleString("en-IN")}
+              </div>
+            )}
             {/* Tabs */}
             <div className="flex gap-2 mt-2">
               <button
                 type="button"
+                data-ocid="cart.tab"
                 onClick={() => setActiveTab("cart")}
                 className={`px-4 py-1 rounded-full text-sm font-semibold transition-all ${
                   activeTab === "cart"
-                    ? "bg-white text-green-600 shadow"
+                    ? "bg-white text-purple-600 shadow"
                     : "bg-white/20 text-white hover:bg-white/30"
                 }`}
               >
@@ -155,10 +176,11 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               </button>
               <button
                 type="button"
+                data-ocid="cart.tab"
                 onClick={() => setActiveTab("orders")}
                 className={`px-4 py-1 rounded-full text-sm font-semibold transition-all ${
                   activeTab === "orders"
-                    ? "bg-white text-green-600 shadow"
+                    ? "bg-white text-purple-600 shadow"
                     : "bg-white/20 text-white hover:bg-white/30"
                 }`}
               >
@@ -172,23 +194,27 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             <>
               <div className="flex-1 overflow-y-auto px-4 py-4">
                 {items.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center h-48 text-center">
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 flex items-center justify-center mb-4">
-                      <ShoppingBag className="h-10 w-10 text-emerald-400" />
+                  <div
+                    data-ocid="cart.empty_state"
+                    className="flex flex-col items-center justify-center h-48 text-center"
+                  >
+                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-100 to-purple-100 flex items-center justify-center mb-4">
+                      <ShoppingBag className="h-10 w-10 text-purple-400" />
                     </div>
-                    <p className="font-semibold text-foreground">
+                    <p className="font-semibold text-gray-700">
                       Your cart is empty
                     </p>
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="text-sm text-gray-500 mt-1">
                       Add services to get started
                     </p>
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    {items.map((item) => (
+                    {items.map((item, idx) => (
                       <div
                         key={item.id}
-                        className="rounded-xl border bg-card shadow-sm overflow-hidden hover:shadow-md transition-shadow"
+                        data-ocid={`cart.item.${idx + 1}`}
+                        className="rounded-xl border border-white/80 bg-white shadow-sm overflow-hidden hover:shadow-md transition-shadow"
                       >
                         {/* Color bar */}
                         <div
@@ -201,10 +227,10 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                             {CATEGORY_ICON[item.category] || "📦"}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="font-semibold text-sm text-foreground truncate">
+                            <p className="font-semibold text-sm text-gray-900 truncate">
                               {item.name}
                             </p>
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-xs text-gray-500">
                               {CATEGORY_LABELS[item.category]}
                             </p>
                           </div>
@@ -215,20 +241,20 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                                 "en-IN",
                               )}
                             </p>
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-xs text-gray-400">
                               ₹{item.price.toLocaleString("en-IN")} each
                             </p>
                           </div>
                         </div>
                         {/* Quantity + Remove */}
                         <div className="flex items-center justify-between px-3 pb-3">
-                          <div className="flex items-center gap-1 border rounded-lg overflow-hidden">
+                          <div className="flex items-center gap-1 border border-gray-200 rounded-lg overflow-hidden bg-white">
                             <button
                               type="button"
                               onClick={() =>
                                 updateQuantity(item.id, item.quantity - 1)
                               }
-                              className="p-1.5 hover:bg-red-50 dark:hover:bg-red-950/30 text-muted-foreground hover:text-red-600 transition-colors"
+                              className="p-1.5 hover:bg-red-50 text-gray-500 hover:text-red-600 transition-colors"
                             >
                               <Minus className="h-3.5 w-3.5" />
                             </button>
@@ -240,13 +266,14 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                               onClick={() =>
                                 updateQuantity(item.id, item.quantity + 1)
                               }
-                              className="p-1.5 hover:bg-green-50 dark:hover:bg-green-950/30 text-muted-foreground hover:text-green-600 transition-colors"
+                              className="p-1.5 hover:bg-green-50 text-gray-500 hover:text-green-600 transition-colors"
                             >
                               <Plus className="h-3.5 w-3.5" />
                             </button>
                           </div>
                           <button
                             type="button"
+                            data-ocid={`cart.delete_button.${idx + 1}`}
                             onClick={() => removeFromCart(item.id)}
                             className="text-xs text-red-400 hover:text-red-600 flex items-center gap-1 transition-colors"
                           >
@@ -260,20 +287,20 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               </div>
 
               {items.length > 0 && (
-                <div className="border-t px-4 py-4 space-y-4 bg-background">
+                <div className="border-t border-white/60 px-4 py-4 space-y-4 bg-white shadow-lg">
                   {/* Coupon */}
                   <div className="space-y-2">
-                    <p className="text-sm font-semibold flex items-center gap-1.5">
+                    <p className="text-sm font-semibold flex items-center gap-1.5 text-gray-800">
                       <Tag className="h-4 w-4 text-green-500" />
                       Coupon Code
                     </p>
                     {appliedCoupon ? (
-                      <div className="flex items-center justify-between p-2.5 rounded-xl bg-green-50 dark:bg-green-950/30 border border-green-300 dark:border-green-700">
+                      <div className="flex items-center justify-between p-2.5 rounded-xl bg-green-50 border border-green-300">
                         <div>
-                          <span className="text-xs font-bold text-green-700 dark:text-green-400 bg-green-200 dark:bg-green-900 px-2 py-0.5 rounded">
+                          <span className="text-xs font-bold text-green-700 bg-green-200 px-2 py-0.5 rounded">
                             {appliedCoupon.code}
                           </span>
-                          <p className="text-xs text-green-600 dark:text-green-500 mt-1">
+                          <p className="text-xs text-green-600 mt-1">
                             🎉 Discount Applied: -₹
                             {discount.toLocaleString("en-IN")}
                           </p>
@@ -289,6 +316,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                     ) : (
                       <div className="flex gap-2">
                         <Input
+                          data-ocid="cart.input"
                           placeholder="Enter coupon code"
                           value={couponCode}
                           onChange={(e) => {
@@ -298,19 +326,25 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                           onKeyDown={(e) =>
                             e.key === "Enter" && handleApplyCoupon()
                           }
-                          className="flex-1 text-sm uppercase tracking-widest"
+                          className="flex-1 text-sm uppercase tracking-widest bg-white"
                         />
                         <Button
                           size="sm"
+                          data-ocid="cart.secondary_button"
                           onClick={handleApplyCoupon}
-                          className="bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600"
+                          className="bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-600 hover:to-purple-600"
                         >
                           Apply
                         </Button>
                       </div>
                     )}
                     {couponError && (
-                      <p className="text-xs text-destructive">{couponError}</p>
+                      <p
+                        data-ocid="cart.error_state"
+                        className="text-xs text-red-600"
+                      >
+                        {couponError}
+                      </p>
                     )}
                   </div>
 
@@ -318,7 +352,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
                   {/* Price Summary */}
                   <div className="space-y-1.5">
-                    <div className="flex justify-between text-sm text-muted-foreground">
+                    <div className="flex justify-between text-sm text-gray-500">
                       <span>Subtotal</span>
                       <span>₹{cartTotal.toLocaleString("en-IN")}</span>
                     </div>
@@ -339,15 +373,21 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   {/* Checkout Button */}
                   <button
                     type="button"
+                    data-ocid="cart.primary_button"
                     onClick={() => setShowPayment(true)}
-                    className="w-full py-3 rounded-xl font-bold text-white text-base bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 hover:from-green-600 hover:via-emerald-600 hover:to-teal-600 shadow-lg hover:shadow-green-200 dark:hover:shadow-green-900 transition-all hover:scale-[1.02] active:scale-[0.98]"
-                    style={{ boxShadow: "0 4px 20px rgba(34,197,94,0.35)" }}
+                    className="w-full py-3 rounded-xl font-bold text-white text-base hover:opacity-90 shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98]"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, #10b981 0%, #3b82f6 50%, #8b5cf6 100%)",
+                      boxShadow: "0 4px 20px rgba(139,92,246,0.35)",
+                    }}
                   >
                     💳 Checkout — ₹{finalTotal.toLocaleString("en-IN")}
                   </button>
                   <Button
                     variant="ghost"
-                    className="w-full text-destructive hover:text-destructive hover:bg-destructive/10 text-sm"
+                    data-ocid="cart.delete_button"
+                    className="w-full text-red-500 hover:text-red-600 hover:bg-red-50 text-sm"
                     onClick={() => {
                       clearCart();
                       handleRemoveCoupon();
@@ -364,32 +404,36 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           {activeTab === "orders" && (
             <div className="flex-1 overflow-y-auto px-4 py-4">
               {orders.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-48 text-center">
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-900/30 dark:to-blue-900/30 flex items-center justify-center mb-4">
+                <div
+                  data-ocid="orders.empty_state"
+                  className="flex flex-col items-center justify-center h-48 text-center"
+                >
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center mb-4">
                     <ShoppingBag className="h-10 w-10 text-purple-400" />
                   </div>
-                  <p className="font-semibold text-foreground">No orders yet</p>
-                  <p className="text-sm text-muted-foreground mt-1">
+                  <p className="font-semibold text-gray-700">No orders yet</p>
+                  <p className="text-sm text-gray-500 mt-1">
                     Your order history will appear here
                   </p>
                 </div>
               ) : (
                 <div className="space-y-3">
-                  {orders.map((order) => {
+                  {orders.map((order, idx) => {
                     const cfg =
                       STATUS_CONFIG[order.status] || STATUS_CONFIG.Pending;
                     const Icon = cfg.icon;
                     return (
                       <div
                         key={order.id}
-                        className={`rounded-xl border p-4 space-y-3 ${cfg.bg}`}
+                        data-ocid={`orders.item.${idx + 1}`}
+                        className="rounded-xl border border-white/80 p-4 space-y-3 bg-white shadow-sm"
                       >
                         <div className="flex items-start justify-between gap-2">
                           <div>
-                            <p className="font-semibold text-sm text-foreground">
+                            <p className="font-semibold text-sm text-gray-900">
                               {order.service}
                             </p>
-                            <p className="text-xs text-muted-foreground mt-0.5">
+                            <p className="text-xs text-gray-400 mt-0.5">
                               #{order.id} · {order.date}
                             </p>
                           </div>
@@ -400,7 +444,11 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                         {/* Status */}
                         <div className="flex items-center gap-2">
                           <Icon
-                            className={`h-4 w-4 ${cfg.color} ${order.status === "In Progress" ? "animate-spin" : ""}`}
+                            className={`h-4 w-4 ${cfg.color} ${
+                              order.status === "In Progress"
+                                ? "animate-spin"
+                                : ""
+                            }`}
                           />
                           <Badge
                             className={`text-xs font-semibold ${cfg.color} bg-transparent border-current`}
@@ -412,7 +460,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                         {/* Progress Bar */}
                         <div className="space-y-1">
                           <Progress value={cfg.progress} className="h-2" />
-                          <div className="flex justify-between text-xs text-muted-foreground">
+                          <div className="flex justify-between text-xs text-gray-400">
                             <span>Pending</span>
                             <span>In Progress</span>
                             <span>Completed</span>

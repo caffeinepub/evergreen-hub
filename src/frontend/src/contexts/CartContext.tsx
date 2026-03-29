@@ -12,7 +12,11 @@ export interface CartItem {
   name: string;
   price: number;
   quantity: number;
-  category: "web-design" | "video-editing" | "photo-editing";
+  category:
+    | "web-design"
+    | "video-editing"
+    | "photo-editing"
+    | "thumbnail-design";
 }
 
 export interface Order {
