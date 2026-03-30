@@ -263,9 +263,9 @@ export default function VideoEditingSection() {
                         onClick={() =>
                           navigate({ to: `/service/video-${plan.id}` })
                         }
-                        className="w-full text-xs text-center text-blue-500 hover:text-blue-700 mt-1 underline transition-colors"
+                        className="w-full text-xs text-center border border-blue-500 text-blue-600 hover:bg-blue-500 hover:text-white mt-2 py-1.5 rounded-lg transition-all font-medium"
                       >
-                        View Full Details 2192
+                        View Full Details →
                       </button>
                     </div>
                   </div>

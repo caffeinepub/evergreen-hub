@@ -13,6 +13,7 @@ import {
   Camera,
   Globe,
   Home,
+  Image,
   Info,
   LayoutDashboard,
   LogOut,
@@ -202,6 +203,17 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
                     >
                       <Globe className="h-4 w-4 text-blue-500" />
                       3. Web Design Services
+                    </div>
+
+                    <div
+                      onClick={() => scrollToSection("thumbnail-design")}
+                      onKeyDown={(e) =>
+                        e.key === "Enter" && scrollToSection("thumbnail-design")
+                      }
+                      className="py-2 font-semibold text-gray-900 dark:text-gray-100 hover:text-primary transition-colors cursor-pointer text-sm flex items-center gap-2"
+                    >
+                      <Image className="h-4 w-4 text-yellow-500" />
+                      4. Thumbnail Design
                     </div>
                   </AccordionContent>
                 </AccordionItem>

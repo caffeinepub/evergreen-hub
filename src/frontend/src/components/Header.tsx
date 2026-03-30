@@ -116,6 +116,14 @@ export default function Header() {
               </Link>
               <button
                 type="button"
+                onClick={() => scrollToSection("thumbnail-design")}
+                className="text-foreground hover:text-primary transition-colors font-medium"
+                data-ocid="nav.link"
+              >
+                Thumbnail Design
+              </button>
+              <button
+                type="button"
                 onClick={() => scrollToSection("video-editing")}
                 className="text-foreground hover:text-primary transition-colors font-medium"
                 data-ocid="nav.link"
