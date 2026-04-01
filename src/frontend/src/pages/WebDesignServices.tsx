@@ -6,13 +6,16 @@ import {
   GraduationCap,
   MapPin,
   MessageCircle,
+  Shield,
   ShoppingCart,
   Star,
   TrendingUp,
+  Zap,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import FounderSection from "../components/FounderSection";
 import Header from "../components/Header";
+import ServiceReviews from "../components/ServiceReviews";
 import WebDesignPaymentModal from "../components/WebDesignPaymentModal";
 import { useCart } from "../contexts/CartContext";
 
@@ -177,24 +180,36 @@ const websiteTypes = [
   },
 ];
 
-const testimonials = [
+const webDesignSpecs = [
+  { icon: Zap, text: "Mobile-first responsive design" },
+  { icon: TrendingUp, text: "SEO-optimized structure & meta tags" },
+  { icon: MessageCircle, text: "WhatsApp & contact form integration" },
+  { icon: Shield, text: "Fast loading & performance optimized" },
+  { icon: Star, text: "Modern UI/UX with smooth animations" },
+  { icon: CheckCircle, text: "Free support included with every package" },
+];
+
+const defaultWebReviews = [
   {
     name: "Rahul Sharma",
-    location: "Delhi",
     rating: 5,
-    text: "Evergreen Hub ne meri business website banai aur ab mujhe daily leads aa rahe hain. Bahut professional kaam kiya!",
+    comment:
+      "Evergreen Hub ne meri business website banai aur ab mujhe daily leads aa rahe hain. Bahut professional kaam kiya!",
+    date: "12 Mar 2026",
   },
   {
     name: "Priya Singh",
-    location: "Mumbai",
     rating: 5,
-    text: "Meri boutique ki website se online orders 3x ho gaye. Design bahut sundar hai aur mobile pe bhi perfect dikhta hai.",
+    comment:
+      "Meri boutique ki website se online orders 3x ho gaye. Design bahut sundar hai aur mobile pe bhi perfect dikhta hai.",
+    date: "8 Mar 2026",
   },
   {
     name: "Amit Kumar",
-    location: "Patna",
     rating: 5,
-    text: "Bihar mein itni achhi web design service milegi nahi socha tha. Price bhi reasonable hai aur quality top-notch!",
+    comment:
+      "Bihar mein itni achhi web design service milegi nahi socha tha. Price bhi reasonable hai aur quality top-notch!",
+    date: "2 Mar 2026",
   },
 ];
 
@@ -228,7 +243,6 @@ const faqs = [
 function useScrollFadeIn() {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -237,19 +251,18 @@ function useScrollFadeIn() {
           observer.disconnect();
         }
       },
-      { threshold: 0.1 },
+      { threshold: 0.05 },
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
-
   return { ref, visible };
 }
 
 function AnimatedSection({
   children,
   className = "",
-}: { children: import("react").ReactNode; className?: string }) {
+}: { children: React.ReactNode; className?: string }) {
   const { ref, visible } = useScrollFadeIn();
   return (
     <div
@@ -270,9 +283,25 @@ export default function WebDesignServices() {
   const [selectedWebsiteType, setSelectedWebsiteType] = useState<string | null>(
     null,
   );
+  const [packagesVisible, setPackagesVisible] = useState(false);
+  const packagesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.title = "Web Design Services | Evergreen Hub";
+  }, []);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setPackagesVisible(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.05 },
+    );
+    if (packagesRef.current) obs.observe(packagesRef.current);
+    return () => obs.disconnect();
   }, []);
 
   const { addToCart } = useCart();
@@ -320,12 +349,11 @@ export default function WebDesignServices() {
           </h1>
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
             Professional websites jo aapke business ko digital world mein shine
-            karaye. Coaching institutes, local businesses, bloggers — sabke liye
-            perfect solutions.
+            karaye.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <a
-              href="#website-type"
+              href="#packages"
               className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-300 hover:to-orange-400 text-gray-900 font-bold px-8 py-4 rounded-full transition-all shadow-lg text-lg"
             >
               Packages Dekho
@@ -340,25 +368,194 @@ export default function WebDesignServices() {
             </a>
           </div>
           <div className="mt-10 flex flex-wrap gap-6 justify-center text-sm text-blue-200">
-            <span className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-green-400" /> Mobile
-              Responsive
-            </span>
-            <span className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-green-400" /> SEO Optimized
-            </span>
-            <span className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-green-400" /> Fast Delivery
-            </span>
-            <span className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-green-400" /> Free Support
-            </span>
+            {[
+              "Mobile Responsive",
+              "SEO Optimized",
+              "Fast Delivery",
+              "Free Support",
+            ].map((t) => (
+              <span key={t} className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-green-400" /> {t}
+              </span>
+            ))}
           </div>
         </AnimatedSection>
       </section>
 
+      {/* ===== PRICING SECTION — TOP ===== */}
+      <section id="packages" className="py-16 px-4 bg-gray-50">
+        <div ref={packagesRef} className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div
+            style={{
+              opacity: packagesVisible ? 1 : 0,
+              transform: packagesVisible ? "none" : "translateY(30px)",
+              transition: "all 0.6s ease-out",
+            }}
+            className="text-center mb-10"
+          >
+            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
+              💰 50% OFF — Limited Time Offer
+            </div>
+            <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
+              Our{" "}
+              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                Packages
+              </span>
+            </h2>
+            <p className="text-gray-600 max-w-xl mx-auto">
+              Har budget ke liye perfect package. Sabhi packages mein demo
+              available hai!
+            </p>
+          </div>
+
+          {/* Service Specifications */}
+          <div
+            style={{
+              opacity: packagesVisible ? 1 : 0,
+              transform: packagesVisible ? "none" : "translateY(20px)",
+              transition: "all 0.6s ease-out 0.1s",
+            }}
+            className="mb-10 bg-white rounded-2xl border border-gray-100 shadow-sm p-6"
+          >
+            <h3 className="font-extrabold text-gray-900 mb-5 text-lg text-center">
+              What's Included in Every Package
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {webDesignSpecs.map((s) => (
+                <div key={s.text} className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
+                    <s.icon className="w-4 h-4 text-blue-600" />
+                  </div>
+                  <p className="text-sm text-gray-700 leading-snug mt-1">
+                    {s.text}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Package Cards with Stagger */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {packages.map((pkg, index) => (
+              <div
+                key={pkg.name}
+                style={{
+                  opacity: packagesVisible ? 1 : 0,
+                  transform: packagesVisible ? "none" : "translateY(40px)",
+                  transition: `all 0.5s ease-out ${index * 150}ms`,
+                }}
+                className={`relative rounded-2xl border-2 p-6 flex flex-col hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 ${
+                  pkg.highlight
+                    ? "border-blue-500 bg-gradient-to-b from-blue-50 to-white shadow-lg scale-105"
+                    : "border-gray-200 bg-white hover:border-blue-300"
+                }`}
+              >
+                {pkg.badge && (
+                  <div
+                    className={`absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold ${
+                      pkg.highlight
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-800 text-white"
+                    }`}
+                  >
+                    {pkg.badge}
+                  </div>
+                )}
+                <div className="mb-4">
+                  <h3 className="text-xl font-extrabold text-gray-900 mb-1">
+                    {pkg.name}
+                  </h3>
+                  {pkg.tagline && (
+                    <p className="text-xs text-gray-500 mb-2 leading-relaxed">
+                      {pkg.tagline}
+                    </p>
+                  )}
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-3xl font-extrabold text-blue-600">
+                      {pkg.price}
+                    </span>
+                    <span className="text-gray-400 line-through text-sm">
+                      {pkg.originalPrice}
+                    </span>
+                    <span className="bg-red-100 text-red-600 text-xs font-bold px-2 py-0.5 rounded-full">
+                      50% OFF
+                    </span>
+                  </div>
+                  {(pkg.delivery || pkg.support) && (
+                    <div className="flex gap-3 mt-2">
+                      {pkg.delivery && (
+                        <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">
+                          ⏱ {pkg.delivery}
+                        </span>
+                      )}
+                      {pkg.support && (
+                        <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">
+                          🛡 {pkg.support} Support
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
+                <div className="mb-2">
+                  <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full font-semibold">
+                    ✅ Demo Available
+                  </span>
+                </div>
+                <ul className="space-y-2 mb-6 flex-1">
+                  {pkg.features.map((f) => (
+                    <li
+                      key={f}
+                      className="flex items-start gap-2 text-sm text-gray-700"
+                    >
+                      <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <div className="flex flex-col gap-2">
+                  <button
+                    type="button"
+                    data-ocid={`web_design.package.${pkg.name.toLowerCase().replace(/\s+/g, "_")}.primary_button`}
+                    onClick={() => handleOrder(pkg)}
+                    className={`w-full py-3 rounded-xl font-bold text-sm transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] ${
+                      pkg.highlight
+                        ? "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md"
+                        : "bg-gray-900 hover:bg-gray-700 text-white"
+                    }`}
+                  >
+                    Order Now — {pkg.price}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleAddToCart(pkg)}
+                    className={`w-full py-2.5 rounded-xl font-semibold text-sm border-2 transition-all duration-200 flex items-center justify-center gap-2 ${
+                      cartAdded === pkg.name
+                        ? "bg-green-50 border-green-500 text-green-700"
+                        : "border-gray-300 hover:border-blue-400 hover:bg-blue-50 text-gray-700"
+                    }`}
+                  >
+                    <ShoppingCart className="w-4 h-4" />
+                    {cartAdded === pkg.name ? "Added to Cart ✓" : "Add to Cart"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      window.location.href = `/service/web-design-${pkg.name.toLowerCase().replace(/\s+/g, "-")}`;
+                    }}
+                    className="border border-blue-500 text-blue-600 hover:bg-blue-500 hover:text-white rounded-lg py-1.5 text-xs font-medium transition-all w-full mt-2"
+                  >
+                    View Full Details →
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Why Choose Us */}
-      <section className="py-16 px-4 bg-gray-50">
+      <section className="py-16 px-4 bg-white">
         <AnimatedSection className="max-w-5xl mx-auto">
           <h2 className="text-3xl font-extrabold text-center text-gray-900 mb-12">
             Kyun Choose Karein{" "}
@@ -395,13 +592,13 @@ export default function WebDesignServices() {
               },
               {
                 icon: "🛡️",
-                title: "Lifetime Support",
+                title: "Free Support",
                 desc: "Website deliver karne ke baad bhi hum available hain. AMC plans bhi available hain.",
               },
             ].map((item) => (
               <div
                 key={item.title}
-                className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+                className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="text-3xl mb-3">{item.icon}</div>
                 <h3 className="font-bold text-gray-900 mb-2">{item.title}</h3>
@@ -415,7 +612,7 @@ export default function WebDesignServices() {
       </section>
 
       {/* Website Type Selector */}
-      <section id="website-type" className="py-16 px-4 bg-white">
+      <section id="website-type" className="py-16 px-4 bg-gray-50">
         <AnimatedSection className="max-w-5xl mx-auto">
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
@@ -431,7 +628,6 @@ export default function WebDesignServices() {
               Select your business type to find the package that fits you best
             </p>
           </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {websiteTypes.map((type) => {
               const Icon = type.icon;
@@ -461,9 +657,7 @@ export default function WebDesignServices() {
                     <Icon className="w-6 h-6 text-white" />
                   </div>
                   <h3
-                    className={`font-bold text-sm mb-1 ${
-                      isSelected ? type.textColor : "text-gray-900"
-                    }`}
+                    className={`font-bold text-sm mb-1 ${isSelected ? type.textColor : "text-gray-900"}`}
                   >
                     {type.title}
                   </h3>
@@ -474,183 +668,38 @@ export default function WebDesignServices() {
               );
             })}
           </div>
-
           {selectedWebsiteType && (
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-500">
-                Great choice! Scroll down to pick a package that matches your
+                Great choice! Scroll up to pick a package that matches your
                 needs.
               </p>
               <a
                 href="#packages"
                 className="inline-block mt-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold px-6 py-2.5 rounded-full text-sm hover:opacity-90 transition-opacity"
               >
-                See Packages →
+                See Packages ↑
               </a>
             </div>
           )}
         </AnimatedSection>
       </section>
 
-      {/* Packages */}
-      <section id="packages" className="py-16 px-4 bg-gray-50">
-        <AnimatedSection className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
-              Our{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                Packages
-              </span>
-            </h2>
-            <p className="text-gray-600 max-w-xl mx-auto">
-              Har budget ke liye perfect package. Sabhi packages mein demo
-              available hai!
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {packages.map((pkg) => (
-              <div
-                key={pkg.name}
-                className={`relative rounded-2xl border-2 p-6 flex flex-col transition-all hover:shadow-xl ${
-                  pkg.highlight
-                    ? "border-blue-500 bg-gradient-to-b from-blue-50 to-white shadow-lg scale-105"
-                    : "border-gray-200 bg-white hover:border-blue-300"
-                }`}
-              >
-                {pkg.badge && (
-                  <div
-                    className={`absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold ${
-                      pkg.highlight
-                        ? "bg-blue-500 text-white"
-                        : "bg-gray-800 text-white"
-                    }`}
-                  >
-                    {pkg.badge}
-                  </div>
-                )}
-                <div className="mb-4">
-                  <h3 className="text-xl font-extrabold text-gray-900 mb-1">
-                    {pkg.name}
-                  </h3>
-                  {pkg.tagline && (
-                    <p className="text-xs text-gray-500 mb-2 leading-relaxed">
-                      {pkg.tagline}
-                    </p>
-                  )}
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-extrabold text-blue-600">
-                      {pkg.price}
-                    </span>
-                    <span className="text-gray-400 line-through text-sm">
-                      {pkg.originalPrice}
-                    </span>
-                  </div>
-                  {(pkg.delivery || pkg.support) && (
-                    <div className="flex gap-3 mt-2">
-                      {pkg.delivery && (
-                        <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">
-                          ⏱ {pkg.delivery}
-                        </span>
-                      )}
-                      {pkg.support && (
-                        <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">
-                          🛡 {pkg.support} Support
-                        </span>
-                      )}
-                    </div>
-                  )}
-                </div>
-                <ul className="space-y-2 mb-6 flex-1">
-                  {pkg.features.map((f) => (
-                    <li
-                      key={f}
-                      className="flex items-start gap-2 text-sm text-gray-700"
-                    >
-                      <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <div className="flex flex-col gap-2">
-                  <button
-                    type="button"
-                    data-ocid={`web_design.package.${pkg.name.toLowerCase().replace(/\s+/g, "_")}.primary_button`}
-                    onClick={() => handleOrder(pkg)}
-                    className={`w-full py-3 rounded-xl font-bold text-sm transition-all ${
-                      pkg.highlight
-                        ? "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md"
-                        : "bg-gray-900 hover:bg-gray-700 text-white"
-                    }`}
-                  >
-                    Order Now — {pkg.price}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleAddToCart(pkg)}
-                    className={`w-full py-2.5 rounded-xl font-semibold text-sm border-2 transition-all flex items-center justify-center gap-2 ${
-                      cartAdded === pkg.name
-                        ? "bg-green-50 border-green-500 text-green-700"
-                        : "border-gray-300 hover:border-blue-400 hover:bg-blue-50 text-gray-700"
-                    }`}
-                  >
-                    <ShoppingCart className="w-4 h-4" />
-                    {cartAdded === pkg.name ? "Added to Cart ✓" : "Add to Cart"}
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </AnimatedSection>
-      </section>
-
       {/* Our Founder */}
       <FounderSection compact />
 
-      {/* Testimonials */}
-      <section className="py-16 px-4 bg-gray-50">
+      {/* Live Customer Reviews */}
+      <section className="py-16 px-4 bg-white">
         <AnimatedSection className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-extrabold text-center text-gray-900 mb-12">
-            Hamare{" "}
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Happy Clients
-            </span>
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((t) => (
-              <div
-                key={t.name}
-                className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100"
-              >
-                <div className="flex gap-1 mb-3">
-                  {Array.from({ length: t.rating }, (_, i) => i).map((i) => (
-                    <Star
-                      key={`${t.name}-star-${i}`}
-                      className="w-4 h-4 fill-yellow-400 text-yellow-400"
-                    />
-                  ))}
-                </div>
-                <p className="text-gray-700 text-sm leading-relaxed mb-4">
-                  "{t.text}"
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm">
-                    {t.name.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-900 text-sm">
-                      {t.name}
-                    </p>
-                    <p className="text-gray-500 text-xs">{t.location}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <ServiceReviews
+            storageKey="reviews_web_design"
+            defaultReviews={defaultWebReviews}
+          />
         </AnimatedSection>
       </section>
 
       {/* FAQ */}
-      <section className="py-16 px-4 bg-white">
+      <section className="py-16 px-4 bg-gray-50">
         <AnimatedSection className="max-w-3xl mx-auto">
           <h2 className="text-3xl font-extrabold text-center text-gray-900 mb-12">
             Frequently Asked{" "}
@@ -729,7 +778,6 @@ export default function WebDesignServices() {
         <p>Built by Rudra in Bihar with ❤️</p>
       </footer>
 
-      {/* Payment Modal */}
       {selectedPackage && (
         <WebDesignPaymentModal
           isOpen={paymentOpen}

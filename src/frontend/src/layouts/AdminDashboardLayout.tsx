@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Link, Outlet, useLocation } from "@tanstack/react-router";
+import { Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import {
   CreditCard,
   LayoutDashboard,
@@ -65,27 +65,68 @@ function SidebarContent({
   currentPath: string;
   onNavigate?: () => void;
 }) {
-  const { logout, userProfile } = useAuth();
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("evergreen_admin_auth");
+    logout();
+    navigate({ to: "/admin-login" });
+  };
 
   return (
-    <div className="flex flex-col h-full bg-gray-900 text-white">
-      {/* Logo */}
-      <div className="p-4 border-b border-gray-700">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center shrink-0">
+    <div
+      className="flex flex-col h-full text-white"
+      style={{
+        background:
+          "linear-gradient(180deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%)",
+      }}
+    >
+      {/* Logo / Branding */}
+      <div
+        className="p-4"
+        style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}
+      >
+        <div className="flex items-center gap-3 mb-3">
+          <div
+            className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+            style={{
+              background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+              boxShadow: "0 0 16px rgba(99,102,241,0.5)",
+            }}
+          >
             <Shield className="h-4 w-4 text-white" />
           </div>
           <div>
-            <p className="font-bold text-sm">Admin Panel</p>
-            <p className="text-xs text-gray-400">Evergreen Hub</p>
+            <p
+              className="font-bold text-sm"
+              style={{ color: "#fff", letterSpacing: "-0.01em" }}
+            >
+              Evergreen Hub
+            </p>
+            <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
+              Admin Panel
+            </p>
           </div>
         </div>
-        {userProfile && (
-          <div className="mt-3 px-2 py-1.5 bg-gray-800 rounded-lg">
-            <p className="text-xs text-gray-400">Logged in as</p>
-            <p className="text-sm font-medium truncate">{userProfile.name}</p>
-          </div>
-        )}
+        <div
+          className="flex items-center gap-2 px-3 py-2 rounded-xl"
+          style={{
+            background: "rgba(99,102,241,0.12)",
+            border: "1px solid rgba(99,102,241,0.2)",
+          }}
+        >
+          <div
+            className="w-2 h-2 rounded-full"
+            style={{
+              background: "#10b981",
+              boxShadow: "0 0 6px rgba(16,185,129,0.8)",
+            }}
+          />
+          <p className="text-xs" style={{ color: "rgba(255,255,255,0.7)" }}>
+            Logged in as Admin
+          </p>
+        </div>
       </div>
 
       {/* Nav */}
@@ -99,13 +140,25 @@ function SidebarContent({
               key={item.path}
               to={item.path}
               onClick={onNavigate}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                isActive
-                  ? "bg-emerald-600 text-white"
-                  : "text-gray-300 hover:bg-gray-800 hover:text-white"
-              }`}
+              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200"
+              style={{
+                background: isActive
+                  ? "linear-gradient(135deg, rgba(99,102,241,0.3), rgba(139,92,246,0.2))"
+                  : "transparent",
+                color: isActive ? "#a5b4fc" : "rgba(255,255,255,0.55)",
+                border: isActive
+                  ? "1px solid rgba(99,102,241,0.3)"
+                  : "1px solid transparent",
+                boxShadow: isActive ? "0 0 10px rgba(99,102,241,0.15)" : "none",
+              }}
             >
-              {item.icon}
+              <span
+                style={{
+                  color: isActive ? "#818cf8" : "rgba(255,255,255,0.35)",
+                }}
+              >
+                {item.icon}
+              </span>
               {item.label}
             </Link>
           );
@@ -113,27 +166,32 @@ function SidebarContent({
       </nav>
 
       {/* Footer */}
-      <div className="p-3 border-t border-gray-700">
+      <div
+        className="p-3"
+        style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
+      >
         <Link
           to="/"
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800 transition-colors mb-1"
+          className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-200 mb-1"
+          style={{ color: "rgba(255,255,255,0.35)" }}
         >
-          View Website
+          ← View Website
         </Link>
-        <Button
-          variant="ghost"
-          className="w-full justify-start text-red-400 hover:text-red-300 hover:bg-red-900/20 px-3"
-          onClick={logout}
+        <button
+          type="button"
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-200"
+          style={{ color: "#fca5a5" }}
+          onClick={handleLogout}
+          data-ocid="admin.logout.button"
         >
-          <LogOut className="h-4 w-4 mr-3" />
+          <LogOut className="h-4 w-4" />
           Logout
-        </Button>
+        </button>
       </div>
     </div>
   );
 }
 
-// No children prop — uses <Outlet /> so TanStack Router can render nested routes
 export default function AdminDashboardLayout() {
   const location = useLocation();
   const currentPath = location.pathname;
@@ -143,16 +201,25 @@ export default function AdminDashboardLayout() {
     <ProtectedRoute requireAdmin>
       <div className="flex h-screen bg-gray-50 dark:bg-gray-950 overflow-hidden">
         {/* Desktop Sidebar */}
-        <aside className="hidden md:flex md:flex-col w-56 shrink-0 border-r border-gray-200 dark:border-gray-800">
+        <aside className="hidden md:flex md:flex-col w-56 shrink-0">
           <SidebarContent currentPath={currentPath} />
         </aside>
 
         {/* Mobile Header + Sheet */}
         <div className="flex flex-col flex-1 overflow-hidden">
-          <header className="md:hidden flex items-center gap-3 px-4 py-3 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+          <header
+            className="md:hidden flex items-center gap-3 px-4 py-3 border-b border-gray-200 dark:border-gray-800"
+            style={{
+              background: "linear-gradient(90deg, #0f172a, #1e1b4b)",
+            }}
+          >
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-white hover:bg-white/10"
+                >
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
@@ -164,12 +231,12 @@ export default function AdminDashboardLayout() {
               </SheetContent>
             </Sheet>
             <div className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-emerald-500" />
-              <span className="font-bold text-sm">Admin Panel</span>
+              <Shield className="h-5 w-5" style={{ color: "#818cf8" }} />
+              <span className="font-bold text-sm text-white">Admin Panel</span>
             </div>
           </header>
 
-          {/* Main Content — Outlet renders the matched child route */}
+          {/* Main Content */}
           <main className="flex-1 overflow-y-auto">
             <Outlet />
           </main>

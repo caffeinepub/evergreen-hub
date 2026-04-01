@@ -5,13 +5,16 @@ import {
   CheckCircle,
   Clock,
   ImageIcon,
+  RefreshCw,
   ShoppingCart,
   Sparkles,
   Star,
+  Wand2,
+  ZoomIn,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCart } from "../contexts/CartContext";
-import { useScrollAnimation } from "../hooks/useScrollAnimation";
+import ServiceReviews from "./ServiceReviews";
 
 const plans = [
   {
@@ -59,16 +62,64 @@ const plans = [
   },
 ];
 
+const specs = [
+  { icon: Wand2, text: "Color correction & professional grading" },
+  { icon: ZoomIn, text: "Background removal & replacement" },
+  { icon: Camera, text: "Skin retouching & clarity enhancement" },
+  { icon: ImageIcon, text: "High-res export (PNG/JPG)" },
+  { icon: Clock, text: "12–48hr fast delivery" },
+  { icon: RefreshCw, text: "Satisfaction guaranteed" },
+];
+
+const defaultReviews = [
+  {
+    name: "Kavya Reddy",
+    rating: 5,
+    comment:
+      "The skin retouching was so natural! My product photos look absolutely stunning now.",
+    date: "18 Mar 2026",
+  },
+  {
+    name: "Manish Joshi",
+    rating: 5,
+    comment:
+      "Background removal was flawless. Used for my e-commerce store and customers love it!",
+    date: "12 Mar 2026",
+  },
+  {
+    name: "Preethi Kumar",
+    rating: 4,
+    comment:
+      "Fast turnaround and great quality. Color grading on my wedding photos looks gorgeous.",
+    date: "7 Mar 2026",
+  },
+];
+
 export default function PhotoEditingSection() {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<{
     name: string;
     price: string;
   } | null>(null);
-  const { ref, isVisible } = useScrollAnimation();
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const [cartAdded, setCartAdded] = useState<string | null>(null);
+  const [sectionVisible, setSectionVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setSectionVisible(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.05 },
+    );
+    if (sectionRef.current) obs.observe(sectionRef.current);
+    return () => obs.disconnect();
+  }, []);
 
   const handleAddToCart = (plan: (typeof plans)[0]) => {
     addToCart({
@@ -82,10 +133,7 @@ export default function PhotoEditingSection() {
   };
 
   const handleOrder = (plan: (typeof plans)[0]) => {
-    setSelectedPlan({
-      name: plan.title,
-      price: `₹${plan.finalPrice}`,
-    });
+    setSelectedPlan({ name: plan.title, price: `₹${plan.finalPrice}` });
     setIsPaymentModalOpen(true);
   };
 
@@ -93,16 +141,19 @@ export default function PhotoEditingSection() {
     <>
       <section
         id="photo-editing"
-        ref={ref}
+        ref={sectionRef}
         className="py-20 bg-gradient-to-br from-purple-50 via-white to-cyan-50"
       >
-        <div
-          className={`container mx-auto px-4 transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
+        <div className="container mx-auto px-4">
           {/* Section Header */}
-          <div className="text-center mb-14">
+          <div
+            style={{
+              opacity: sectionVisible ? 1 : 0,
+              transform: sectionVisible ? "none" : "translateY(30px)",
+              transition: "all 0.6s ease-out",
+            }}
+            className="text-center mb-10"
+          >
             <div className="inline-flex items-center gap-2 bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-bold mb-5">
               <Camera className="w-4 h-4" />
               Professional Photo Editing
@@ -120,31 +171,58 @@ export default function PhotoEditingSection() {
             </p>
           </div>
 
-          {/* Pricing Cards */}
+          {/* Service Specifications */}
+          <div
+            style={{
+              opacity: sectionVisible ? 1 : 0,
+              transform: sectionVisible ? "none" : "translateY(20px)",
+              transition: "all 0.6s ease-out 0.15s",
+            }}
+            className="max-w-4xl mx-auto mb-12 bg-white rounded-2xl border border-gray-100 shadow-sm p-6"
+          >
+            <h3 className="font-extrabold text-gray-900 mb-5 text-lg text-center">
+              Service Specifications
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {specs.map((s) => (
+                <div key={s.text} className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-xl bg-purple-100 flex items-center justify-center flex-shrink-0">
+                    <s.icon className="w-4 h-4 text-purple-600" />
+                  </div>
+                  <p className="text-sm text-gray-700 leading-snug mt-1">
+                    {s.text}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Pricing Cards with Stagger */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            {plans.map((plan) => {
+            {plans.map((plan, index) => {
               const Icon = plan.icon;
               const isPopular = plan.badge === "Most Popular";
               return (
                 <div
                   key={plan.id}
                   data-ocid={`photo_pricing.${plan.id}.card`}
+                  style={{
+                    opacity: sectionVisible ? 1 : 0,
+                    transform: sectionVisible ? "none" : "translateY(40px)",
+                    transition: `all 0.5s ease-out ${index * 150}ms`,
+                  }}
                   className={`relative rounded-3xl border-2 ${
                     isPopular
                       ? "border-purple-400 shadow-2xl shadow-purple-100"
                       : `${plan.borderColor} shadow-xl ${plan.shadowColor}`
-                  } bg-white flex flex-col overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl`}
+                  } bg-white flex flex-col overflow-hidden hover:-translate-y-2 hover:shadow-2xl transition-all duration-300`}
                 >
-                  {/* Most Popular Banner */}
                   {isPopular && (
                     <div className="w-full text-center py-2.5 text-white font-bold text-sm tracking-wide bg-gradient-to-r from-purple-500 to-pink-500">
                       ⭐ Most Popular
                     </div>
                   )}
-
-                  {/* Card Body */}
                   <div className="flex flex-col flex-1 p-6">
-                    {/* Icon & Title */}
                     <div className="flex items-center gap-3 mb-3">
                       <div
                         className={`w-11 h-11 rounded-2xl bg-gradient-to-br ${plan.gradientFrom} ${plan.gradientTo} flex items-center justify-center flex-shrink-0 shadow-md`}
@@ -155,13 +233,9 @@ export default function PhotoEditingSection() {
                         {plan.title}
                       </h3>
                     </div>
-
-                    {/* Description */}
                     <p className="text-sm text-gray-500 mb-5">
                       {plan.description}
                     </p>
-
-                    {/* Price Block */}
                     <div className={`rounded-2xl ${plan.bgAccent} p-4 mb-5`}>
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-sm text-gray-400 line-through font-medium">
@@ -180,8 +254,6 @@ export default function PhotoEditingSection() {
                         per photo / set
                       </p>
                     </div>
-
-                    {/* Features */}
                     <ul className="space-y-2 mb-5 flex-1">
                       {plan.features.map((f) => (
                         <li
@@ -195,14 +267,10 @@ export default function PhotoEditingSection() {
                         </li>
                       ))}
                     </ul>
-
-                    {/* Delivery Time */}
                     <div className="flex items-center gap-2 text-xs text-gray-400 mb-5">
                       <Clock className="w-3.5 h-3.5" />
                       Delivery: {plan.deliveryTime}
                     </div>
-
-                    {/* CTA Buttons */}
                     <div className="flex flex-col gap-2">
                       <Button
                         data-ocid={`photo_pricing.${plan.id}.primary_button`}
@@ -214,7 +282,11 @@ export default function PhotoEditingSection() {
                       <Button
                         variant="outline"
                         onClick={() => handleAddToCart(plan)}
-                        className={`w-full font-semibold border-2 rounded-xl py-4 transition-all ${cartAdded === plan.id ? "bg-green-50 border-green-500 text-green-700" : "hover:bg-gray-50"}`}
+                        className={`w-full font-semibold border-2 rounded-xl py-4 transition-all ${
+                          cartAdded === plan.id
+                            ? "bg-green-50 border-green-500 text-green-700"
+                            : "hover:bg-gray-50"
+                        }`}
                       >
                         <ShoppingCart className="w-4 h-4 mr-2" />
                         {cartAdded === plan.id
@@ -248,6 +320,12 @@ export default function PhotoEditingSection() {
               </p>
             </div>
           </div>
+
+          {/* Live Reviews */}
+          <ServiceReviews
+            storageKey="reviews_photo"
+            defaultReviews={defaultReviews}
+          />
         </div>
       </section>
 
@@ -263,7 +341,7 @@ export default function PhotoEditingSection() {
   );
 }
 
-// ─── Photo Payment Modal ────────────────────────────────────────────────────
+// ─── Photo Payment Modal ────────────────────────────────────────────────────────
 
 interface PhotoPaymentModalProps {
   isOpen: boolean;
@@ -328,7 +406,6 @@ function PhotoPaymentModal({
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
     >
       <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-        {/* Modal Header */}
         <div className="sticky top-0 bg-white rounded-t-3xl flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-100 z-10">
           <div>
             <h3 className="text-xl font-extrabold text-gray-900">
@@ -357,11 +434,9 @@ function PhotoPaymentModal({
             ×
           </button>
         </div>
-
         <div className="p-6">
           {step === "payment" ? (
             <div className="space-y-5">
-              {/* Service Info */}
               <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-4 border border-purple-100">
                 <p className="font-semibold text-purple-800 text-sm">
                   {serviceName}
@@ -382,8 +457,6 @@ function PhotoPaymentModal({
                   )}
                 </div>
               </div>
-
-              {/* Coupon */}
               {!couponApplied ? (
                 <div>
                   <label
@@ -415,11 +488,7 @@ function PhotoPaymentModal({
                   </div>
                   {couponMsg && (
                     <p
-                      className={`text-xs mt-1.5 ${
-                        couponMsg.includes("Invalid")
-                          ? "text-red-500"
-                          : "text-green-600 font-semibold"
-                      }`}
+                      className={`text-xs mt-1.5 ${couponMsg.includes("Invalid") ? "text-red-500" : "text-green-600 font-semibold"}`}
                     >
                       {couponMsg}
                     </p>
@@ -435,8 +504,6 @@ function PhotoPaymentModal({
                   </p>
                 </div>
               )}
-
-              {/* UPI Payment */}
               <div>
                 <p className="text-sm font-semibold text-gray-700 mb-2">
                   Pay via UPI
@@ -460,8 +527,6 @@ function PhotoPaymentModal({
                   </a>
                 </div>
               </div>
-
-              {/* PayPal */}
               <div>
                 <p className="text-sm font-semibold text-gray-700 mb-2">
                   Pay via PayPal
@@ -480,8 +545,6 @@ function PhotoPaymentModal({
                   </a>
                 </div>
               </div>
-
-              {/* Transaction ID */}
               <div>
                 <label
                   htmlFor="photo-txn"
@@ -501,7 +564,6 @@ function PhotoPaymentModal({
                   className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
                 />
               </div>
-
               <Button
                 data-ocid="photo_payment.submit_button"
                 onClick={() => setStep("upload")}
@@ -512,7 +574,6 @@ function PhotoPaymentModal({
             </div>
           ) : (
             <div className="space-y-5">
-              {/* Upload Prompt */}
               <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 text-center border border-purple-100">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mx-auto mb-3 shadow-md">
                   <Camera className="w-8 h-8 text-white" />
@@ -525,8 +586,6 @@ function PhotoPaymentModal({
                   link.
                 </p>
               </div>
-
-              {/* WhatsApp message preview */}
               <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4">
                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
                   Your WhatsApp message preview:
@@ -535,8 +594,6 @@ function PhotoPaymentModal({
                   {whatsappMsg}
                 </pre>
               </div>
-
-              {/* Order Status */}
               <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4">
                 <p className="text-sm font-bold text-blue-700 mb-3">
                   Order Status Flow:
@@ -561,7 +618,6 @@ function PhotoPaymentModal({
                   within the promised delivery time.
                 </p>
               </div>
-
               <Button
                 data-ocid="photo_payment.confirm_button"
                 onClick={() => {
@@ -575,7 +631,6 @@ function PhotoPaymentModal({
               >
                 💬 Send via WhatsApp
               </Button>
-
               <button
                 type="button"
                 data-ocid="photo_payment.cancel_button"

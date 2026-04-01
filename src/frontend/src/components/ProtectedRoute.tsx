@@ -12,37 +12,46 @@ export default function ProtectedRoute({
   children,
   requireAdmin = false,
 }: ProtectedRouteProps) {
-  const { isAuthenticated, isAdmin, isInitializing, userProfile } = useAuth();
+  const { isAuthenticated, isInitializing, userProfile } = useAuth();
   const navigate = useNavigate();
 
+  const isAdminAuthed =
+    typeof localStorage !== "undefined" &&
+    localStorage.getItem("evergreen_admin_auth") === "true";
+
   useEffect(() => {
+    if (requireAdmin) {
+      if (!isAdminAuthed) {
+        toast.error("Admin access required. Please login.");
+        navigate({ to: "/admin-login" });
+      }
+      return;
+    }
+
     if (isInitializing) return;
 
     if (!isAuthenticated) {
       toast.error("Please login to access this page");
-      navigate({ to: requireAdmin ? "/admin-login" : "/login" });
+      navigate({ to: "/login" });
       return;
     }
 
-    if (requireAdmin && !isAdmin) {
-      toast.error("Access denied. Admin privileges required.");
-      navigate({ to: "/dashboard" });
-      return;
-    }
-
-    // Check if user needs to complete profile setup
     if (isAuthenticated && !requireAdmin && userProfile === null) {
-      // Profile setup will be handled by the dashboard
       return;
     }
   }, [
     isAuthenticated,
-    isAdmin,
     isInitializing,
     requireAdmin,
     navigate,
     userProfile,
+    isAdminAuthed,
   ]);
+
+  if (requireAdmin) {
+    if (!isAdminAuthed) return null;
+    return <>{children}</>;
+  }
 
   if (isInitializing) {
     return (
@@ -56,10 +65,6 @@ export default function ProtectedRoute({
   }
 
   if (!isAuthenticated) {
-    return null;
-  }
-
-  if (requireAdmin && !isAdmin) {
     return null;
   }
 
