@@ -1046,4 +1046,123 @@ actor {
       pending;
     };
   };
+
+  // ─── Order Tracking ────────────────────────────────────────────────────────
+
+  type OrderStatus = {
+    #pending;
+    #inProgress;
+    #completed;
+    #cancelled;
+  };
+
+  type ServiceOrder = {
+    id : Nat;
+    userId : Principal;
+    userName : Text;
+    userEmail : Text;
+    serviceName : Text;
+    planName : Text;
+    price : Nat;
+    status : OrderStatus;
+    createdAt : Int;
+  };
+
+  let serviceOrders = Map.empty<Nat, ServiceOrder>();
+  var nextServiceOrderId : Nat = 1;
+
+  // Anyone (including guests) may save an order after payment
+  public shared ({ caller }) func saveServiceOrder(
+    serviceName : Text,
+    planName : Text,
+    price : Nat,
+  ) : async Nat {
+    let userName = switch (users.get(caller)) {
+      case (?u) { u.name };
+      case (null) { "Guest" };
+    };
+    let userEmail = switch (users.get(caller)) {
+      case (?u) { u.email };
+      case (null) { "" };
+    };
+    let orderId = nextServiceOrderId;
+    nextServiceOrderId += 1;
+    let order : ServiceOrder = {
+      id = orderId;
+      userId = caller;
+      userName;
+      userEmail;
+      serviceName;
+      planName;
+      price;
+      status = #pending;
+      createdAt = Time.now();
+    };
+    serviceOrders.add(orderId, order);
+    orderId;
+  };
+
+  // Admin can view all orders
+  public query ({ caller }) func getAllServiceOrders() : async [ServiceOrder] {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can view all orders");
+    };
+    serviceOrders.values().toArray();
+  };
+
+  // User can view their own orders
+  public query ({ caller }) func getMyServiceOrders() : async [ServiceOrder] {
+    serviceOrders.values().toArray().filter(
+      func(o : ServiceOrder) : Bool { o.userId == caller }
+    );
+  };
+
+  // Admin can update order status
+  public shared ({ caller }) func updateServiceOrderStatus(orderId : Nat, status : OrderStatus) : async () {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can update order status");
+    };
+    switch (serviceOrders.get(orderId)) {
+      case (null) { Runtime.trap("Order not found") };
+      case (?order) {
+        serviceOrders.add(orderId, { order with status });
+      };
+    };
+  };
+
+  // ─── Service Content Management ─────────────────────────────────────────────
+
+  type ServiceContent = {
+    serviceId : Text;
+    title : Text;
+    description : Text;
+    price : Nat;
+    originalPrice : Nat;
+    features : [Text];
+    deliveryDays : Text;
+    imageUrl : Text;
+    videoUrl : Text;
+    isActive : Bool;
+  };
+
+  let serviceContents = Map.empty<Text, ServiceContent>();
+
+  // Admin can set service content
+  public shared ({ caller }) func setServiceContent(content : ServiceContent) : async () {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can update service content");
+    };
+    serviceContents.add(content.serviceId, content);
+  };
+
+  // Public: get a single service content
+  public query func getServiceContent(serviceId : Text) : async ?ServiceContent {
+    serviceContents.get(serviceId);
+  };
+
+  // Public: get all service contents
+  public query func getAllServiceContents() : async [ServiceContent] {
+    serviceContents.values().toArray();
+  };
+
 };

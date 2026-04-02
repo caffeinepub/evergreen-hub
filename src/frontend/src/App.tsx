@@ -18,6 +18,7 @@ import AdminDashboardLayout from "./layouts/AdminDashboardLayout";
 // Layouts
 import UserDashboardLayout from "./layouts/UserDashboardLayout";
 
+import AdsCampaignSection from "./components/AdsCampaignSection";
 import AppDownloadSection from "./components/AppDownloadSection";
 import BottomCTASection from "./components/BottomCTASection";
 import ContactFormSection from "./components/ContactFormSection";
@@ -72,6 +73,10 @@ const ContactInquiries = lazy(() => import("./pages/admin/ContactInquiries"));
 const SiteContentManagement = lazy(
   () => import("./pages/admin/SiteContentManagement"),
 );
+const OrderManagement = lazy(() => import("./pages/admin/OrderManagement"));
+const ServiceContentManagementNew = lazy(
+  () => import("./pages/admin/ServiceContentManagementNew"),
+);
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -99,6 +104,7 @@ function LandingPage() {
       <VideoEditingSection />
       <PhotoEditingSection />
       <ThumbnailDesignSection />
+      <AdsCampaignSection />
       <WhyChooseUsSection />
       <YouTubeSection />
       <InstagramSection />
@@ -397,6 +403,26 @@ const adminSiteContentRoute = createRoute({
   ),
 });
 
+const adminOrdersRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/orders",
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <OrderManagement />
+    </Suspense>
+  ),
+});
+
+const adminServicesRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/services",
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <ServiceContentManagementNew />
+    </Suspense>
+  ),
+});
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
   loginRoute,
@@ -427,6 +453,8 @@ const routeTree = rootRoute.addChildren([
     adminWithdrawalsRoute,
     adminInquiriesRoute,
     adminSiteContentRoute,
+    adminOrdersRoute,
+    adminServicesRoute,
   ]),
 ]);
 

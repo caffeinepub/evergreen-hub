@@ -53,15 +53,15 @@ export default function Login() {
           alignItems: "center",
           justifyContent: "center",
           background:
-            "linear-gradient(145deg, #d1fae5 0%, #a7f3d0 20%, #6ee7b7 45%, #5eead4 70%, #99f6e4 90%, #d1fae5 100%)",
+            "linear-gradient(145deg, #0a0a0a 0%, #064e3b 40%, #0a0a0a 70%, #713f12 100%)",
         }}
       >
         <div
           style={{
             width: 36,
             height: 36,
-            border: "3px solid rgba(5,150,105,0.3)",
-            borderTopColor: "#059669",
+            border: "3px solid rgba(234,179,8,0.3)",
+            borderTopColor: "#eab308",
             borderRadius: "50%",
             animation: "spin 0.8s linear infinite",
           }}
@@ -72,10 +72,10 @@ export default function Login() {
 
   const btnBg =
     loginState === "success"
-      ? "linear-gradient(135deg, #10b981, #059669)"
+      ? "linear-gradient(135deg, #16a34a, #15803d)"
       : loginState === "error"
         ? "linear-gradient(135deg, #ef4444, #dc2626)"
-        : "linear-gradient(135deg, #059669 0%, #0d9488 100%)";
+        : "linear-gradient(135deg, #eab308, #16a34a)";
 
   return (
     <>
@@ -93,43 +93,43 @@ export default function Login() {
           90% { transform: translateX(4px); }
         }
         @keyframes successPulse {
-          0% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); }
-          70% { box-shadow: 0 0 0 14px rgba(16,185,129,0); }
-          100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+          0% { box-shadow: 0 0 0 0 rgba(234,179,8,0.5); }
+          70% { box-shadow: 0 0 0 14px rgba(234,179,8,0); }
+          100% { box-shadow: 0 0 0 0 rgba(234,179,8,0); }
         }
-        @keyframes leaf-drift {
-          0%, 100% { transform: translate(0,0) rotate(0deg); }
-          33% { transform: translate(20px,-30px) rotate(8deg); }
-          66% { transform: translate(-15px,-15px) rotate(-5deg); }
+        @keyframes orb-float {
+          0%, 100% { transform: translate(0,0) scale(1); }
+          33% { transform: translate(25px,-35px) scale(1.05); }
+          66% { transform: translate(-18px,-20px) scale(0.97); }
         }
         .eg-card-shake { animation: shakeFx 0.6s ease; }
-        .eg-input {
+        .eg-input-dark {
           width: 100%;
-          background: rgba(255,255,255,0.12);
-          border: 1.5px solid rgba(255,255,255,0.3);
+          background: rgba(255,255,255,0.07);
+          border: 1.5px solid rgba(234,179,8,0.25);
           border-radius: 12px;
           padding: 13px 16px 13px 44px;
-          color: #1a3a2a;
+          color: #f0fdf4;
           font-family: Poppins, sans-serif;
           font-size: 14px;
           outline: none;
           transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
         }
-        .eg-input::placeholder { color: rgba(30,80,50,0.45); }
-        .eg-input:focus {
-          border-color: rgba(16,185,129,0.7);
-          background: rgba(255,255,255,0.22);
-          box-shadow: 0 0 0 3px rgba(16,185,129,0.18);
+        .eg-input-dark::placeholder { color: rgba(255,255,255,0.3); }
+        .eg-input-dark:focus {
+          border-color: rgba(234,179,8,0.7);
+          background: rgba(255,255,255,0.12);
+          box-shadow: 0 0 0 3px rgba(234,179,8,0.15);
         }
         .eg-login-btn {
           width: 100%;
           padding: 14px;
           border: none;
           border-radius: 12px;
-          color: white;
+          color: #0a0a0a;
           font-family: Poppins, sans-serif;
           font-size: 15px;
-          font-weight: 700;
+          font-weight: 800;
           cursor: pointer;
           letter-spacing: 0.3px;
           display: flex;
@@ -137,35 +137,36 @@ export default function Login() {
           justify-content: center;
           gap: 8px;
           transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
-          box-shadow: 0 4px 20px rgba(5,150,105,0.35);
+          box-shadow: 0 4px 20px rgba(234,179,8,0.4);
         }
         .eg-login-btn:not(:disabled):hover {
           transform: translateY(-2px) scale(1.02);
-          box-shadow: 0 8px 30px rgba(5,150,105,0.55);
+          box-shadow: 0 8px 30px rgba(234,179,8,0.55);
         }
         .eg-login-btn.success-state { animation: successPulse 0.8s ease; }
         .eg-login-btn:disabled { opacity: 0.7; cursor: not-allowed; }
-        .social-btn {
+        .social-btn-dark {
           flex: 1;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 8px;
           padding: 11px 8px;
-          background: rgba(255,255,255,0.18);
-          border: 1.5px solid rgba(255,255,255,0.3);
+          background: rgba(255,255,255,0.07);
+          border: 1.5px solid rgba(234,179,8,0.2);
           border-radius: 12px;
           font-family: Poppins, sans-serif;
           font-size: 13px;
           font-weight: 600;
-          color: #1a4a30;
+          color: rgba(255,255,255,0.7);
           cursor: pointer;
-          transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+          transition: background 0.2s, transform 0.2s, box-shadow 0.2s, border-color 0.2s;
         }
-        .social-btn:hover {
-          background: rgba(255,255,255,0.35);
+        .social-btn-dark:hover {
+          background: rgba(234,179,8,0.12);
+          border-color: rgba(234,179,8,0.5);
           transform: translateY(-2px);
-          box-shadow: 0 4px 16px rgba(5,150,105,0.2);
+          box-shadow: 0 4px 16px rgba(234,179,8,0.15);
         }
       `}</style>
 
@@ -173,7 +174,7 @@ export default function Login() {
         style={{
           minHeight: "100vh",
           background:
-            "linear-gradient(145deg, #d1fae5 0%, #a7f3d0 20%, #6ee7b7 45%, #5eead4 70%, #99f6e4 90%, #d1fae5 100%)",
+            "linear-gradient(145deg, #0a0a0a 0%, #064e3b 40%, #0a0a0a 70%, #713f12 100%)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -187,39 +188,39 @@ export default function Login() {
         {[
           {
             id: "orb1",
-            s: 360,
-            bg: "rgba(5,150,105,0.18)",
-            t: "-80px",
+            s: 400,
+            bg: "rgba(22,163,74,0.12)",
+            t: "-100px",
             l: "-80px",
-            dur: "10s",
+            dur: "12s",
             delay: 0,
           },
           {
             id: "orb2",
-            s: 280,
-            bg: "rgba(13,148,136,0.15)",
-            b: "-60px",
+            s: 300,
+            bg: "rgba(234,179,8,0.1)",
+            b: "-80px",
             r: "-60px",
-            dur: "13s",
-            delay: 1.5,
+            dur: "15s",
+            delay: 2,
           },
           {
             id: "orb3",
-            s: 200,
-            bg: "rgba(52,211,153,0.2)",
-            t: "40%",
-            r: "8%",
-            dur: "8s",
-            delay: 3,
+            s: 220,
+            bg: "rgba(22,163,74,0.08)",
+            t: "35%",
+            r: "5%",
+            dur: "9s",
+            delay: 4,
           },
           {
             id: "orb4",
-            s: 150,
-            bg: "rgba(16,185,129,0.12)",
-            b: "25%",
-            l: "4%",
-            dur: "11s",
-            delay: 4.5,
+            s: 160,
+            bg: "rgba(234,179,8,0.06)",
+            b: "20%",
+            l: "3%",
+            dur: "13s",
+            delay: 6,
           },
         ].map((o) => (
           <div
@@ -230,13 +231,13 @@ export default function Login() {
               height: o.s,
               borderRadius: "50%",
               background: o.bg,
-              filter: "blur(60px)",
+              filter: "blur(70px)",
               pointerEvents: "none",
               top: (o as any).t,
               left: (o as any).l,
               bottom: (o as any).b,
               right: (o as any).r,
-              animation: `leaf-drift ${o.dur} ease-in-out ${o.delay}s infinite`,
+              animation: `orb-float ${o.dur} ease-in-out ${o.delay}s infinite`,
             }}
           />
         ))}
@@ -265,12 +266,16 @@ export default function Login() {
                 objectFit: "contain",
                 borderRadius: 20,
                 marginBottom: 12,
-                filter: "drop-shadow(0 4px 16px rgba(5,150,105,0.35))",
+                filter: "drop-shadow(0 4px 20px rgba(234,179,8,0.5))",
+                border: "2px solid rgba(234,179,8,0.3)",
               }}
             />
             <h1
               style={{
-                color: "#064e3b",
+                background: "linear-gradient(135deg, #eab308, #22c55e)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
                 fontSize: 26,
                 fontWeight: 800,
                 margin: 0,
@@ -281,14 +286,13 @@ export default function Login() {
             </h1>
             <p
               style={{
-                color: "#065f46",
-                fontSize: 13,
+                color: "rgba(234,179,8,0.7)",
+                fontSize: 12,
                 marginTop: 6,
                 marginBottom: 0,
                 fontWeight: 500,
-                letterSpacing: "0.8px",
+                letterSpacing: "1.5px",
                 textTransform: "uppercase",
-                opacity: 0.75,
               }}
             >
               Grow, Create, Connect
@@ -299,19 +303,22 @@ export default function Login() {
           <div
             className={shake ? "eg-card-shake" : ""}
             style={{
-              background: "rgba(255,255,255,0.52)",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
-              border: "1.5px solid rgba(255,255,255,0.65)",
+              background: "rgba(0,0,0,0.6)",
+              backdropFilter: "blur(24px)",
+              WebkitBackdropFilter: "blur(24px)",
+              border: "1.5px solid rgba(234,179,8,0.25)",
               borderRadius: 28,
               padding: "36px 32px 32px",
               boxShadow:
-                "0 20px 60px rgba(5,150,105,0.18), 0 4px 16px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)",
+                "0 20px 60px rgba(0,0,0,0.5), 0 4px 16px rgba(234,179,8,0.1), inset 0 1px 0 rgba(255,255,255,0.05)",
             }}
           >
             <h2
               style={{
-                color: "#064e3b",
+                background: "linear-gradient(135deg, #fff, #eab308)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
                 fontSize: 20,
                 fontWeight: 700,
                 margin: "0 0 6px",
@@ -322,8 +329,7 @@ export default function Login() {
             </h2>
             <p
               style={{
-                color: "#065f46",
-                opacity: 0.65,
+                color: "rgba(255,255,255,0.45)",
                 fontSize: 13,
                 textAlign: "center",
                 margin: "0 0 24px",
@@ -340,7 +346,7 @@ export default function Login() {
                   left: 14,
                   top: "50%",
                   transform: "translateY(-50%)",
-                  color: "rgba(5,150,105,0.7)",
+                  color: "rgba(234,179,8,0.6)",
                   pointerEvents: "none",
                   display: "flex",
                 }}
@@ -350,7 +356,7 @@ export default function Login() {
               <input
                 type="email"
                 placeholder="Email Address"
-                className="eg-input"
+                className="eg-input-dark"
                 data-ocid="login.input"
               />
             </div>
@@ -363,7 +369,7 @@ export default function Login() {
                   left: 14,
                   top: "50%",
                   transform: "translateY(-50%)",
-                  color: "rgba(5,150,105,0.7)",
+                  color: "rgba(234,179,8,0.6)",
                   pointerEvents: "none",
                   display: "flex",
                 }}
@@ -373,7 +379,7 @@ export default function Login() {
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
-                className="eg-input"
+                className="eg-input-dark"
                 style={{ paddingRight: 44 }}
                 data-ocid="login.input"
               />
@@ -388,7 +394,7 @@ export default function Login() {
                   background: "none",
                   border: "none",
                   cursor: "pointer",
-                  color: "rgba(5,150,105,0.6)",
+                  color: "rgba(234,179,8,0.6)",
                   display: "flex",
                   padding: 0,
                 }}
@@ -407,7 +413,7 @@ export default function Login() {
                   background: "none",
                   border: "none",
                   cursor: "pointer",
-                  color: "#059669",
+                  color: "#eab308",
                   fontSize: 13,
                   fontWeight: 600,
                   fontFamily: "Poppins, sans-serif",
@@ -433,8 +439,8 @@ export default function Login() {
                   style={{
                     width: 17,
                     height: 17,
-                    border: "2px solid rgba(255,255,255,0.35)",
-                    borderTopColor: "white",
+                    border: "2px solid rgba(0,0,0,0.3)",
+                    borderTopColor: "#0a0a0a",
                     borderRadius: "50%",
                     animation: "spin 0.7s linear infinite",
                     display: "inline-block",
@@ -460,12 +466,12 @@ export default function Login() {
                 style={{
                   flex: 1,
                   height: 1,
-                  background: "rgba(5,150,105,0.2)",
+                  background: "rgba(234,179,8,0.2)",
                 }}
               />
               <span
                 style={{
-                  color: "rgba(6,78,59,0.5)",
+                  color: "rgba(255,255,255,0.3)",
                   fontSize: 12,
                   fontWeight: 500,
                 }}
@@ -476,16 +482,16 @@ export default function Login() {
                 style={{
                   flex: 1,
                   height: 1,
-                  background: "rgba(5,150,105,0.2)",
+                  background: "rgba(234,179,8,0.2)",
                 }}
               />
             </div>
 
-            {/* Social buttons — all connect to Internet Identity login */}
+            {/* Social buttons */}
             <div style={{ display: "flex", gap: 10, marginBottom: 22 }}>
               <button
                 type="button"
-                className="social-btn"
+                className="social-btn-dark"
                 onClick={handleLogin}
                 data-ocid="login.button"
               >
@@ -494,7 +500,7 @@ export default function Login() {
               </button>
               <button
                 type="button"
-                className="social-btn"
+                className="social-btn-dark"
                 onClick={handleLogin}
                 data-ocid="login.button"
               >
@@ -503,11 +509,11 @@ export default function Login() {
               </button>
               <button
                 type="button"
-                className="social-btn"
+                className="social-btn-dark"
                 onClick={handleLogin}
                 data-ocid="login.button"
               >
-                <SiGithub size={16} color="#24292e" />
+                <SiGithub size={16} color="#fff" />
                 GitHub
               </button>
             </div>
@@ -515,7 +521,7 @@ export default function Login() {
             <p
               style={{
                 textAlign: "center",
-                color: "rgba(6,78,59,0.65)",
+                color: "rgba(255,255,255,0.4)",
                 fontSize: 13,
                 margin: 0,
               }}
@@ -524,7 +530,7 @@ export default function Login() {
               <Link
                 to="/signup"
                 style={{
-                  color: "#059669",
+                  color: "#eab308",
                   fontWeight: 700,
                   textDecoration: "none",
                 }}
@@ -538,7 +544,7 @@ export default function Login() {
           <p
             style={{
               textAlign: "center",
-              color: "rgba(6,78,59,0.45)",
+              color: "rgba(255,255,255,0.2)",
               fontSize: 12,
               marginTop: 20,
             }}

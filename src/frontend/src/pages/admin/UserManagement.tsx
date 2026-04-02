@@ -12,7 +12,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Switch } from "@/components/ui/switch";
 import {
   Table,
   TableBody,
@@ -64,11 +63,11 @@ export default function UserManagement() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["allUsers"] });
-      toast.success("User deleted successfully");
+      toast.success("User dismissed successfully");
       setDeleteUserId(null);
     },
     onError: (error: any) => {
-      toast.error(error.message || "Failed to delete user");
+      toast.error(error.message || "Failed to dismiss user");
     },
   });
 
@@ -82,55 +81,122 @@ export default function UserManagement() {
     );
   });
 
+  const blockedCount = users.filter((u) => u.blocked).length;
+
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <div className="p-2 rounded-lg bg-primary/10">
-          <Users className="h-6 w-6 text-primary" />
+    <div
+      className="space-y-6 p-4 sm:p-6"
+      style={{ minHeight: "100vh", background: "#f9fafb" }}
+    >
+      {/* Header */}
+      <div className="flex items-start gap-3">
+        <div
+          className="p-2.5 rounded-xl shrink-0"
+          style={{ background: "linear-gradient(135deg, #16a34a, #eab308)" }}
+        >
+          <Users className="h-5 w-5 text-black" />
         </div>
-        <div>
-          <h1 className="text-3xl font-bold">User Management</h1>
-          <p className="text-muted-foreground mt-0.5">
-            Manage all registered users — {users.length} total
+        <div className="flex-1">
+          <h1 className="text-2xl font-bold text-gray-900">User Management</h1>
+          <p className="text-sm text-gray-500 mt-0.5">
+            Manage all registered users
           </p>
         </div>
       </div>
 
+      {/* Count Badges */}
+      <div className="flex flex-wrap gap-3">
+        <div
+          className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm"
+          style={{
+            background: "linear-gradient(135deg, #f0fdf4, #dcfce7)",
+            border: "1px solid #bbf7d0",
+            color: "#15803d",
+          }}
+          data-ocid="users.panel"
+        >
+          <span className="text-lg font-extrabold">{users.length}</span>
+          Total Users
+        </div>
+        <div
+          className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm"
+          style={{
+            background: "linear-gradient(135deg, #fef2f2, #fee2e2)",
+            border: "1px solid #fecaca",
+            color: "#b91c1c",
+          }}
+        >
+          <span className="text-lg font-extrabold">{blockedCount}</span>
+          Blocked
+        </div>
+        <div
+          className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm"
+          style={{
+            background: "linear-gradient(135deg, #fefce8, #fef9c3)",
+            border: "1px solid #fde68a",
+            color: "#a16207",
+          }}
+        >
+          <span className="text-lg font-extrabold">
+            {users.length - blockedCount}
+          </span>
+          Active
+        </div>
+      </div>
+
+      {/* Search */}
       <div className="flex items-center gap-4">
         <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input
             placeholder="Search by name or phone..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9"
+            className="pl-9 border-green-200 focus:border-green-400"
+            data-ocid="users.search_input"
           />
         </div>
         {searchQuery && (
-          <span className="text-sm text-muted-foreground">
+          <span className="text-sm text-gray-500">
             {filteredUsers.length} result{filteredUsers.length !== 1 ? "s" : ""}
           </span>
         )}
       </div>
 
-      <div className="border rounded-lg overflow-hidden">
+      {/* Table */}
+      <div
+        className="rounded-2xl overflow-hidden border"
+        style={{ borderColor: "#d1fae5" }}
+      >
+        <div
+          className="px-4 py-3"
+          style={{ background: "linear-gradient(90deg, #0a0a0a, #064e3b)" }}
+        >
+          <p className="text-sm font-semibold text-white">
+            {filteredUsers.length} user{filteredUsers.length !== 1 ? "s" : ""}{" "}
+            found
+          </p>
+        </div>
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Phone</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Registered</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+            <TableRow className="bg-green-50">
+              <TableHead className="font-bold text-xs">Photo</TableHead>
+              <TableHead className="font-bold text-xs">Name</TableHead>
+              <TableHead className="font-bold text-xs">Phone</TableHead>
+              <TableHead className="font-bold text-xs">Email</TableHead>
+              <TableHead className="font-bold text-xs">Role</TableHead>
+              <TableHead className="font-bold text-xs">Status</TableHead>
+              <TableHead className="font-bold text-xs">Joined</TableHead>
+              <TableHead className="font-bold text-xs text-right">
+                Actions
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
               Array.from({ length: 5 }, (_, i) => i).map((i) => (
                 <TableRow key={`skel-row-${i}`}>
-                  {Array.from({ length: 7 }, (_, j) => j).map((j) => (
+                  {Array.from({ length: 8 }, (_, j) => j).map((j) => (
                     <TableCell key={`skel-cell-${j}`}>
                       <Skeleton className="h-4 w-full" />
                     </TableCell>
@@ -140,8 +206,9 @@ export default function UserManagement() {
             ) : filteredUsers.length === 0 ? (
               <TableRow>
                 <TableCell
-                  colSpan={7}
-                  className="text-center py-12 text-muted-foreground"
+                  colSpan={8}
+                  className="text-center py-12 text-gray-400"
+                  data-ocid="users.empty_state"
                 >
                   <Users className="h-8 w-8 mx-auto mb-2 opacity-30" />
                   <p>
@@ -152,16 +219,42 @@ export default function UserManagement() {
                 </TableCell>
               </TableRow>
             ) : (
-              filteredUsers.map((user) => (
+              filteredUsers.map((user, idx) => (
                 <TableRow
                   key={user.principal.toString()}
-                  className={user.blocked ? "opacity-60 bg-muted/30" : ""}
+                  data-ocid={`users.row.${idx + 1}`}
+                  className={`transition-colors ${
+                    user.blocked
+                      ? "opacity-60 bg-red-50/40"
+                      : "hover:bg-green-50/40"
+                  }`}
                 >
-                  <TableCell className="font-medium">{user.name}</TableCell>
-                  <TableCell className="font-mono text-sm">
+                  {/* Photo */}
+                  <TableCell>
+                    <div
+                      className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-sm overflow-hidden shrink-0"
+                      style={{
+                        background: "linear-gradient(135deg, #16a34a, #eab308)",
+                      }}
+                    >
+                      {(user as any).profilePhotoUrl ? (
+                        <img
+                          src={(user as any).profilePhotoUrl}
+                          alt={user.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        user.name.charAt(0).toUpperCase()
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell className="font-medium text-gray-900">
+                    {user.name}
+                  </TableCell>
+                  <TableCell className="font-mono text-sm text-gray-600">
                     {user.phone || "—"}
                   </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">
+                  <TableCell className="text-sm text-gray-500">
                     {user.email}
                   </TableCell>
                   <TableCell>
@@ -173,14 +266,23 @@ export default function UserManagement() {
                   </TableCell>
                   <TableCell>
                     {user.blocked ? (
-                      <Badge variant="destructive">Blocked</Badge>
+                      <Badge className="bg-red-100 text-red-700 border border-red-200 text-xs">
+                        Blocked
+                      </Badge>
                     ) : (
-                      <Badge className="bg-emerald-500 hover:bg-emerald-600 text-white">
+                      <Badge
+                        className="text-xs"
+                        style={{
+                          background: "#dcfce7",
+                          color: "#15803d",
+                          border: "1px solid #bbf7d0",
+                        }}
+                      >
                         Active
                       </Badge>
                     )}
                   </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">
+                  <TableCell className="text-xs text-gray-500">
                     {new Date(
                       Number(user.createdAt) / 1_000_000,
                     ).toLocaleDateString("en-IN", {
@@ -191,22 +293,41 @@ export default function UserManagement() {
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex items-center justify-end gap-2">
-                      <Switch
-                        checked={!user.blocked}
-                        onCheckedChange={() =>
+                      {/* Block/Unblock Button */}
+                      <Button
+                        onClick={() =>
                           toggleBlockMutation.mutate(user.principal)
                         }
                         disabled={toggleBlockMutation.isPending}
-                        title={user.blocked ? "Unblock user" : "Block user"}
-                      />
+                        className="h-8 text-xs font-bold px-3 rounded-lg transition-all"
+                        style={{
+                          background: user.blocked
+                            ? "linear-gradient(135deg, #16a34a, #15803d)"
+                            : "linear-gradient(135deg, #ef4444, #dc2626)",
+                          color: "white",
+                          border: "none",
+                          minWidth: 72,
+                        }}
+                        data-ocid={`users.toggle.${idx + 1}`}
+                      >
+                        {user.blocked ? "Unblock" : "Block"}
+                      </Button>
+                      {/* Dismiss Button */}
                       <Button
                         variant="ghost"
                         size="icon"
                         onClick={() => setDeleteUserId(user.principal)}
                         disabled={deleteUserMutation.isPending}
-                        className="h-8 w-8 hover:bg-red-50 dark:hover:bg-red-950/30"
+                        className="h-8 w-8"
+                        style={{
+                          background: "#fef2f2",
+                          color: "#dc2626",
+                          border: "1px solid #fecaca",
+                        }}
+                        title="Dismiss user"
+                        data-ocid={`users.delete_button.${idx + 1}`}
                       >
-                        <Trash2 className="h-4 w-4 text-destructive" />
+                        <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
                   </TableCell>
@@ -221,9 +342,9 @@ export default function UserManagement() {
         open={!!deleteUserId}
         onOpenChange={() => setDeleteUserId(null)}
       >
-        <AlertDialogContent>
+        <AlertDialogContent data-ocid="users.dialog">
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete User?</AlertDialogTitle>
+            <AlertDialogTitle>Dismiss User?</AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone. This will permanently delete the
               user account and all associated data including payment history and
@@ -231,15 +352,18 @@ export default function UserManagement() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel data-ocid="users.cancel_button">
+              Cancel
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={() =>
                 deleteUserId && deleteUserMutation.mutate(deleteUserId)
               }
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               disabled={deleteUserMutation.isPending}
+              data-ocid="users.confirm_button"
             >
-              {deleteUserMutation.isPending ? "Deleting..." : "Delete User"}
+              {deleteUserMutation.isPending ? "Dismissing..." : "Dismiss User"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

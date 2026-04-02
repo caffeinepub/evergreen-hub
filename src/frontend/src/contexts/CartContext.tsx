@@ -16,7 +16,8 @@ export interface CartItem {
     | "web-design"
     | "video-editing"
     | "photo-editing"
-    | "thumbnail-design";
+    | "thumbnail-design"
+    | "ads-campaign";
 }
 
 export interface Order {

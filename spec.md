@@ -1,29 +1,61 @@
-# Evergreen Hub
+# Evergreen Hub – Major Feature Update
 
 ## Current State
-Website with CartDrawer (no quantity control), legal pages (ToS, Privacy, Refund), and DashboardOverview with order history.
+
+Evergreen Hub is a full-stack React + Motoko app with:
+- Web Design, Video Editing, Photo Editing, Thumbnail Design service sections
+- Existing admin panel at /admin with: UserManagement, PackageManagement, PaymentManagement, SiteContentManagement, ContactInquiries, AdminStats
+- Cart system, coupon codes, service detail pages, live reviews
+- Login/Signup pages (glassmorphism, green/teal theme)
+- PWA/APK download section
+- AI Chatbot (fixed position)
+- WhatsApp float button, UPI/PayPal payment modals
 
 ## Requested Changes (Diff)
 
 ### Add
-- Quantity +/- controls per cart item
-- Orders tab inside CartDrawer with live order tracking (Pending/In Progress/Completed)
-- Progress bar animation for each order status
-- `addOrder` and `orders` to CartContext (persisted in localStorage)
-- Gradient cart UI with green/purple/blue color scheme
-- Glow checkout button
+1. **Ads Campaign Service Section** – New service section (after Thumbnail Design, before Why Choose Us) for Digital Ads/Marketing services:
+   - Two plans: Basic Ads Campaign (₹1,499) and Advanced Ads Campaign (₹2,999)
+   - Features: Google Ads, Facebook/Instagram Ads, campaign setup, targeting, reporting
+   - Same card style as other service sections (55% OFF badge, Add to Cart, Order Now, View Details)
+   - 6 uploaded user images displayed in a gallery/showcase inside this section
+
+2. **Enhanced Admin Panel** – New/upgraded admin sections:
+   - **Service Content Management**: Admin can edit ALL service details (name, price, description, features, images, videos) for Web Design, Video Editing, Photo Editing, Thumbnail Design, Ads Campaign
+   - **Order Management**: See all orders/purchases with user info (who bought what), ability to block or dismiss/delete users
+   - **User Management** (upgrade): Show profile photo, join date, block/unblock toggle, dismiss (delete) button
+
+3. **Login/Signup System** (green + yellow + black theme):
+   - Signup: Name, Email, Phone, Password fields; validation; store in backend; redirect to dashboard
+   - Login: Email + password; error messages; session persistence; redirect to dashboard
+   - Dashboard: Show user details (name, email, phone), allow profile photo upload stored in blob-storage
+   - Green + yellow + black color scheme (glassmorphism cards)
+
+4. **Ads Campaign images gallery** – 6 user-uploaded images shown in the new Ads Campaign section
 
 ### Modify
-- CartContext: add quantity field, updateQuantity(), addOrder(), orders state
-- CartDrawer: full redesign — gradient header, tabs (Cart/Orders), quantity controls, colored category cards, animated checkout button
-- TermsOfService: replace with exact user-provided 6-section content
-- PrivacyPolicy: replace with exact user-provided 5-section content
-- RefundPolicy: replace with exact user-provided full/partial/no refund + special condition
+- Admin panel sidebar: add "Service Content" and "Orders" nav items
+- Admin panel: User management page to show block/dismiss buttons prominently (green/yellow/black theme accents)
+- Login/Signup pages: change color to green + yellow + black (currently green/teal)
+- Backend: add service content CRUD, order tracking (who bought what), user block/dismiss
 
 ### Remove
-- N/A
+- Nothing removed
 
 ## Implementation Plan
-1. Update CartContext with quantity + orders
-2. Redesign CartDrawer with tabs, quantity controls, order tracking
-3. Rewrite all 3 legal pages with exact user content
+
+1. Backend (Motoko): Add types and functions for:
+   - ServiceContent (editable per-service: title, description, price, features, imageUrl, videoUrl)
+   - Order records (userId, serviceName, planName, price, status, createdAt)
+   - saveOrder, getAllOrders, getOrdersByUser functions
+   - blockUser/unblockUser, deleteUser already exist – ensure exposed
+   - setServiceContent, getServiceContent, getAllServiceContent
+
+2. Frontend:
+   - New AdsCapmaignSection component with 6 image gallery
+   - New admin/ServiceContentManagement page (edit all services)
+   - New admin/OrderManagement page (see all orders, who bought what)
+   - Update UserManagement to add prominent Block/Dismiss UI with green+yellow+black accents
+   - Update Login/Signup pages to green+yellow+black glassmorphism
+   - Update App.tsx routes for new admin pages
+   - Update AdminDashboardLayout sidebar with new nav items
