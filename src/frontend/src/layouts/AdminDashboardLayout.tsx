@@ -3,6 +3,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import {
   CreditCard,
+  ImageIcon,
   Layers,
   LayoutDashboard,
   LogOut,
@@ -12,6 +13,7 @@ import {
   Settings,
   Shield,
   ShoppingCart,
+  Tag,
   Users,
   Wallet,
 } from "lucide-react";
@@ -64,6 +66,16 @@ const navItems: NavItem[] = [
     icon: <Layers className="h-4 w-4" />,
   },
   {
+    label: "Coupon Management",
+    path: "/admin/coupons",
+    icon: <Tag className="h-4 w-4" />,
+  },
+  {
+    label: "Service Images",
+    path: "/admin/service-images",
+    icon: <ImageIcon className="h-4 w-4" />,
+  },
+  {
     label: "Site Content",
     path: "/admin/site-content",
     icon: <Settings className="h-4 w-4" />,
@@ -91,20 +103,20 @@ function SidebarContent({
       className="flex flex-col h-full text-white"
       style={{
         background:
-          "linear-gradient(180deg, #0a0a0a 0%, #064e3b 40%, #0a0a0a 70%, #1a1a00 100%)",
+          "linear-gradient(180deg, #000000 0%, #001a0a 40%, #000000 70%, #0a1628 100%)",
       }}
     >
       {/* Logo / Branding */}
       <div
         className="p-4"
-        style={{ borderBottom: "1px solid rgba(234,179,8,0.15)" }}
+        style={{ borderBottom: "1px solid rgba(16,185,129,0.15)" }}
       >
         <div className="flex items-center gap-3 mb-3">
           <div
             className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
             style={{
-              background: "linear-gradient(135deg, #16a34a, #eab308)",
-              boxShadow: "0 0 16px rgba(234,179,8,0.4)",
+              background: "linear-gradient(135deg, #10b981, #3b82f6)",
+              boxShadow: "0 0 16px rgba(16,185,129,0.4)",
             }}
           >
             <Shield className="h-4 w-4 text-black" />
@@ -116,7 +128,7 @@ function SidebarContent({
             >
               Evergreen Hub
             </p>
-            <p className="text-xs" style={{ color: "rgba(234,179,8,0.6)" }}>
+            <p className="text-xs" style={{ color: "rgba(16,185,129,0.6)" }}>
               Admin Panel
             </p>
           </div>
@@ -124,8 +136,8 @@ function SidebarContent({
         <div
           className="flex items-center gap-2 px-3 py-2 rounded-xl"
           style={{
-            background: "rgba(234,179,8,0.1)",
-            border: "1px solid rgba(234,179,8,0.2)",
+            background: "rgba(16,185,129,0.1)",
+            border: "1px solid rgba(16,185,129,0.2)",
           }}
         >
           <div
@@ -155,18 +167,18 @@ function SidebarContent({
               className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200"
               style={{
                 background: isActive
-                  ? "linear-gradient(135deg, rgba(22,163,74,0.3), rgba(234,179,8,0.2))"
+                  ? "linear-gradient(135deg, rgba(16,185,129,0.3), rgba(59,130,246,0.2))"
                   : "transparent",
-                color: isActive ? "#fde047" : "rgba(255,255,255,0.55)",
+                color: isActive ? "#6ee7b7" : "rgba(255,255,255,0.55)",
                 border: isActive
-                  ? "1px solid rgba(234,179,8,0.3)"
+                  ? "1px solid rgba(16,185,129,0.3)"
                   : "1px solid transparent",
-                boxShadow: isActive ? "0 0 10px rgba(234,179,8,0.15)" : "none",
+                boxShadow: isActive ? "0 0 10px rgba(16,185,129,0.15)" : "none",
               }}
             >
               <span
                 style={{
-                  color: isActive ? "#eab308" : "rgba(255,255,255,0.35)",
+                  color: isActive ? "#10b981" : "rgba(255,255,255,0.35)",
                 }}
               >
                 {item.icon}
@@ -180,7 +192,7 @@ function SidebarContent({
       {/* Footer */}
       <div
         className="p-3"
-        style={{ borderTop: "1px solid rgba(234,179,8,0.1)" }}
+        style={{ borderTop: "1px solid rgba(16,185,129,0.1)" }}
       >
         <Link
           to="/"
@@ -222,7 +234,7 @@ export default function AdminDashboardLayout() {
           <header
             className="md:hidden flex items-center gap-3 px-4 py-3 border-b border-gray-200 dark:border-gray-800"
             style={{
-              background: "linear-gradient(90deg, #0a0a0a, #064e3b)",
+              background: "linear-gradient(90deg, #000000, #001a0a)",
             }}
           >
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
@@ -243,7 +255,7 @@ export default function AdminDashboardLayout() {
               </SheetContent>
             </Sheet>
             <div className="flex items-center gap-2">
-              <Shield className="h-5 w-5" style={{ color: "#eab308" }} />
+              <Shield className="h-5 w-5" style={{ color: "#10b981" }} />
               <span className="font-bold text-sm text-white">Admin Panel</span>
             </div>
           </header>

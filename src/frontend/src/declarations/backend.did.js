@@ -19,6 +19,7 @@ export const _CaffeineStorageRefillResult = IDL.Record({
   'success' : IDL.Opt(IDL.Bool),
   'topped_up_amount' : IDL.Opt(IDL.Nat),
 });
+export const ExternalBlob = IDL.Vec(IDL.Nat8);
 export const UserRole = IDL.Variant({
   'admin' : IDL.Null,
   'user' : IDL.Null,
@@ -30,6 +31,18 @@ export const ShoppingItem = IDL.Record({
   'quantity' : IDL.Nat,
   'priceInCents' : IDL.Nat,
   'productDescription' : IDL.Text,
+});
+export const CouponDiscountType = IDL.Variant({
+  'fixed' : IDL.Null,
+  'percent' : IDL.Null,
+});
+export const CouponCode = IDL.Record({
+  'id' : IDL.Nat,
+  'active' : IDL.Bool,
+  'discountValue' : IDL.Nat,
+  'code' : IDL.Text,
+  'createdAt' : IDL.Int,
+  'discountType' : CouponDiscountType,
 });
 export const PackageStatus = IDL.Variant({
   'active' : IDL.Null,
@@ -62,7 +75,6 @@ export const PaymentStatus = IDL.Variant({
   'approved' : IDL.Null,
   'rejected' : IDL.Null,
 });
-export const ExternalBlob = IDL.Vec(IDL.Nat8);
 export const PaymentProof = IDL.Record({
   'id' : IDL.Nat,
   'status' : PaymentStatus,
@@ -79,6 +91,41 @@ export const Payment = IDL.Record({
   'createdAt' : IDL.Int,
   'packageId' : IDL.Nat,
   'transactionId' : IDL.Text,
+});
+export const ServiceContent = IDL.Record({
+  'title' : IDL.Text,
+  'features' : IDL.Vec(IDL.Text),
+  'originalPrice' : IDL.Nat,
+  'deliveryDays' : IDL.Text,
+  'description' : IDL.Text,
+  'isActive' : IDL.Bool,
+  'imageUrl' : IDL.Text,
+  'serviceId' : IDL.Text,
+  'price' : IDL.Nat,
+  'videoUrl' : IDL.Text,
+});
+export const ServiceImage = IDL.Record({
+  'id' : IDL.Nat,
+  'serviceCategory' : IDL.Text,
+  'imageBlob' : ExternalBlob,
+  'createdAt' : IDL.Int,
+});
+export const OrderStatus = IDL.Variant({
+  'cancelled' : IDL.Null,
+  'pending' : IDL.Null,
+  'completed' : IDL.Null,
+  'inProgress' : IDL.Null,
+});
+export const ServiceOrder = IDL.Record({
+  'id' : IDL.Nat,
+  'status' : OrderStatus,
+  'userName' : IDL.Text,
+  'serviceName' : IDL.Text,
+  'userEmail' : IDL.Text,
+  'userId' : IDL.Principal,
+  'createdAt' : IDL.Int,
+  'price' : IDL.Nat,
+  'planName' : IDL.Text,
 });
 export const Role = IDL.Variant({ 'admin' : IDL.Null, 'user' : IDL.Null });
 export const UserProfile = IDL.Record({
@@ -214,6 +261,7 @@ export const idlService = IDL.Service({
     ),
   '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
   '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
+  'addServiceImage' : IDL.Func([IDL.Text, ExternalBlob], [IDL.Nat], []),
   'approvePayment' : IDL.Func([IDL.Nat], [], []),
   'approvePaymentProof' : IDL.Func([IDL.Nat], [], []),
   'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
@@ -223,13 +271,21 @@ export const idlService = IDL.Service({
       [IDL.Text],
       [],
     ),
+  'createCoupon' : IDL.Func(
+      [IDL.Text, CouponDiscountType, IDL.Nat],
+      [IDL.Nat],
+      [],
+    ),
   'createLandingPage' : IDL.Func([IDL.Text, IDL.Text, IDL.Text], [IDL.Nat], []),
   'createPackage' : IDL.Func([IDL.Text, IDL.Nat, IDL.Text], [IDL.Nat], []),
   'createPayment' : IDL.Func([IDL.Nat, IDL.Text], [IDL.Nat], []),
   'createWithdrawalRequest' : IDL.Func([IDL.Nat, IDL.Text], [IDL.Nat], []),
+  'deleteCoupon' : IDL.Func([IDL.Nat], [], []),
   'deleteLandingPage' : IDL.Func([IDL.Nat], [], []),
   'deletePackage' : IDL.Func([IDL.Nat], [], []),
+  'deleteServiceImage' : IDL.Func([IDL.Nat], [], []),
   'deleteUser' : IDL.Func([IDL.Principal], [], []),
+  'getActiveCoupons' : IDL.Func([], [IDL.Vec(CouponCode)], ['query']),
   'getActivePackages' : IDL.Func([], [IDL.Vec(Package)], ['query']),
   'getAdminStats' : IDL.Func([], [AdminStats], ['query']),
   'getAllContactInterests' : IDL.Func(
@@ -237,9 +293,13 @@ export const idlService = IDL.Service({
       [IDL.Vec(ContactInterest)],
       ['query'],
     ),
+  'getAllCoupons' : IDL.Func([], [IDL.Vec(CouponCode)], ['query']),
   'getAllPackages' : IDL.Func([], [IDL.Vec(Package)], ['query']),
   'getAllPaymentProofs' : IDL.Func([], [IDL.Vec(PaymentProof)], ['query']),
   'getAllPayments' : IDL.Func([], [IDL.Vec(Payment)], ['query']),
+  'getAllServiceContents' : IDL.Func([], [IDL.Vec(ServiceContent)], ['query']),
+  'getAllServiceImages' : IDL.Func([], [IDL.Vec(ServiceImage)], ['query']),
+  'getAllServiceOrders' : IDL.Func([], [IDL.Vec(ServiceOrder)], ['query']),
   'getAllUsers' : IDL.Func([], [IDL.Vec(UserProfile)], ['query']),
   'getAllWithdrawalRequests' : IDL.Func(
       [],
@@ -258,6 +318,7 @@ export const idlService = IDL.Service({
     ),
   'getMyPaymentProofs' : IDL.Func([], [IDL.Vec(PaymentProof)], ['query']),
   'getMyPayments' : IDL.Func([], [IDL.Vec(Payment)], ['query']),
+  'getMyServiceOrders' : IDL.Func([], [IDL.Vec(ServiceOrder)], ['query']),
   'getPaymentProof' : IDL.Func([IDL.Nat], [IDL.Opt(PaymentProof)], ['query']),
   'getPaymentProofsByStatus' : IDL.Func(
       [PaymentStatus],
@@ -280,6 +341,12 @@ export const idlService = IDL.Service({
       [IDL.Vec(Referral)],
       ['query'],
     ),
+  'getServiceContent' : IDL.Func(
+      [IDL.Text],
+      [IDL.Opt(ServiceContent)],
+      ['query'],
+    ),
+  'getServiceImages' : IDL.Func([IDL.Text], [IDL.Vec(ServiceImage)], ['query']),
   'getStripeSessionStatus' : IDL.Func([IDL.Text], [StripeSessionStatus], []),
   'getTotalCommissions' : IDL.Func(
       [IDL.Principal],
@@ -315,7 +382,9 @@ export const idlService = IDL.Service({
   'rejectPayment' : IDL.Func([IDL.Nat], [], []),
   'rejectPaymentProof' : IDL.Func([IDL.Nat], [], []),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+  'saveServiceOrder' : IDL.Func([IDL.Text, IDL.Text, IDL.Nat], [IDL.Nat], []),
   'setPersistentSiteContent' : IDL.Func([SiteContent], [], []),
+  'setServiceContent' : IDL.Func([ServiceContent], [], []),
   'setStripeConfiguration' : IDL.Func([StripeConfiguration], [], []),
   'submitContactInterest' : IDL.Func(
       [IDL.Text, IDL.Text, IDL.Text, IDL.Text],
@@ -327,6 +396,7 @@ export const idlService = IDL.Service({
       [IDL.Nat],
       [],
     ),
+  'toggleCouponActive' : IDL.Func([IDL.Nat], [], []),
   'togglePackageStatus' : IDL.Func([IDL.Nat], [], []),
   'toggleUserBlock' : IDL.Func([IDL.Principal], [], []),
   'transform' : IDL.Func(
@@ -334,12 +404,18 @@ export const idlService = IDL.Service({
       [TransformationOutput],
       ['query'],
     ),
+  'updateCoupon' : IDL.Func(
+      [IDL.Nat, IDL.Text, CouponDiscountType, IDL.Nat],
+      [],
+      [],
+    ),
   'updateLandingPage' : IDL.Func([IDL.Nat, IDL.Text, IDL.Text], [], []),
   'updatePackage' : IDL.Func([IDL.Nat, IDL.Text, IDL.Nat, IDL.Text], [], []),
   'updatePaymentProofStatus' : IDL.Func([IDL.Nat, PaymentStatus], [], []),
   'updatePaymentStatus' : IDL.Func([IDL.Nat, PaymentStatus], [], []),
   'updateProfile' : IDL.Func([IDL.Text, IDL.Text], [], []),
   'updateRequestStatus' : IDL.Func([IDL.Nat, WithdrawalRequestStatus], [], []),
+  'updateServiceOrderStatus' : IDL.Func([IDL.Nat, OrderStatus], [], []),
   'uploadProfilePhoto' : IDL.Func([ExternalBlob], [IDL.Text], []),
 });
 
@@ -357,6 +433,7 @@ export const idlFactory = ({ IDL }) => {
     'success' : IDL.Opt(IDL.Bool),
     'topped_up_amount' : IDL.Opt(IDL.Nat),
   });
+  const ExternalBlob = IDL.Vec(IDL.Nat8);
   const UserRole = IDL.Variant({
     'admin' : IDL.Null,
     'user' : IDL.Null,
@@ -368,6 +445,18 @@ export const idlFactory = ({ IDL }) => {
     'quantity' : IDL.Nat,
     'priceInCents' : IDL.Nat,
     'productDescription' : IDL.Text,
+  });
+  const CouponDiscountType = IDL.Variant({
+    'fixed' : IDL.Null,
+    'percent' : IDL.Null,
+  });
+  const CouponCode = IDL.Record({
+    'id' : IDL.Nat,
+    'active' : IDL.Bool,
+    'discountValue' : IDL.Nat,
+    'code' : IDL.Text,
+    'createdAt' : IDL.Int,
+    'discountType' : CouponDiscountType,
   });
   const PackageStatus = IDL.Variant({
     'active' : IDL.Null,
@@ -400,7 +489,6 @@ export const idlFactory = ({ IDL }) => {
     'approved' : IDL.Null,
     'rejected' : IDL.Null,
   });
-  const ExternalBlob = IDL.Vec(IDL.Nat8);
   const PaymentProof = IDL.Record({
     'id' : IDL.Nat,
     'status' : PaymentStatus,
@@ -417,6 +505,41 @@ export const idlFactory = ({ IDL }) => {
     'createdAt' : IDL.Int,
     'packageId' : IDL.Nat,
     'transactionId' : IDL.Text,
+  });
+  const ServiceContent = IDL.Record({
+    'title' : IDL.Text,
+    'features' : IDL.Vec(IDL.Text),
+    'originalPrice' : IDL.Nat,
+    'deliveryDays' : IDL.Text,
+    'description' : IDL.Text,
+    'isActive' : IDL.Bool,
+    'imageUrl' : IDL.Text,
+    'serviceId' : IDL.Text,
+    'price' : IDL.Nat,
+    'videoUrl' : IDL.Text,
+  });
+  const ServiceImage = IDL.Record({
+    'id' : IDL.Nat,
+    'serviceCategory' : IDL.Text,
+    'imageBlob' : ExternalBlob,
+    'createdAt' : IDL.Int,
+  });
+  const OrderStatus = IDL.Variant({
+    'cancelled' : IDL.Null,
+    'pending' : IDL.Null,
+    'completed' : IDL.Null,
+    'inProgress' : IDL.Null,
+  });
+  const ServiceOrder = IDL.Record({
+    'id' : IDL.Nat,
+    'status' : OrderStatus,
+    'userName' : IDL.Text,
+    'serviceName' : IDL.Text,
+    'userEmail' : IDL.Text,
+    'userId' : IDL.Principal,
+    'createdAt' : IDL.Int,
+    'price' : IDL.Nat,
+    'planName' : IDL.Text,
   });
   const Role = IDL.Variant({ 'admin' : IDL.Null, 'user' : IDL.Null });
   const UserProfile = IDL.Record({
@@ -549,6 +672,7 @@ export const idlFactory = ({ IDL }) => {
       ),
     '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
     '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
+    'addServiceImage' : IDL.Func([IDL.Text, ExternalBlob], [IDL.Nat], []),
     'approvePayment' : IDL.Func([IDL.Nat], [], []),
     'approvePaymentProof' : IDL.Func([IDL.Nat], [], []),
     'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
@@ -556,6 +680,11 @@ export const idlFactory = ({ IDL }) => {
     'createCheckoutSession' : IDL.Func(
         [IDL.Vec(ShoppingItem), IDL.Text, IDL.Text],
         [IDL.Text],
+        [],
+      ),
+    'createCoupon' : IDL.Func(
+        [IDL.Text, CouponDiscountType, IDL.Nat],
+        [IDL.Nat],
         [],
       ),
     'createLandingPage' : IDL.Func(
@@ -566,9 +695,12 @@ export const idlFactory = ({ IDL }) => {
     'createPackage' : IDL.Func([IDL.Text, IDL.Nat, IDL.Text], [IDL.Nat], []),
     'createPayment' : IDL.Func([IDL.Nat, IDL.Text], [IDL.Nat], []),
     'createWithdrawalRequest' : IDL.Func([IDL.Nat, IDL.Text], [IDL.Nat], []),
+    'deleteCoupon' : IDL.Func([IDL.Nat], [], []),
     'deleteLandingPage' : IDL.Func([IDL.Nat], [], []),
     'deletePackage' : IDL.Func([IDL.Nat], [], []),
+    'deleteServiceImage' : IDL.Func([IDL.Nat], [], []),
     'deleteUser' : IDL.Func([IDL.Principal], [], []),
+    'getActiveCoupons' : IDL.Func([], [IDL.Vec(CouponCode)], ['query']),
     'getActivePackages' : IDL.Func([], [IDL.Vec(Package)], ['query']),
     'getAdminStats' : IDL.Func([], [AdminStats], ['query']),
     'getAllContactInterests' : IDL.Func(
@@ -576,9 +708,17 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Vec(ContactInterest)],
         ['query'],
       ),
+    'getAllCoupons' : IDL.Func([], [IDL.Vec(CouponCode)], ['query']),
     'getAllPackages' : IDL.Func([], [IDL.Vec(Package)], ['query']),
     'getAllPaymentProofs' : IDL.Func([], [IDL.Vec(PaymentProof)], ['query']),
     'getAllPayments' : IDL.Func([], [IDL.Vec(Payment)], ['query']),
+    'getAllServiceContents' : IDL.Func(
+        [],
+        [IDL.Vec(ServiceContent)],
+        ['query'],
+      ),
+    'getAllServiceImages' : IDL.Func([], [IDL.Vec(ServiceImage)], ['query']),
+    'getAllServiceOrders' : IDL.Func([], [IDL.Vec(ServiceOrder)], ['query']),
     'getAllUsers' : IDL.Func([], [IDL.Vec(UserProfile)], ['query']),
     'getAllWithdrawalRequests' : IDL.Func(
         [],
@@ -601,6 +741,7 @@ export const idlFactory = ({ IDL }) => {
       ),
     'getMyPaymentProofs' : IDL.Func([], [IDL.Vec(PaymentProof)], ['query']),
     'getMyPayments' : IDL.Func([], [IDL.Vec(Payment)], ['query']),
+    'getMyServiceOrders' : IDL.Func([], [IDL.Vec(ServiceOrder)], ['query']),
     'getPaymentProof' : IDL.Func([IDL.Nat], [IDL.Opt(PaymentProof)], ['query']),
     'getPaymentProofsByStatus' : IDL.Func(
         [PaymentStatus],
@@ -625,6 +766,16 @@ export const idlFactory = ({ IDL }) => {
     'getReferralsByUser' : IDL.Func(
         [IDL.Principal],
         [IDL.Vec(Referral)],
+        ['query'],
+      ),
+    'getServiceContent' : IDL.Func(
+        [IDL.Text],
+        [IDL.Opt(ServiceContent)],
+        ['query'],
+      ),
+    'getServiceImages' : IDL.Func(
+        [IDL.Text],
+        [IDL.Vec(ServiceImage)],
         ['query'],
       ),
     'getStripeSessionStatus' : IDL.Func([IDL.Text], [StripeSessionStatus], []),
@@ -662,7 +813,9 @@ export const idlFactory = ({ IDL }) => {
     'rejectPayment' : IDL.Func([IDL.Nat], [], []),
     'rejectPaymentProof' : IDL.Func([IDL.Nat], [], []),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+    'saveServiceOrder' : IDL.Func([IDL.Text, IDL.Text, IDL.Nat], [IDL.Nat], []),
     'setPersistentSiteContent' : IDL.Func([SiteContent], [], []),
+    'setServiceContent' : IDL.Func([ServiceContent], [], []),
     'setStripeConfiguration' : IDL.Func([StripeConfiguration], [], []),
     'submitContactInterest' : IDL.Func(
         [IDL.Text, IDL.Text, IDL.Text, IDL.Text],
@@ -674,12 +827,18 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Nat],
         [],
       ),
+    'toggleCouponActive' : IDL.Func([IDL.Nat], [], []),
     'togglePackageStatus' : IDL.Func([IDL.Nat], [], []),
     'toggleUserBlock' : IDL.Func([IDL.Principal], [], []),
     'transform' : IDL.Func(
         [TransformationInput],
         [TransformationOutput],
         ['query'],
+      ),
+    'updateCoupon' : IDL.Func(
+        [IDL.Nat, IDL.Text, CouponDiscountType, IDL.Nat],
+        [],
+        [],
       ),
     'updateLandingPage' : IDL.Func([IDL.Nat, IDL.Text, IDL.Text], [], []),
     'updatePackage' : IDL.Func([IDL.Nat, IDL.Text, IDL.Nat, IDL.Text], [], []),
@@ -691,6 +850,7 @@ export const idlFactory = ({ IDL }) => {
         [],
         [],
       ),
+    'updateServiceOrderStatus' : IDL.Func([IDL.Nat, OrderStatus], [], []),
     'uploadProfilePhoto' : IDL.Func([ExternalBlob], [IDL.Text], []),
   });
 };

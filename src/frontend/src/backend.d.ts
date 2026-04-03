@@ -18,20 +18,25 @@ export interface PhonePeDetails {
     qrCodeBlob: ExternalBlob;
     upiId: string;
 }
-export interface UserProfile {
-    principal: Principal;
-    blocked: boolean;
-    name: string;
-    createdAt: bigint;
-    role: Role;
-    email: string;
-    profilePhotoUrl?: string;
-    phone: string;
+export interface Earnings {
+    today: bigint;
+    lifetime: bigint;
+    monthly: bigint;
+    weekly: bigint;
 }
 export interface TransformationOutput {
     status: bigint;
     body: Uint8Array;
     headers: Array<http_header>;
+}
+export interface ContactInterest {
+    id: bigint;
+    resolved: boolean;
+    name: string;
+    createdAt: bigint;
+    email: string;
+    message: string;
+    phone: string;
 }
 export interface BankDetails {
     branch: string;
@@ -64,9 +69,23 @@ export interface Referral {
     commissionType: CommissionType;
     packageId: bigint;
 }
+export interface CouponCode {
+    id: bigint;
+    active: boolean;
+    discountValue: bigint;
+    code: string;
+    createdAt: bigint;
+    discountType: CouponDiscountType;
+}
 export interface StripeConfiguration {
     allowedCountries: Array<string>;
     secretKey: string;
+}
+export interface ServiceImage {
+    id: bigint;
+    serviceCategory: string;
+    imageBlob: ExternalBlob;
+    createdAt: bigint;
 }
 export interface SiteContent {
     bankDetails: BankDetails;
@@ -116,6 +135,29 @@ export interface ShoppingItem {
     priceInCents: bigint;
     productDescription: string;
 }
+export interface ServiceOrder {
+    id: bigint;
+    status: OrderStatus;
+    userName: string;
+    serviceName: string;
+    userEmail: string;
+    userId: Principal;
+    createdAt: bigint;
+    price: bigint;
+    planName: string;
+}
+export interface ServiceContent {
+    title: string;
+    features: Array<string>;
+    originalPrice: bigint;
+    deliveryDays: string;
+    description: string;
+    isActive: boolean;
+    imageUrl: string;
+    serviceId: string;
+    price: bigint;
+    videoUrl: string;
+}
 export interface AdminStats {
     pendingPayments: bigint;
     totalSales: bigint;
@@ -140,24 +182,29 @@ export interface WithdrawalRequest {
     message: string;
     amount: bigint;
 }
-export interface Earnings {
-    today: bigint;
-    lifetime: bigint;
-    monthly: bigint;
-    weekly: bigint;
-}
-export interface ContactInterest {
-    id: bigint;
-    resolved: boolean;
+export interface UserProfile {
+    principal: Principal;
+    blocked: boolean;
     name: string;
     createdAt: bigint;
+    role: Role;
     email: string;
-    message: string;
+    profilePhotoUrl?: string;
     phone: string;
 }
 export enum CommissionType {
     active = "active",
     passive = "passive"
+}
+export enum CouponDiscountType {
+    fixed = "fixed",
+    percent = "percent"
+}
+export enum OrderStatus {
+    cancelled = "cancelled",
+    pending = "pending",
+    completed = "completed",
+    inProgress = "inProgress"
 }
 export enum PackageStatus {
     active = "active",
@@ -183,24 +230,33 @@ export enum WithdrawalRequestStatus {
     rejected = "rejected"
 }
 export interface backendInterface {
+    addServiceImage(serviceCategory: string, imageBlob: ExternalBlob): Promise<bigint>;
     approvePayment(paymentId: bigint): Promise<void>;
     approvePaymentProof(proofId: bigint): Promise<void>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
     assignPlatinumPackageByEmail(targetEmail: string): Promise<void>;
     createCheckoutSession(items: Array<ShoppingItem>, successUrl: string, cancelUrl: string): Promise<string>;
+    createCoupon(code: string, discountType: CouponDiscountType, discountValue: bigint): Promise<bigint>;
     createLandingPage(title: string, content: string, template: string): Promise<bigint>;
     createPackage(name: string, price: bigint, courses: string): Promise<bigint>;
     createPayment(packageId: bigint, transactionId: string): Promise<bigint>;
     createWithdrawalRequest(amount: bigint, message: string): Promise<bigint>;
+    deleteCoupon(id: bigint): Promise<void>;
     deleteLandingPage(pageId: bigint): Promise<void>;
     deletePackage(packageId: bigint): Promise<void>;
+    deleteServiceImage(imageId: bigint): Promise<void>;
     deleteUser(userId: Principal): Promise<void>;
+    getActiveCoupons(): Promise<Array<CouponCode>>;
     getActivePackages(): Promise<Array<Package>>;
     getAdminStats(): Promise<AdminStats>;
     getAllContactInterests(): Promise<Array<ContactInterest>>;
+    getAllCoupons(): Promise<Array<CouponCode>>;
     getAllPackages(): Promise<Array<Package>>;
     getAllPaymentProofs(): Promise<Array<PaymentProof>>;
     getAllPayments(): Promise<Array<Payment>>;
+    getAllServiceContents(): Promise<Array<ServiceContent>>;
+    getAllServiceImages(): Promise<Array<ServiceImage>>;
+    getAllServiceOrders(): Promise<Array<ServiceOrder>>;
     getAllUsers(): Promise<Array<UserProfile>>;
     getAllWithdrawalRequests(): Promise<Array<WithdrawalRequest>>;
     getCallerUserProfile(): Promise<UserProfile | null>;
@@ -211,12 +267,15 @@ export interface backendInterface {
     getLandingPages(userId: Principal): Promise<Array<LandingPage>>;
     getMyPaymentProofs(): Promise<Array<PaymentProof>>;
     getMyPayments(): Promise<Array<Payment>>;
+    getMyServiceOrders(): Promise<Array<ServiceOrder>>;
     getPaymentProof(proofId: bigint): Promise<PaymentProof | null>;
     getPaymentProofsByStatus(status: PaymentStatus): Promise<Array<PaymentProof>>;
     getPaymentsByStatus(status: PaymentStatus): Promise<Array<Payment>>;
     getPaymentsByUser(userId: Principal): Promise<Array<Payment>>;
     getPersistentSiteContent(): Promise<SiteContent | null>;
     getReferralsByUser(userId: Principal): Promise<Array<Referral>>;
+    getServiceContent(serviceId: string): Promise<ServiceContent | null>;
+    getServiceImages(serviceCategory: string): Promise<Array<ServiceImage>>;
     getStripeSessionStatus(sessionId: string): Promise<StripeSessionStatus>;
     getTotalCommissions(userId: Principal): Promise<{
         totalPassive: bigint;
@@ -234,18 +293,23 @@ export interface backendInterface {
     rejectPayment(paymentId: bigint): Promise<void>;
     rejectPaymentProof(proofId: bigint): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
+    saveServiceOrder(serviceName: string, planName: string, price: bigint): Promise<bigint>;
     setPersistentSiteContent(content: SiteContent): Promise<void>;
+    setServiceContent(content: ServiceContent): Promise<void>;
     setStripeConfiguration(config: StripeConfiguration): Promise<void>;
     submitContactInterest(name: string, phone: string, email: string, message: string): Promise<void>;
     submitPaymentProof(packageId: bigint, transactionId: string, screenshotBlob: ExternalBlob): Promise<bigint>;
+    toggleCouponActive(id: bigint): Promise<void>;
     togglePackageStatus(packageId: bigint): Promise<void>;
     toggleUserBlock(userId: Principal): Promise<void>;
     transform(input: TransformationInput): Promise<TransformationOutput>;
+    updateCoupon(id: bigint, code: string, discountType: CouponDiscountType, discountValue: bigint): Promise<void>;
     updateLandingPage(pageId: bigint, title: string, content: string): Promise<void>;
     updatePackage(packageId: bigint, name: string, price: bigint, courses: string): Promise<void>;
     updatePaymentProofStatus(proofId: bigint, status: PaymentStatus): Promise<void>;
     updatePaymentStatus(paymentId: bigint, status: PaymentStatus): Promise<void>;
     updateProfile(name: string, phone: string): Promise<void>;
     updateRequestStatus(requestId: bigint, status: WithdrawalRequestStatus): Promise<void>;
+    updateServiceOrderStatus(orderId: bigint, status: OrderStatus): Promise<void>;
     uploadProfilePhoto(blob: ExternalBlob): Promise<string>;
 }

@@ -46,6 +46,7 @@ import YouTubeSection from "./components/YouTubeSection";
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
 const Signup = lazy(() => import("./pages/Signup"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -76,6 +77,10 @@ const SiteContentManagement = lazy(
 const OrderManagement = lazy(() => import("./pages/admin/OrderManagement"));
 const ServiceContentManagementNew = lazy(
   () => import("./pages/admin/ServiceContentManagementNew"),
+);
+const CouponManagement = lazy(() => import("./pages/admin/CouponManagement"));
+const ServiceImageManagement = lazy(
+  () => import("./pages/admin/ServiceImageManagement"),
 );
 
 const queryClient = new QueryClient({
@@ -155,6 +160,16 @@ const signupRoute = createRoute({
   component: () => (
     <Suspense fallback={<PageLoader />}>
       <Signup />
+    </Suspense>
+  ),
+});
+
+const forgotPasswordRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/forgot-password",
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <ForgotPassword />
     </Suspense>
   ),
 });
@@ -423,11 +438,32 @@ const adminServicesRoute = createRoute({
   ),
 });
 
+const adminCouponsRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/coupons",
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <CouponManagement />
+    </Suspense>
+  ),
+});
+
+const adminServiceImagesRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/service-images",
+  component: () => (
+    <Suspense fallback={<PageLoader />}>
+      <ServiceImageManagement />
+    </Suspense>
+  ),
+});
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
   loginRoute,
   registerRoute,
   signupRoute,
+  forgotPasswordRoute,
   adminLoginRoute,
   aboutRoute,
   aboutUsRoute,
@@ -455,6 +491,8 @@ const routeTree = rootRoute.addChildren([
     adminSiteContentRoute,
     adminOrdersRoute,
     adminServicesRoute,
+    adminCouponsRoute,
+    adminServiceImagesRoute,
   ]),
 ]);
 

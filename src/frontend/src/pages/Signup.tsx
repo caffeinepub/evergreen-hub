@@ -1,11 +1,118 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { SiDiscord, SiGithub, SiGoogle } from "react-icons/si";
 import { toast } from "sonner";
 import { useAuth } from "../contexts/AuthContext";
 import { useActor } from "../hooks/useActor";
+
+// Neon particles
+const PARTICLES = Array.from({ length: 25 }, (_, i) => ({
+  id: `p${i}`,
+  top: `${Math.random() * 100}%`,
+  left: `${Math.random() * 100}%`,
+  size: 3 + Math.floor(Math.random() * 9),
+  dur: `${3 + Math.random() * 6}s`,
+  delay: `${Math.random() * 4}s`,
+  color:
+    i % 3 === 0
+      ? `rgba(16,185,129,${0.4 + Math.random() * 0.5})`
+      : i % 3 === 1
+        ? `rgba(59,130,246,${0.4 + Math.random() * 0.5})`
+        : `rgba(139,92,246,${0.3 + Math.random() * 0.4})`,
+}));
+
+function WelcomePopup({ onClose }: { onClose: () => void }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 9999,
+        background: "rgba(0,0,0,0.8)",
+        backdropFilter: "blur(8px)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 24,
+      }}
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.6, opacity: 0, y: 40 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.8, opacity: 0 }}
+        transition={{ type: "spring", damping: 18, stiffness: 200 }}
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: "rgba(0,0,0,0.9)",
+          border: "2px solid rgba(16,185,129,0.5)",
+          borderRadius: 28,
+          padding: "44px 40px",
+          textAlign: "center",
+          maxWidth: 380,
+          width: "100%",
+          boxShadow:
+            "0 0 60px rgba(16,185,129,0.3), 0 0 120px rgba(59,130,246,0.15)",
+          fontFamily: "Poppins, sans-serif",
+        }}
+      >
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: [0, 1.2, 1] }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          style={{ fontSize: 60, marginBottom: 16 }}
+        >
+          🚀
+        </motion.div>
+        <h2
+          style={{
+            background: "linear-gradient(135deg, #10b981, #3b82f6)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+            fontSize: 26,
+            fontWeight: 800,
+            margin: "0 0 10px",
+          }}
+        >
+          Welcome to Evergreen Hub!
+        </h2>
+        <p
+          style={{
+            color: "rgba(255,255,255,0.6)",
+            fontSize: 15,
+            margin: "0 0 24px",
+          }}
+        >
+          Your account has been created successfully. Let's grow together! 🌿
+        </p>
+        <button
+          type="button"
+          onClick={onClose}
+          style={{
+            background: "linear-gradient(135deg, #10b981, #3b82f6)",
+            border: "none",
+            borderRadius: 14,
+            padding: "12px 32px",
+            color: "#fff",
+            fontSize: 15,
+            fontWeight: 700,
+            cursor: "pointer",
+            fontFamily: "Poppins, sans-serif",
+            boxShadow: "0 4px 20px rgba(16,185,129,0.4)",
+          }}
+        >
+          Let's Get Started →
+        </button>
+      </motion.div>
+    </motion.div>
+  );
+}
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -17,6 +124,7 @@ export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [shake, setShake] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -72,8 +180,11 @@ export default function Signup() {
         );
       }
       setSignupState("success");
-      toast.success("Account created! Welcome to Evergreen Hub 🌿");
-      setTimeout(() => navigate({ to: "/dashboard" }), 800);
+      setShowWelcome(true);
+      setTimeout(() => {
+        setShowWelcome(false);
+        navigate({ to: "/dashboard" });
+      }, 3000);
     } catch (err: any) {
       setSignupState("error");
       setShake(true);
@@ -117,8 +228,11 @@ export default function Signup() {
         }
       }
       setSignupState("success");
-      toast.success("Welcome to Evergreen Hub 🌿");
-      setTimeout(() => navigate({ to: "/dashboard" }), 800);
+      setShowWelcome(true);
+      setTimeout(() => {
+        setShowWelcome(false);
+        navigate({ to: "/dashboard" });
+      }, 3000);
     } catch {
       setSignupState("error");
       setShake(true);
@@ -128,12 +242,25 @@ export default function Signup() {
     }
   };
 
+  // Password strength
+  const getStrength = (pass: string) => {
+    let score = 0;
+    if (pass.length >= 8) score++;
+    if (/[A-Z]/.test(pass)) score++;
+    if (/[0-9]/.test(pass)) score++;
+    if (/[^A-Za-z0-9]/.test(pass)) score++;
+    return score;
+  };
+  const strength = getStrength(formData.password);
+  const strengthLabels = ["", "Weak", "Fair", "Good", "Strong"];
+  const strengthColors = ["", "#ef4444", "#f59e0b", "#3b82f6", "#10b981"];
+
   const btnBg =
     signupState === "success"
-      ? "linear-gradient(135deg, #16a34a, #15803d)"
+      ? "linear-gradient(135deg, #059669, #047857)"
       : signupState === "error"
         ? "linear-gradient(135deg, #ef4444, #dc2626)"
-        : "linear-gradient(135deg, #eab308, #16a34a)";
+        : "linear-gradient(135deg, #10b981 0%, #3b82f6 100%)";
 
   return (
     <>
@@ -150,90 +277,105 @@ export default function Signup() {
           75% { transform: translateX(-4px); }
           90% { transform: translateX(4px); }
         }
-        @keyframes successPulse {
-          0% { box-shadow: 0 0 0 0 rgba(234,179,8,0.5); }
-          70% { box-shadow: 0 0 0 14px rgba(234,179,8,0); }
-          100% { box-shadow: 0 0 0 0 rgba(234,179,8,0); }
+        @keyframes particle-float {
+          0%, 100% { transform: translateY(0px) scale(1); opacity: 0.6; }
+          50% { transform: translateY(-30px) scale(1.3); opacity: 1; }
         }
-        @keyframes orb-float {
-          0%, 100% { transform: translate(0,0) scale(1); }
-          33% { transform: translate(25px,-35px) scale(1.05); }
-          66% { transform: translate(-18px,-20px) scale(0.97); }
+        @keyframes gradient-shift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
         }
-        .eg-card-shake { animation: shakeFx 0.6s ease; }
-        .eg-input-dark {
+        @keyframes neon-pulse {
+          0%, 100% { box-shadow: 0 0 8px rgba(16,185,129,0.4), 0 0 16px rgba(16,185,129,0.2); }
+          50% { box-shadow: 0 0 16px rgba(16,185,129,0.7), 0 0 32px rgba(59,130,246,0.4); }
+        }
+        .signup-shake { animation: shakeFx 0.6s ease; }
+        .eg-particle { animation: particle-float var(--pdur, 4s) ease-in-out var(--pdelay, 0s) infinite; }
+        .eg-signup-input {
           width: 100%;
-          background: rgba(255,255,255,0.07);
-          border: 1.5px solid rgba(234,179,8,0.25);
-          border-radius: 12px;
-          padding: 13px 16px 13px 44px;
-          color: #f0fdf4;
+          background: rgba(255,255,255,0.05);
+          border: 1.5px solid rgba(16,185,129,0.25);
+          border-radius: 14px;
+          padding: 13px 16px 13px 46px;
+          color: #e2fdf4;
           font-family: Poppins, sans-serif;
           font-size: 14px;
           outline: none;
-          transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+          transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
         }
-        .eg-input-dark::placeholder { color: rgba(255,255,255,0.3); }
-        .eg-input-dark:focus {
-          border-color: rgba(234,179,8,0.7);
-          background: rgba(255,255,255,0.12);
-          box-shadow: 0 0 0 3px rgba(234,179,8,0.15);
+        .eg-signup-input::placeholder { color: rgba(255,255,255,0.25); }
+        .eg-signup-input:focus {
+          border-color: rgba(16,185,129,0.7);
+          background: rgba(16,185,129,0.06);
+          box-shadow: 0 0 0 3px rgba(16,185,129,0.12), 0 0 15px rgba(16,185,129,0.3);
         }
-        .eg-input-dark.error { border-color: rgba(239,68,68,0.7); }
-        .eg-btn {
+        .eg-signup-input.error { border-color: rgba(239,68,68,0.6); }
+        .eg-signup-btn {
           width: 100%;
-          padding: 14px;
+          padding: 15px;
           border: none;
-          border-radius: 12px;
-          color: #0a0a0a;
+          border-radius: 14px;
+          color: #fff;
           font-family: Poppins, sans-serif;
           font-size: 15px;
-          font-weight: 800;
+          font-weight: 700;
           cursor: pointer;
-          letter-spacing: 0.3px;
+          letter-spacing: 0.5px;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 8px;
-          transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
-          box-shadow: 0 4px 20px rgba(234,179,8,0.4);
+          transition: transform 0.2s, box-shadow 0.25s, opacity 0.2s;
+          animation: neon-pulse 3s ease-in-out infinite;
         }
-        .eg-btn:not(:disabled):hover {
+        .eg-signup-btn:not(:disabled):hover {
           transform: translateY(-2px) scale(1.02);
-          box-shadow: 0 8px 30px rgba(234,179,8,0.55);
+          box-shadow: 0 8px 30px rgba(16,185,129,0.5), 0 0 20px rgba(59,130,246,0.3) !important;
         }
-        .eg-btn.success-state { animation: successPulse 0.8s ease; }
-        .eg-btn:disabled { opacity: 0.7; cursor: not-allowed; }
-        .social-btn-dark {
+        .eg-signup-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+        .eg-social-btn {
           flex: 1;
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 8px;
+          gap: 7px;
           padding: 11px 8px;
-          background: rgba(255,255,255,0.07);
-          border: 1.5px solid rgba(234,179,8,0.2);
+          background: rgba(255,255,255,0.05);
+          border: 1.5px solid rgba(255,255,255,0.1);
           border-radius: 12px;
           font-family: Poppins, sans-serif;
-          font-size: 13px;
+          font-size: 12px;
           font-weight: 600;
-          color: rgba(255,255,255,0.7);
+          color: rgba(255,255,255,0.6);
           cursor: pointer;
-          transition: background 0.2s, transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+          transition: all 0.2s;
         }
-        .social-btn-dark:hover {
-          background: rgba(234,179,8,0.12);
-          border-color: rgba(234,179,8,0.5);
+        .eg-social-btn:hover {
+          background: rgba(16,185,129,0.1);
+          border-color: rgba(16,185,129,0.4);
           transform: translateY(-2px);
-          box-shadow: 0 4px 16px rgba(234,179,8,0.15);
+          box-shadow: 0 4px 16px rgba(16,185,129,0.15);
+          color: #fff;
         }
       `}</style>
+
+      <AnimatePresence>
+        {showWelcome && (
+          <WelcomePopup
+            onClose={() => {
+              setShowWelcome(false);
+              navigate({ to: "/dashboard" });
+            }}
+          />
+        )}
+      </AnimatePresence>
 
       <div
         style={{
           minHeight: "100vh",
           background:
-            "linear-gradient(145deg, #0a0a0a 0%, #064e3b 40%, #0a0a0a 70%, #713f12 100%)",
+            "linear-gradient(145deg, #000000 0%, #0a1628 30%, #001a0a 60%, #000000 100%)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -243,101 +385,116 @@ export default function Signup() {
           fontFamily: "Poppins, sans-serif",
         }}
       >
-        {/* Floating orbs */}
-        {[
-          {
-            id: "orb1",
-            s: 400,
-            bg: "rgba(22,163,74,0.12)",
-            t: "-100px",
-            l: "-80px",
-            dur: "12s",
-            delay: 0,
-          },
-          {
-            id: "orb2",
-            s: 300,
-            bg: "rgba(234,179,8,0.1)",
-            b: "-80px",
-            r: "-60px",
-            dur: "15s",
-            delay: 2,
-          },
-          {
-            id: "orb3",
-            s: 220,
-            bg: "rgba(22,163,74,0.08)",
-            t: "35%",
-            r: "5%",
-            dur: "9s",
-            delay: 4,
-          },
-          {
-            id: "orb4",
-            s: 160,
-            bg: "rgba(234,179,8,0.06)",
-            b: "20%",
-            l: "3%",
-            dur: "13s",
-            delay: 6,
-          },
-        ].map((o) => (
+        {/* Glowing particles */}
+        {PARTICLES.map((p) => (
           <div
-            key={o.id}
-            style={{
-              position: "absolute",
-              width: o.s,
-              height: o.s,
-              borderRadius: "50%",
-              background: o.bg,
-              filter: "blur(70px)",
-              pointerEvents: "none",
-              top: (o as any).t,
-              left: (o as any).l,
-              bottom: (o as any).b,
-              right: (o as any).r,
-              animation: `orb-float ${o.dur} ease-in-out ${o.delay}s infinite`,
-            }}
+            key={p.id}
+            className="eg-particle absolute rounded-full pointer-events-none"
+            style={
+              {
+                top: p.top,
+                left: p.left,
+                width: p.size,
+                height: p.size,
+                background: p.color,
+                filter: `blur(${p.size > 6 ? 2 : 1}px)`,
+                boxShadow: `0 0 ${p.size * 3}px ${p.color}`,
+                "--pdur": p.dur,
+                "--pdelay": p.delay,
+              } as React.CSSProperties
+            }
           />
         ))}
 
+        {/* Glow orbs */}
+        <div
+          style={{
+            position: "absolute",
+            width: 500,
+            height: 500,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 70%)",
+            filter: "blur(60px)",
+            top: "-150px",
+            left: "-100px",
+            pointerEvents: "none",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            width: 400,
+            height: 400,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%)",
+            filter: "blur(60px)",
+            bottom: "-100px",
+            right: "-80px",
+            pointerEvents: "none",
+          }}
+        />
+
         <motion.div
-          initial={{ opacity: 0, y: 32 }}
+          initial={{ opacity: 0, y: 36 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          style={{ width: "100%", maxWidth: 460 }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          style={{
+            width: "100%",
+            maxWidth: 460,
+            position: "relative",
+            zIndex: 10,
+          }}
         >
-          {/* Logo + branding */}
-          <div style={{ textAlign: "center", marginBottom: 28 }}>
-            <motion.img
-              src="/logo.png"
-              alt="Evergreen Hub"
-              initial={{ scale: 0.8, opacity: 0 }}
+          {/* Logo */}
+          <div style={{ textAlign: "center", marginBottom: 24 }}>
+            <motion.div
+              initial={{ scale: 0.7, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              onError={(e) => {
-                (e.target as HTMLImageElement).src =
-                  "/assets/CC_20260226_043346-1.png";
-              }}
-              style={{
-                width: 90,
-                height: 90,
-                objectFit: "contain",
-                borderRadius: 20,
-                marginBottom: 12,
-                filter: "drop-shadow(0 4px 20px rgba(234,179,8,0.5))",
-                border: "2px solid rgba(234,179,8,0.3)",
-              }}
-            />
+              style={{ display: "inline-block", position: "relative" }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  inset: -8,
+                  borderRadius: "50%",
+                  background:
+                    "radial-gradient(circle, rgba(16,185,129,0.35) 0%, rgba(59,130,246,0.2) 50%, transparent 70%)",
+                  filter: "blur(12px)",
+                  animation: "neon-pulse 3s ease-in-out infinite",
+                }}
+              />
+              <img
+                src="/logo.png"
+                alt="Evergreen Hub"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = "none";
+                }}
+                style={{
+                  width: 88,
+                  height: 88,
+                  objectFit: "contain",
+                  borderRadius: 22,
+                  border: "2px solid rgba(16,185,129,0.4)",
+                  position: "relative",
+                  display: "block",
+                }}
+              />
+            </motion.div>
             <h1
               style={{
-                background: "linear-gradient(135deg, #eab308, #22c55e)",
+                background:
+                  "linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6)",
+                backgroundSize: "200% auto",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                fontSize: 26,
+                animation: "gradient-shift 4s linear infinite",
+                fontSize: 27,
                 fontWeight: 800,
-                margin: 0,
+                margin: "12px 0 0",
                 letterSpacing: "-0.5px",
               }}
             >
@@ -345,70 +502,68 @@ export default function Signup() {
             </h1>
             <p
               style={{
-                color: "rgba(234,179,8,0.7)",
-                fontSize: 12,
-                marginTop: 6,
-                marginBottom: 0,
+                color: "rgba(16,185,129,0.65)",
+                fontSize: 11,
+                marginTop: 5,
                 fontWeight: 500,
-                letterSpacing: "1.5px",
+                letterSpacing: "2px",
                 textTransform: "uppercase",
               }}
             >
-              Grow, Create, Connect
+              Grow · Create · Connect
             </p>
           </div>
 
-          {/* Card */}
+          {/* Glass card */}
           <div
-            className={shake ? "eg-card-shake" : ""}
+            className={shake ? "signup-shake" : ""}
             style={{
-              background: "rgba(0,0,0,0.6)",
-              backdropFilter: "blur(24px)",
-              WebkitBackdropFilter: "blur(24px)",
-              border: "1.5px solid rgba(234,179,8,0.25)",
+              background: "rgba(0,0,0,0.65)",
+              backdropFilter: "blur(28px)",
+              WebkitBackdropFilter: "blur(28px)",
+              border: "1.5px solid rgba(16,185,129,0.2)",
               borderRadius: 28,
-              padding: "36px 32px 32px",
+              padding: "34px 32px 30px",
               boxShadow:
-                "0 20px 60px rgba(0,0,0,0.5), 0 4px 16px rgba(234,179,8,0.1), inset 0 1px 0 rgba(255,255,255,0.05)",
+                "0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.08), inset 0 1px 0 rgba(255,255,255,0.04)",
             }}
           >
             <h2
               style={{
-                background: "linear-gradient(135deg, #fff, #eab308)",
+                background: "linear-gradient(135deg, #fff 30%, #10b981 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                fontSize: 20,
+                fontSize: 21,
                 fontWeight: 700,
-                margin: "0 0 6px",
+                margin: "0 0 5px",
                 textAlign: "center",
               }}
             >
-              Create your account ✨
+              Create Your Account ✨
             </h2>
             <p
               style={{
-                color: "rgba(255,255,255,0.4)",
+                color: "rgba(255,255,255,0.35)",
                 fontSize: 13,
                 textAlign: "center",
-                margin: "0 0 24px",
+                margin: "0 0 22px",
               }}
             >
               Join Evergreen Hub and grow your digital presence
             </p>
 
             <form onSubmit={handleSubmit}>
-              {/* Full Name */}
+              {/* Name */}
               <div style={{ marginBottom: 14, position: "relative" }}>
                 <div
                   style={{
                     position: "absolute",
-                    left: 14,
+                    left: 15,
                     top: errors.name ? 15 : "50%",
                     transform: errors.name ? "none" : "translateY(-50%)",
-                    color: "rgba(234,179,8,0.6)",
+                    color: "rgba(16,185,129,0.6)",
                     pointerEvents: "none",
-                    display: "flex",
                   }}
                 >
                   <User size={16} />
@@ -419,7 +574,7 @@ export default function Signup() {
                   placeholder="Full Name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`eg-input-dark${errors.name ? " error" : ""}`}
+                  className={`eg-signup-input${errors.name ? " error" : ""}`}
                   data-ocid="signup.input"
                 />
                 {errors.name && (
@@ -441,12 +596,11 @@ export default function Signup() {
                 <div
                   style={{
                     position: "absolute",
-                    left: 14,
+                    left: 15,
                     top: errors.email ? 15 : "50%",
                     transform: errors.email ? "none" : "translateY(-50%)",
-                    color: "rgba(234,179,8,0.6)",
+                    color: "rgba(16,185,129,0.6)",
                     pointerEvents: "none",
-                    display: "flex",
                   }}
                 >
                   <Mail size={16} />
@@ -457,7 +611,7 @@ export default function Signup() {
                   placeholder="Email Address"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`eg-input-dark${errors.email ? " error" : ""}`}
+                  className={`eg-signup-input${errors.email ? " error" : ""}`}
                   data-ocid="signup.input"
                 />
                 {errors.email && (
@@ -475,16 +629,20 @@ export default function Signup() {
               </div>
 
               {/* Password */}
-              <div style={{ marginBottom: 14, position: "relative" }}>
+              <div
+                style={{
+                  marginBottom: formData.password ? 8 : 14,
+                  position: "relative",
+                }}
+              >
                 <div
                   style={{
                     position: "absolute",
-                    left: 14,
+                    left: 15,
                     top: errors.password ? 15 : "50%",
                     transform: errors.password ? "none" : "translateY(-50%)",
-                    color: "rgba(234,179,8,0.6)",
+                    color: "rgba(16,185,129,0.6)",
                     pointerEvents: "none",
-                    display: "flex",
                   }}
                 >
                   <Lock size={16} />
@@ -495,8 +653,8 @@ export default function Signup() {
                   placeholder="Password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`eg-input-dark${errors.password ? " error" : ""}`}
-                  style={{ paddingRight: 44 }}
+                  className={`eg-signup-input${errors.password ? " error" : ""}`}
+                  style={{ paddingRight: 46 }}
                   data-ocid="signup.input"
                 />
                 <button
@@ -510,7 +668,7 @@ export default function Signup() {
                     background: "none",
                     border: "none",
                     cursor: "pointer",
-                    color: "rgba(234,179,8,0.6)",
+                    color: "rgba(16,185,129,0.6)",
                     display: "flex",
                     padding: 0,
                   }}
@@ -532,19 +690,52 @@ export default function Signup() {
                 )}
               </div>
 
+              {/* Password strength */}
+              {formData.password && (
+                <div style={{ marginBottom: 14 }}>
+                  <div style={{ display: "flex", gap: 4, marginBottom: 4 }}>
+                    {[1, 2, 3, 4].map((s) => (
+                      <div
+                        key={s}
+                        style={{
+                          flex: 1,
+                          height: 3,
+                          borderRadius: 4,
+                          background:
+                            strength >= s
+                              ? strengthColors[strength]
+                              : "rgba(255,255,255,0.1)",
+                          transition: "background 0.3s",
+                        }}
+                      />
+                    ))}
+                  </div>
+                  <p
+                    style={{
+                      color:
+                        strengthColors[strength] || "rgba(255,255,255,0.3)",
+                      fontSize: 11,
+                    }}
+                  >
+                    {strengthLabels[strength]
+                      ? `Password strength: ${strengthLabels[strength]}`
+                      : ""}
+                  </p>
+                </div>
+              )}
+
               {/* Confirm Password */}
               <div style={{ marginBottom: 22, position: "relative" }}>
                 <div
                   style={{
                     position: "absolute",
-                    left: 14,
+                    left: 15,
                     top: errors.confirmPassword ? 15 : "50%",
                     transform: errors.confirmPassword
                       ? "none"
                       : "translateY(-50%)",
-                    color: "rgba(234,179,8,0.6)",
+                    color: "rgba(16,185,129,0.6)",
                     pointerEvents: "none",
-                    display: "flex",
                   }}
                 >
                   <Lock size={16} />
@@ -555,8 +746,8 @@ export default function Signup() {
                   placeholder="Confirm Password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className={`eg-input-dark${errors.confirmPassword ? " error" : ""}`}
-                  style={{ paddingRight: 44 }}
+                  className={`eg-signup-input${errors.confirmPassword ? " error" : ""}`}
+                  style={{ paddingRight: 46 }}
                   data-ocid="signup.input"
                 />
                 <button
@@ -572,7 +763,7 @@ export default function Signup() {
                     background: "none",
                     border: "none",
                     cursor: "pointer",
-                    color: "rgba(234,179,8,0.6)",
+                    color: "rgba(16,185,129,0.6)",
                     display: "flex",
                     padding: 0,
                   }}
@@ -596,7 +787,7 @@ export default function Signup() {
 
               <button
                 type="submit"
-                className={`eg-btn${signupState === "success" ? " success-state" : ""}`}
+                className="eg-signup-btn"
                 disabled={
                   signupState === "loading" || signupState === "success"
                 }
@@ -608,8 +799,8 @@ export default function Signup() {
                     style={{
                       width: 17,
                       height: 17,
-                      border: "2px solid rgba(0,0,0,0.3)",
-                      borderTopColor: "#0a0a0a",
+                      border: "2px solid rgba(255,255,255,0.3)",
+                      borderTopColor: "#fff",
                       borderRadius: "50%",
                       animation: "spin 0.7s linear infinite",
                       display: "inline-block",
@@ -636,12 +827,12 @@ export default function Signup() {
                 style={{
                   flex: 1,
                   height: 1,
-                  background: "rgba(234,179,8,0.2)",
+                  background: "rgba(16,185,129,0.15)",
                 }}
               />
               <span
                 style={{
-                  color: "rgba(255,255,255,0.3)",
+                  color: "rgba(255,255,255,0.25)",
                   fontSize: 12,
                   fontWeight: 500,
                 }}
@@ -652,46 +843,43 @@ export default function Signup() {
                 style={{
                   flex: 1,
                   height: 1,
-                  background: "rgba(234,179,8,0.2)",
+                  background: "rgba(16,185,129,0.15)",
                 }}
               />
             </div>
 
-            {/* Social buttons */}
-            <div style={{ display: "flex", gap: 10, marginBottom: 22 }}>
+            {/* Social */}
+            <div style={{ display: "flex", gap: 10, marginBottom: 24 }}>
               <button
                 type="button"
-                className="social-btn-dark"
+                className="eg-social-btn"
                 onClick={() => handleSocial("google")}
                 data-ocid="signup.button"
               >
-                <SiGoogle size={16} color="#EA4335" />
-                Google
+                <SiGoogle size={15} color="#EA4335" /> Google
               </button>
               <button
                 type="button"
-                className="social-btn-dark"
+                className="eg-social-btn"
                 onClick={() => handleSocial("discord")}
                 data-ocid="signup.button"
               >
-                <SiDiscord size={16} color="#5865F2" />
-                Discord
+                <SiDiscord size={15} color="#5865F2" /> Discord
               </button>
               <button
                 type="button"
-                className="social-btn-dark"
+                className="eg-social-btn"
                 onClick={() => handleSocial("github")}
                 data-ocid="signup.button"
               >
-                <SiGithub size={16} color="#fff" />
-                GitHub
+                <SiGithub size={15} color="#fff" /> GitHub
               </button>
             </div>
 
             <p
               style={{
                 textAlign: "center",
-                color: "rgba(255,255,255,0.4)",
+                color: "rgba(255,255,255,0.35)",
                 fontSize: 13,
                 margin: 0,
               }}
@@ -700,7 +888,7 @@ export default function Signup() {
               <Link
                 to="/login"
                 style={{
-                  color: "#eab308",
+                  color: "#10b981",
                   fontWeight: 700,
                   textDecoration: "none",
                 }}
@@ -714,12 +902,23 @@ export default function Signup() {
           <p
             style={{
               textAlign: "center",
-              color: "rgba(255,255,255,0.2)",
+              color: "rgba(255,255,255,0.18)",
               fontSize: 12,
               marginTop: 20,
             }}
           >
-            © {new Date().getFullYear()} Built by Rudra in Bihar with ❤️
+            © {new Date().getFullYear()}{" "}
+            <a
+              href={`https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(typeof window !== "undefined" ? window.location.hostname : "")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: "rgba(255,255,255,0.18)",
+                textDecoration: "none",
+              }}
+            >
+              Built by Rudra in Bihar with ❤️
+            </a>
           </p>
         </motion.div>
       </div>

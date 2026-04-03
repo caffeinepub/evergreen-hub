@@ -1,61 +1,41 @@
-# Evergreen Hub – Major Feature Update
+# Evergreen Hub – Full Authentication & Admin Enhancement
 
 ## Current State
 
-Evergreen Hub is a full-stack React + Motoko app with:
-- Web Design, Video Editing, Photo Editing, Thumbnail Design service sections
-- Existing admin panel at /admin with: UserManagement, PackageManagement, PaymentManagement, SiteContentManagement, ContactInquiries, AdminStats
-- Cart system, coupon codes, service detail pages, live reviews
-- Login/Signup pages (glassmorphism, green/teal theme)
-- PWA/APK download section
-- AI Chatbot (fixed position)
-- WhatsApp float button, UPI/PayPal payment modals
+The app is a full-featured service platform (Web Design, Video Editing, Photo Editing, Thumbnail Design, Ads Campaign) with:
+- Login/Signup pages using Internet Identity (ICP) authentication
+- Admin panel at `/admin-login` (user: Evergreenhub, pass: Anurudra@12) with stats, users, packages, payments sections
+- Backend actor with full user management: registerUser, getAllUsers, toggleUserBlock, deleteUser, uploadProfilePhoto
+- Cart system, coupon codes, payment gateway (UPI/PayPal/Bank)
+- Service detail pages, live reviews, chatbot
 
 ## Requested Changes (Diff)
 
 ### Add
-1. **Ads Campaign Service Section** – New service section (after Thumbnail Design, before Why Choose Us) for Digital Ads/Marketing services:
-   - Two plans: Basic Ads Campaign (₹1,499) and Advanced Ads Campaign (₹2,999)
-   - Features: Google Ads, Facebook/Instagram Ads, campaign setup, targeting, reporting
-   - Same card style as other service sections (55% OFF badge, Add to Cart, Order Now, View Details)
-   - 6 uploaded user images displayed in a gallery/showcase inside this section
-
-2. **Enhanced Admin Panel** – New/upgraded admin sections:
-   - **Service Content Management**: Admin can edit ALL service details (name, price, description, features, images, videos) for Web Design, Video Editing, Photo Editing, Thumbnail Design, Ads Campaign
-   - **Order Management**: See all orders/purchases with user info (who bought what), ability to block or dismiss/delete users
-   - **User Management** (upgrade): Show profile photo, join date, block/unblock toggle, dismiss (delete) button
-
-3. **Login/Signup System** (green + yellow + black theme):
-   - Signup: Name, Email, Phone, Password fields; validation; store in backend; redirect to dashboard
-   - Login: Email + password; error messages; session persistence; redirect to dashboard
-   - Dashboard: Show user details (name, email, phone), allow profile photo upload stored in blob-storage
-   - Green + yellow + black color scheme (glassmorphism cards)
-
-4. **Ads Campaign images gallery** – 6 user-uploaded images shown in the new Ads Campaign section
+- **Enhanced Login Page**: Green + Blue + Black dark premium theme; Evergreen Hub logo centered at top; animated gradient / glowing particles behind logo; glassmorphism card; neon glow on inputs/buttons; hover & focus animations; loading spinner on login; show/hide password toggle; error messages for invalid credentials
+- **Enhanced Signup Page**: Same premium dark theme; Fields: Name, Email, Password, Confirm Password; 'Create Account' button; success popup 'Welcome to Evergreen Hub 🚀' after signup; store user data via backend (name, email, uid, createdAt); loading spinner
+- **Forgot Password Page** at `/forgot-password`: Email input; 'Send Reset Email' button; success message 'Reset link sent to your email'; Note: email is disabled so show friendly message explaining
+- **Admin: Coupon Management page** at `/admin/coupons`: Table of all coupons with code, discount type (percent/fixed), discount value, active/inactive toggle; Create new coupon button (code, type, value fields); Edit and delete coupons; Coupons persist via backend or localStorage (since no Firebase, use backend storage)
+- **Admin: Service Image Management**: In service management section, admin can add/upload images for each service and delete them; images stored via blob-storage backend
+- **Persistent User Data in Admin**: Users registered via signup persist in backend (already works via actor.registerUser). Admin panel shows all users with Name, Email, Signup Date, blocked status
+- **Animations**: Subtle page-entry animations on Login, Signup, and Forgot Password pages
 
 ### Modify
-- Admin panel sidebar: add "Service Content" and "Orders" nav items
-- Admin panel: User management page to show block/dismiss buttons prominently (green/yellow/black theme accents)
-- Login/Signup pages: change color to green + yellow + black (currently green/teal)
-- Backend: add service content CRUD, order tracking (who bought what), user block/dismiss
+- **Login Page**: Redesign to dark premium Green+Blue+Black glassmorphism theme with glowing particles animation behind logo; keep existing Internet Identity login logic; add loading states and error feedback
+- **Signup Page**: Redesign to match login page theme; keep existing backend registration logic; add success popup after successful signup
+- **AdminLogin Page**: Keep existing credentials (Evergreenhub / Anurudra@12); enhance visual design to match the premium dark theme
+- **Admin Panel**: Add new 'Coupon Management' sidebar link and page; add 'Service Images' management in existing service sections
+- **Coupon codes stored**: Move from hardcoded frontend to backend-managed (admin can create/edit/delete); frontend reads active coupons from backend
 
 ### Remove
-- Nothing removed
+- Nothing to remove — existing features must be preserved
 
 ## Implementation Plan
 
-1. Backend (Motoko): Add types and functions for:
-   - ServiceContent (editable per-service: title, description, price, features, imageUrl, videoUrl)
-   - Order records (userId, serviceName, planName, price, status, createdAt)
-   - saveOrder, getAllOrders, getOrdersByUser functions
-   - blockUser/unblockUser, deleteUser already exist – ensure exposed
-   - setServiceContent, getServiceContent, getAllServiceContent
-
-2. Frontend:
-   - New AdsCapmaignSection component with 6 image gallery
-   - New admin/ServiceContentManagement page (edit all services)
-   - New admin/OrderManagement page (see all orders, who bought what)
-   - Update UserManagement to add prominent Block/Dismiss UI with green+yellow+black accents
-   - Update Login/Signup pages to green+yellow+black glassmorphism
-   - Update App.tsx routes for new admin pages
-   - Update AdminDashboardLayout sidebar with new nav items
+1. **Backend**: Add coupon management to backend (CouponCode type with id, code, discountType percent/fixed, discountValue, active); CRUD endpoints: createCoupon, getCoupons, updateCoupon, deleteCoupon, toggleCouponActive, getActiveCoupons
+2. **Login page redesign**: Dark Green+Blue+Black glassmorphism; animated particles/gradient; neon glow inputs; keep II auth logic
+3. **Signup page redesign**: Match login theme; success popup on account creation
+4. **ForgotPassword page**: New page at /forgot-password; email input; friendly message since email is disabled
+5. **Admin Coupon Management page**: Full CRUD UI for coupon codes using backend actor
+6. **Admin Service Image Management**: Allow upload/delete images per service using blob-storage
+7. **Frontend coupon system update**: Read coupons from backend instead of hardcoded; apply discounts dynamically

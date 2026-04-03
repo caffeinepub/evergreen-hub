@@ -35,6 +35,16 @@ export interface ContactInterest {
   'message' : string,
   'phone' : string,
 }
+export interface CouponCode {
+  'id' : bigint,
+  'active' : boolean,
+  'discountValue' : bigint,
+  'code' : string,
+  'createdAt' : bigint,
+  'discountType' : CouponDiscountType,
+}
+export type CouponDiscountType = { 'fixed' : null } |
+  { 'percent' : null };
 export interface Earnings {
   'today' : bigint,
   'lifetime' : bigint,
@@ -52,6 +62,10 @@ export interface LandingPage {
   'updatedAt' : bigint,
   'template' : string,
 }
+export type OrderStatus = { 'cancelled' : null } |
+  { 'pending' : null } |
+  { 'completed' : null } |
+  { 'inProgress' : null };
 export interface Package {
   'id' : bigint,
   'status' : PackageStatus,
@@ -100,6 +114,35 @@ export type ReferralStatus = { 'pending' : null } |
   { 'approved' : null };
 export type Role = { 'admin' : null } |
   { 'user' : null };
+export interface ServiceContent {
+  'title' : string,
+  'features' : Array<string>,
+  'originalPrice' : bigint,
+  'deliveryDays' : string,
+  'description' : string,
+  'isActive' : boolean,
+  'imageUrl' : string,
+  'serviceId' : string,
+  'price' : bigint,
+  'videoUrl' : string,
+}
+export interface ServiceImage {
+  'id' : bigint,
+  'serviceCategory' : string,
+  'imageBlob' : ExternalBlob,
+  'createdAt' : bigint,
+}
+export interface ServiceOrder {
+  'id' : bigint,
+  'status' : OrderStatus,
+  'userName' : string,
+  'serviceName' : string,
+  'userEmail' : string,
+  'userId' : Principal,
+  'createdAt' : bigint,
+  'price' : bigint,
+  'planName' : string,
+}
 export interface ShoppingItem {
   'productName' : string,
   'currency' : string,
@@ -187,6 +230,7 @@ export interface _SERVICE {
   >,
   '_caffeineStorageUpdateGatewayPrincipals' : ActorMethod<[], undefined>,
   '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
+  'addServiceImage' : ActorMethod<[string, ExternalBlob], bigint>,
   'approvePayment' : ActorMethod<[bigint], undefined>,
   'approvePaymentProof' : ActorMethod<[bigint], undefined>,
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
@@ -195,19 +239,27 @@ export interface _SERVICE {
     [Array<ShoppingItem>, string, string],
     string
   >,
+  'createCoupon' : ActorMethod<[string, CouponDiscountType, bigint], bigint>,
   'createLandingPage' : ActorMethod<[string, string, string], bigint>,
   'createPackage' : ActorMethod<[string, bigint, string], bigint>,
   'createPayment' : ActorMethod<[bigint, string], bigint>,
   'createWithdrawalRequest' : ActorMethod<[bigint, string], bigint>,
+  'deleteCoupon' : ActorMethod<[bigint], undefined>,
   'deleteLandingPage' : ActorMethod<[bigint], undefined>,
   'deletePackage' : ActorMethod<[bigint], undefined>,
+  'deleteServiceImage' : ActorMethod<[bigint], undefined>,
   'deleteUser' : ActorMethod<[Principal], undefined>,
+  'getActiveCoupons' : ActorMethod<[], Array<CouponCode>>,
   'getActivePackages' : ActorMethod<[], Array<Package>>,
   'getAdminStats' : ActorMethod<[], AdminStats>,
   'getAllContactInterests' : ActorMethod<[], Array<ContactInterest>>,
+  'getAllCoupons' : ActorMethod<[], Array<CouponCode>>,
   'getAllPackages' : ActorMethod<[], Array<Package>>,
   'getAllPaymentProofs' : ActorMethod<[], Array<PaymentProof>>,
   'getAllPayments' : ActorMethod<[], Array<Payment>>,
+  'getAllServiceContents' : ActorMethod<[], Array<ServiceContent>>,
+  'getAllServiceImages' : ActorMethod<[], Array<ServiceImage>>,
+  'getAllServiceOrders' : ActorMethod<[], Array<ServiceOrder>>,
   'getAllUsers' : ActorMethod<[], Array<UserProfile>>,
   'getAllWithdrawalRequests' : ActorMethod<[], Array<WithdrawalRequest>>,
   'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
@@ -218,6 +270,7 @@ export interface _SERVICE {
   'getLandingPages' : ActorMethod<[Principal], Array<LandingPage>>,
   'getMyPaymentProofs' : ActorMethod<[], Array<PaymentProof>>,
   'getMyPayments' : ActorMethod<[], Array<Payment>>,
+  'getMyServiceOrders' : ActorMethod<[], Array<ServiceOrder>>,
   'getPaymentProof' : ActorMethod<[bigint], [] | [PaymentProof]>,
   'getPaymentProofsByStatus' : ActorMethod<
     [PaymentStatus],
@@ -227,6 +280,8 @@ export interface _SERVICE {
   'getPaymentsByUser' : ActorMethod<[Principal], Array<Payment>>,
   'getPersistentSiteContent' : ActorMethod<[], [] | [SiteContent]>,
   'getReferralsByUser' : ActorMethod<[Principal], Array<Referral>>,
+  'getServiceContent' : ActorMethod<[string], [] | [ServiceContent]>,
+  'getServiceImages' : ActorMethod<[string], Array<ServiceImage>>,
   'getStripeSessionStatus' : ActorMethod<[string], StripeSessionStatus>,
   'getTotalCommissions' : ActorMethod<
     [Principal],
@@ -246,16 +301,23 @@ export interface _SERVICE {
   'rejectPayment' : ActorMethod<[bigint], undefined>,
   'rejectPaymentProof' : ActorMethod<[bigint], undefined>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
+  'saveServiceOrder' : ActorMethod<[string, string, bigint], bigint>,
   'setPersistentSiteContent' : ActorMethod<[SiteContent], undefined>,
+  'setServiceContent' : ActorMethod<[ServiceContent], undefined>,
   'setStripeConfiguration' : ActorMethod<[StripeConfiguration], undefined>,
   'submitContactInterest' : ActorMethod<
     [string, string, string, string],
     undefined
   >,
   'submitPaymentProof' : ActorMethod<[bigint, string, ExternalBlob], bigint>,
+  'toggleCouponActive' : ActorMethod<[bigint], undefined>,
   'togglePackageStatus' : ActorMethod<[bigint], undefined>,
   'toggleUserBlock' : ActorMethod<[Principal], undefined>,
   'transform' : ActorMethod<[TransformationInput], TransformationOutput>,
+  'updateCoupon' : ActorMethod<
+    [bigint, string, CouponDiscountType, bigint],
+    undefined
+  >,
   'updateLandingPage' : ActorMethod<[bigint, string, string], undefined>,
   'updatePackage' : ActorMethod<[bigint, string, bigint, string], undefined>,
   'updatePaymentProofStatus' : ActorMethod<[bigint, PaymentStatus], undefined>,
@@ -265,6 +327,7 @@ export interface _SERVICE {
     [bigint, WithdrawalRequestStatus],
     undefined
   >,
+  'updateServiceOrderStatus' : ActorMethod<[bigint, OrderStatus], undefined>,
   'uploadProfilePhoto' : ActorMethod<[ExternalBlob], string>,
 }
 export declare const idlService: IDL.ServiceClass;

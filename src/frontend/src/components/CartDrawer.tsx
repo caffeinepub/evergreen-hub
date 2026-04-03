@@ -21,11 +21,16 @@ import {
   Trash2,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { CouponDiscountType } from "../backend";
 import { useCart } from "../contexts/CartContext";
+import { useActor } from "../hooks/useActor";
 import PaymentModal from "./PaymentModal";
 
-const COUPONS: Record<string, { type: "percent" | "fixed"; value: number }> = {
+const HARDCODED_COUPONS: Record<
+  string,
+  { type: "percent" | "fixed"; value: number }
+> = {
   EVERGREEN10: { type: "percent", value: 10 },
   HUB25: { type: "percent", value: 25 },
   WELCOME50: { type: "fixed", value: 100 },
@@ -90,6 +95,10 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     cartTotal,
     orders,
   } = useCart();
+  const { actor } = useActor();
+  const [backendCoupons, setBackendCoupons] = useState<
+    Record<string, { type: "percent" | "fixed"; value: number }>
+  >({});
   const [couponCode, setCouponCode] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<{
     code: string;
@@ -99,6 +108,34 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const [couponError, setCouponError] = useState("");
   const [showPayment, setShowPayment] = useState(false);
   const [activeTab, setActiveTab] = useState<"cart" | "orders">("cart");
+
+  // Fetch backend coupons on mount
+  useEffect(() => {
+    if (!actor) return;
+    actor
+      .getActiveCoupons()
+      .then((coupons) => {
+        const map: Record<
+          string,
+          { type: "percent" | "fixed"; value: number }
+        > = {};
+        for (const c of coupons) {
+          map[c.code.toUpperCase()] = {
+            type:
+              c.discountType === CouponDiscountType.percent
+                ? "percent"
+                : "fixed",
+            value: Number(c.discountValue),
+          };
+        }
+        setBackendCoupons(map);
+      })
+      .catch(() => {
+        /* fallback to hardcoded */
+      });
+  }, [actor]);
+
+  const COUPONS = { ...HARDCODED_COUPONS, ...backendCoupons };
 
   const discount = appliedCoupon
     ? appliedCoupon.type === "percent"

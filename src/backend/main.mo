@@ -5,15 +5,13 @@ import Time "mo:core/Time";
 import Array "mo:core/Array";
 import Principal "mo:core/Principal";
 import Text "mo:core/Text";
-import Iter "mo:core/Iter";
 import Nat "mo:core/Nat";
+import Iter "mo:core/Iter";
 import Storage "blob-storage/Storage";
 import Stripe "stripe/stripe";
 import OutCall "http-outcalls/outcall";
 import MixinAuthorization "authorization/MixinAuthorization";
 import MixinStorage "blob-storage/Mixin";
-
-
 
 actor {
   type Role = {
@@ -170,6 +168,27 @@ actor {
     bankDetails : BankDetails;
   };
 
+  type CouponDiscountType = {
+    #percent;
+    #fixed;
+  };
+
+  type CouponCode = {
+    id : Nat;
+    code : Text;
+    discountType : CouponDiscountType;
+    discountValue : Nat;
+    active : Bool;
+    createdAt : Int;
+  };
+
+  type ServiceImage = {
+    id : Nat;
+    serviceCategory : Text;
+    imageBlob : Storage.ExternalBlob;
+    createdAt : Int;
+  };
+
   let users = Map.empty<Principal, UserProfile>();
   let referrals = Map.empty<Nat, Referral>();
   let packages = Map.empty<Nat, Package>();
@@ -180,7 +199,10 @@ actor {
   let landingPages = Map.empty<Nat, LandingPage>();
   let products = Map.empty<Text, Product>();
   let contactInterests = Map.empty<Nat, ContactInterest>();
+  let coupons = Map.empty<Nat, CouponCode>();
+  let serviceImages = Map.empty<Nat, ServiceImage>();
 
+  var nextCouponId : Nat = 1;
   var nextPackageId : Nat = 1;
   var nextPaymentId : Nat = 1;
   var nextPaymentProofId : Nat = 1;
@@ -188,6 +210,8 @@ actor {
   var nextReferralId : Nat = 1;
   var nextLandingPageId : Nat = 1;
   var nextContactInterestId : Nat = 1;
+  var nextCouponCodeId : Nat = 1;
+  var nextServiceImageId : Nat = 1;
 
   let accessControlState = AccessControl.initState();
   include MixinAuthorization(accessControlState);
@@ -1165,4 +1189,117 @@ actor {
     serviceContents.values().toArray();
   };
 
+  // ─── Coupon Management ───────────────────────────────────────────────────
+
+  // Only admins may create a new coupon code.
+  public shared ({ caller }) func createCoupon(code : Text, discountType : CouponDiscountType, discountValue : Nat) : async Nat {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can create coupons");
+    };
+    let couponId = nextCouponId;
+    let newCoupon : CouponCode = {
+      id = couponId;
+      code;
+      discountType;
+      discountValue;
+      active = true;
+      createdAt = Time.now();
+    };
+    coupons.add(couponId, newCoupon);
+    nextCouponId += 1;
+    couponId;
+  };
+
+  // Only admins may list all coupons.
+  public query ({ caller }) func getAllCoupons() : async [CouponCode] {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins view all coupons");
+    };
+    coupons.values().toArray();
+  };
+
+  // Publicly list active coupons.
+  public query func getActiveCoupons() : async [CouponCode] {
+    coupons.values().toArray().filter(
+      func(coupon : CouponCode) : Bool { coupon.active }
+    );
+  };
+
+  // Only admins may update a coupon.
+  public shared ({ caller }) func updateCoupon(id : Nat, code : Text, discountType : CouponDiscountType, discountValue : Nat) : async () {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can update coupons");
+    };
+    switch (coupons.get(id)) {
+      case (null) { Runtime.trap("Coupon not found") };
+      case (?coupon) {
+        let updatedCoupon = { coupon with code; discountType; discountValue };
+        coupons.add(id, updatedCoupon);
+      };
+    };
+  };
+
+  // Only admins may toggle a coupon's active status.
+  public shared ({ caller }) func toggleCouponActive(id : Nat) : async () {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can toggle coupons");
+    };
+    switch (coupons.get(id)) {
+      case (null) { Runtime.trap("Coupon not found") };
+      case (?coupon) {
+        let updatedCoupon = { coupon with active = not coupon.active };
+        coupons.add(id, updatedCoupon);
+      };
+    };
+  };
+
+  // Only admins may delete a coupon.
+  public shared ({ caller }) func deleteCoupon(id : Nat) : async () {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can delete coupons");
+    };
+    coupons.remove(id);
+  };
+
+  // ─── Service Image Management ───────────────────────────────────────────────
+
+  // Only admins may add a service image.
+  public shared ({ caller }) func addServiceImage(serviceCategory : Text, imageBlob : Storage.ExternalBlob) : async Nat {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can add service images");
+    };
+    let imageId = nextServiceImageId;
+    let newImage : ServiceImage = {
+      id = imageId;
+      serviceCategory;
+      imageBlob;
+      createdAt = Time.now();
+    };
+    serviceImages.add(imageId, newImage);
+    nextServiceImageId += 1;
+    imageId;
+  };
+
+  // Public: get service images by category.
+  public query func getServiceImages(serviceCategory : Text) : async [ServiceImage] {
+    serviceImages.values().toArray().filter(
+      func(img : ServiceImage) : Bool { img.serviceCategory == serviceCategory }
+    );
+  };
+
+  // Only admins may list all service images.
+  public query ({ caller }) func getAllServiceImages() : async [ServiceImage] {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can view all service images");
+    };
+    serviceImages.values().toArray();
+  };
+
+  // Only admins may delete a service image.
+  public shared ({ caller }) func deleteServiceImage(imageId : Nat) : async () {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can delete service images");
+    };
+    serviceImages.remove(imageId);
+  };
 };
